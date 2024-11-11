@@ -2,7 +2,7 @@
     import logo from "$lib/media/images/logo.png";
 </script>
 
-<form class=" bg-black shadow-md rounded px-8 pt-6 pb-8">
+<form class=" bg-black shadow-md rounded px-8 pt-6 pb-8 select-none">
     <div>
         <img src={logo} alt="" class=" self-center">
     </div>
