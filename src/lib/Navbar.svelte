@@ -14,7 +14,7 @@
         </div>
         <div class="place-content-center w-1/3 place-items-end">
             <div class="text-2xl inline-block float-end p-2 border rounded-md bg-yellow-600 text-black border-yellow-600 me-5">
-                <a href="/signUp"><h1>Sign up</h1></a>
+                <a href="/signup"><h1>Sign up</h1></a>
             </div>
             <div class="text-2xl inline-block float-end p-2 shadow-lg shadow-yellow-600 text-white border rounded-md hover:bg-yellow-600 hover:text-black hover:border-yellow-600 me-3">
                 <a href="/login"><h1>Log in</h1></a>
