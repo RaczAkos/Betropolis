@@ -5,8 +5,8 @@
 </script>
 
 
-<header>
-    <video  src={banner} autoplay muted loop></video>
+<header class="">
+    <video  src={banner} autoplay muted loop class=" blur-sm drop-shadow-none sepia-0"></video>
 </header>
 
 
@@ -14,4 +14,8 @@
     video{
         width: 100%;
     }
+
+:global(body){
+    background-color: black;
+}
 </style>
