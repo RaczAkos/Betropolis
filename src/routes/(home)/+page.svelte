@@ -6,7 +6,7 @@
 
 
 <header>
-    <video  src={banner} controls></video>
+    <video  src={banner} autoplay muted loop></video>
 </header>
 
 
