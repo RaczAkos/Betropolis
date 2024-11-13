@@ -67,7 +67,7 @@
 
     <!-- Gender select -->
     <div class="mb-4 p-1">
-        <p class="block text-yellow-600 font-bold text-md">Gender <span class="text-sm italic">(required)</span></p>
+        <p class="block text-yellow-600 font-bold text-md">Gender</p>
         <div class="inline-block">
             <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 accent-yellow-600 bg-black border-yellow-600 focus:ring-yellow-600 ">
             <label for="default-radio-1" class="ms-2 text-sm font-medium text-yellow-600">Male</label>
@@ -79,13 +79,13 @@
     </div>
     
     <div class="w-full text-center">
-      <button class="bg-yellow-600 hover:bg-black border border-yellow-600 hover:-translate-y-1 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline duration-300" type="button">
+      <button id="btn" class="bg-yellow-600 hover:bg-black border border-yellow-600 hover:-translate-y-1 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline duration-300" type="button">
         Continue
       </button>
     </div>
 
     
-    <div class="hidden">
+    <div class="hidden" id="pswForm">
         <div class="mb-4 p-1">
             <label class="bloc text-yellow-600 text-sm font-bold mb-2" for="password">
               Password <span class="text-sm italic">(required)</span>
@@ -93,10 +93,10 @@
             <input id="password" type="password" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
         </div> 
         <div class="mb-4 p-1">
-          <label class="bloc text-yellow-600 text-sm font-bold mb-2" for="password">
+          <label class="bloc text-yellow-600 text-sm font-bold mb-2" for="passwordconfirm">
             Password
           </label>
-          <input id="password" type="password" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+          <input id="passwordconfirm" type="password" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
         </div>
     </div>
 </form>
