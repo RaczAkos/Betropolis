@@ -22,3 +22,11 @@
         </div>
     </div>
 </nav>
+
+
+<style>
+    nav{
+        background: rgb(0,0,0);
+        background: linear-gradient(90deg, rgba(0,0,0,1) 20%, rgba(96,81,20,1) 50%, rgba(0,0,0,1) 80%);
+    }
+</style>
