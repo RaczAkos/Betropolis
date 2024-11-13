@@ -4,7 +4,7 @@
 
 </script>
 
-<header class="">
+<header class="max-md:w-[1920px]">
     <video  src={banner} autoplay muted loop class=" blur-sm drop-shadow-none sepia-0">
     <div class="overlay">
         <p>asd</p>
@@ -13,8 +13,11 @@
 
 
 <style>
-    video{
-        width: 100vw;
+    header{
+        
+    }
+    :global(body){
+        overflow-x: hidden;
     }
 
     .overlay{
