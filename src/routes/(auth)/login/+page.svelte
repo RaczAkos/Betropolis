@@ -6,7 +6,7 @@
 <form class="bg-black shadow-md rounded px-8 pt-6 pb-8 select-none border-double border-4 border-yellow-600">
   <div class="flex justify-center items-center">
     <a href="/">
-      <img src={logo} alt="" class="self-center hover:shadow-md hover:shadow-yellow-600">
+      <img src={logo} alt="" class="self-center">
     </a>
   </div>
   <div class="mb-4">
