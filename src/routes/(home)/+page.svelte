@@ -3,11 +3,14 @@
 </script>
 
 <header class="w-[1440px] xl:w-screen">
-    <video  src={banner} autoplay muted loop class=" blur-sm drop-shadow-none sepia-0">
-    </video>
-    <div class="overlay">
-        <p>asd</p>
+    <div class="relative text-center">
+        <video  src={banner} autoplay muted loop class=" blur-sm drop-shadow-none sepia-0">
+        </video>
+        <div class="overlay w-screen absolute top-0 left-0 px-20 ">
+            <p class="text-xl text-yellow-600">Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.</p>
+        </div>
     </div>
+
 </header>
 <div class="grid grid-cols-1">
     <table class="text-yellow-600 text-center border-separate [border-spacing:0.75rem] select-none border-spacing-2">
@@ -31,13 +34,6 @@
         overflow-x: hidden;
     }
 
-    .overlay{
-        position:absolute;
-        top:50%;
-        left:50%;
-        z-index:1;
-        color: white;
-    }
     td{
         height: 60px;
     }

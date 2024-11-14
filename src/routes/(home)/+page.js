@@ -22,8 +22,7 @@ if (browser) {
             "hover:duration-[750ms]",
             "flex",
             "items-center",
-            "justify-center",
-            "col"
+            "justify-center"
         );
         let text = document.createElement("p");
         text.innerText = "Choose";
