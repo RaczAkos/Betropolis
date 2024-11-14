@@ -3,7 +3,7 @@
 	let { children } = $props();
 </script>
 
-<div class="h-screen grid place-items-center overflow-scroll bg-scroll bg-center bg-cover bg-no-repeat">
+<div class="h-screen grid place-items-center bg-scroll bg-center bg-cover bg-no-repeat">
     {@render children()}
 </div>
 

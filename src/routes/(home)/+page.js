@@ -1,10 +1,14 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/environment'
+import club from "$lib/media/images/clubs.png"
+import diamond from "$lib/media/images/diamond.png"
+import heart from "$lib/media/images/heart.png"
+import spade from "$lib/media/images/spades.png"
 if (browser) {
     let tbody = document.querySelector("tbody");
     let tr = document.createElement("tr");
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 4; i++) {
         let td = document.createElement("td");
-        td.classList.add("border",
+        td.classList.add(
             "space-x-3",
             "h-44",
             "hover:shadow-yellow-600",
@@ -12,8 +16,6 @@ if (browser) {
             "bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)]", 
             "bg-zinc-950",
             "rounded-xl",
-            "border",
-            "border-slate-900",
             "bg-[length:250%_250%,100%_100%]",
             "bg-[position:-100%_0,0_0]",
             "bg-no-repeat",
@@ -23,44 +25,26 @@ if (browser) {
             "flex",
             "items-center",
             "justify-center",
-            "transition-all",
-            "transform"
-
+            "transition-all"
         );
-        let text = document.createElement("p");
-        text.innerText = "Choose";
-        td.append(text);
         td.addEventListener("click", reveal);
+        tr.classList.add("ledBorder");
         tr.append(td);
-        tr.classList.add("grid", "grid-cols-6", "gap-2", "max-sm:grid-cols-2", "max-sm:");
+        tr.classList.add("grid", "grid-cols-4", "gap-2", "max-sm:grid-cols-2", "max-sm:");
     }
     tbody?.append(tr);
+    let cards = document.querySelectorAll("tbody tr td");
+
+    let symbols = [
+        club, diamond, heart, spade
+    ];    
+    symbols.sort( () => .5 - Math.random() );
+
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].innerHTML = "<img src='" + symbols[i] + "' class='h-1/2 w-auto'>";
+    }
 
     function reveal(e) {
         let target = e.target;
-        target.classList.add("[transform:rotateY(180deg)]", "selected");
-        let cards = document.querySelectorAll("tbody tr td");
-        let notSelectedCards = document.querySelectorAll("tbody tr td:not(.selected)");
-        let ints = [];
-        ints[0] = Math.floor(Math.random() * 4);
-        let rnd = ints[0];
-        while (rnd == ints[0]) {
-            rnd = Math.floor(Math.random() * 4);
-            ints[1] = rnd;
-        }
-        cards.forEach(element => {
-            element.classList.remove("cursor-pointer", "hover:shadow-yellow-600", "hover:bg-[position:200%_0,0_0]")
-            if (element === target) {
-                element.innerHTML = Math.floor((Math.random() * 12000) + 500).toString()+" Chips<br><a href='/login' class='font-bold underline'>Claim now!</a>";
-            }
-            else{
-                element.removeEventListener("click",reveal);
-                setTimeout(() => {
-                    element.classList.add("[transform:rotateY(180deg)]");
-                    notSelectedCards[ints[0]].innerHTML = Math.floor((Math.random() * 12000) + 500).toString() + "Chips";
-                    notSelectedCards[ints[1]].innerHTML = Math.floor((Math.random() * 12000) + 500).toString()+ "Chips";
-                }, 1000);
-            }
-        });
     }
 }
