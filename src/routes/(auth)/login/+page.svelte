@@ -4,7 +4,7 @@
 </script>
 
 <form class="bg-black shadow-md rounded px-8 pt-6 pb-8 select-none border-double border-4 border-yellow-600">
-  <div class="flex justify-center items-center">
+  <div class="flex justify-center items-center" data-sveltekit-reload>
     <a href="/">
       <img src={logo} alt="" class="self-center">
     </a>

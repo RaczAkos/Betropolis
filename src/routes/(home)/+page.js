@@ -22,7 +22,10 @@ if (browser) {
             "hover:duration-[750ms]",
             "flex",
             "items-center",
-            "justify-center"
+            "justify-center",
+            "transition-all",
+            "transform"
+
         );
         let text = document.createElement("p");
         text.innerText = "Choose";
@@ -35,5 +38,29 @@ if (browser) {
 
     function reveal(e) {
         let target = e.target;
+        target.classList.add("[transform:rotateY(180deg)]", "selected");
+        let cards = document.querySelectorAll("tbody tr td");
+        let notSelectedCards = document.querySelectorAll("tbody tr td:not(.selected)");
+        let ints = [];
+        ints[0] = Math.floor(Math.random() * 4);
+        let rnd = ints[0];
+        while (rnd == ints[0]) {
+            rnd = Math.floor(Math.random() * 4);
+            ints[1] = rnd;
+        }
+        cards.forEach(element => {
+            element.classList.remove("cursor-pointer", "hover:shadow-yellow-600", "hover:bg-[position:200%_0,0_0]")
+            if (element === target) {
+                element.innerHTML = Math.floor((Math.random() * 12000) + 500).toString()+" Chips<br><a href='/login' class='font-bold underline'>Claim now!</a>";
+            }
+            else{
+                element.removeEventListener("click",reveal);
+                setTimeout(() => {
+                    element.classList.add("[transform:rotateY(180deg)]");
+                    notSelectedCards[ints[0]].innerHTML = Math.floor((Math.random() * 12000) + 500).toString() + "Chips";
+                    notSelectedCards[ints[1]].innerHTML = Math.floor((Math.random() * 12000) + 500).toString()+ "Chips";
+                }, 1000);
+            }
+        });
     }
 }

@@ -2,12 +2,12 @@
     import banner from "$lib/media/videos/banner.mp4";
 </script>
 
-<header class="w-[1440px] xl:w-screen">
+<header class="w-[1440px] xl:w-screen ">
     <div class="relative text-center">
         <video  src={banner} autoplay muted loop class=" blur-sm drop-shadow-none sepia-0">
         </video>
         <div class="overlay w-screen absolute top-0 left-0 px-20 ">
-            <p class="text-xl text-yellow-600">Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.</p>
+            <!--<p class="text-xl text-yellow-600">Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.</p>-->
         </div>
     </div>
 

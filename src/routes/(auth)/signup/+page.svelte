@@ -5,7 +5,7 @@
 <form class=" bg-black shadow-md rounded px-8 pt-6 pb-8 select-none border-double border-yellow-600 border-4">
 
     <!-- Logo, Welcome -->
-    <div class="flex justify-center items-center">
+    <div class="flex justify-center items-center" data-sveltekit-reload>
         <a href="/">
             <img src={logo} alt="Casino Logo" class="self-center">
         </a>
