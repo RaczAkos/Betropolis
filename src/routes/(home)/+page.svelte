@@ -4,6 +4,7 @@
 
 <header class="w-[1440px] xl:w-screen">
     <video  src={banner} autoplay muted loop class=" blur-sm drop-shadow-none sepia-0">
+    </video>
     <div class="overlay">
         <p>asd</p>
     </div>

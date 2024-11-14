@@ -5,7 +5,6 @@ if (browser) {
     for (let i = 0; i < 6; i++) {
         let td = document.createElement("td");
         td.classList.add("border",
-            "border-yellow-600",
             "space-x-3",
             "h-44",
             "hover:shadow-yellow-600",
