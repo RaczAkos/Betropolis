@@ -16,10 +16,10 @@
                     <a href="/about" class="hover:underline sm:me-6">About</a>
                 </li>
                 <li>
-                    <a href="/terms&conditions" class="hover:underline sm:me-6">Terms & Conditions</a>
+                    <a href="/conditions" class="hover:underline sm:me-6">Terms & Conditions</a>
                 </li>
                 <li>
-                    <a href="/privacypolicy" class="hover:underline sm:me-6">Privacy Policy</a>
+                    <a href="/policy" class="hover:underline sm:me-6">Privacy Policy</a>
                 </li>
             </ul>
         </div>
