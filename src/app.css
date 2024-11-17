@@ -19,8 +19,9 @@ body{
 .ledBorder:before, .ledBorder:after {
 	content: '';
 	position: absolute;
+	border-radius: 24px;
 	background: linear-gradient(45deg, #fb0094, #0000ff, #00ff00,#ffff00, #ff0000, #fb0094, 
-		#0000ff, #00ff00,#ffff00, #ff0000);
+	#0000ff, #00ff00,#ffff00, #ff0000);
 	background-size: 400%;
 	width: calc(100%);
 	height: calc(100%);

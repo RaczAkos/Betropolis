@@ -1,5 +1,27 @@
-<script>
+<script lang=ts>
     import banner from "$lib/media/videos/banner.mp4";
+    import frenchcards from "$lib/frenchcards";
+
+    let cardImages = shuffle(frenchcards),
+        modal = $state(true);
+
+    function shuffle(array: string[]) {
+        let currentIndex = array.length;
+        while (currentIndex != 0) {
+            let randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+
+
+
+    $effect(() => {
+
+    })
+    
 </script>
 
 <header class="w-[1440px] xl:w-screen ">
@@ -65,6 +87,48 @@
         </div>
     </div>
 </div>
+
+<div class="mx-5">
+    <h1 class="text-yellow-600 text-center text-xl">Choose a card for a free extra starting bonus!</h1>
+    <div class="ledBorder grid grid-cols-4 max-md:grid-cols-2 mx-5 gap-2 p-2 rounded-3xl">
+        {#each cardImages as img}
+            <button onclick={() => modal = !modal} class="border flex items-center justify-center rounded-3xl bg-white hover:duration-[150ms] ease-in-out hover:scale-[1.07] hover:shadow-xl hover:shadow-black">
+                <img src={img} alt="" class="h-1/2">
+            </button>
+        {/each}
+    </div>
+</div>
+
+<div class:hidden={modal} class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+    <div class="fixed inset-0 bg-black/90 transition-opacity" aria-hidden="true"></div>
+    
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-black text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                <div class="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
+                            <h3 class="font-semibold text-center text-yellow-600 text-2xl" id="modal-title">Claim your extra starting bonus!</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500"></p>
+                            </div>
+                            <div>
+                                <input id="bonusemail" type="email" placeholder="example@example.com" class="shadow appearance-none border-2 border-yellow-600 rounded w-full py-2 px-3 placeholder:text-yellow-600 text-yellow-600 leading-tight focus:outline-none focus:shadow-outline bg-black">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t-yellow-600 border-t px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 justify-center">
+                    <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Deactivate</button>
+                    <button onclick={() => modal = !modal} type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
 
 
 <style>
