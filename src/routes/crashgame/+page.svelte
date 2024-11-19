@@ -1,5 +1,8 @@
 
 <script lang=ts>
+  import image from "$lib/media/images/gamelogos/crash.png";
+
+
   let canvas,
       multiplierDom,
       cashoutBtn,
@@ -8,7 +11,8 @@
   
   $effect(() => {
   const ctx = canvas.getContext("2d");
-  let controls = document.querySelectorAll(".control");
+  let controls = document.querySelectorAll(".control"),
+      ctrlbuttons = document.querySelectorAll(".ctrlbutton");
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
 
@@ -32,8 +36,13 @@
         offsetY = 0;
         speedX = 0;
         speedY = 0;
+        ctrlbuttons.forEach(temp => {
+          temp.removeAttribute("disabled");
+        });
         controls.forEach(element => {
-          element.firstChild.disabled = false;
+          if (element != controls[0] && element != controls[1]) {
+          element.classList.add("hover:border", "hover:border-yellow-600");
+        }
       });
       }
     }
@@ -51,7 +60,7 @@
       canvas.style.backgroundPosition = `${offsetX}px ${offsetY}px`;
     }
 
-    ctx.strokeStyle = "#ffcc00";
+    ctx.strokeStyle = "#00FF00";
     ctx.lineWidth = 1;
     ctx.stroke();
 
@@ -66,8 +75,14 @@
       running = true;
       multiplier = 1.0;
       cashoutBtn.disabled = false;
+      ctrlbuttons.forEach(temp => {
+          temp.setAttribute("disabled", "true");
+        });
       controls.forEach(element => {
-        element.firstChild.disabled = true;
+        if (element != controls[0] && element != controls[1]) {
+          element.classList.remove("hover:border", "hover:border-yellow-600");
+        }
+        element.children[0].ariaDisabled = "true";
       });
       drawGraph();
     }
@@ -78,50 +93,85 @@
     if (running) {
       running = false;
       cashoutBtn.disabled = true;
+      ctrlbuttons.forEach(temp => {
+          temp.removeAttribute("disabled");
+        });
+        controls.forEach(element => {
+          if (element != controls[0] && element != controls[1]) {
+          element.classList.add("hover:border", "hover:border-yellow-600");
+        }
+      });
     }
   });
 });
 </script>
 
-<div class="flex justify-center items-center h-screen">
+<div class="flex justify-center items-center h-screen select-none sad">
   <div class="text-center w-[70%]">
-    <div class="game-area">
-      <div class="flex flex-row h-[85%]">
+    <div class="game-area shadow-lg shadow-yellow-600">
+      <div class="flex flex-row h-[85%] max-sm:flex-col">
         <div class="px-5 my-auto">
-          <form class="w-full max-w-sm ">
+          <div class="overflow-clip w-[25vw]">
+            <img src="{image}" alt="" class="scale-150">
+          </div>
+          <!--Define amount-->
+          <form class="w-full max-w-sm mb-auto">
             <div class="flex border-b border-yellow-600 py-2">
-              <input class="appearance-none bg-transparent border-none w-full text-yellow-500 mr-3 py-1 px-2 focus:outline-none" type="text" placeholder="0" aria-label="Chips">
+              <input class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none" type="text" value="0" aria-label="Chips">
+              <!--Add/subtract buttons-->
               <span class="control">
-                <button class=" flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded" type="button" disabled=false> 
+                <button class=" flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" type="button" > 
                   <span class="text-xl">&uarr;</span>
                 </button>
               </span>
               <span class="control">
-                <button class=" flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded" type="button" disabled=false>
+                <button class=" flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton" type="button" >
                   <span class="text-xl">&darr;</span>
                 </button>
               </span>
-                
             </div>
           </form>
+
+
+          <!--Multiplier buttons-->
           {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
-          <span class="hover:border hover:border-yellow-600 control disabled:border-0">
-            <button class="text-yellow-600" disabled=false>
+          <span class="hover:border hover:border-yellow-600 control">
+            <button class="text-yellow-600 ctrlbutton"  onclick={() => {console.log("clicked")}}>
             {multiplier}
             </button>
           </span>
-            
           {/each}
-        </div>
+
+          <!--Current chips in-->
+          <div class="text-start">
+            <form >
+              <label class="block">
+                <span class="block text-xl font-medium text-yellow-600 py-5 ">Current</span>
+                <input class="text-green-700 text-lg text-center bg-black border-b border-yellow-600" type="text" disabled value="1000000"/>
+              </label>
+            </form>
+    
+            <!--Current chips in-->
+            <form class="">
+              <label class="block">
+                <span class="block text-xl font-medium text-yellow-600 py-5">Total</span>
+                <input class="text-green-700 text-lg text-center bg-black border-b border-yellow-600" type="text" disabled value="1000000"/>
+              </label>
+            </form>
+          </div>
+       
+        </div>    
+
+        <!--Moving scale-->
         <div class="grow">
           <canvas bind:this={canvas} class="border border-yellow-600" class:shadow-lg = {running} class:shadow-yellow-600 = {running}></canvas>
         </div>
       </div>
       
-      
-
       <div class="info">
+        <!--Multiplier-->
         <p id="multiplier" bind:this={multiplierDom}>1.00x</p>
+        <!--Bet/CashOut buttons-->
         <button bind:this={betBtn} id="bet-btn">Bet Now</button>
         <button bind:this={cashoutBtn} id="cashout-btn" disabled>Cash Out</button>
       </div>
@@ -144,13 +194,15 @@
    }
   }
 
-  
+  .sad{
+    background-image: url("../../lib/media/images/asd.jfif") !important;
+    background-size: cover;
+  }
+
   .game-area {
     align-items: center;
-    border: 2px solid #444;
     border-radius: 10px;
     padding: 20px;
-    background: #1e1e1e;
     height: 90vh;
   }
   
