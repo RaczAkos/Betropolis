@@ -43,14 +43,16 @@
 
             
             spin1.append(img);
-            
-            setTimeout(() => {
 
+            img.classList.add("anim");
+            setTimeout(() => {
+                img.classList.remove("anim")
                 spin1.innerHTML = '';
                 spin1.append(img);
-            }, 600)
+                img.classList.add("anim");
+            }, 500)
 
-        }, 550)
+        }, 500)
 
         
         /* This works!
@@ -100,8 +102,8 @@
     <div class="border p-2">
         <div class="border flex flex-row items-center mb-2">
             {#each [slot1, slot2, slot3] as item,i}
-            <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip h-[256px]">
-                <img src={item} alt="slot icon">
+            <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip h-[700px] relative w-[254px]">
+                <img src={item} alt="slot icon" class="absolute anim">
             </div>
             {/each}
             
@@ -110,3 +112,17 @@
         <button type="button" class="border" onclick={stop}>Stop</button>
     </div>
 </div>
+
+<style>
+    .anim{
+        animation: move 400ms infinite;
+    }
+    @keyframes move {
+        from {
+            top: 0px;
+        }
+        to {
+            top: -256px;
+        }
+    } 
+</style>
