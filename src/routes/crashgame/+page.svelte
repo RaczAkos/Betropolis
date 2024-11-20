@@ -7,24 +7,56 @@
       multiplierDom,
       cashoutBtn,
       betBtn,
-      running = $state(false);
+      running = $state(false),
+      amount = $state(0),
+      sad,
+      currentAmount = $state(0);
+
+      function calcOne(e){
+        if (e.target.innerText.length > 3) {
+          if (amount >= 2) {
+            amount *= parseFloat(e.target.innerText.substr(0 , e.target.innerText.length-1));
+          }
+        }
+        else{
+          amount *= parseFloat(e.target.innerText.substr(0 , e.target.innerText.length-1));
+        }
+        valuechange();
+      }
+
+      function valuechange() {
+        amount = Math.round(amount)
+      }
+
+      function addAmount(){
+        currentAmount += amount;
+      }
+
+      function subtractAmount(){
+        if ((currentAmount - amount) >= 0) {
+          currentAmount -= amount;
+        }
+      }
+  
   
   $effect(() => {
   const ctx = canvas.getContext("2d");
   let controls = document.querySelectorAll(".control"),
       ctrlbuttons = document.querySelectorAll(".ctrlbutton");
+
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
 
-  let multiplier = 1.0,
-      crashed = false,
-      offsetX = 0,
-      offsetY = 0,
-      speedX = -2,
-      speedY = 2;
+  let   multiplier = 1.0,
+          crashed = false,
+          offsetX = 0,
+          offsetY = 0,
+          speedX = -2,
+          speedY = 2;
 
   // Animation loop
   function drawGraph() {
+    
 
     if (running) {
       multiplier += 0.01;
@@ -36,6 +68,7 @@
         offsetY = 0;
         speedX = 0;
         speedY = 0;
+        betBtn.removeAttribute("disabled");
         ctrlbuttons.forEach(temp => {
           temp.removeAttribute("disabled");
         });
@@ -66,11 +99,19 @@
 
     multiplierDom.textContent = multiplier.toFixed(2) + "x";
 
-    if (running || crashed) requestAnimationFrame(drawGraph);
+    if (running) requestAnimationFrame(drawGraph);
   }
+  // Function end
 
   // Start the game
   betBtn.addEventListener("click", () => {
+    betBtn.setAttribute("disabled", "true");
+    offsetX = 0;
+    offsetY = 0;
+    speedX = -2;
+    speedY = 2;
+    running = false;
+    crashed = false;
     if (!running && !crashed) {
       running = true;
       multiplier = 1.0;
@@ -82,7 +123,6 @@
         if (element != controls[0] && element != controls[1]) {
           element.classList.remove("hover:border", "hover:border-yellow-600");
         }
-        element.children[0].ariaDisabled = "true";
       });
       drawGraph();
     }
@@ -91,6 +131,7 @@
   // Cash out
   cashoutBtn.addEventListener("click", () => {
     if (running) {
+      betBtn.removeAttribute("disabled");
       running = false;
       cashoutBtn.disabled = true;
       ctrlbuttons.forEach(temp => {
@@ -103,29 +144,30 @@
       });
     }
   });
+
 });
 </script>
 
-<div class="flex justify-center items-center h-screen select-none sad">
-  <div class="text-center w-[70%]">
+<div class="flex justify-center items-center h-screen select-none bgImg">
+  <div class="text-center md:w-[70%]">
     <div class="game-area shadow-lg shadow-yellow-600">
       <div class="flex flex-row h-[85%] max-sm:flex-col">
-        <div class="px-5 my-auto">
+        <div class="px-5 my-auto max-sm:mb-5">
           <div class="overflow-clip w-[25vw]">
             <img src="{image}" alt="" class="scale-150">
           </div>
           <!--Define amount-->
           <form class="w-full max-w-sm mb-auto">
             <div class="flex border-b border-yellow-600 py-2">
-              <input class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none" type="text" value="0" aria-label="Chips">
+              <input bind:value={amount} bind:this={sad} oninput={valuechange} onfocus={() => sad.value = ""} min=1 class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none" type="number" aria-label="Chips">
               <!--Add/subtract buttons-->
               <span class="control">
-                <button class=" flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" type="button" > 
+                <button onclick={addAmount} class=" flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" type="button" > 
                   <span class="text-xl">&uarr;</span>
                 </button>
               </span>
               <span class="control">
-                <button class=" flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton" type="button" >
+                <button onclick={subtractAmount} class=" flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton" type="button" >
                   <span class="text-xl">&darr;</span>
                 </button>
               </span>
@@ -136,26 +178,26 @@
           <!--Multiplier buttons-->
           {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
           <span class="hover:border hover:border-yellow-600 control">
-            <button class="text-yellow-600 ctrlbutton"  onclick={() => {console.log("clicked")}}>
+            <button class="text-yellow-600 ctrlbutton"  onclick={calcOne}>
             {multiplier}
             </button>
           </span>
           {/each}
 
           <!--Current chips in-->
-          <div class="text-start">
-            <form >
+          <div class="text-start max-sm:grid max-sm:grid-cols-2 max-sm:gap-3 max-sm:w-[70%]">
+            <form>
               <label class="block">
-                <span class="block text-xl font-medium text-yellow-600 py-5 ">Current</span>
-                <input class="text-green-700 text-lg text-center bg-black border-b border-yellow-600" type="text" disabled value="1000000"/>
+                <span class="block text-xl font-medium text-yellow-600 py-5 ">Current bet</span>
+                <input bind:value={currentAmount} min=1 class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 max-sm:w-[80%]" type="text" disabled/>
               </label>
             </form>
     
             <!--Current chips in-->
             <form class="">
               <label class="block">
-                <span class="block text-xl font-medium text-yellow-600 py-5">Total</span>
-                <input class="text-green-700 text-lg text-center bg-black border-b border-yellow-600" type="text" disabled value="1000000"/>
+                <span class="block text-xl font-medium text-yellow-600 py-5">Balance</span>
+                <input class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 max-sm:w-[80%]" type="text" disabled value="0"/>
               </label>
             </form>
           </div>
@@ -164,7 +206,7 @@
 
         <!--Moving scale-->
         <div class="grow">
-          <canvas bind:this={canvas} class="border border-yellow-600" class:shadow-lg = {running} class:shadow-yellow-600 = {running}></canvas>
+          <canvas bind:this={canvas} class="border border-yellow-600 h-[80%] sm:h-full" class:shadow-lg = {running} class:shadow-yellow-600 = {running}></canvas>
         </div>
       </div>
       
@@ -194,7 +236,7 @@
    }
   }
 
-  .sad{
+  .bgImg{
     background-image: url("../../lib/media/images/asd.jfif") !important;
     background-size: cover;
   }
@@ -212,7 +254,6 @@
     background-size: auto;
     background-position: 0 0;
     width: 100%;
-    height: 100%;
     border-radius: 8px;
     }
   
