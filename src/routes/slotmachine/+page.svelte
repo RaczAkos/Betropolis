@@ -6,11 +6,12 @@
         slot2:string = $state(""),
         slot3:string = $state(""),
         spinned:number = $state(0),
-        double:number = $state(0),
-        triple:number = $state(0),
+        autorun:boolean = $state(false),
         icons1:string[] = shuffle(icons),
         icons2:string[] = shuffle(icons),
-        icons3:string[] = shuffle(icons);
+        icons3:string[] = shuffle(icons),
+        history:HTMLElement;
+
 
     onMount(() => {
         slot1 = icons1[giveRandom()];
@@ -31,8 +32,10 @@
             spin2:any = document.getElementById("spin2"),
             index3: number = giveRandom(),
             spin3:any = document.getElementById("spin3"),
-            i1 = 50, i2 = 50, i3 = 50;
+            i1 = 50, i2 = 50, i3 = 50,
+            fruits:string[] = [];
 
+        // First reel spin
         let int1 = setInterval(() => {
             if (index1 == 7) index1 = 0;
             else index1++;
@@ -48,10 +51,12 @@
             if (i1 == 0){
                 clearInterval(int1)
                 img.classList.remove("anim");
+                fruits.push(icons1[index1]);
             } 
             else i1--;
         }, 50)
 
+        // Second reel spin
         setTimeout(() => {
             let int2 = setInterval(() => {
                 if (index2 == 7) index2 = 0;
@@ -68,11 +73,13 @@
                 if (i2 == 0){
                     clearInterval(int2)
                     img.classList.remove("anim");
+                    fruits.push(icons2[index2]);
                 } 
                 else i2--;
             }, 50)
         },400)
 
+        // Third reel spin
         setTimeout(() => {
             let int3 = setInterval(() => {
                 if (index3 == 7) index3 = 0;
@@ -89,10 +96,47 @@
                 if (i3 == 0){
                     clearInterval(int3)
                     img.classList.remove("anim");
+                    fruits.push(icons3[index3]);
+                    calculate(fruits);
                 } 
                 else i3--;
             }, 50)
         },800)
+    }
+
+    function calculate(fruits:string[]) {
+        let fruit1:string = fruits[0].split('/')[fruits[0].split('/').length-1],
+            fruit2:string = fruits[1].split('/')[fruits[1].split('/').length-1],
+            fruit3:string = fruits[2].split('/')[fruits[2].split('/').length-1],
+            special:string = "none";
+
+        fruit1 = fruit1.replace(fruit1.substring(fruit1.length-4), "");
+        fruit2 = fruit2.replace(fruit2.substring(fruit2.length-4), "");
+        fruit3 = fruit3.replace(fruit3.substring(fruit3.length-4), "");
+        
+        if (fruit1 == fruit2 && fruit1 == fruit3) {
+            special = "Tripple";
+        }
+        else if (fruit1 == fruit2 || fruit1 == fruit3 || fruit2 == fruit3) {
+            special = "Double";
+        }
+
+        
+
+
+        history.innerHTML += `<tr class="bg-yellow-600 border m-1">`+
+                             `<td>`+capitalize(fruit1)+`</td>`+
+                             `<td>`+capitalize(fruit2)+`</td>`+
+                             `<td>`+capitalize(fruit3)+`</td>`+
+                             `<td>`+special+`</td>`+
+                             `<td>`+capitalize(fruit1)+`</td>`+
+                             `<td>`+capitalize(fruit1)+`</td>`+`</tr>`;
+
+        setTimeout(() => {if (autorun){spin()};}, 1000)
+    }
+
+    function capitalize(val:string) {
+        return String(val).charAt(0).toUpperCase() + String(val).slice(1);
     }
 
     function shuffle(array: string[]) {
@@ -117,5 +161,23 @@
         </div>
         <button type="button" class="border" onclick={spin}>Spin</button>
         <div>Spinned: {spinned}</div>
+        <button type="button" onclick={() => autorun = !autorun}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
+
+        <table class="w-full">
+            <caption class="text-center caption-top">Previous spins</caption>
+            <thead>
+                <tr>
+                    <th>Reel 1</th>
+                    <th>Reel 2</th>
+                    <th>Reel 3</th>
+                    <th>Special</th>
+                    <th>Bet</th>
+                    <th>Gain</th>
+                </tr>
+            </thead>
+            <tbody bind:this={history}>
+
+            </tbody>
+        </table>
     </div>
 </div>
