@@ -44,3 +44,15 @@ body{
 .ledBorder:after {
 	filter: blur(50px);
 }
+
+.anim{
+	animation: move 50ms infinite;
+}
+@keyframes move {
+	from {
+		top: -256px;
+	}
+	to {
+		top: 256px;
+	}
+} 

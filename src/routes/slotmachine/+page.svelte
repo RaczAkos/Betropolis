@@ -5,10 +5,12 @@
     let slot1:string = $state(""),
         slot2:string = $state(""),
         slot3:string = $state(""),
+        spinned:number = $state(0),
+        double:number = $state(0),
+        triple:number = $state(0),
         icons1:string[] = shuffle(icons),
         icons2:string[] = shuffle(icons),
-        icons3:string[] = shuffle(icons),
-        spinning1:any = "";
+        icons3:string[] = shuffle(icons);
 
     onMount(() => {
         slot1 = icons1[giveRandom()];
@@ -21,71 +23,77 @@
     }
 
     function spin() {
+        spinned++;
+
         let index1: number = giveRandom(),
-            prevIndex1: number = (index1 == 0)? 7 : index1,
-            spin1:any = document.getElementById("spin1");
+            spin1:any = document.getElementById("spin1"),
+            index2: number = giveRandom(),
+            spin2:any = document.getElementById("spin2"),
+            index3: number = giveRandom(),
+            spin3:any = document.getElementById("spin3"),
+            i1 = 50, i2 = 50, i3 = 50;
 
-        
+        let int1 = setInterval(() => {
+            if (index1 == 7) index1 = 0;
+            else index1++;
 
-        let spinning1 = setInterval(() => {
-            if (index1 == 7){
-                prevIndex1 = index1;
-                index1 = 0;
-            } 
-            else{
-                index1++;
-                if (prevIndex1 == 7) prevIndex1 = 0;
-                else prevIndex1++;
-            }
             let img: HTMLImageElement = document.createElement("img");
             img.id = String(index1);
             img.src = icons1[index1];
 
-            
+            spin1.innerHTML = '';
             spin1.append(img);
+            img.classList.add("absolute", "anim");
 
-            img.classList.add("anim");
-            setTimeout(() => {
-                img.classList.remove("anim")
-                spin1.innerHTML = '';
-                spin1.append(img);
-                img.classList.add("anim");
-            }, 500)
-
-        }, 500)
-
-        
-        /* This works!
-        let index1 = giveRandom(), index2 = giveRandom(), index3 = giveRandom();
-
-        setInterval(() => {
-            if (index1 == 7) index1 = 0;
-            else index1++;
-            slot1 = icons[index1];
-        }, 3)
+            if (i1 == 0){
+                clearInterval(int1)
+                img.classList.remove("anim");
+            } 
+            else i1--;
+        }, 50)
 
         setTimeout(() => {
-            setInterval(() => {
+            let int2 = setInterval(() => {
                 if (index2 == 7) index2 = 0;
                 else index2++;
-                slot2 = icons[index2];
-            }, 3)
-        }, 1000);
+
+                let img: HTMLImageElement = document.createElement("img");
+                img.id = String(index2);
+                img.src = icons1[index2];
+
+                spin2.innerHTML = '';
+                spin2.append(img);
+                img.classList.add("absolute", "anim");
+
+                if (i2 == 0){
+                    clearInterval(int2)
+                    img.classList.remove("anim");
+                } 
+                else i2--;
+            }, 50)
+        },400)
 
         setTimeout(() => {
-            setInterval(() => {
+            let int3 = setInterval(() => {
                 if (index3 == 7) index3 = 0;
                 else index3++;
-                slot3 = icons[index3];
-            }, 3)
-        }, 2000)*/
+
+                let img: HTMLImageElement = document.createElement("img");
+                img.id = String(index3);
+                img.src = icons1[index3];
+
+                spin3.innerHTML = '';
+                spin3.append(img);
+                img.classList.add("absolute", "anim");
+
+                if (i3 == 0){
+                    clearInterval(int3)
+                    img.classList.remove("anim");
+                } 
+                else i3--;
+            }, 50)
+        },800)
     }
-
-    function stop(){
-        clearInterval(spinning1)
-    }
-
-
 
     function shuffle(array: string[]) {
         let currentIndex = array.length;
@@ -102,27 +110,12 @@
     <div class="border p-2">
         <div class="border flex flex-row items-center mb-2">
             {#each [slot1, slot2, slot3] as item,i}
-            <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip h-[700px] relative w-[254px]">
-                <img src={item} alt="slot icon" class="absolute anim">
+            <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip h-[256px] relative w-[256px]">
+                <img src={item} alt="slot icon" class="absolute">
             </div>
             {/each}
-            
         </div>
         <button type="button" class="border" onclick={spin}>Spin</button>
-        <button type="button" class="border" onclick={stop}>Stop</button>
+        <div>Spinned: {spinned}</div>
     </div>
 </div>
-
-<style>
-    .anim{
-        animation: move 400ms infinite;
-    }
-    @keyframes move {
-        from {
-            top: 0px;
-        }
-        to {
-            top: -256px;
-        }
-    } 
-</style>
