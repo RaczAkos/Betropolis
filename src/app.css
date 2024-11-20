@@ -50,9 +50,9 @@ body{
 }
 @keyframes move {
 	from {
-		top: -256px;
+		top: -100px;
 	}
 	to {
-		top: 256px;
+		top: 100px;
 	}
 } 

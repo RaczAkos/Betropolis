@@ -122,15 +122,15 @@
         }
 
         
+        document.querySelector("table")?.classList.remove("hidden");
 
-
-        history.innerHTML += `<tr class="bg-yellow-600 border m-1">`+
-                             `<td>`+capitalize(fruit1)+`</td>`+
-                             `<td>`+capitalize(fruit2)+`</td>`+
-                             `<td>`+capitalize(fruit3)+`</td>`+
+        history.innerHTML += `<tr class="border-t-2 m-1">`+
+                             `<td><img class="h-16 mx-auto" src="`+fruits[0]+`" alt="`+capitalize(fruit1)+`"></td>`+
+                             `<td><img class="h-16 mx-auto" src="`+fruits[1]+`" alt="`+capitalize(fruit2)+`"></td>`+
+                             `<td><img class="h-16 mx-auto" src="`+fruits[2]+`" alt="`+capitalize(fruit3)+`"></td>`+
                              `<td>`+special+`</td>`+
-                             `<td>`+capitalize(fruit1)+`</td>`+
-                             `<td>`+capitalize(fruit1)+`</td>`+`</tr>`;
+                             `<td>`+0+`</td>`+
+                             `<td>`+0+`</td>`+`</tr>`;
 
         setTimeout(() => {if (autorun){spin()};}, 1000)
     }
@@ -150,11 +150,11 @@
     }
 </script>
 
-<div class="h-screen flex justify-center items-center text-white select-none">
-    <div class="border p-2">
+<div class="h-screen flex justify-center items-center text-white select-none background">
+    <div class="border p-2 bg-red-600">
         <div class="border flex flex-row items-center mb-2">
             {#each [slot1, slot2, slot3] as item,i}
-            <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip h-[256px] relative w-[256px]">
+            <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip max-sm:h-[108px] max-sm:w-[108px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] relative lg:w-[250px]">
                 <img src={item} alt="slot icon" class="absolute">
             </div>
             {/each}
@@ -163,21 +163,31 @@
         <div>Spinned: {spinned}</div>
         <button type="button" onclick={() => autorun = !autorun}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
 
-        <table class="w-full">
+        <table class="w-full text-center hidden">
             <caption class="text-center caption-top">Previous spins</caption>
             <thead>
                 <tr>
-                    <th>Reel 1</th>
-                    <th>Reel 2</th>
-                    <th>Reel 3</th>
-                    <th>Special</th>
-                    <th>Bet</th>
-                    <th>Gain</th>
+                    <th class="border-r-2">Reel 1</th>
+                    <th class="border-r-2">Reel 2</th>
+                    <th class="border-r-2">Reel 3</th>
+                    <th class="border-r-2">Special</th>
+                    <th class="border-r-2">Bet</th>
+                    <th class="">Gain</th>
                 </tr>
             </thead>
             <tbody bind:this={history}>
 
             </tbody>
+            <tfoot><tr><td colspan="6" class="max-sm:text-[12px] sm:text-md md:text-lg">Note: All previous spins can be viewed in your user statistics.</td></tr></tfoot>
         </table>
     </div>
 </div>
+
+<style>
+    .background {
+        background-image: url("$lib/media/images/backgrounds/fruitslotbg.jfif");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
