@@ -5,8 +5,8 @@
     let slot1:string = $state(""),
         slot2:string = $state(""),
         slot3:string = $state(""),
-        spinned:number = $state(0),
         autorun:boolean = $state(false),
+        spinning:boolean = $state(false),
         icons1:string[] = shuffle(icons),
         icons2:string[] = shuffle(icons),
         icons3:string[] = shuffle(icons),
@@ -24,7 +24,7 @@
     }
 
     function spin() {
-        spinned++;
+        spinning = true;
 
         let index1: number = giveRandom(),
             spin1:any = document.getElementById("spin1"),
@@ -118,19 +118,21 @@
             special = "Tripple";
         }
         else if (fruit1 == fruit2 || fruit1 == fruit3 || fruit2 == fruit3) {
-            special = "Double";
+            special = "Double DDD";
         }
 
         
         document.querySelector("table")?.classList.remove("hidden");
 
-        history.innerHTML += `<tr class="border-t-2 m-1">`+
-                             `<td><img class="h-16 mx-auto" src="`+fruits[0]+`" alt="`+capitalize(fruit1)+`"></td>`+
-                             `<td><img class="h-16 mx-auto" src="`+fruits[1]+`" alt="`+capitalize(fruit2)+`"></td>`+
-                             `<td><img class="h-16 mx-auto" src="`+fruits[2]+`" alt="`+capitalize(fruit3)+`"></td>`+
-                             `<td>`+special+`</td>`+
-                             `<td>`+0+`</td>`+
-                             `<td>`+0+`</td>`+`</tr>`;
+        history.innerHTML = `<tr class="border-y-2 m-1 table-row w-full">`+
+                            `<td><img class="h-12 mx-auto" src="`+fruits[0]+`" alt="`+capitalize(fruit1)+`"></td>`+
+                            `<td><img class="h-12 mx-auto" src="`+fruits[1]+`" alt="`+capitalize(fruit2)+`"></td>`+
+                            `<td><img class="h-12 mx-auto" src="`+fruits[2]+`" alt="`+capitalize(fruit3)+`"></td>`+
+                            `<td class="text-wrap">`+special+`</td>`+
+                            `<td>`+0+`</td>`+
+                            `<td>`+0+`</td>`+`</tr>`;
+
+        if (!autorun) spinning = false;
 
         setTimeout(() => {if (autorun){spin()};}, 1000)
     }
@@ -159,12 +161,12 @@
             </div>
             {/each}
         </div>
-        <button type="button" class="border" onclick={spin}>Spin</button>
-        <div>Spinned: {spinned}</div>
+        <button type="button" class="border" onclick={spin}>{#if spinning}Spinning
+            {:else}Spin{/if}</button>
         <button type="button" onclick={() => autorun = !autorun}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
 
         <table class="w-full text-center hidden">
-            <caption class="text-center caption-top">Previous spins</caption>
+            <caption class="text-center caption-top font-bold italic text-lg">Previous spin</caption>
             <thead>
                 <tr>
                     <th class="border-r-2">Reel 1</th>
@@ -175,10 +177,8 @@
                     <th class="">Gain</th>
                 </tr>
             </thead>
-            <tbody bind:this={history}>
-
-            </tbody>
-            <tfoot><tr><td colspan="6" class="max-sm:text-[12px] sm:text-md md:text-lg">Note: All previous spins can be viewed in your user statistics.</td></tr></tfoot>
+            <tbody bind:this={history}></tbody>
+            <tfoot><tr><td colspan="6" class="max-sm:text-[12px] sm:text-md md:text-lg text-wrap">Note: All previous spins can be viewed in your user statistics.</td></tr></tfoot>
         </table>
     </div>
 </div>
