@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face{
-    font-family: Casino3DFilled;
-    src: url("$lib/font/Casino3D.ttf")
+    font-family: Orange_Knight;
+    src: url("$lib/font/Orange_Knight.ttf") format("ttf");
 }
 
 body{
