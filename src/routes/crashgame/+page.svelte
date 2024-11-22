@@ -237,7 +237,7 @@
   }
 
   .bgImg{
-    background-image: url("../../lib/media/images/asd.jfif") !important;
+    background-image: url("../../lib/media/images/crashgame/asd.jfif") !important;
     background-size: cover;
   }
 
@@ -249,7 +249,7 @@
   }
   
   canvas {
-    background-image: url('../../lib/media/images/net.png');
+    background-image: url('../../lib/media/images/crashgame/net.png');
     background-repeat: repeat;
     background-size: auto;
     background-position: 0 0;
