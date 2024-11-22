@@ -108,7 +108,8 @@
         let fruit1:string = fruits[0].split('/')[fruits[0].split('/').length-1],
             fruit2:string = fruits[1].split('/')[fruits[1].split('/').length-1],
             fruit3:string = fruits[2].split('/')[fruits[2].split('/').length-1],
-            special:string = "none";
+            special:string = "none",
+            gain:number = 0;
 
         fruit1 = fruit1.replace(fruit1.substring(fruit1.length-4), "");
         fruit2 = fruit2.replace(fruit2.substring(fruit2.length-4), "");
@@ -118,7 +119,7 @@
             special = "Tripple";
         }
         else if (fruit1 == fruit2 || fruit1 == fruit3 || fruit2 == fruit3) {
-            special = "Double DDD";
+            special = "Double";
         }
 
         
@@ -130,7 +131,7 @@
                             `<td><img class="h-12 mx-auto" src="`+fruits[2]+`" alt="`+capitalize(fruit3)+`"></td>`+
                             `<td class="text-wrap">`+special+`</td>`+
                             `<td>`+0+`</td>`+
-                            `<td>`+0+`</td>`+`</tr>`;
+                            `<td>`+gain+`</td>`+`</tr>`;
 
         if (!autorun) spinning = false;
 
@@ -161,9 +162,13 @@
             </div>
             {/each}
         </div>
-        <button type="button" class="border" onclick={spin}>{#if spinning}Spinning
-            {:else}Spin{/if}</button>
-        <button type="button" onclick={() => autorun = !autorun}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
+        <div class="felx flex-row">
+            <button type="button" class="border" onclick={spin}>{#if spinning}Spinning{:else}Spin{/if}</button>
+            <button type="button" onclick={() => autorun = !autorun}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
+            <div class="bg-black w-auto">
+                <label for="bet">Bet<input type="number" name="" id="bet"></label>
+            </div>
+        </div>
 
         <table class="w-full text-center hidden">
             <caption class="text-center caption-top font-bold italic text-lg">Previous spin</caption>
