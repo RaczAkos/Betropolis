@@ -1,0 +1,3 @@
+# Disallow bots from everything (for now)
+User-agent: *
+Disallow: /
