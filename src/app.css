@@ -55,4 +55,8 @@ body{
 	to {
 		top: 100px;
 	}
-} 
+}
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
