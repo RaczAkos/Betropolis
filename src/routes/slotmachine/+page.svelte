@@ -5,26 +5,26 @@
     let slot1:string = $state(""),
         slot2:string = $state(""),
         slot3:string = $state(""),
-        bet:number = $state(0),
+        bet:number = $state(1),
         autorun:boolean = $state(false),
         spinning:boolean = $state(false),
-        icons1:string[] = shuffle(icons),
-        icons2:string[] = shuffle(icons),
-        icons3:string[] = shuffle(icons),
         history:HTMLElement;
 
 
     onMount(() => {
-        slot1 = icons1[giveRandom()];
-        slot2 = icons2[giveRandom()];
-        slot3 = icons3[giveRandom()];
+        slot1 = icons[giveRandom()];
+        slot2 = icons[giveRandom()];
+        slot3 = icons[giveRandom()];
     })
 
+    
     function giveRandom() {
         return Math.floor(Math.random() * icons.length);
     }
 
     function spin() {
+        
+
         spinning = true;
 
         let index1: number = giveRandom(),
@@ -33,9 +33,10 @@
             spin2:any = document.getElementById("spin2"),
             index3: number = giveRandom(),
             spin3:any = document.getElementById("spin3"),
-            i1 = 50, i2 = 50, i3 = 50,
+            i1 = 47, i2 = 47, i3 = 47,
             fruits:string[] = [];
 
+        console.log(icons[index1], icons[index2], icons[index3])
         // First reel spin
         let int1 = setInterval(() => {
             if (index1 == 7) index1 = 0;
@@ -43,7 +44,7 @@
 
             let img: HTMLImageElement = document.createElement("img");
             img.id = String(index1);
-            img.src = icons1[index1];
+            img.src = icons[index1];
 
             spin1.innerHTML = '';
             spin1.append(img);
@@ -52,7 +53,7 @@
             if (i1 == 0){
                 clearInterval(int1)
                 img.classList.remove("anim");
-                fruits.push(icons1[index1]);
+                fruits.push(icons[index1]);
             } 
             else i1--;
         }, 50)
@@ -65,7 +66,7 @@
 
                 let img: HTMLImageElement = document.createElement("img");
                 img.id = String(index2);
-                img.src = icons1[index2];
+                img.src = icons[index2];
 
                 spin2.innerHTML = '';
                 spin2.append(img);
@@ -74,7 +75,7 @@
                 if (i2 == 0){
                     clearInterval(int2)
                     img.classList.remove("anim");
-                    fruits.push(icons2[index2]);
+                    fruits.push(icons[index2]);
                 } 
                 else i2--;
             }, 50)
@@ -88,7 +89,7 @@
 
                 let img: HTMLImageElement = document.createElement("img");
                 img.id = String(index3);
-                img.src = icons1[index3];
+                img.src = icons[index3];
 
                 spin3.innerHTML = '';
                 spin3.append(img);
@@ -97,7 +98,7 @@
                 if (i3 == 0){
                     clearInterval(int3)
                     img.classList.remove("anim");
-                    fruits.push(icons3[index3]);
+                    fruits.push(icons[index3]);
                     calculate(fruits);
                 } 
                 else i3--;
@@ -128,7 +129,7 @@
         }
 
         
-        document.querySelector("table")?.classList.remove("hidden");
+        /*document.querySelector("table")?.classList.remove("hidden");
 
         history.innerHTML += `<tr class="border-y-2 m-1 table-row w-full">`+
                             `<td><img class="h-12 mx-auto" src="`+fruits[0]+`" alt="`+capitalize(fruit1)+`"></td>`+
@@ -136,30 +137,19 @@
                             `<td><img class="h-12 mx-auto" src="`+fruits[2]+`" alt="`+capitalize(fruit3)+`"></td>`+
                             `<td class="text-wrap">`+special+`</td>`+
                             `<td>`+bet+`</td>`+
-                            `<td>`+gain+`</td>`+`</tr>`;
+                            `<td>`+gain+`</td>`+`</tr>`;*/
 
-        setTimeout(() => {if (autorun){spin()} else spinning = false;}, 1000)
-    }
-
-    function capitalize(val:string) {
-        return String(val).charAt(0).toUpperCase() + String(val).slice(1);
-    }
-
-    function shuffle(array: string[]) {
-        let currentIndex = array.length;
-        while (currentIndex != 0) {
-            let randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-        }
-        return array;
+        setTimeout(() => {if (autorun){spin()} else spinning = false;}, 500)
     }
 </script>
 
+<div class="relative bg-black">
+    <img src={slot1} class="absolute h-36 w-36" alt="">
+</div>
 <div class="h-screen flex justify-center items-center text-white select-none background">
     <div class="border p-2 bg-red-600 rounded-tr-3xl rounded-tl-3xl">
         <div>
-            <h1 class="text-2xl text-center font-['Orange_Knight']">Fruit Frenzy</h1>
+            <h1 class="text-2xl text-center orangek">Fruit Frenzy</h1>
         </div>
         <div class="border flex flex-row items-center mb-2">
             {#each [slot1, slot2, slot3] as item,i}
@@ -169,28 +159,30 @@
             {/each}
         </div>
         <div class="felx flex-row">
-            <button type="button" class="border" onclick={spin}>{#if spinning}Spinning{:else}Spin{/if}</button>
-            <button type="button" onclick={() => autorun = !autorun}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
-            <div class="bg-black w-auto">
-                <label for="bet">Bet<input type="number" name="bet" bind:value={bet} id="bet"></label>
+            <button type="button" class="border" disabled={spinning || !bet || bet < 0} onclick={spin}>{#if spinning}Spinning{:else}Spin{/if}</button>
+            <button type="button" onclick={() => {autorun = !autorun; if (!spinning) spin();}}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
+            <div class="flex">
+                <span class="inline-flex items-center p-2 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md">BET:</span>
+                <input type="number" min="1" required bind:value={bet} class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 p-2" placeholder="Place your bet!">
             </div>
         </div>
-
-        <table class="w-full text-center hidden">
-            <caption class="text-center caption-top font-bold italic text-lg">Previous spin</caption>
-            <thead>
-                <tr>
-                    <th class="border-r-2">Reel 1</th>
-                    <th class="border-r-2">Reel 2</th>
-                    <th class="border-r-2">Reel 3</th>
-                    <th class="border-r-2">Special</th>
-                    <th class="border-r-2">Bet</th>
-                    <th class="">Gain</th>
-                </tr>
-            </thead>
-            <tbody bind:this={history}></tbody>
-            <tfoot><tr><td colspan="6" class="max-sm:text-[12px] sm:text-md md:text-lg text-wrap">Note: You can view your wins and losses in user statistics.</td></tr></tfoot>
-        </table>
+<!--
+    <table class="w-full text-center hidden">
+        <caption class="text-center caption-top font-bold italic text-lg">Previous spin</caption>
+        <thead>
+            <tr>
+                <th class="border-r-2">Reel 1</th>
+                <th class="border-r-2">Reel 2</th>
+                <th class="border-r-2">Reel 3</th>
+                <th class="border-r-2">Special</th>
+                <th class="border-r-2">Bet</th>
+                <th class="">Gain</th>
+            </tr>
+        </thead>
+        <tbody bind:this={history}></tbody>
+        <tfoot><tr><td colspan="6" class="max-sm:text-[12px] sm:text-md md:text-lg text-wrap">Note: You can view your wins and losses in user statistics.</td></tr></tfoot>
+    </table>
+    -->
     </div>
 </div>
 
@@ -200,5 +192,8 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+    }
+    .orangek {
+        font-family: "Orange_Knight";
     }
 </style>
