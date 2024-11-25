@@ -4,7 +4,20 @@
 
 @font-face{
     font-family: Orange_Knight;
-    src: url("$lib/font/Orange_Knight.ttf") format("ttf");
+    src: url("$lib/font/Orange_Knight.ttf") format("TrueType");
+}
+
+@font-face {
+	font-family: "Borgens Burlesque";
+	src: url("$lib/font/Borgens Burlesque.otf");
+}
+
+.borgens {
+	font-family: 'Borgens Burlesque';
+}
+
+.orangek {
+	font-family: Orange_Knight;
 }
 
 body{

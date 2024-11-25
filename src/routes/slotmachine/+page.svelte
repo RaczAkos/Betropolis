@@ -3,21 +3,13 @@
     import { onMount } from "svelte";
 
     let balance = $state(1000);
-    let slot1:string = $state(""),
-        slot2:string = $state(""),
-        slot3:string = $state(""),
+    let slot1:string = icons[giveRandom()],
+        slot2:string = icons[giveRandom()],
+        slot3:string = icons[giveRandom()],
         bet:number = $state(1),
         autorun:boolean = $state(false),
         spinning:boolean = $state(false),
         history:HTMLElement;
-
-
-    onMount(() => {
-        slot1 = icons[giveRandom()];
-        slot2 = icons[giveRandom()];
-        slot3 = icons[giveRandom()];
-    })
-
     
     function giveRandom() {
         return Math.floor(Math.random() * icons.length);
@@ -149,12 +141,12 @@
 <div class="h-screen flex justify-center items-center text-white select-none background overflow-hidden">
     <div class="border p-2 bg-red-600 rounded-tr-3xl rounded-tl-3xl">
         <div>
-            <h1 class="text-2xl text-center orangek">Fruit Frenzy</h1>
+            <h1 class="text-2xl text-center">Fruit Frenzy</h1>
         </div>
         <div class="border flex flex-row items-center mb-2">
             {#each [slot1, slot2, slot3] as item,i}
             <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip max-sm:h-[108px] max-sm:w-[108px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] relative lg:w-[250px]">
-                <img src={item} alt="slot icon" class="absolute">
+                <img src={item} alt={"Reel "+i} class="absolute">
             </div>
             {/each}
         </div>
@@ -203,8 +195,5 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-    }
-    .orangek {
-        font-family: "Orange_Knight";
     }
 </style>

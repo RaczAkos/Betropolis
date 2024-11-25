@@ -2,7 +2,7 @@
     import logo from "$lib/media/images/logo.png";
 </script>
 
-<footer class="bg-transparent select-none">
+<footer class="bg-transparent select-none borgens">
     <div class="w-full mx-auto md:py-4 p-3 text-yellow-600">
         <div class="sm:flex sm:items-center sm:justify-between md:ps-9">
             <a href="/" class="flex items-center max-md:flex-col mb-0 space-x-3 rtl:space-x-reverse">
@@ -16,14 +16,14 @@
                     <a href="/about" class="hover:underline sm:me-6">About</a>
                 </li>
                 <li>
-                    <a href="/conditions" class="hover:underline sm:me-6">Terms & Conditions</a>
+                    <a href="/terms&conditions" class="hover:underline sm:me-6">Terms & Conditions</a>
                 </li>
                 <li>
-                    <a href="/policy" class="hover:underline sm:me-6">Privacy Policy</a>
+                    <a href="/privacy-policy" class="hover:underline sm:me-6">Privacy Policy</a>
                 </li>
             </ul>
         </div>
         <hr class="sm:mx-auto border-yellow-600 my-4"/>
-        <span class="block text-md  text-center">© 2024-2025 - Tamás Szabó, Rácz Ákos Csaba - All Rights Reserved.</span>
+        <span class="block text-md text-center">© 2025 - Tamás Szabó, Rácz Ákos Csaba - All Rights Reserved.</span>
     </div>
 </footer>
