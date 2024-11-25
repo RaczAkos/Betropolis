@@ -10,6 +10,6 @@
 
 <style>
 	div{
-		background-image: url("$lib/media/images/hub/hubbgblurred.png");
+		background-image: url("$lib/media/images/findcardgame/findcardbg.jfif");
 	}
 </style>

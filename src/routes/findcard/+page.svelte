@@ -6,9 +6,10 @@
     onMount(async () => {
 		let gamearea = document.getElementById("gamearea");
 
-        for (const temp of Object.entries(cards)) {
+        for (const [key, value] of Object.entries(cards)) {
             let card = document.createElement("img");
-            card.classList.add("rounded-2xl");
+            card.classList.add("rounded-2xl", "!h-full", "!w-full");
+            card.id = value.name;
             card.src = cardback;
             gamearea?.append(card);
         }
@@ -16,9 +17,14 @@
     
 
 </script>
-<div class="flex justify-center">
-    <div id="gamearea" class="grid grid-cols-6 gap-4 w-[60%]">
-
+<div class="flex justify-center h-full select-none overflow-y-scroll no-scrollbar">
+    <div class="fixed bottom-0 top-1/3 left-0 w-[15%] items-center">
+        <div class="flex items-center">
+            <img src="{cardback}" alt="" class="border sm:rounded-2xl bg-gray-300" id="example">
+        </div>
+    </div>
+    <div id="gamearea" class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4 px-[20%]">
+        
     </div>
 </div>
 
