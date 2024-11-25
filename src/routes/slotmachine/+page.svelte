@@ -2,6 +2,7 @@
     import icons from "$lib/classicfruits";
     import { onMount } from "svelte";
 
+    let balance = $state(1000);
     let slot1:string = $state(""),
         slot2:string = $state(""),
         slot3:string = $state(""),
@@ -23,7 +24,7 @@
     }
 
     function spin() {
-        
+        balance -= bet;
 
         spinning = true;
 
@@ -128,6 +129,8 @@
             gain = 3 * bet;
         }
 
+        balance += gain;
+
         
         /*document.querySelector("table")?.classList.remove("hidden");
 
@@ -143,10 +146,7 @@
     }
 </script>
 
-<div class="relative bg-black">
-    <img src={slot1} class="absolute h-36 w-36" alt="">
-</div>
-<div class="h-screen flex justify-center items-center text-white select-none background">
+<div class="h-screen flex justify-center items-center text-white select-none background overflow-hidden">
     <div class="border p-2 bg-red-600 rounded-tr-3xl rounded-tl-3xl">
         <div>
             <h1 class="text-2xl text-center orangek">Fruit Frenzy</h1>
@@ -158,12 +158,23 @@
             </div>
             {/each}
         </div>
-        <div class="felx flex-row">
-            <button type="button" class="border" disabled={spinning || !bet || bet < 0} onclick={spin}>{#if spinning}Spinning{:else}Spin{/if}</button>
-            <button type="button" onclick={() => {autorun = !autorun; if (!spinning) spin();}}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
-            <div class="flex">
-                <span class="inline-flex items-center p-2 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md">BET:</span>
-                <input type="number" min="1" required bind:value={bet} class="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 p-2" placeholder="Place your bet!">
+        <div class="flex flex-col gap-2">
+            <div class="flex flex-row gap-2">
+                <button type="button" class="border basis-1/6 p-2 rounded-2xl" disabled={spinning || !bet || bet < 0} onclick={spin}>{#if spinning}Spinning{:else}Spin{/if}</button>
+                <input type="text" class="basis-4/6 p-2 rounded-2xl">
+                <button type="button" class=" border basis-1/6 p-2 rounded-2xl hover:animate-pulse animation" onclick={() => {autorun = !autorun; if (!spinning) spin();}}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
+            </div>
+            <div class="flex flex-row gap-1">
+                <div class="flex basis-1/2">
+                    <span class="inline-flex items-center p-2 text-sm text-gray-900 bg-gray-200 basis-1/6 border rounded-e-0 border-gray-300 border-e-0 rounded-s-2xl justify-center">BET:</span>
+                    <input type="number" min="1" disabled={spinning} bind:value={bet} class="rounded-none basis-5/6 rounded-e-2xl bg-gray-50 border text-gray-900 p-2 text-center" placeholder="Place your bet!">
+                </div>
+                <div class="basis-1/2">
+                    <div class="flex">
+                        <span class="inline-flex items-center p-2 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-2xl basis-1/4 text-center">BALANCE:</span>
+                        <input type="text" min="1" disabled bind:value={balance} class="rounded-none rounded-e-2xl bg-gray-50 border text-gray-900 p-2 text-center basis-3/4" placeholder="Place your bet!">
+                    </div>
+                </div>
             </div>
         </div>
 <!--
