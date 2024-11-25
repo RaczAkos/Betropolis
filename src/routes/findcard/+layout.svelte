@@ -4,7 +4,6 @@
 </script>
 
 
-
 <div class="h-screen bg-center bg-no-repeat bg-cover bg-scroll ">
 	{@render children()}
 </div>
