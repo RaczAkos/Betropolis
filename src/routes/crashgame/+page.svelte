@@ -3,16 +3,16 @@
   import image from "$lib/media/images/gamelogos/crash.png";
 
 
-  let canvas,
-      multiplierDom,
-      cashoutBtn,
-      betBtn,
+  let canvas:any,
+      multiplierDom:any,
+      cashoutBtn:any,
+      betBtn:any,
       running = $state(false),
       amount = $state(0),
-      sad,
+      need:any,
       currentAmount = $state(0);
 
-      function calcOne(e){
+      function calcOne(e:any){
         if (e.target.innerText.length > 3) {
           if (amount >= 2) {
             amount *= parseFloat(e.target.innerText.substr(0 , e.target.innerText.length-1));
@@ -159,7 +159,7 @@
           <!--Define amount-->
           <form class="w-full max-w-sm mb-auto">
             <div class="flex border-b border-yellow-600 py-2">
-              <input bind:value={amount} bind:this={sad} oninput={valuechange} onfocus={() => sad.value = ""} min=1 class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none" type="number" aria-label="Chips">
+              <input bind:value={amount} bind:this={need} oninput={valuechange} onfocus={() => need.value = ""} min=1 class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none" type="number" aria-label="Chips">
               <!--Add/subtract buttons-->
               <span class="control">
                 <button onclick={addAmount} class=" flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" type="button" > 
