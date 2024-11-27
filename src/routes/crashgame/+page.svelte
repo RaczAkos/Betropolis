@@ -1,7 +1,7 @@
 
 <script lang=ts>
   import image from "$lib/media/images/gamelogos/crash.png";
-
+  import chip from "$lib/media/images/chip.png";
 
   let canvas:any,
       multiplierDom:any,
@@ -10,7 +10,8 @@
       running = $state(false),
       amount = $state(0),
       need:any,
-      currentAmount = $state(0);
+      currentAmount = $state(0),
+      balance = $state(1000);
 
       function calcOne(e:any){
         if (e.target.innerText.length > 3) {
@@ -60,7 +61,7 @@
 
     if (running) {
       multiplier += 0.01;
-      if (Math.random() < 0.0005) {
+      if (Math.random() < 0.0015) {
         running = false;
         crashed = true;
         cashoutBtn.disabled = true;
@@ -75,8 +76,9 @@
         controls.forEach(element => {
           if (element != controls[0] && element != controls[1]) {
           element.classList.add("hover:border", "hover:border-yellow-600");
-        }
-      });
+          }
+        });
+        balance -= currentAmount;
       }
     }
 
@@ -112,7 +114,8 @@
     speedY = 2;
     running = false;
     crashed = false;
-    if (!running && !crashed) {
+    if (currentAmount >= 1) {
+      if (!running && !crashed) {
       running = true;
       multiplier = 1.0;
       cashoutBtn.disabled = false;
@@ -125,6 +128,7 @@
         }
       });
       drawGraph();
+    }
     }
   });
 
@@ -142,6 +146,7 @@
           element.classList.add("hover:border", "hover:border-yellow-600");
         }
       });
+      balance += currentAmount * multiplier;
     }
   });
 
@@ -150,70 +155,106 @@
 
 <div class="flex justify-center items-center h-screen select-none bgImg">
   <div class="text-center md:w-[70%]">
-    <div class="game-area shadow-lg shadow-yellow-600">
-      <div class="flex flex-row h-[85%] max-sm:flex-col">
-        <div class="px-5 my-auto max-sm:mb-5">
-          <div class="overflow-clip w-[25vw]">
+    <div class="game-area shadow-lg shadow-yellow-600 overflow-hidden">
+      <div class="flex flex-row h-[85%]">
+        <div class="px-5 my-auto">
+          <div class="overflow-clip w-[25vw] min-w-[200px] mx-auto">
             <img src="{image}" alt="" class="scale-150">
           </div>
-          <!--Define amount-->
+
+          <!-- Define amount -->
           <form class="w-full max-w-sm mb-auto">
             <div class="flex border-b border-yellow-600 py-2">
-              <input bind:value={amount} bind:this={need} oninput={valuechange} onfocus={() => need.value = ""} min=1 class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none" type="number" aria-label="Chips">
-              <!--Add/subtract buttons-->
+              <input
+                bind:value={amount}
+                bind:this={need}
+                oninput={valuechange}
+                onfocus={() => (need.value = "")}
+                min="1"
+                class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+                type="number"
+                aria-label="Chips"
+              >
               <span class="control">
-                <button onclick={addAmount} class=" flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" type="button" > 
+                <button
+                  onclick={addAmount}
+                  class="flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton"
+                  type="button"
+                >
                   <span class="text-xl">&uarr;</span>
                 </button>
               </span>
               <span class="control">
-                <button onclick={subtractAmount} class=" flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton" type="button" >
+                <button
+                  onclick={subtractAmount}
+                  class="flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton"
+                  type="button"
+                >
                   <span class="text-xl">&darr;</span>
                 </button>
               </span>
             </div>
           </form>
 
-
-          <!--Multiplier buttons-->
-          {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
-          <span class="hover:border hover:border-yellow-600 control">
-            <button class="text-yellow-600 ctrlbutton"  onclick={calcOne}>
-            {multiplier}
-            </button>
-          </span>
-          {/each}
-
-          <!--Current chips in-->
-          <div class="text-start max-sm:grid max-sm:grid-cols-2 max-sm:gap-3 max-sm:w-[70%]">
-            <form>
-              <label class="block">
-                <span class="block text-xl font-medium text-yellow-600 py-5 ">Current bet</span>
-                <input bind:value={currentAmount} min=1 class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 max-sm:w-[80%]" type="text" disabled/>
-              </label>
-            </form>
-    
-            <!--Current chips in-->
-            <form class="">
-              <label class="block">
-                <span class="block text-xl font-medium text-yellow-600 py-5">Balance</span>
-                <input class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 max-sm:w-[80%]" type="text" disabled value="0"/>
-              </label>
-            </form>
+          <!-- Multiplier buttons -->
+          <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 ">
+            {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
+            <span class="border border-opacity-0 border-yellow-600 hover:border-opacity-100 flex justify-center rounded-lg">
+              <button class="text-yellow-600 ctrlbutton control" onclick={calcOne}>
+                {multiplier}
+              </button>
+            </span>
+            {/each}
           </div>
-       
-        </div>    
 
-        <!--Moving scale-->
+          <!-- Current Chips an Balance-->
+          <div class="info-container mt-5 w-[80%]">
+            <!-- Current Chips -->
+            <div class="info-item ">
+              <span class="block text-xl font-medium text-yellow-600 text-start">Current bet</span>
+              <div class="flex items-center space-x-2">
+                <input
+                  bind:value={currentAmount}
+                  min="1"
+                  class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                  type="text"
+                  disabled
+                >
+                <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
+              </div>
+            </div>
+
+            <!-- Balance -->
+            <div class="info-item">
+              <span class="block text-xl font-medium text-yellow-600 text-start">Balance</span>
+              <div class="flex items-center space-x-2">
+                <input
+                  bind:value={balance} 
+                  class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                  type="text"
+                  disabled
+                >
+                <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Moving Scale -->
         <div class="grow">
-          <canvas bind:this={canvas} class="border border-yellow-600 h-[80%] sm:h-full" class:shadow-lg = {running} class:shadow-yellow-600 = {running}></canvas>
+          <canvas
+            bind:this={canvas}
+            class="border border-yellow-600 h-full"
+            class:shadow-lg={running}
+            class:shadow-yellow-600={running}
+          ></canvas>
         </div>
       </div>
-      
+
       <div class="info">
-        <!--Multiplier-->
+        <!-- Multiplier -->
         <p id="multiplier" bind:this={multiplierDom}>1.00x</p>
-        <!--Bet/CashOut buttons-->
+        <!-- Bet/CashOut buttons -->
         <button bind:this={betBtn} id="bet-btn">Bet Now</button>
         <button bind:this={cashoutBtn} id="cashout-btn" disabled>Cash Out</button>
       </div>
@@ -223,6 +264,7 @@
     </footer>
   </div>
 </div>
+
 
 
 
@@ -246,6 +288,7 @@
     border-radius: 10px;
     padding: 20px;
     height: 90vh;
+    overflow: hidden;
   }
   
   canvas {
@@ -302,5 +345,14 @@
     font-size: 12px;
     color: #666;
   }
-  
+  .info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 100%;
+  }
+
+  .info-item {
+    width: 100%;
+  }
 </style>

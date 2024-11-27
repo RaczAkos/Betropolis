@@ -3,6 +3,7 @@
     const cardsrecord = import.meta.glob("$lib/media/images/findcardgame/cards/*.png");
     import cardback from "$lib/media/images/findcardgame/cardback.png";
     import frenchcards from "$lib/frenchcards";
+    import chip from "$lib/media/images/chip.png";
 
     //Convert Record to Array
     const cardsarray:any[] = [];
@@ -16,12 +17,13 @@
         rnd = $state(4),
         amount = $state(0),
         need:any,
-        currentAmount = $state(0);
+        currentAmount = $state(1000);
 
     onMount(async () => {
         createTable();
 	});
 
+    //Generate cards
     function createTable(){
         //Clear table
         gamearea.innerHTML = "";
@@ -56,7 +58,6 @@
             target.src = target.id;
         }, 150);
         target.classList.remove("cursor-pointer");
-        target.classList.add("[transform:rotateY(180deg)]");
         target.classList.add("[transform:rotateY(180deg)]");
     }
 
@@ -111,16 +112,32 @@
 <div class="flex justify-center h-full select-none overflow-y-scroll no-scrollbar">
 
     <!--Sidebar-->
-    <div class="fixed bottom-0 inset-y-0 left-0 w-[15%] items-center bg-black">
+    <div class="fixed bottom-0 inset-y-0 left-0 w-[15%] items-center bg-black shadow-[20px_6px_20px_14px_#000000]">
         <div class="flex items-center h-auto"> 
-            <button bind:this={resetBtn} onclick="{resetFunct}" class="resetter w-full h-[100px] bg-transparent enabled:hover:bg-yellow-600 enabled:hover:text-black text-white font-bold py-2 px-4 rounded border border-yellow-600" disabled>Reset</button>  
+            <button bind:this={resetBtn} 
+                    onclick="{resetFunct}" 
+                    class="resetter w-full h-[100px] bg-transparent enabled:hover:bg-yellow-600 enabled:hover:text-black text-white font-bold py-2 px-4 rounded border border-yellow-600" 
+                    disabled>
+              Reset
+            </button>  
         </div>
         <form class="w-full max-w-sm mb-auto">
             <div class="lg:flex border-b border-yellow-600 py-2">
-              <input bind:value={amount} bind:this={need} oninput={valuechange} onfocus={() => need.value = ""} min=1 class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none min-w-[50px]" type="number" aria-label="Chips">
+              <input bind:value={amount}
+                     bind:this={need}
+                     oninput={valuechange} 
+                     onfocus={() => need.value = ""} 
+                     min=1 
+                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none min-w-[50px]" 
+                     type="number" 
+                     aria-label="Chips"
+              >
               <!--Add/subtract buttons-->
               <span class="control">
-                <button onclick={addAmount} class=" bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" type="button" > 
+                <button onclick={addAmount} 
+                        class=" bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" 
+                        type="button"
+                > 
                   <span class="text-xl">&uarr;</span>
                 </button>
               </span>
@@ -133,43 +150,67 @@
           </form>
 
           <!--Multiplier buttons-->
-          <div class="grid max-sm:grid-cols-1 grid-cols-2 lg:grid-cols-3">
+          <div class="grid max-sm:grid-cols-1 grid-cols-2 lg:grid-cols-3 ">
             {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
-            <span class="hover:border hover:border-yellow-600 control">
-              <button class="text-yellow-600 ctrlbutton"  onclick={calcOne}>
-              {multiplier}
-              </button>
-            </span>
+              <div class="border border-opacity-0 border-yellow-600 hover:border-opacity-100 flex justify-center rounded-lg">
+                <button class="text-yellow-600 ctrlbutton control"  onclick={calcOne}>
+                  {multiplier}
+                </button>
+              </div>
             {/each}
           </div>
           
-
-          <!--Current chips in-->
+          <!-- Current Chips In -->
           <div class="text-start">
             <form>
-              <label class="block">
-                <span class="block text-xl font-medium text-yellow-600 py-5 ">Current bet</span>
-                <input bind:value={currentAmount} min=1 class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" type="text" disabled/>
-              </label>
+                <label class="block">
+                    <span class="block text-xl font-medium text-yellow-600 py-5">Current bet</span>
+                    <div class="flex items-center space-x-2">
+                        <input 
+                            bind:value={currentAmount} 
+                            min="1" 
+                            class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" 
+                            type="text" 
+                            disabled
+                        >
+                        <img src="{chip}" alt="chip" class="w-[30px]">
+                    </div>
+                </label>
             </form>
-    
-            <!--Current chips in-->
-            <form class="">
-              <label class="block">
-                <span class="block text-xl font-medium text-yellow-600 py-5">Balance</span>
-                <input class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" type="text" disabled value="0"/>
-              </label>
+
+            <!-- Balance -->
+            <form>
+                <label class="block">
+                    <span class="block text-xl font-medium text-yellow-600 py-5">Balance</span>
+                    <div class="flex items-center space-x-2">
+                        <input 
+                            class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" 
+                            type="text" 
+                            disabled 
+                            value="1000"
+                        >
+                        <img src="{chip}" alt="chip" class="w-[30px]">
+                    </div>
+                </label>
             </form>
           </div>
     </div>
+
+    <!--Example card-->
     <div class="fixed bottom-0 left-0 w-[15%] items-center">
         <div class="flex items-center h-auto"> 
-            <img bind:this={example} src="" alt="" class="border sm:rounded-2xl bg-gray-300">
+            <img bind:this={example} 
+                 src="" 
+                 alt="" 
+                 class="border rounded-2xl bg-gray-300"
+            >
         </div>
     </div>
 
     <!--Gamearea-->
-    <div bind:this={gamearea} class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4 ps-[20%] pe-[5%] w-auto">
+    <div bind:this={gamearea} 
+         class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4 ps-[20%] pe-[5%] w-auto"
+    >
     </div>
 </div>
 
@@ -180,7 +221,6 @@ button:not(.resetter) {
     padding: 10px 20px;
     font-size: 16px;
     font-weight: bold;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
   }
