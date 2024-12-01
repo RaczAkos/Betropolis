@@ -63,10 +63,10 @@ body{
 }
 @keyframes move {
 	from {
-		top: -100px;
+		top: -60px;
 	}
 	to {
-		top: 100px;
+		top: 60px;
 	}
 }
 
