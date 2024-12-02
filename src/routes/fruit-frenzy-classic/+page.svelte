@@ -1,7 +1,9 @@
 <script lang="ts">
     import icons from "$lib/classicfruits";
+    import chip from "$lib/media//images/chip.png";
+    import { onMount } from "svelte";
 
-    let balance = $state(1000);
+    let balance = $state(10000);
     let slot1:string = icons[giveRandom(icons)],
         slot2:string = icons[giveRandom(icons)],
         slot3:string = icons[giveRandom(icons)],
@@ -9,6 +11,11 @@
         bet:number = $state(1),
         autorun:boolean = $state(false),
         spinning:boolean = $state(false);
+
+    onMount(() => {
+        feedback = "Start spinning!";
+        check();
+    })
 
     function giveRandom(array:string[]) {
         return Math.floor(Math.random() * array.length);
@@ -113,32 +120,32 @@
         if (fruit1.indexOf("golden") != -1 && fruit2.indexOf("golden") != -1 && fruit3.indexOf("golden") != -1) {
             if (!autorun) output("GOLDEN FRUIT FRENZY!!!", 4);
             else feedback = "GOLDEN FRUIT FRENZY!!!";
-            gain = 500 * bet;
+            gain = 501 * bet;
         }
         else if (fruit1.indexOf("golden") != -1 && fruit2.indexOf("golden") != -1) {
             if (!autorun) output("Double Golden Fruit!!!", 3);
             else feedback = "Double Golden Fruit!!!";
-            gain = 10 * bet;
+            gain = 11 * bet;
         }
         else if (fruit1.indexOf("golden") != -1 && fruit3.indexOf("golden") != -1) {
             if (!autorun) output("Double Golden Fruit!!!", 3);
             else feedback = "Double Golden Fruit!!!";
-            gain = 10 * bet;
+            gain = 11 * bet;
         }
         else if (fruit2.indexOf("golden") != -1 && fruit3.indexOf("golden") != -1) {
             if (!autorun) output("Double Golden Fruit!!!", 3);
             else feedback = "Double Golden Fruit!!!";            
-            gain = 10 * bet;
+            gain = 11 * bet;
         }
         else if (fruit1 == fruit2 && fruit1 == fruit3) {
             if (!autorun) output("FRUIT FRENZY!!!", 3);
             else feedback = "FRUIT FRENZY!!!";
-            gain = 100 * bet;
+            gain = 101 * bet;
         }
         else if (fruit1 == fruit2 || fruit1 == fruit3 || fruit2 == fruit3) {
             if (!autorun) output("Double Fruit!!", 1);
             else feedback = "Double Fruit!!";
-            gain = 3 * bet;
+            gain = 4 * bet;
         }
         else feedback = quips[giveRandom(quips)];
 
@@ -146,7 +153,7 @@
 
         balance += gain;
 
-        setTimeout(() => {if (autorun){spin()} else spinning = false;}, 500)
+        setTimeout(() => {if (autorun && balance !> 1){spin()} else {spinning = false; if (autorun) autorun = false}}, 500)
     }
 
     function output(feed:string, type:number) {
@@ -206,11 +213,11 @@
 </script>
 
 <div class="h-screen flex justify-center items-center text-white select-none background overflow-hidden">
-    <div class="border p-2 bg-red-600 rounded-3xl">
+    <div class="border p-2 bg-red-600 sm:rounded-3xl">
         <div>
             <h1 class="text-5xl text-center orangek font-bold">Fruit Frenzy</h1>
         </div>
-        <div class="border flex flex-row items-center mb-2">
+        <div class="border flex flex-row items-center mb-2 select-none">
             {#each [slot1, slot2, slot3] as item,i}
             <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip max-sm:h-[120px] max-sm:w-[120px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] relative lg:w-[250px]">
                 <img src={item} alt={"Reel "+i} class="absolute">
@@ -218,42 +225,28 @@
             {/each}
         </div>
         <div class="flex flex-col gap-2">
-            <input type="text" disabled class="p-2 rounded-2xl sm:hidden text-center" bind:value={feedback}>
-            <div class="flex flex-row gap-2 orangek">
-                <button type="button" class="border basis-1/4 p-1 text-lg rounded-2xl max-sm:basis-1/2 disabled:bg-black" disabled={spinning || !bet || bet < 0 || balance < bet} onclick={spin}>Spin</button>
-                <input type="text" disabled class="basis-2/4 p-1 text-lg rounded-2xl max-sm:hidden text-center" bind:value={feedback}>
-                <button type="button" class=" border basis-1/4 p-1 text-lg rounded-2xl hover:animate-pulse animation max-sm:basis-1/2" disabled={!bet || bet < 0 || balance < bet} onclick={() => {autorun = !autorun; if (!spinning) spin();}}>{#if autorun}Stop Autorun{:else}Autorun{/if}</button>
+            <input type="text" disabled class="basis-2/4 text-3xl rounded-2xl sm:hidden text-center orangek pointer-events-none border" bind:value={feedback} class:animate-pulse={spinning}>
+            <div class="flex flex-row gap-2 orangek select-none">
+                <button type="button" class="border basis-1/4 text-3xl rounded-2xl max-sm:basis-1/2 disabled:bg-black hover:scale-[1.05] disabled:hover:scale-100 duration-300" class:animate-pulse={spinning} disabled={spinning || !bet || bet < 0 || balance < bet} onclick={spin}>Spin</button>
+                <input type="text" disabled class="basis-2/4 text-3xl rounded-2xl max-sm:hidden text-center pointer-events-none border" bind:value={feedback} class:animate-pulse={spinning}>
+                <button type="button" class=" border basis-1/4 text-3xl rounded-2xl animation max-sm:basis-1/2 hover:scale-[1.05] duration-300" class:animate-pulse={autorun} disabled={!bet || bet < 0 || balance < bet} onclick={() => {autorun = !autorun; if (!spinning) spin();}}>{#if autorun}Autorun On{:else}Autorun{/if}</button>
             </div>
-            <div class="flex flex-row max-md:flex-col gap-1">
+            <div class="flex flex-row max-lg:flex-col gap-1">
                 <div class="flex basis-1/2">
-                    <span class="inline-flex items-center py-2 text-sm text-gray-900 bg-gray-200 basis-1/4 border rounded-e-0 border-gray-300 border-e-0 rounded-s-2xl justify-center">BET:</span>
-                    <input type="number" min="1" max={balance} disabled={spinning} bind:value={bet} class="rounded-none basis-3/4 rounded-e-2xl bg-gray-50 border text-gray-900 py-2 pe-1 text-center" placeholder="Place your bet!">
+                    <span class="inline-flex items-center text-2xl  bg-red-300 basis-1/4 border rounded-e-0  border-e-0 rounded-s-2xl justify-center orangek">BET:</span>
+                    <input type="number" min="1" max={balance} disabled={spinning} bind:value={bet} class="rounded-none basis-3/4 rounded-e-2xl bg-red-50 border text-gray-900 py-2 pe-1 text-center" placeholder="Place your bet!">
                 </div>
                 <div class="basis-1/2">
                     <div class="flex">
-                        <span class="inline-flex items-center py-2 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-2xl basis-1/4 justify-center">BALANCE:</span>
-                        <input type="text" min="1" disabled bind:value={balance} class="rounded-none rounded-e-2xl bg-gray-50 border text-gray-900 py-2 text-center basis-3/4" placeholder="Place your bet!">
+                        <span class="inline-flex items-center text-2xl px-1 bg-red-300 border rounded-e-0 border-e-0 rounded-s-2xl basis-3/12 justify-center orangek">BALANCE:</span>
+                        <input type="text" min="1" disabled bind:value={balance} class="rounded-none bg-red-50 border border-e-0 text-gray-900 py-2 text-center basis-[63%]" placeholder="Place your bet!">
+                        <span class="inline-flex items-center text-2xl px-1 bg-red-50 border border-s-0 rounded-e-2xl basis-[12%] justify-end orangek"><img src={chip} alt="chip" class="h-8"></span>
                     </div>
                 </div>
             </div>
+            
+        <span class="block text-sm text-center border-t text-wrap">Betropolis Casino</span>
         </div>
-<!--
-    <table class="w-full text-center hidden">
-        <caption class="text-center caption-top font-bold italic text-lg">Previous spin</caption>
-        <thead>
-            <tr>
-                <th class="border-r-2">Reel 1</th>
-                <th class="border-r-2">Reel 2</th>
-                <th class="border-r-2">Reel 3</th>
-                <th class="border-r-2">Special</th>
-                <th class="border-r-2">Bet</th>
-                <th class="">Gain</th>
-            </tr>
-        </thead>
-        <tbody bind:this={history}></tbody>
-        <tfoot><tr><td colspan="6" class="max-sm:text-[12px] sm:text-md md:text-lg text-wrap">Note: You can view your wins and losses in user statistics.</td></tr></tfoot>
-    </table>
-    -->
     </div>
 </div>
 
