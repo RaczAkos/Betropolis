@@ -253,7 +253,7 @@
 
       <div class="info">
         <!-- Multiplier -->
-        <p id="multiplier" bind:this={multiplierDom}>1.00x</p>
+        <p id="multiplier" class="dracutaz" bind:this={multiplierDom}>1.00x</p>
         <!-- Bet/CashOut buttons -->
         <button bind:this={betBtn} id="bet-btn">Bet Now</button>
         <button bind:this={cashoutBtn} id="cashout-btn" disabled>Cash Out</button>

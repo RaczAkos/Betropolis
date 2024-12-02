@@ -12,6 +12,16 @@
 	src: url("$lib/font/Borgens Burlesque.otf");
 }
 
+@font-face {
+	font-family: "Dracutaz";
+	src: url("$lib/font/Dracutaz.otf"),
+		 url("$lib/font/Dracutaz.ttf") format("TrueType");
+}
+
+.dracutaz {
+	font-family: 'Dracutaz';
+}
+
 .borgens {
 	font-family: 'Borgens Burlesque';
 }
