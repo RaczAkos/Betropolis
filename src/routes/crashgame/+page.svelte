@@ -48,19 +48,28 @@
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
 
-  let   multiplier = 1.0,
+  let   multiplier = 0.0,
           crashed = false,
           offsetX = 0,
           offsetY = 0,
           speedX = -2,
-          speedY = 2;
+          speedY = 2,
+          even = 0;
 
   // Animation loop
   function drawGraph() {
     
 
     if (running) {
-      multiplier += 0.01;
+      if(multiplier >= 1){
+        if(even % 3 == 0){
+          multiplier += 0.01;
+        }
+      }
+      else{
+        multiplier += 0.01;
+      }
+      even++;
       if (Math.random() < 0.0015) {
         running = false;
         crashed = true;
@@ -72,10 +81,8 @@
         betBtn.removeAttribute("disabled");
         ctrlbuttons.forEach(temp => {
           temp.removeAttribute("disabled");
-        });
-        controls.forEach(element => {
-          if (element != controls[0] && element != controls[1]) {
-          element.classList.add("hover:border", "hover:border-yellow-600");
+          if (temp != ctrlbuttons[0] && temp != ctrlbuttons[1]) {
+          temp.classList.add("hover:border", "hover:border-yellow-600");
           }
         });
         balance -= currentAmount;
@@ -85,7 +92,7 @@
     // Draw line
     ctx.beginPath();
     ctx.moveTo(0, canvas.height);
-    if (multiplier <= 5) {
+    if (multiplier <= 5 || multiplier <= 1) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.lineTo((canvas.width / 10) * multiplier, canvas.height - (canvas.height / 10) * multiplier);
     }
@@ -117,7 +124,7 @@
     if (currentAmount >= 1) {
       if (!running && !crashed) {
       running = true;
-      multiplier = 1.0;
+      multiplier = 0.0;
       cashoutBtn.disabled = false;
       ctrlbuttons.forEach(temp => {
           temp.setAttribute("disabled", "true");
@@ -153,7 +160,7 @@
 });
 </script>
 
-<div class="flex justify-center items-center h-screen select-none bgImg">
+<div class="flex justify-center items-center h-screen select-none bgImg dracutaz">
   <div class="text-center md:w-[70%]">
     <div class="game-area shadow-lg shadow-yellow-600 overflow-hidden">
       <div class="flex flex-row h-[85%]">
@@ -214,8 +221,8 @@
               <span class="block text-xl font-medium text-yellow-600 text-start">Current bet</span>
               <div class="flex items-center space-x-2">
                 <input
-                  bind:value={currentAmount}
-                  min="1"
+                  bind:value={currentAmount} 
+                  min="1" 
                   class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
                   type="text"
                   disabled
@@ -253,7 +260,7 @@
 
       <div class="info">
         <!-- Multiplier -->
-        <p id="multiplier" class="dracutaz" bind:this={multiplierDom}>1.00x</p>
+        <p id="multiplier" bind:this={multiplierDom}>1.00x</p>
         <!-- Bet/CashOut buttons -->
         <button bind:this={betBtn} id="bet-btn">Bet Now</button>
         <button bind:this={cashoutBtn} id="cashout-btn" disabled>Cash Out</button>
@@ -325,6 +332,7 @@
   #bet-btn {
     background-color: #28a745;
     color: #fff;
+    font-size: 20px;
   }
   
   #bet-btn:hover {
@@ -334,6 +342,7 @@
   #cashout-btn {
     background-color: #dc3545;
     color: #fff;
+    font-size: 20px;
   }
   
   #cashout-btn:hover {
