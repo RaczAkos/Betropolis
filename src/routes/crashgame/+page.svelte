@@ -2,6 +2,7 @@
 <script lang="ts">
   import image from "$lib/media/images/gamelogos/crash.png";
   import chip from "$lib/media/images/chip.png";
+  import target from "$lib/media/images/crashgame/crosshair.png";
 
   let canvas: any,
     multiplierDom: any,
@@ -181,7 +182,7 @@
             <img src="{image}" alt="" class="scale-150">
           </div>
           <!-- Define amount -->
-          <form class="w-full max-w-sm mb-auto pb-2">
+          <form class="w-full max-w-sm mb-4">
             <div class="flex border-b border-yellow-600 py-2">
               <input
                 bind:value={amount}
@@ -191,7 +192,8 @@
                 min="1"
                 class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
                 type="number"
-                aria-label="Chips"
+                aria-label="Chips to add" 
+                placeholder="Chips to add"
               >
               <span>
                 <button
@@ -213,85 +215,90 @@
               </span>
             </div>
             <div class="flex border-b border-yellow-600 py-2">
-              <!-- Új input mező a cél szorzó megadásához -->
-              <input
-                bind:value={targetMultiplier}
-                class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
-                type="number"
-                aria-label="Target Multiplier"
-                placeholder="Target Multiplier"
-                step="0.1"
-                min="1"
-              >
-            </div>
-          </form>
-
-          <!-- Multiplier buttons -->
-          <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-            {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
-              <button class="text-yellow-600 ctrlbutton firetext fireborder" onclick={calcOne}>
-                {multiplier}
-              </button>
-            {/each}
-          </div>
-
-          <!-- Current Chips and Balance-->
-          <div class="info-container mt-5 w-[80%]">
-            <!-- Current Chips -->
-            <div class="info-item">
-              <span class="block text-xl font-medium text-yellow-600 text-start">Current bet</span>
-              <div class="flex items-center space-x-2">
-                <input
-                  bind:value={currentAmount}
-                  min="1"
-                  class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
-                  type="text"
-                  disabled
-                >
-                <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
+              <!-- Target Multiplier -->
+              <div class="info-item">
+                <div class="flex items-center space-x-2">
+                  <input
+                    bind:value={targetMultiplier}
+                    class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+                    type="number"
+                    aria-label="Target Multiplier"
+                    placeholder="Target Multiplier"
+                    step="0.1"
+                    min="1"
+                  >
+                  <img src="{target}" alt="chip" class="w-[30px] max-sm:hidden">
+                </div>
               </div>
             </div>
+            </form>
 
-            <!-- Balance -->
-            <div class="info-item">
-            <span class="block text-xl font-medium text-yellow-600 text-start">Balance</span>
-            <div class="flex items-center space-x-2">
-              <input
-                bind:value={balance}
-                class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
-                type="text"
-                disabled
-              >
-              <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
+            <!-- Multiplier buttons -->
+            <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+              {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
+                <button class="text-yellow-600 ctrlbutton firetext fireborder" onclick={calcOne}>
+                  {multiplier}
+                </button>
+              {/each}
+            </div>
+
+            <!-- Current Chips and Balance-->
+            <div class="info-container mt-5 w-[80%]">
+              <!-- Current Chips -->
+              <div class="info-item">
+                <span class="block text-xl font-medium text-yellow-600 text-start">Current bet</span>
+                <div class="flex items-center space-x-2">
+                  <input
+                    bind:value={currentAmount}
+                    min="1"
+                    class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                    type="text"
+                    disabled
+                  >
+                  <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
+                </div>
+              </div>
+
+              <!-- Balance -->
+              <div class="info-item">
+                <span class="block text-xl font-medium text-yellow-600 text-start">Balance</span>
+                <div class="flex items-center space-x-2">
+                  <input
+                    bind:value={balance}
+                    class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                    type="text"
+                    disabled
+                  >
+                  <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
+                </div>
+              </div>
             </div>
           </div>
+
+        <!-- Moving Scale -->
+        <div class="grow items-center max-md:ps-1">
+          <p class='text-center text-red-600 text-[120px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>Crashed at {multiplier.toFixed(2)}x!</p>
+          <canvas
+            bind:this={canvas}
+            class="h-full fireborder"
+            class:shadow-lg={running}
+            class:shadow-yellow-600={running}
+          ></canvas>
         </div>
       </div>
 
-      <!-- Moving Scale -->
-      <div class="grow items-center max-md:ps-1">
-        <p class='text-center text-red-600 text-[120px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>Crashed at {multiplier.toFixed(2)}x!</p>
-        <canvas
-          bind:this={canvas}
-          class="h-full fireborder"
-          class:shadow-lg={running}
-          class:shadow-yellow-600={running}
-        ></canvas>
+      <div class="info">
+        <!-- Multiplier -->
+        <p id="multiplier" class="text-yellow-600 text-[24px] font-bold mb-[10px]" bind:this={multiplierDom}>{multiplier}x</p>
+        <!-- Bet/CashOut buttons -->
+        <button bind:this={betBtn} id="bet-btn">Bet Now</button>
+        <button bind:this={cashoutBtn} id="cashout-btn" disabled>Cash Out</button>
       </div>
     </div>
-
-    <div class="info">
-      <!-- Multiplier -->
-      <p id="multiplier" class="text-yellow-600 text-[24px] font-bold mb-[10px]" bind:this={multiplierDom}>{multiplier}x</p>
-      <!-- Bet/CashOut buttons -->
-      <button bind:this={betBtn} id="bet-btn">Bet Now</button>
-      <button bind:this={cashoutBtn} id="cashout-btn" disabled>Cash Out</button>
-    </div>
+    <footer>
+      <p>© 2024 Betropolis. Gamble responsibly.</p>
+    </footer>
   </div>
-  <footer>
-    <p>© 2024 Betropolis. Gamble responsibly.</p>
-  </footer>
-</div>
 </div>
 
   
@@ -310,7 +317,7 @@
   }
 
   .bgImg{
-    background-image: url("../../lib/media/images/crashgame/asd.jfif") !important;
+    background-image: url("../../lib/media/images/crashgame/dragon.jfif") !important;
     background-size: cover;
   }
 
