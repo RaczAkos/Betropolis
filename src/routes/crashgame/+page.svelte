@@ -1,57 +1,56 @@
-
 <script lang="ts">
   import image from "$lib/media/images/gamelogos/crash.png";
   import chip from "$lib/media/images/chip.png";
   import target from "$lib/media/images/crashgame/crosshair.png";
 
   let canvas: any,
-    multiplierDom: any,
-    cashoutBtn: any,
-    betBtn: any,
-    running = $state(false),
-    amount = $state(0),
-    need: any,
-    currentAmount = $state(0),
-    balance = $state(1000),
-    multiplier = $state(0.0),
-    targetMultiplier = $state(2.0),
-    cashedOut = $state(false);
+      multiplierDom: any,
+      cashoutBtn: any,
+      betBtn: any,
+      running = $state(false),
+      amount = $state(0),
+      need: any,
+      currentAmount = $state(0),
+      balance = $state(1000),
+      multiplier = $state(0.0),
+      targetMultiplier = $state(2.0),
+      cashedOut = $state(false);
 
-  function calcOne(e: any) {
-    if (e.target.innerText.length > 3) {
-      if (amount >= 2) {
-        amount *= parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1));
-      }
-    } else {
-      amount *= parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1));
+function calcOne(e: any) {
+  if (e.target.innerText.length > 3) {
+    if (amount >= 2) {
+      amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
     }
-    valuechange();
+  } else {
+    amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
   }
+  valuechange();
+}
 
-  function valuechange() {
-    amount = Math.round(amount);
+function valuechange() {
+  amount = Math.round(amount);
+}
+
+function addAmount() {
+  currentAmount = Math.round(currentAmount + amount);
+}
+
+function subtractAmount() {
+  if (currentAmount - amount >= 0) {
+    currentAmount = Math.round(currentAmount - amount);
   }
+}
 
-  function addAmount() {
-    currentAmount += amount;
-  }
-
-  function subtractAmount() {
-    if (currentAmount - amount >= 0) {
-      currentAmount -= amount;
-    }
-  }
-
-  $effect(() => {
-    const ctx = canvas.getContext("2d");
-    let ctrlbuttons = document.querySelectorAll(".ctrlbutton"),
+$effect(() => {
+  const ctx = canvas.getContext("2d");
+  let ctrlbuttons = document.querySelectorAll(".ctrlbutton"),
       crashText = document.querySelector("#crashText");
 
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
 
-    multiplier = 0.0;
-    let crashed = false,
+  multiplier = 0.0;
+  let crashed = false,
       offsetX = 0,
       offsetY = 0,
       speedX = -2,
@@ -59,80 +58,80 @@
       even = 0,
       stopadding = false;
 
-    // Animation loop
-    function drawGraph() {
-      if (running) {
-        if (multiplier >= 1) {
-          if (even % 3 === 0) {
-            multiplier += 0.01;
-          }
-        } else {
+  // Animation loop
+  function drawGraph() {
+    if (running) {
+      if (multiplier >= 1) {
+        if (even % 3 === 0) {
           multiplier += 0.01;
         }
-        even++;
-        if (Math.random() < 0.0015) {
-          if (crashText) {
-            crashText.classList.remove("hidden");
-          }
-          multiplierDom.classList.remove("text-yellow-600");
-          multiplierDom.classList.add("text-red-600");
-          crashed = true;
-          cashoutBtn.disabled = true;
-          offsetX = 0;
-          offsetY = 0;
-          speedX = 0;
-          speedY = 0;
-          betBtn.removeAttribute("disabled");
-          ctrlbuttons.forEach((temp) => {
-            temp.removeAttribute("disabled");
-            if (temp !== ctrlbuttons[0] && temp !== ctrlbuttons[1]) {
-              temp.classList.add("hover:border", "hover:border-yellow-600");
-            }
-          });
-          if (!cashedOut) {
-            balance -= currentAmount;
-          }
-          running = false;
-        }
-        // Check if multiplier reached target, stop if yes 
-        if (multiplier >= targetMultiplier) {
-          betBtn.removeAttribute("disabled"); 
-          cashoutBtn.disabled = true; 
-          ctrlbuttons.forEach((temp) => { 
-            temp.removeAttribute("disabled"); 
-          }); 
-          if (!stopadding) {
-            balance += currentAmount * multiplier;
-            stopadding = true;
-            cashedOut = true;
-          }
-        }
-      }
-
-      // Draw line
-      ctx.beginPath();
-      ctx.moveTo(0, canvas.height);
-      if (multiplier <= 5 || multiplier <= 1) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.lineTo((canvas.width / 10) * multiplier, canvas.height - (canvas.height / 10) * multiplier);
       } else {
-        offsetX += speedX;
-        offsetY += speedY;
-        canvas.style.backgroundPosition = `${offsetX}px ${offsetY}px`;
+        multiplier += 0.01;
       }
-
-      ctx.strokeStyle = "#00FF00";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      multiplierDom.textContent = multiplier.toFixed(2) + "x";
-
-      if (running && !crashed) requestAnimationFrame(drawGraph);
+      even++;
+      if (Math.random() < 0.0015) {
+        if (crashText) {
+          crashText.classList.remove("hidden");
+        }
+        multiplierDom.classList.remove("text-yellow-600");
+        multiplierDom.classList.add("text-red-600");
+        crashed = true;
+        cashoutBtn.disabled = true;
+        offsetX = 0;
+        offsetY = 0;
+        speedX = 0;
+        speedY = 0;
+        betBtn.removeAttribute("disabled");
+        ctrlbuttons.forEach((temp) => {
+          temp.removeAttribute("disabled");
+          if (temp !== ctrlbuttons[0] && temp !== ctrlbuttons[1]) {
+            temp.classList.add("hover:border", "hover:border-yellow-600");
+          }
+        });
+        if (!cashedOut) {
+          balance = Math.round(balance - currentAmount);
+        }
+        running = false;
+      }
+      // Check if multiplier reached target, stop if yes
+      if (multiplier >= targetMultiplier) {
+        betBtn.removeAttribute("disabled");
+        cashoutBtn.disabled = true;
+        ctrlbuttons.forEach((temp) => {
+          temp.removeAttribute("disabled");
+        });
+        if (!stopadding) {
+          balance = Math.round(balance + currentAmount * multiplier);
+          stopadding = true;
+          cashedOut = true;
+        }
+      }
+    }
+    // Draw line
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height);
+    if (multiplier <= 5 || multiplier <= 1) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.lineTo((canvas.width / 10) * multiplier, canvas.height - (canvas.height / 10) * multiplier);
+    } else {
+      offsetX += speedX;
+      offsetY += speedY;
+      canvas.style.backgroundPosition = `${offsetX}px ${offsetY}px`;
     }
 
-    // Start the game
-    betBtn.addEventListener("click", () => {
-      if (currentAmount >= 1) {
+    ctx.strokeStyle = "#00FF00";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    multiplierDom.textContent = multiplier.toFixed(2) + "x";
+
+    if (running && !crashed) requestAnimationFrame(drawGraph);
+  }
+
+  // Start the game
+  betBtn.addEventListener("click", () => {
+    if (currentAmount >= 1) {
+      if (balance - currentAmount >= 0) {
         running = false;
         crashed = false;
         cashedOut = false;
@@ -155,22 +154,23 @@
           drawGraph();
         }
       }
-    });
-
-    // Cash out
-    cashoutBtn.addEventListener("click", () => {
-      if (running) {
-        betBtn.removeAttribute("disabled");
-        cashoutBtn.disabled = true;
-        cashedOut = true;
-        balance += currentAmount * multiplier;
-        ctrlbuttons.forEach((temp) => {
-          temp.removeAttribute("disabled");
-        });
-        crashed = true;
-      }
-    });
+    }
   });
+
+  // Cash out
+  cashoutBtn.addEventListener("click", () => {
+    if (running) {
+      betBtn.removeAttribute("disabled");
+      cashoutBtn.disabled = true;
+      cashedOut = true;
+      balance = Math.round(balance + currentAmount * multiplier);
+      ctrlbuttons.forEach((temp) => {
+        temp.removeAttribute("disabled");
+      });
+      crashed = true;
+    }
+  });
+});
 </script>
 
 <div class="flex justify-center items-center h-screen select-none bgImg dracutaz">
