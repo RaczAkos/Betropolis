@@ -1,176 +1,187 @@
 
-<script lang=ts>
+<script lang="ts">
   import image from "$lib/media/images/gamelogos/crash.png";
   import chip from "$lib/media/images/chip.png";
 
-  let canvas:any,
-      multiplierDom:any,
-      cashoutBtn:any,
-      betBtn:any,
-      running = $state(false),
-      amount = $state(0),
-      need:any,
-      currentAmount = $state(0),
-      balance = $state(1000);
+  let canvas: any,
+    multiplierDom: any,
+    cashoutBtn: any,
+    betBtn: any,
+    running = $state(false),
+    amount = $state(0),
+    need: any,
+    currentAmount = $state(0),
+    balance = $state(1000),
+    multiplier = $state(0.0),
+    targetMultiplier = $state(2.0),
+    cashedOut = $state(false);
 
-      function calcOne(e:any){
-        if (e.target.innerText.length > 3) {
-          if (amount >= 2) {
-            amount *= parseFloat(e.target.innerText.substr(0 , e.target.innerText.length-1));
-          }
-        }
-        else{
-          amount *= parseFloat(e.target.innerText.substr(0 , e.target.innerText.length-1));
-        }
-        valuechange();
+  function calcOne(e: any) {
+    if (e.target.innerText.length > 3) {
+      if (amount >= 2) {
+        amount *= parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1));
       }
+    } else {
+      amount *= parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1));
+    }
+    valuechange();
+  }
 
-      function valuechange() {
-        amount = Math.round(amount)
-      }
+  function valuechange() {
+    amount = Math.round(amount);
+  }
 
-      function addAmount(){
-        currentAmount += amount;
-      }
+  function addAmount() {
+    currentAmount += amount;
+  }
 
-      function subtractAmount(){
-        if ((currentAmount - amount) >= 0) {
-          currentAmount -= amount;
-        }
-      }
-  
-  
+  function subtractAmount() {
+    if (currentAmount - amount >= 0) {
+      currentAmount -= amount;
+    }
+  }
+
   $effect(() => {
-  const ctx = canvas.getContext("2d");
-  let controls = document.querySelectorAll(".control"),
-      ctrlbuttons = document.querySelectorAll(".ctrlbutton");
+    const ctx = canvas.getContext("2d");
+    let ctrlbuttons = document.querySelectorAll(".ctrlbutton"),
+      crashText = document.querySelector("#crashText");
 
-  canvas.width = canvas.clientWidth;
-  canvas.height = canvas.clientHeight;
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
 
-  let   multiplier = 0.0,
-          crashed = false,
-          offsetX = 0,
-          offsetY = 0,
-          speedX = -2,
-          speedY = 2,
-          even = 0;
+    multiplier = 0.0;
+    let crashed = false,
+      offsetX = 0,
+      offsetY = 0,
+      speedX = -2,
+      speedY = 2,
+      even = 0,
+      stopadding = false;
 
-  // Animation loop
-  function drawGraph() {
-    
-
-    if (running) {
-      if(multiplier >= 1){
-        if(even % 3 == 0){
+    // Animation loop
+    function drawGraph() {
+      if (running) {
+        if (multiplier >= 1) {
+          if (even % 3 === 0) {
+            multiplier += 0.01;
+          }
+        } else {
           multiplier += 0.01;
         }
-      }
-      else{
-        multiplier += 0.01;
-      }
-      even++;
-      if (Math.random() < 0.0015) {
-        running = false;
-        crashed = true;
-        cashoutBtn.disabled = true;
-        offsetX = 0;
-        offsetY = 0;
-        speedX = 0;
-        speedY = 0;
-        betBtn.removeAttribute("disabled");
-        ctrlbuttons.forEach(temp => {
-          temp.removeAttribute("disabled");
-          if (temp != ctrlbuttons[0] && temp != ctrlbuttons[1]) {
-          temp.classList.add("hover:border", "hover:border-yellow-600");
+        even++;
+        if (Math.random() < 0.0015) {
+          if (crashText) {
+            crashText.classList.remove("hidden");
           }
-        });
-        balance -= currentAmount;
-      }
-    }
-
-    // Draw line
-    ctx.beginPath();
-    ctx.moveTo(0, canvas.height);
-    if (multiplier <= 5 || multiplier <= 1) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.lineTo((canvas.width / 10) * multiplier, canvas.height - (canvas.height / 10) * multiplier);
-    }
-    else{
-      offsetX += speedX;
-      offsetY += speedY;
-      canvas.style.backgroundPosition = `${offsetX}px ${offsetY}px`;
-    }
-
-    ctx.strokeStyle = "#00FF00";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    multiplierDom.textContent = multiplier.toFixed(2) + "x";
-
-    if (running) requestAnimationFrame(drawGraph);
-  }
-  // Function end
-
-  // Start the game
-  betBtn.addEventListener("click", () => {
-    betBtn.setAttribute("disabled", "true");
-    offsetX = 0;
-    offsetY = 0;
-    speedX = -2;
-    speedY = 2;
-    running = false;
-    crashed = false;
-    if (currentAmount >= 1) {
-      if (!running && !crashed) {
-      running = true;
-      multiplier = 0.0;
-      cashoutBtn.disabled = false;
-      ctrlbuttons.forEach(temp => {
-          temp.setAttribute("disabled", "true");
-        });
-      controls.forEach(element => {
-        if (element != controls[0] && element != controls[1]) {
-          element.classList.remove("hover:border", "hover:border-yellow-600");
+          multiplierDom.classList.remove("text-yellow-600");
+          multiplierDom.classList.add("text-red-600");
+          crashed = true;
+          cashoutBtn.disabled = true;
+          offsetX = 0;
+          offsetY = 0;
+          speedX = 0;
+          speedY = 0;
+          betBtn.removeAttribute("disabled");
+          ctrlbuttons.forEach((temp) => {
+            temp.removeAttribute("disabled");
+            if (temp !== ctrlbuttons[0] && temp !== ctrlbuttons[1]) {
+              temp.classList.add("hover:border", "hover:border-yellow-600");
+            }
+          });
+          if (!cashedOut) {
+            balance -= currentAmount;
+          }
+          running = false;
         }
-      });
-      drawGraph();
-    }
-    }
-  });
+        // Check if multiplier reached target, stop if yes 
+        if (multiplier >= targetMultiplier) {
+          betBtn.removeAttribute("disabled"); 
+          cashoutBtn.disabled = true; 
+          ctrlbuttons.forEach((temp) => { 
+            temp.removeAttribute("disabled"); 
+          }); 
+          if (!stopadding) {
+            balance += currentAmount * multiplier;
+            stopadding = true;
+            cashedOut = true;
+          }
+        }
+      }
 
-  // Cash out
-  cashoutBtn.addEventListener("click", () => {
-    if (running) {
-      betBtn.removeAttribute("disabled");
-      running = false;
-      cashoutBtn.disabled = true;
-      ctrlbuttons.forEach(temp => {
+      // Draw line
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height);
+      if (multiplier <= 5 || multiplier <= 1) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.lineTo((canvas.width / 10) * multiplier, canvas.height - (canvas.height / 10) * multiplier);
+      } else {
+        offsetX += speedX;
+        offsetY += speedY;
+        canvas.style.backgroundPosition = `${offsetX}px ${offsetY}px`;
+      }
+
+      ctx.strokeStyle = "#00FF00";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      multiplierDom.textContent = multiplier.toFixed(2) + "x";
+
+      if (running && !crashed) requestAnimationFrame(drawGraph);
+    }
+
+    // Start the game
+    betBtn.addEventListener("click", () => {
+      if (currentAmount >= 1) {
+        running = false;
+        crashed = false;
+        cashedOut = false;
+        stopadding = false;
+        if (!running && !crashed) {
+          offsetX = 0;
+          offsetY = 0;
+          speedX = -2;
+          speedY = 2;
+          multiplierDom.classList.remove("text-red-600");
+          multiplierDom.classList.add("text-yellow-600");
+          betBtn.setAttribute("disabled", "true");
+          crashText?.classList.add("hidden");
+          running = true;
+          multiplier = 0.0;
+          cashoutBtn.disabled = false;
+          ctrlbuttons.forEach((temp) => {
+            temp.setAttribute("disabled", "true");
+          });
+          drawGraph();
+        }
+      }
+    });
+
+    // Cash out
+    cashoutBtn.addEventListener("click", () => {
+      if (running) {
+        betBtn.removeAttribute("disabled");
+        cashoutBtn.disabled = true;
+        cashedOut = true;
+        balance += currentAmount * multiplier;
+        ctrlbuttons.forEach((temp) => {
           temp.removeAttribute("disabled");
         });
-        controls.forEach(element => {
-          if (element != controls[0] && element != controls[1]) {
-          element.classList.add("hover:border", "hover:border-yellow-600");
-        }
-      });
-      balance += currentAmount * multiplier;
-    }
+        crashed = true;
+      }
+    });
   });
-
-});
 </script>
 
 <div class="flex justify-center items-center h-screen select-none bgImg dracutaz">
   <div class="text-center md:w-[70%]">
-    <div class="game-area shadow-lg shadow-yellow-600 overflow-hidden">
+    <div class="game-area shadow-yellow-600 shadow-lg overflow-hidden">
       <div class="flex flex-row h-[85%]">
         <div class="px-5 my-auto">
           <div class="overflow-clip w-[25vw] min-w-[200px] mx-auto">
             <img src="{image}" alt="" class="scale-150">
           </div>
-
           <!-- Define amount -->
-          <form class="w-full max-w-sm mb-auto">
+          <form class="w-full max-w-sm mb-auto pb-2">
             <div class="flex border-b border-yellow-600 py-2">
               <input
                 bind:value={amount}
@@ -182,7 +193,7 @@
                 type="number"
                 aria-label="Chips"
               >
-              <span class="control">
+              <span>
                 <button
                   onclick={addAmount}
                   class="flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton"
@@ -191,7 +202,7 @@
                   <span class="text-xl">&uarr;</span>
                 </button>
               </span>
-              <span class="control">
+              <span>
                 <button
                   onclick={subtractAmount}
                   class="flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton"
@@ -201,28 +212,38 @@
                 </button>
               </span>
             </div>
+            <div class="flex border-b border-yellow-600 py-2">
+              <!-- Új input mező a cél szorzó megadásához -->
+              <input
+                bind:value={targetMultiplier}
+                class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+                type="number"
+                aria-label="Target Multiplier"
+                placeholder="Target Multiplier"
+                step="0.1"
+                min="1"
+              >
+            </div>
           </form>
 
           <!-- Multiplier buttons -->
-          <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 ">
+          <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
             {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
-            <span class="border border-opacity-0 border-yellow-600 hover:border-opacity-100 flex justify-center rounded-lg">
-              <button class="text-yellow-600 ctrlbutton control" onclick={calcOne}>
+              <button class="text-yellow-600 ctrlbutton firetext fireborder" onclick={calcOne}>
                 {multiplier}
               </button>
-            </span>
             {/each}
           </div>
 
-          <!-- Current Chips an Balance-->
+          <!-- Current Chips and Balance-->
           <div class="info-container mt-5 w-[80%]">
             <!-- Current Chips -->
-            <div class="info-item ">
+            <div class="info-item">
               <span class="block text-xl font-medium text-yellow-600 text-start">Current bet</span>
               <div class="flex items-center space-x-2">
                 <input
-                  bind:value={currentAmount} 
-                  min="1" 
+                  bind:value={currentAmount}
+                  min="1"
                   class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
                   type="text"
                   disabled
@@ -233,44 +254,47 @@
 
             <!-- Balance -->
             <div class="info-item">
-              <span class="block text-xl font-medium text-yellow-600 text-start">Balance</span>
-              <div class="flex items-center space-x-2">
-                <input
-                  bind:value={balance} 
-                  class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
-                  type="text"
-                  disabled
-                >
-                <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
-              </div>
+            <span class="block text-xl font-medium text-yellow-600 text-start">Balance</span>
+            <div class="flex items-center space-x-2">
+              <input
+                bind:value={balance}
+                class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                type="text"
+                disabled
+              >
+              <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
             </div>
           </div>
         </div>
-
-        <!-- Moving Scale -->
-        <div class="grow">
-          <canvas
-            bind:this={canvas}
-            class="border border-yellow-600 h-full"
-            class:shadow-lg={running}
-            class:shadow-yellow-600={running}
-          ></canvas>
-        </div>
       </div>
 
-      <div class="info">
-        <!-- Multiplier -->
-        <p id="multiplier" bind:this={multiplierDom}>1.00x</p>
-        <!-- Bet/CashOut buttons -->
-        <button bind:this={betBtn} id="bet-btn">Bet Now</button>
-        <button bind:this={cashoutBtn} id="cashout-btn" disabled>Cash Out</button>
+      <!-- Moving Scale -->
+      <div class="grow items-center max-md:ps-1">
+        <p class='text-center text-red-600 text-[120px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>Crashed at {multiplier.toFixed(2)}x!</p>
+        <canvas
+          bind:this={canvas}
+          class="h-full fireborder"
+          class:shadow-lg={running}
+          class:shadow-yellow-600={running}
+        ></canvas>
       </div>
     </div>
-    <footer>
-      <p>© 2024 Betropolis. Gamble responsibly.</p>
-    </footer>
+
+    <div class="info">
+      <!-- Multiplier -->
+      <p id="multiplier" class="text-yellow-600 text-[24px] font-bold mb-[10px]" bind:this={multiplierDom}>{multiplier}x</p>
+      <!-- Bet/CashOut buttons -->
+      <button bind:this={betBtn} id="bet-btn">Bet Now</button>
+      <button bind:this={cashoutBtn} id="cashout-btn" disabled>Cash Out</button>
+    </div>
   </div>
+  <footer>
+    <p>© 2024 Betropolis. Gamble responsibly.</p>
+  </footer>
 </div>
+</div>
+
+  
 
 
 
@@ -312,13 +336,6 @@
     margin-top: 20px;
   }
   
-  .info p {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffcc00;
-    margin-bottom: 10px;
-  }
-  
   button {
     margin: 5px;
     padding: 10px 20px;
@@ -326,7 +343,6 @@
     font-weight: bold;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
   }
   
   #bet-btn {
@@ -364,4 +380,80 @@
   .info-item {
     width: 100%;
   }
+  
+  .firetext {
+  animation: burn 1.5s linear infinite alternate;
+}
+
+@keyframes burn {
+  from { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .4em #ffae34, .2em -.3em .3em #ec760c, -.2em -.4em .4em #cd4606, .1em -.5em .7em #973716, .1em -.7em .7em #451b0e; }
+  45%  { text-shadow: .1em -.2em .5em #fefcc9, .15em 0 .4em #feec85, -.1em -.25em .5em #ffae34, .15em -.45em .5em #ec760c, -.1em -.5em .6em #cd4606, 0 -.8em .6em #973716, .2em -1em .8em #451b0e; }
+  70%  { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .6em #ffae34, .2em -.3em .4em #ec760c, -.2em -.4em .7em #cd4606, .1em -.5em .7em #973716, .1em -.7em .9em #451b0e; }
+  to   { text-shadow: -.1em -.2em .6em #fefcc9, -.15em 0 .6em #feec85, .1em -.25em .6em #ffae34, -.15em -.45em .5em #ec760c, .1em -.5em .6em #cd4606, 0 -.8em .6em #973716, -.2em -1em .8em #451b0e; }
+}
+.fireborder {
+  position: relative;
+  animation: burning 1.5s linear infinite alternate;
+}
+
+.fireborder::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* Covers the entire div */
+  border-radius: 4px; /* Optional: matches your div style */
+  z-index: -1; /* Places it behind the div content */
+  box-shadow: 
+    -.1em 0 .3em #fefcc9, 
+    .1em -.1em .3em #feec85, 
+    -.2em -.2em .4em #ffae34, 
+    .2em -.3em .3em #ec760c, 
+    -.2em -.4em .4em #cd4606, 
+    .1em -.5em .7em #973716, 
+    .1em -.7em .7em #451b0e;
+  animation: burning 1.5s linear infinite alternate;
+}
+
+@keyframes burning {
+  from {
+    box-shadow: 
+      -.1em 0 .3em #fefcc9, 
+      .1em -.1em .3em #feec85, 
+      -.2em -.2em .4em #ffae34, 
+      .2em -.3em .3em #ec760c, 
+      -.2em -.4em .4em #cd4606, 
+      .1em -.5em .7em #973716, 
+      .1em -.7em .7em #451b0e;
+  }
+  45% {
+    box-shadow: 
+      .1em -.2em .5em #fefcc9, 
+      .15em 0 .4em #feec85, 
+      -.1em -.25em .5em #ffae34, 
+      .15em -.45em .5em #ec760c, 
+      -.1em -.5em .6em #cd4606, 
+      0 -.8em .6em #973716, 
+      .2em -1em .8em #451b0e;
+  }
+  70% {
+    box-shadow: 
+      -.1em 0 .3em #fefcc9, 
+      .1em -.1em .3em #feec85, 
+      -.2em -.2em .6em #ffae34, 
+      .2em -.3em .4em #ec760c, 
+      -.2em -.4em .7em #cd4606, 
+      .1em -.5em .7em #973716, 
+      .1em -.7em .9em #451b0e;
+  }
+  to {
+    box-shadow: 
+      -.1em -.2em .6em #fefcc9, 
+      -.15em 0 .6em #feec85, 
+      .1em -.25em .6em #ffae34, 
+      -.15em -.45em .5em #ec760c, 
+      .1em -.5em .6em #cd4606, 
+      0 -.8em .6em #973716, 
+      -.2em -1em .8em #451b0e;
+  }
+}
+
 </style>
