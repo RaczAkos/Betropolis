@@ -9,7 +9,8 @@
       betBtn: any,
       running = $state(false),
       amount = $state(0),
-      need: any,
+      resetone: any,
+      resettwo: any,
       currentAmount = $state(0),
       balance = $state(1000),
       multiplier = $state(0.0),
@@ -186,9 +187,9 @@ $effect(() => {
             <div class="flex border-b border-yellow-600 py-2">
               <input
                 bind:value={amount}
-                bind:this={need}
+                bind:this={resetone}
                 oninput={valuechange}
-                onfocus={() => (need.value = "")}
+                onfocus={() => (resetone.value = "")}
                 min="1"
                 class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
                 type="number"
@@ -219,7 +220,10 @@ $effect(() => {
               <div class="info-item">
                 <div class="flex items-center space-x-2">
                   <input
-                    bind:value={targetMultiplier}
+                    bind:value={targetMultiplier} 
+                    bind:this={resettwo}
+                    oninput={valuechange} 
+                    onfocus={() => (resettwo.value = "")} 
                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
                     type="number"
                     aria-label="Target Multiplier"
@@ -344,7 +348,6 @@ $effect(() => {
   }
   
   button {
-    margin: 5px;
     padding: 10px 20px;
     font-size: 16px;
     font-weight: bold;
