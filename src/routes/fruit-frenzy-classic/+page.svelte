@@ -5,6 +5,7 @@
 <script lang="ts">
     import icons from "$lib/classicfruits";
     import chip from "$lib/media/images/chip.png";
+    import { redirect } from '@sveltejs/kit';
 
     let balance = $state(10000);
     let slot1:string = icons[giveRandom(icons)],
@@ -142,8 +143,7 @@
             gain = 101 * bet;
         }
         else if (fruit1 == fruit2 || fruit1 == fruit3 || fruit2 == fruit3) {
-            if (!autorun) output("Double Fruit!!", 1);
-            else feedback = "Double Fruit!!";
+            feedback = "Double Fruit!!";
             gain = 3 * bet;
         }
         else feedback = quips[giveRandom(quips)];
@@ -168,11 +168,10 @@
                     setTimeout(() => {
                         clearInterval(int4);
                         feedback = feed;
-                    }, 1000)
+                    }, 500)
                 }, 100);
                 break;
             case 3:
-            case 2:
                 let int3 = setInterval(() => {
                     feedback = feed;
                     setTimeout(() => {
@@ -182,21 +181,8 @@
                     setTimeout(() => {
                         clearInterval(int3);
                         feedback = feed;
-                    }, 1000)
+                    }, 600)
                 }, 200);
-                break;
-            case 1:
-                let int2 = setInterval(() => {
-                    feedback = feed;
-                    setTimeout(() => {
-                        feedback = "";
-                    }, 250);
-
-                    setTimeout(() => {
-                        clearInterval(int2);
-                        feedback = feed;
-                    }, 1000)
-                }, 500);
                 break;
             default:
                 break;
@@ -206,7 +192,10 @@
 </script>
 
 <div class="h-screen flex justify-center items-center text-white select-none background overflow-hidden">
-    <div class=" pt-2 px-2 bg-red-700 sm:rounded-3xl border">
+    <div class="absolute bottom-2">
+        <a href="/hub" class="text-xl max-sm:underline hover:underline" class:hidden={spinning || !bet || bet < 0 || balance < bet}>Back to Hub</a>
+    </div>
+    <div class="pt-2 px-2 bg-red-700 sm:rounded-3xl border">
         <h1 class="text-5xl text-center orangek font-bold border-b mb-2">Fruit Frenzy</h1>
         <div class="border flex flex-row items-center mb-2 select-none">
             {#each [slot1, slot2, slot3] as item,i}
