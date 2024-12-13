@@ -3,9 +3,8 @@
 </svelte:head>
 
 <script lang="ts">
-    import icons from "$lib/classicfruits";
+    import {icons, goldenicons} from "$lib/classicfruits";
     import chip from "$lib/media/images/chip.png";
-    import { redirect } from '@sveltejs/kit';
 
     let balance = $state(10000);
     let slot1:string = icons[giveRandom(icons)],
@@ -22,28 +21,59 @@
     }
 
     function spin() {
+
+        console.log(1);
+        
+
+        let gold1:string[] = [], gold2:string[] = [], gold3:string[] = [], fruits1 = icons, fruits2 = icons, fruits3 = icons;
+
+        for (let i = 0; i < 3; i++) {
+            let temp = 0, element = Math.random();
+            
+            if (element >= 0.5 && element < 0.8) temp = 1;
+            else if (element > 0.8 && element < 0.95) temp = 2;
+            else if (element >= 0.95) temp = 3;
+            console.log(2);
+            if (temp != 0) {
+                for (let j = 0; j < temp; j++) {
+                    if (i == 0) gold1.push(goldenicons[giveRandom(goldenicons)]);
+                    else if (i == 1) gold2.push(goldenicons[giveRandom(goldenicons)]);
+                    else gold3.push(goldenicons[giveRandom(goldenicons)]);
+                }
+            }
+        }
+
+        console.log(3);
+
+        fruits1 = fruits1.concat(gold1);
+        fruits2 = fruits2.concat(gold2);
+        fruits3 = fruits3.concat(gold3);
+        
+        console.log(fruits1, fruits2, fruits3);
         
         balance -= bet;
         feedback = "Spinning!";
         spinning = true;
 
-        let index1: number = giveRandom(icons),
+        let index1: number = giveRandom(fruits1),
             spin1:any = document.getElementById("spin1"),
-            index2: number = giveRandom(icons),
+            index2: number = giveRandom(fruits2),
             spin2:any = document.getElementById("spin2"),
-            index3: number = giveRandom(icons),
+            index3: number = giveRandom(fruits3),
             spin3:any = document.getElementById("spin3"),
-            i1 = 47, i2 = 47, i3 = 47,
+            i1 = 50, i2 = 50, i3 = 50,
             fruits:string[] = [];
+
+            console.log(4);
 
         // First reel spin
         let int1 = setInterval(() => {
-            if (index1 == 7) index1 = 0;
+            if (index1 == fruits1.length) index1 = 0;
             else index1++;
 
             let img: HTMLImageElement = document.createElement("img");
             img.id = String(index1);
-            img.src = icons[index1];
+            img.src = fruits1[index1];
 
             spin1.innerHTML = '';
             spin1.append(img);
@@ -52,7 +82,7 @@
             if (i1 == 0){
                 clearInterval(int1);
                 img.classList.remove("anim");
-                fruits.push(icons[index1]);
+                fruits.push(fruits1[index1]);
             } 
             else i1--;
         }, 50)
@@ -60,12 +90,12 @@
         // Second reel spin
         setTimeout(() => {
             let int2 = setInterval(() => {
-                if (index2 == 7) index2 = 0;
+                if (index2 == fruits2.length) index2 = 0;
                 else index2++;
 
                 let img: HTMLImageElement = document.createElement("img");
                 img.id = String(index2);
-                img.src = icons[index2];
+                img.src = fruits2[index2];
 
                 spin2.innerHTML = '';
                 spin2.append(img);
@@ -74,7 +104,7 @@
                 if (i2 == 0){
                     clearInterval(int2);
                     img.classList.remove("anim");
-                    fruits.push(icons[index2]);
+                    fruits.push(fruits2[index2]);
                 } 
                 else i2--;
             }, 50)
@@ -83,12 +113,12 @@
         // Third reel spin
         setTimeout(() => {
             let int3 = setInterval(() => {
-                if (index3 == 7) index3 = 0;
+                if (index3 == fruits3.length) index3 = 0;
                 else index3++;
 
                 let img: HTMLImageElement = document.createElement("img");
                 img.id = String(index3);
-                img.src = icons[index3];
+                img.src = fruits3[index3];
 
                 spin3.innerHTML = '';
                 spin3.append(img);
@@ -97,7 +127,7 @@
                 if (i3 == 0){
                     clearInterval(int3);
                     img.classList.remove("anim");
-                    fruits.push(icons[index3]);
+                    fruits.push(fruits3[index3]);
                     calculate(fruits);
                 } 
                 else i3--;
