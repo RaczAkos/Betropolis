@@ -13,7 +13,6 @@ import goldenwatermelon from "$lib/media/images/sloticons/goldenwatermelon.png";
 import goldenlemon from "$lib/media/images/sloticons/goldenlemon.png";
 import goldencherry from "$lib/media/images/sloticons/goldencherry.png";
 
-let goldenicons:string[] = [goldenapple, goldencherry, goldenplum, goldenorange, goldenstrawberry, goldenwatermelon, goldenlemon];
-let icons:string[] = [apple, cherry, plum, orange, strawberry, watermelon, lemon];
+let icons:string[] = [apple, cherry, plum, orange, strawberry, watermelon, lemon, goldenapple, goldencherry, goldenplum, goldenorange, goldenstrawberry, goldenwatermelon, goldenlemon];
 
-export {icons, goldenicons};
+export default icons;

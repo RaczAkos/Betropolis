@@ -3,13 +3,15 @@
 </svelte:head>
 
 <script lang="ts">
-    import {icons, goldenicons} from "$lib/classicfruits";
+    import icons from "$lib/classicfruits";
     import chip from "$lib/media/images/chip.png";
+    import line from "$lib/media/images/remove.png";
 
     let balance = $state(10000);
-    let slot1:string = icons[giveRandom(icons)],
-        slot2:string = icons[giveRandom(icons)],
-        slot3:string = icons[giveRandom(icons)],
+    let slot1:string = icons[giveRandom(icons.slice(0,6))],
+        slot2:string = icons[giveRandom(icons.slice(0,6))],
+        slot3:string = icons[giveRandom(icons.slice(0,6))],
+        goldenicons:string[] = icons.slice(7,14),
         feedback:string = $state("Start spinning!"), 
         bet:number = $state(1),
         autorun:boolean = $state(false),
@@ -20,20 +22,19 @@
         return Math.floor(Math.random() * array.length);
     }
 
-    function spin() {
+    function spin() {        
 
-        console.log(1);
+        let gold1:string[] = [], gold2:string[] = [], gold3:string[] = [], fruits1 = icons.slice(0,7), fruits2 = icons.slice(0,7), fruits3 = icons.slice(0,7);
+
         
-
-        let gold1:string[] = [], gold2:string[] = [], gold3:string[] = [], fruits1 = icons, fruits2 = icons, fruits3 = icons;
-
+        console.log(fruits1, fruits2, fruits3);
         for (let i = 0; i < 3; i++) {
             let temp = 0, element = Math.random();
             
             if (element >= 0.5 && element < 0.8) temp = 1;
             else if (element > 0.8 && element < 0.95) temp = 2;
             else if (element >= 0.95) temp = 3;
-            console.log(2);
+
             if (temp != 0) {
                 for (let j = 0; j < temp; j++) {
                     if (i == 0) gold1.push(goldenicons[giveRandom(goldenicons)]);
@@ -43,13 +44,9 @@
             }
         }
 
-        console.log(3);
-
         fruits1 = fruits1.concat(gold1);
         fruits2 = fruits2.concat(gold2);
         fruits3 = fruits3.concat(gold3);
-        
-        console.log(fruits1, fruits2, fruits3);
         
         balance -= bet;
         feedback = "Spinning!";
@@ -68,7 +65,7 @@
 
         // First reel spin
         let int1 = setInterval(() => {
-            if (index1 == fruits1.length) index1 = 0;
+            if (index1 == fruits1.length-1) index1 = 0;
             else index1++;
 
             let img: HTMLImageElement = document.createElement("img");
@@ -90,7 +87,7 @@
         // Second reel spin
         setTimeout(() => {
             let int2 = setInterval(() => {
-                if (index2 == fruits2.length) index2 = 0;
+                if (index2 == fruits2.length-1) index2 = 0;
                 else index2++;
 
                 let img: HTMLImageElement = document.createElement("img");
@@ -113,7 +110,7 @@
         // Third reel spin
         setTimeout(() => {
             let int3 = setInterval(() => {
-                if (index3 == fruits3.length) index3 = 0;
+                if (index3 == fruits3.length-1) index3 = 0;
                 else index3++;
 
                 let img: HTMLImageElement = document.createElement("img");
@@ -229,9 +226,18 @@
         <h1 class="text-5xl text-center orangek font-bold border-b mb-2">Fruit Frenzy</h1>
         <div class="border flex flex-row items-center mb-2 select-none">
             {#each [slot1, slot2, slot3] as item,i}
-            <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip max-sm:h-[120px] max-sm:w-[120px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] relative lg:w-[250px]">
-                <img src={item} alt={"Reel "+i} class="absolute">
-            </div>
+                <div>
+                    <div id={"spin"+(i+1)} class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip max-sm:h-[120px] max-sm:w-[120px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] relative lg:w-[250px]">
+                        <img src={item} alt={"Reel "+i} class="absolute">
+                    </div>
+                    <div class="flex flex-row lg:h-[83.33px] max-sm:h-[40px] sm:h-[50px] md:h-[66.66px]">
+                        {#each Array(3) as _, index (index)}
+                            <div class="lg:w-[83.33px] max-sm:w-[40px] sm:w-[50px] md:w-[66.66px] border flex w-1/3 text-center bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% text-4xl text-black justify-center items-center">
+                                <img id={i+"-"+index} src={line} alt="" class="w-1/3">
+                            </div>
+                        {/each}
+                    </div>
+                </div>
             {/each}
         </div>
         <div class="flex flex-col gap-2 border-t pt-2">
@@ -305,8 +311,6 @@
                     <button class="border text-2xl p-1 rounded-2xl w-24" onclick={() => modal = false}>Close</button>
                 </div>
             </div>
-
-            
         </div>
     </div>
 </div>
