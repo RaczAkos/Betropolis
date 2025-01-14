@@ -13,11 +13,13 @@
     let gamearea:any,
         example:any,
         resetBtn:any,
+        resetone: any,
         previous = $state(-1),
         rnd = $state(4),
         amount = $state(0),
         need:any,
-        currentAmount = $state(1000);
+        balance = $state(1000),
+        currentAmount = $state(0);
 
     onMount(async () => {
         createTable();
@@ -45,10 +47,17 @@
         } while (rnd == previous);
         example.src = frenchcards[rnd]
         previous = rnd;
+
+        document.querySelectorAll(".ctrlbutton").forEach((temp) => {
+          temp.removeAttribute("disabled");
+        });
     }
 
     //Card Reveal function
     function reveal(e:any){
+        document.querySelectorAll(".ctrlbutton").forEach((temp) => {
+          temp.setAttribute("disabled", "true");
+        });
         resetBtn.classList.add("shadow-lg", "shadow-yellow-600");
         resetBtn.disabled = false;
         let target = e?.target;
@@ -57,7 +66,15 @@
             //Reveal card
             target.src = target.id;
         }, 150);
-        target.classList.remove("cursor-pointer");
+        setTimeout(() => {
+          if (target.src.split('_')[target.src.split('_').length-1].split('.')[0] == example.src.split('/')[example.src.split('/').length-1].split('.')[0]) {
+            balance += currentAmount;
+          }
+          else{
+            balance -= currentAmount;
+          }
+        }, 150);
+        target.classList.remove("cursor-pointer"); 
         target.classList.add("[transform:rotateY(180deg)]");
     }
 
@@ -95,14 +112,16 @@
         amount = Math.round(amount)
     }
 
-    function addAmount(){
-        currentAmount += amount;
+    function addAmount() {
+      if (balance >= amount) {
+        currentAmount = Math.round(currentAmount + amount);
+      }
     }
 
-    function subtractAmount(){
-        if ((currentAmount - amount) >= 0) {
-          currentAmount -= amount;
-        }
+    function subtractAmount() {
+      if (currentAmount - amount >= 0) {
+        currentAmount = Math.round(currentAmount - amount);
+      }
     }
 
     </script>
@@ -124,13 +143,14 @@
         <form class="w-full max-w-sm mb-auto">
             <div class="lg:flex border-b border-yellow-600 py-2">
               <input bind:value={amount}
-                     bind:this={need}
-                     oninput={valuechange} 
-                     onfocus={() => need.value = ""} 
-                     min=1 
-                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none min-w-[50px]" 
-                     type="number" 
-                     aria-label="Chips"
+                     bind:this={resetone}
+                     oninput={valuechange}
+                     onfocus={() => (resetone.value = "")}
+                     min="1"
+                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+                     type="number"
+                     aria-label="Chips to add" 
+                     placeholder="Chips to add"
               >
               <!--Add/subtract buttons-->
               <span class="control">
@@ -187,7 +207,7 @@
                             class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" 
                             type="text" 
                             disabled 
-                            value="1000"
+                            bind:value={balance}
                         >
                         <img src="{chip}" alt="chip" class="w-[30px]">
                     </div>

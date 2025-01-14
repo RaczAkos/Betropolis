@@ -15,7 +15,7 @@
       balance = $state(1000),
       multiplier = $state(0.0),
       targetMultiplier = $state(2.0),
-      cashedOut = $state(false);
+      k=0.0025;
 
 function calcOne(e: any) {
   if (e.target.innerText.length > 3) {
@@ -33,13 +33,19 @@ function valuechange() {
 }
 
 function addAmount() {
-  currentAmount = Math.round(currentAmount + amount);
+  if (balance >= amount) {
+    currentAmount = Math.round(currentAmount + amount);
+  }
 }
 
 function subtractAmount() {
   if (currentAmount - amount >= 0) {
     currentAmount = Math.round(currentAmount - amount);
   }
+}
+//Exponential crash calculating function
+function get_crash_probability(multiplier:any, k:any){
+    return 1 - Math.exp(-k * (multiplier - 1));
 }
 
 $effect(() => {
@@ -70,7 +76,11 @@ $effect(() => {
         multiplier += 0.01;
       }
       even++;
-      if (Math.random() < 0.0015) {
+      //Checking crash based on exponential function
+      let crash_probability = get_crash_probability(multiplier, k)
+      let random_value = Math.random();
+      let decideIfCrashed = random_value < crash_probability;
+      if (decideIfCrashed) {
         if (crashText) {
           crashText.classList.remove("hidden");
         }
@@ -89,9 +99,6 @@ $effect(() => {
             temp.classList.add("hover:border", "hover:border-yellow-600");
           }
         });
-        if (!cashedOut) {
-          balance = Math.round(balance - currentAmount);
-        }
         running = false;
       }
       // Check if multiplier reached target, stop if yes
@@ -104,7 +111,6 @@ $effect(() => {
         if (!stopadding) {
           balance = Math.round(balance + currentAmount * multiplier);
           stopadding = true;
-          cashedOut = true;
         }
       }
     }
@@ -132,27 +138,29 @@ $effect(() => {
   // Start the game
   betBtn.addEventListener("click", () => {
     if (currentAmount >= 1) {
-      if (balance - currentAmount >= 0) {
-        running = false;
-        crashed = false;
-        cashedOut = false;
-        stopadding = false;
-        if (!running && !crashed) {
-          offsetX = 0;
-          offsetY = 0;
-          speedX = -2;
-          speedY = 2;
-          multiplierDom.classList.remove("text-red-600");
-          multiplierDom.classList.add("text-yellow-600");
-          betBtn.setAttribute("disabled", "true");
-          crashText?.classList.add("hidden");
-          running = true;
-          multiplier = 0.0;
-          cashoutBtn.disabled = false;
-          ctrlbuttons.forEach((temp) => {
-            temp.setAttribute("disabled", "true");
-          });
-          drawGraph();
+      if (targetMultiplier >= 2) {
+        if (balance - currentAmount >= 0) {
+          balance = Math.round(balance - currentAmount)
+          running = false;
+          crashed = false;
+          stopadding = false;
+          if (!running && !crashed) {
+            offsetX = 0;
+            offsetY = 0;
+            speedX = -2;
+            speedY = 2;
+            multiplierDom.classList.remove("text-red-600");
+            multiplierDom.classList.add("text-yellow-600");
+            betBtn.setAttribute("disabled", "true");
+            crashText?.classList.add("hidden");
+            running = true;
+            multiplier = 0.0;
+            cashoutBtn.disabled = false;
+            ctrlbuttons.forEach((temp) => {
+              temp.setAttribute("disabled", "true");
+            });
+            drawGraph();
+          }
         }
       }
     }
@@ -163,8 +171,12 @@ $effect(() => {
     if (running) {
       betBtn.removeAttribute("disabled");
       cashoutBtn.disabled = true;
-      cashedOut = true;
-      balance = Math.round(balance + currentAmount * multiplier);
+      if (multiplier < targetMultiplier) {
+        balance = Math.round((balance + currentAmount * multiplier)/2);
+      }
+      else{
+        balance = Math.round(balance + currentAmount * multiplier);
+      }
       ctrlbuttons.forEach((temp) => {
         temp.removeAttribute("disabled");
       });
@@ -226,10 +238,10 @@ $effect(() => {
                     onfocus={() => (resettwo.value = "")} 
                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
                     type="number"
-                    aria-label="Target Multiplier"
-                    placeholder="Target Multiplier"
+                    aria-label="Target Multiplier (2 or higher)"
+                    placeholder="Target Multiplier (2 or higher)"
                     step="0.1"
-                    min="1"
+                    min="2"
                   >
                   <img src="{target}" alt="chip" class="w-[30px] max-sm:hidden">
                 </div>
