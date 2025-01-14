@@ -16,4 +16,4 @@ import goldencherry from "$lib/media/images/sloticons/goldencherry.png";
 let goldenicons:string[] = [goldenapple, goldencherry, goldenplum, goldenorange, goldenstrawberry, goldenwatermelon, goldenlemon];
 let icons:string[] = [apple, cherry, plum, orange, strawberry, watermelon, lemon];
 
-export {icons, goldenicons};
+export {goldenicons, icons};
