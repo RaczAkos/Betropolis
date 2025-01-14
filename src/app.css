@@ -91,3 +91,16 @@ body{
 	  margin: 0;
 	}
 }
+
+.goldpulse {
+	animation-name: goldpulse;
+	animation-duration: 400ms;
+	animation-iteration-count: 1;
+	animation-timing-function: linear;
+}
+
+@keyframes goldpulse {
+	0%   {background-color:transparent;}
+	50%  {background-color:rgb(185, 28, 28);}
+	100% {background-color:transparent;}
+}
