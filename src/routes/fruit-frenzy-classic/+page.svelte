@@ -33,9 +33,9 @@
         for (let i = 0; i < 3; i++) {
             let temp = 0, element = Math.random();
             
-            if (element >= 0.5 && element < 0.8) temp = 1;
-            else if (element > 0.8 && element < 0.95) temp = 2;
-            else if (element >= 0.95) temp = 3;
+            if (element >= 0.4 && element < 0.75) temp = 1;
+            else if (element > 0.75 && element < 0.9) temp = 2;
+            else if (element >= 0.9) temp = 3;
 
             if (temp != 0) {
                 for (let j = 0; j < temp; j++) {
@@ -142,22 +142,90 @@
             quips:string[] = ["Not this time!", "No luck!", "Try again!", "Almost!", "Maybe next time!"],
             gain:number = 0;
 
+        /*
         fruit1 = fruit1.replace(fruit1.substring(fruit1.length-4), "");
         fruit2 = fruit2.replace(fruit2.substring(fruit2.length-4), "");
         fruit3 = fruit3.replace(fruit3.substring(fruit3.length-4), "");
-        
+        */
+
         feedback = "";
 
         // Reward logic here
         
-        feedback = quips[giveRandom(quips)];
+        switch (compare(fruit1, fruit2, fruit3)) {
+            case 1:
+                gain = bet * 2;
+                feedback = `+${gain}`;
+                break;
+            case 2:
+                gain = bet * 3;
+                feedback = `+${gain}`;
+                break;
+            case 3:
+                gain = bet * 5;
+                feedback = `+${gain}`;
+                break;
+            case 4:
+                gain = bet * 100;
+                feedback = `+${gain}`;
+                break;
+            case 5:
+                gain = bet * 150;
+                feedback = `+${gain}`;
+                break;
+            case 6:
+                gain = bet * 250;
+                feedback = `+${gain}`;
+                break;
+            case 7:
+                gain = bet * 500;
+                feedback = `+${gain}`;
+                break;
+            default:
+                feedback = quips[giveRandom(quips)];
+                break;
+        }
+        
 
         // transaction
 
         balance += gain;
         console.log(`Spin: ${fruit1} + ${fruit2} + ${fruit3}`)
 
-        setTimeout(() => {if (autorun && balance !> 1){spin()} else {spinning = false; if (autorun) autorun = false}}, 700)
+        setTimeout(() => {
+            if (autorun && balance !> 1) {
+                spin()
+            } else {
+                spinning = false; 
+                if (autorun) autorun = false;
+            }
+        }, 700)
+    }
+
+    // Comparison
+    function compare(fruit1:string, fruit2:string, fruit3:string):number {
+        let path:number = 0;
+        if (fruit1 == fruit3 && fruit2 == fruit3) {
+            if (fruit1.includes("golden")) path = 7;
+            else path = 4;
+        }
+        else if (fruit1.includes(fruit2) || fruit2.includes(fruit1)) {
+            if (fruit1.includes("golden") && fruit1 == fruit2) path = 3;
+            else if (fruit1.includes("golden") || fruit2.includes("golden")) path = 2;
+            else path = 1;
+        }
+        else if (fruit2.includes(fruit3) || fruit3.includes(fruit2)) {
+            if (fruit2.includes("golden") && fruit2 == fruit3) path = 3;
+            else if (fruit2.includes("golden") || fruit3.includes("golden")) path = 2;
+            else path = 1;
+        }
+        else if (fruit1.includes(fruit3) || fruit3.includes(fruit1)) {
+            if (fruit1.includes("golden") && fruit1 == fruit3) path = 3;
+            else if (fruit1.includes("golden") || fruit3.includes("golden")) path = 2;
+            else path = 1;
+        }
+
+        return path;
     }
 
     // Goldbar
@@ -343,13 +411,13 @@
                             <td>1 base, 1 gold</td>
                             <td class="text-center">3x</td>
                             <td>2 base, 1 gold</td>
-                            <td class="text-center">100x</td>
+                            <td class="text-center">150x</td>
                         </tr>
                         <tr>
                             <td>2 gold</td>
                             <td class="text-center">5x</td>
                             <td>1 base, 2 gold</td>
-                            <td class="text-center">100x</td>
+                            <td class="text-center">250x</td>
                         </tr>
                         <tr>
                             <td colspan="2"></td>
