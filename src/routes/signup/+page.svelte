@@ -19,6 +19,17 @@
         date:Date          = new Date(),
         error:HTMLElement;
 
+    async function sendData(){
+        const response = await fetch('/api/submit-data', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ firstname, lastname, birthdate, gender, email, password, date}),
+        });
+    }
+    
+
     let currentDate:string = date.getFullYear() + "-" + Number(date.getMonth()+1)+ "-" + date.getDate();
         
 
@@ -127,8 +138,37 @@
     </div>
     <div class="w-full text-center" class:hidden={!tabswitch}>
         <button class="hover:bg-yellow-600 bg-black border border-yellow-600 hover:-translate-y-1 text-yellow-600 hover:text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline duration-300 me-2" type="button" onclick={() => tabswitch = false}>Go back</button>
-        <button class="hover:bg-yellow-600 bg-black border border-yellow-600 hover:-translate-y-1 text-yellow-600 hover:text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline duration-300" type="button">Sign up!</button>
+        <button class="hover:bg-yellow-600 bg-black border border-yellow-600 hover:-translate-y-1 text-yellow-600 hover:text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline duration-300" type="button" onclick={sendData}>Sign up!</button>
     </div>
 
 
 </form>
+
+<style>
+
+    input[type="date"] {
+        position: relative;
+        appearance: none;
+        -webkit-appearance: none;
+        box-sizing: border-box;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="goldenrod" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>') no-repeat center;
+        background-size: contain;
+        cursor: pointer;
+        opacity: 1;
+    }
+
+
+
+
+
+
+</style>
