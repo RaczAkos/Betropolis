@@ -204,20 +204,38 @@
 
     // Comparison
     function compare(fruit1:string, fruit2:string, fruit3:string):number {
-        let path:number = 0;
-        if (fruit1 == fruit3 && fruit2 == fruit3) {
-            if (fruit1.includes("golden")) path = 7;
-            else path = 4;
-        }
-        else if (fruit1.includes(fruit2) || fruit2.includes(fruit1)) {
-            if (fruit1.includes("golden") && fruit1 == fruit2) path = 3;
-            else if (fruit1.includes("golden") || fruit2.includes("golden")) path = 2;
-            else path = 1;
-        }
-        else if (fruit2.includes(fruit3) || fruit3.includes(fruit2)) {
-            if (fruit2.includes("golden") && fruit2 == fruit3) path = 3;
-            else if (fruit2.includes("golden") || fruit3.includes("golden")) path = 2;
-            else path = 1;
+        let path:number = 0, f1 = "", f2 = "", f3 = "", golds = 0;
+        
+        if (fruit1.includes("golden")) {
+            f1 = fruit1.split("golden")[1];
+            golds++;
+        } else f1 = fruit1.split('/')[fruit1.split('/').length-1];
+        
+        if (fruit2.includes("golden")) {
+            f2 = fruit2.split("golden")[1];
+            golds++;
+        } else f2 = fruit2.split('/')[fruit2.split('/').length-1];
+        
+        if (fruit3.includes("golden")) {
+            f3 = fruit3.split("golden")[1];
+            golds++;
+        } else f3 = fruit3.split('/')[fruit3.split('/').length-1];
+        
+        if (f1 == f2 && f1 == f3) {
+            switch (golds) {
+                case 1:
+                    path = 5
+                    break;
+                case 2:
+                    path = 6
+                    break;
+                case 3:
+                    path = 7
+                    break;
+                default:
+                    path = 4
+                    break;
+            }
         }
 
         return path;
@@ -385,42 +403,7 @@
                         Press the spin button to try your luck. You can use the autorun button to keep the machine continously running. The minimum bet is 1 chip.
                     </p>
                 </div>
-                <!-- Reward table -->
-                <table class="mx-auto text-lg sm:text-2xl border rounded my-2 [&_th]:border [&_th]:p-2 [&_td]:border [&_td]:p-2">
-                    <thead>
-                        <tr class="text-center">
-                            <th>2 identical fruits</th>
-                            <th>Reward</th>
-                            <th>3 identical fruits</th>
-                            <th>Reward</th>
-                        </tr>
-                    </thead>
-                    <tbody class="">
-                        <tr>
-                            <td>2 base</td>
-                            <td class="text-center">2x</td>
-                            <td>3 base</td>
-                            <td class="text-center">100x</td>
-                        </tr>
-                        <tr>
-                            <td>1 base, 1 gold</td>
-                            <td class="text-center">3x</td>
-                            <td>2 base, 1 gold</td>
-                            <td class="text-center">150x</td>
-                        </tr>
-                        <tr>
-                            <td>2 gold</td>
-                            <td class="text-center">5x</td>
-                            <td>1 base, 2 gold</td>
-                            <td class="text-center">250x</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"></td>
-                            <td>3 golden fruits</td>
-                            <td class="text-center">500x</td>
-                        </tr>
-                    </tbody>
-                </table>
+                
                 <div class="border-t pt-2 flex justify-center">
                     <button class="border text-2xl p-1 rounded-2xl w-24 hover:scale-105" onclick={() => modal = false}>Close</button>
                 </div>
