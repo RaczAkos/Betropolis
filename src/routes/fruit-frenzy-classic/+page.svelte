@@ -219,11 +219,6 @@
             else if (fruit2.includes("golden") || fruit3.includes("golden")) path = 2;
             else path = 1;
         }
-        else if (fruit1.includes(fruit3) || fruit3.includes(fruit1)) {
-            if (fruit1.includes("golden") && fruit1 == fruit3) path = 3;
-            else if (fruit1.includes("golden") || fruit3.includes("golden")) path = 2;
-            else path = 1;
-        }
 
         return path;
     }
@@ -384,9 +379,9 @@
                 <!-- Description -->
                 <div class="p-2">
                     <p class="text-justify text-xl sm:text-2xl leading-6">
-                        The reels contain 7 fruits and a can contain up to 3 golden variants of the fruits. Golden variants boost the rewards.
+                        The reels contain 7 fruits and a can contain up to 3 golden variants of the fruits. Golden variants boosts the win. You win if you get identical fruits next to each other, or you get triple fruits.
                     </p>
-                    <p class="text-justify text-xl sm:text-2xl leading-6">
+                    <p class="text-justify text-xl sm:text-2xl leading-6 mt-2">
                         Press the spin button to try your luck. You can use the autorun button to keep the machine continously running. The minimum bet is 1 chip.
                     </p>
                 </div>
