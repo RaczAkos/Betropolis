@@ -172,7 +172,7 @@ $effect(() => {
       betBtn.removeAttribute("disabled");
       cashoutBtn.disabled = true;
       if (multiplier < targetMultiplier) {
-        balance = Math.round((balance + currentAmount * multiplier)/2);
+        balance = Math.round((balance + (currentAmount)/2));
       }
       else{
         balance = Math.round(balance + currentAmount * multiplier);
