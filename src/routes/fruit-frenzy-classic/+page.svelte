@@ -149,22 +149,8 @@
         */
 
         feedback = "";
-
-        // Reward logic here
         
         switch (compare(fruit1, fruit2, fruit3)) {
-            case 1:
-                gain = bet * 2;
-                feedback = `+${gain}`;
-                break;
-            case 2:
-                gain = bet * 3;
-                feedback = `+${gain}`;
-                break;
-            case 3:
-                gain = bet * 5;
-                feedback = `+${gain}`;
-                break;
             case 4:
                 gain = bet * 100;
                 feedback = `+${gain}`;
@@ -305,7 +291,7 @@
                             <div class="lg:w-[83.33px] max-sm:w-[40px] sm:w-[50px] md:w-[66.66px] border flex w-1/3 text-center bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% text-4xl text-black justify-center items-center">
                                 <img id={i+"-"+index} 
                                      src={line} 
-                                     alt={i+"-"+index}
+                                     alt={i+"-"+index} 
                                      class={`goldreel${i+1}`}>
                             </div>
                         {/each}
