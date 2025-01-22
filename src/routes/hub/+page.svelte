@@ -1,7 +1,14 @@
 <script lang="ts">
   import images from "$lib/hubgames";
 </script>
-<div class="flex justify-center max-h-[85%] overflow-y-scroll pt-[3%] no-scrollbar">
+<div class="text-white">
+    <p>temporary hyperlinks</p>
+    <a href="/hub/fruit-frenzy-classic">Fruit Frenzy</a>
+    <a href="/findcard">Findcard</a>
+    <a href="fortunewheel">fortunewheel</a>
+    <a href="crashgame">crash</a>
+</div>
+<div class="flex justify-center max-h-[90%] overflow-y-scroll pt-[3%] no-scrollbar">
     <div class="grid py-[2%] xl:w-2/3 text-yellow-600 text-xl max-xl:px-[10%] max-xl:py-[3%]">
         <p class=" outline-black outline-4 mb-4 border-b border-yellow-600 pb-5">Crash</p>
         <div class="grid grid-cols-3 gap-6 max-xl:grid-cols-2">
@@ -35,8 +42,6 @@
         </div>
     </div>
 </div>
-
-
 
 <style>
 </style>

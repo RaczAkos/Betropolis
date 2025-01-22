@@ -1,12 +1,13 @@
 <script lang="ts">
-	import '../../app.css';
+	import '$lib/app.css';
+	import HubNavbar from '$lib/components/HubNavbar.svelte';
 	let { children } = $props();
 </script>
 
 
-
 <div class="h-screen bg-center bg-no-repeat bg-cover bg-scroll ">
 	{@render children()}
+	<HubNavbar/>
 </div>
 
 <style>
