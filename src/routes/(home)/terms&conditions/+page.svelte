@@ -1,3 +1,9 @@
+<!-- Title and Description of the Page -->
+<svelte:head>
+    <title>Terms & Conditions - Betropolis</title>
+    <meta name="description" content="Terms & Conditions of Betropolis Casino." />
+</svelte:head>
+
 <div class=" text-yellow-600 px-[30%] py-[5%]">
     <h1 class="font-bold text-[45px] border-b rounded-t border-yellow-600">Terms and Conditions</h1>
 

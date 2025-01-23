@@ -1,3 +1,8 @@
+<svelte:head>
+    <title>Privacy Policy - Betropolis</title>
+    <meta name="description" content="The Privacy Policy of Betropolis Casino." />
+</svelte:head>
+
 <div class=" text-yellow-600 px-[30%] py-[5%]">
     <h1 class="font-bold text-[45px] border-b rounded-t border-yellow-600">Privacy Policy</h1>
 

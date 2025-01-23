@@ -1,3 +1,4 @@
+<!-- Title and Description of the Page -->
 <svelte:head>
     <title>Welcome to Betropolis Casino!</title>
     <meta name="description" content="Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience." />
@@ -10,7 +11,7 @@
     let cardImages = shuffle(frenchcards),
         modal = $state(false),
         goodEmail = $state(true),
-        email = $state("eeeeew@www.ww");
+        email = $state("");
 
     function shuffle(array: string[]) {
         let currentIndex = array.length;
@@ -25,12 +26,12 @@
     async function bonus() {
         if (/^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/.test(email)) {
             alert("jó");
-            const res = fetch('localhost:5173/bonus.ts', {
+            const res = fetch('/api/bonus', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
             });
-            const alma = await res.json();
+            const alma = (await res).json();
             console.log(alma)
         } else {
             goodEmail = false;
@@ -39,9 +40,12 @@
     
 </script>
 
-<header class="w-[1440px] xl:w-screen ">
+<header class="w-[1440px] xl:w-screen">
     <div class="relative text-center">
-        <video poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" src={banner} autoplay muted loop class=" blur-sm drop-shadow-none sepia-0 poster">
+        <video poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 
+               src={banner} 
+               autoplay muted loop 
+               class=" blur-sm drop-shadow-none sepia-0 poster">
         </video>
         <div class="overlay w-screen absolute top-0 left-0 px-20 ">
             <!--<p class="text-xl text-yellow-600">Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.</p>-->
@@ -53,15 +57,15 @@
 <!-- Bonus Game -->
 <div class="flex justify-center mt-3 borgens text-3xl text-yellow-600 text-center max-sm:text-2xl">
     <div class="mx-5 lg:basis-2/3">
-        <h2>Choose a card for a free extra starting bonus!</h2>
+        <h2 class="select-none">Choose a card for a free extra starting bonus!</h2>
         <div class="ledBorder grid grid-cols-4 max-md:grid-cols-2 mx-5 my-2 gap-2 p-2 rounded-3xl">
             {#each cardImages as img}
             <button onclick={() => modal = !modal} class="border flex items-center justify-center rounded-3xl bg-gray-300 hover:duration-[150ms] ease-in-out hover:scale-[1.07] hover:shadow-xl hover:shadow-black">
-                <img src={img} alt="" class="h-1/2">
+                <img src={img} alt="Card" class="h-1/2">
             </button>
             {/each}
         </div>
-        <h2>Already claimed the bonus? <a href="/sign-up" class="hover:underline">Sign up!</a></h2>
+        <h2 class="select-none">Already claimed the bonus? <a href="/sign-up" class="hover:underline">Sign up!</a></h2>
     </div>
 </div>
 

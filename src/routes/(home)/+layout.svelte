@@ -5,7 +5,7 @@
 	let { children } = $props();
 </script>
 
-<Navbar></Navbar>
+<Navbar signin="Sign in" signup="Sign up" linksignin="/sign-in" linksignup="/sign-up"></Navbar>
 
 {@render children()}
 
