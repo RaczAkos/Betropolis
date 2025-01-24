@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Jan 07. 11:55
+-- Létrehozás ideje: 2025. Jan 24. 13:07
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.1.17
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `betropolis`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `bonus`
+--
+
+CREATE TABLE `bonus` (
+  `email` varchar(50) NOT NULL,
+  `starting_bonus` int(5) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `bonus`
+--
+
+INSERT INTO `bonus` (`email`, `starting_bonus`, `status`) VALUES
+('efeffeeffe@efeef.fe', 3000, 0);
 
 -- --------------------------------------------------------
 
@@ -44,10 +63,10 @@ INSERT INTO `game` (`gameid`, `name`, `type`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `transactions`
+-- Tábla szerkezet ehhez a táblához `statistics`
 --
 
-CREATE TABLE `transactions` (
+CREATE TABLE `statistics` (
   `transactionid` bigint(11) NOT NULL,
   `email` varchar(50) NOT NULL,
   `gameid` int(3) NOT NULL,
@@ -58,19 +77,19 @@ CREATE TABLE `transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `transactions`
+-- A tábla adatainak kiíratása `statistics`
 --
 
-INSERT INTO `transactions` (`transactionid`, `email`, `gameid`, `gain`, `oldbalance`, `amount`, `newbalance`) VALUES
+INSERT INTO `statistics` (`transactionid`, `email`, `gameid`, `gain`, `oldbalance`, `amount`, `newbalance`) VALUES
 (1, 'racz.akoscsaba-2020@keri.mako.hu', 1, 1, 99999, 1, 100000);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `user`
+-- Tábla szerkezet ehhez a táblához `users`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
   `email` varchar(50) NOT NULL,
   `firstname` varchar(20) NOT NULL,
   `lastname` varchar(20) NOT NULL,
@@ -82,10 +101,10 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `user`
+-- A tábla adatainak kiíratása `users`
 --
 
-INSERT INTO `user` (`email`, `firstname`, `lastname`, `age`, `gender`, `username`, `password`, `balance`) VALUES
+INSERT INTO `users` (`email`, `firstname`, `lastname`, `age`, `gender`, `username`, `password`, `balance`) VALUES
 ('racz.akoscsaba-2020@keri.mako.', 'Akos', 'Racz', 19, 'M', 'Zsakosakiraj', 'admin', 99999),
 ('racz.akoscsaba-2020@keri.mako.hu', 'Akos', 'Racz', 19, 'M', 'Zsakosakiraj', 'admin', 99999);
 
@@ -94,22 +113,28 @@ INSERT INTO `user` (`email`, `firstname`, `lastname`, `age`, `gender`, `username
 --
 
 --
+-- A tábla indexei `bonus`
+--
+ALTER TABLE `bonus`
+  ADD PRIMARY KEY (`email`);
+
+--
 -- A tábla indexei `game`
 --
 ALTER TABLE `game`
   ADD PRIMARY KEY (`gameid`);
 
 --
--- A tábla indexei `transactions`
+-- A tábla indexei `statistics`
 --
-ALTER TABLE `transactions`
+ALTER TABLE `statistics`
   ADD PRIMARY KEY (`transactionid`),
   ADD KEY `email` (`email`,`gameid`);
 
 --
--- A tábla indexei `user`
+-- A tábla indexei `users`
 --
-ALTER TABLE `user`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`email`);
 
 --
@@ -117,9 +142,9 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT a táblához `transactions`
+-- AUTO_INCREMENT a táblához `statistics`
 --
-ALTER TABLE `transactions`
+ALTER TABLE `statistics`
   MODIFY `transactionid` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
