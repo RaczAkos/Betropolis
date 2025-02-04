@@ -7,6 +7,21 @@
 <script lang=ts>
     import banner from "$lib/media/videos/banner.mp4";
     import frenchcards from "$lib/frenchcards";
+    import images from "$lib/hubgames";
+
+    import { onMount } from "svelte";
+
+    let index = 0;
+    let slides:any;
+
+    onMount(() => {
+        setInterval(() => {
+        if (slides) {
+            index = (index + 1) % 3;
+            slides.style.transform = `translateX(-${index * 100}%)`;
+        }
+        }, 3000);
+    });
 
     let cardImages = shuffle(frenchcards),
         modal = $state(false),
@@ -40,6 +55,7 @@
     
 </script>
 
+
 <header class="w-[1440px] xl:w-screen">
     <div class="relative text-center">
         <video poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 
@@ -47,12 +63,19 @@
                autoplay muted loop 
                class=" blur-sm drop-shadow-none sepia-0 poster">
         </video>
-        <div class="overlay w-screen absolute top-0 left-0 px-20 ">
-            <!--<p class="text-xl text-yellow-600">Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.</p>-->
-        </div>
+        <!--<p>Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.</p>-->
     </div>
 
 </header>
+<!--Carousel-->
+<div class="relative w-full max-w-2xl mx-auto overflow-hidden my-[50px]">
+    <div bind:this={slides} class="flex transition-transform duration-500">
+      <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
+      <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
+      <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
+    </div>
+</div>
+
 
 <!-- Bonus Game -->
 <div class="flex justify-center mt-3 borgens text-3xl text-yellow-600 text-center max-sm:text-2xl">
