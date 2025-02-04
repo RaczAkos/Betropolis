@@ -3,7 +3,7 @@
 </script>
 <div class="text-white">
     <p>temporary hyperlinks</p>
-    <a href="/hub/fruit-frenzy-classic">Fruit Frenzy</a>
+    <a href="/fruit-frenzy-classic">Fruit Frenzy</a>
     <a href="/findcard">Findcard</a>
     <a href="fortunewheel">fortunewheel</a>
     <a href="crashgame">crash</a>
