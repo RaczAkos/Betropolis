@@ -11,8 +11,11 @@
     let cardImages = shuffle(frenchcards),
         modal = $state(false),
         goodEmail = $state(true),
-        email = $state("");
+        returnedBonus = $state(false),
+        email = $state(""),
+        bonus:any = $state({title:"", message:""});
 
+    // Array shuffle
     function shuffle(array: string[]) {
         let currentIndex = array.length;
         while (currentIndex != 0) {
@@ -23,21 +26,24 @@
         return array;
     }
 
-    async function bonus() {
+    // Bonus Game
+    async function bonusGame() {
+        // Checking email format
         if (/^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/.test(email)) {
-            alert("jó");
-            const res = fetch('/api/bonus', {
+            const res = await fetch('/api/bonus', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
-            });
-            const alma = (await res).json();
-            console.log(alma)
-        } else {
-            goodEmail = false;
-        }
+            }).then (res => res.json());
+            bonus = {
+                title: res.title,
+                message: res.message
+            }
+            returnedBonus = true;
+            goodEmail = true;
+            email = "";
+        } else goodEmail = false;
     }
-    
 </script>
 
 <header class="w-[1440px] xl:w-screen">
@@ -76,26 +82,55 @@
     
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-
             <div class="relative transform overflow-hidden bg-black text-left border border-yellow-600 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
-                <div class="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <h3 class="font-semibold text-center text-yellow-600 text-4xl border-b" id="modal-title">Claim your extra starting bonus!</h3>
-                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
-                            <div class="my-2">
-                                <p class="text-md text-yellow-600 text-justify px-4">
-                                    Please enter the e-mail you want your bonus to be connected to. You will automaticly get that bonus when you sign up with that e-mail.
-                                </p>
-                            </div>
-                            <input id="bonusemail" bind:value={email} type="email" placeholder="example@example.com" class="shadow appearance-none border-2 border-yellow-600 rounded w-full py-2 px-3 placeholder:text-yellow-600/50 text-yellow-600 leading-tight focus:outline-none focus:shadow-outline bg-black">
-                            <p class:hidden={goodEmail}>Please enter a valid e-mail address.</p>
+                {#if !returnedBonus}
+                <div class="p-4">
+                    <h3 class="font-semibold text-center text-yellow-600 text-4xl borgens">Claim your extra starting bonus!</h3>
+                    <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                        <div class="my-2">
+                            <p class="text-md text-yellow-600 text-justify">
+                                Please enter the e-mail you want your bonus to be connected to. You will automaticly get that bonus when you sign up with that e-mail.
+                            </p>
+                        </div>
+                        <input id="bonusemail" 
+                               bind:value={email} 
+                               type="email" 
+                               placeholder="example@example.com" 
+                               class="shadow text-center appearance-none border-2 border-yellow-600 rounded w-full py-2 px-3 placeholder:text-yellow-600/50 text-yellow-600 leading-tight focus:outline-none focus:shadow-outline bg-black">
+                        <p class:hidden={goodEmail} class="text-red-600 text-center m-1">Please enter a valid e-mail address.</p>
+                    </div>
+                </div>
+                <div class="border-t-yellow-600 border-t my-1 px-4 py-2 sm:flex sm:flex-row-reverse sm:px-6 justify-center">
+                    <button onclick={() => bonusGame()} 
+                            type="button" 
+                            class="max-sm:mb-2 sm:ms-2 inline-flex w-full justify-center rounded-md bg-black p-2 text-md font-semibold text-yellow-600 border border-yellow-600 hover:bg-yellow-600 hover:text-black duration-300 sm:w-auto">
+                        Claim
+                    </button>
+                    <button onclick={() =>{ modal = !modal; email = ""; }} 
+                            type="button" 
+                            class="inline-flex w-full justify-center rounded-md bg-black p-2 text-md font-semibold text-yellow-600 border border-yellow-600 hover:bg-yellow-600 hover:text-black duration-300 sm:w-auto">
+                        Close
+                    </button>
+                </div>
+                {:else}
+                <div class="p-4">
+                    <h3 class="font-semibold text-center text-yellow-600 text-4xl borgens">{bonus.title}</h3>
+                    <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                        <div class="my-2">
+                            <p class="text-lg text-yellow-600 text-center">
+                                {bonus.message}
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="border-t-yellow-600 border-t my-1 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 justify-center">
-                    <button onclick={() => bonus()} type="button" class="text-white">Claim!</button>
-                    <button onclick={() => modal = !modal} type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Close</button>
+                    <button onclick={() =>{ modal = !modal; bonus = {}; returnedBonus = false; }} 
+                        type="button" 
+                        class="inline-flex w-full justify-center rounded-md bg-black p-2 text-md font-semibold text-yellow-600 border border-yellow-600 hover:bg-yellow-600 hover:text-black duration-300 sm:w-auto">
+                        Close
+                    </button>
                 </div>
+                {/if}
             </div>
         </div>
     </div>
