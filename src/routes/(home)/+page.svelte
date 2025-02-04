@@ -71,14 +71,13 @@
         </video>
         <!--<p>Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.</p>-->
     </div>
-
 </header>
 <!--Carousel-->
 <div class="relative w-full max-w-2xl mx-auto overflow-hidden my-[50px]">
     <div bind:this={slides} class="flex transition-transform duration-500">
       <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
-      <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
-      <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
+      <div class="w-full flex-shrink-0"><img src="{images[1]}" class="w-full rounded-lg" /></div>
+      <div class="w-full flex-shrink-0"><img src="{images[2]}" class="w-full rounded-lg" /></div>
     </div>
 </div>
 
