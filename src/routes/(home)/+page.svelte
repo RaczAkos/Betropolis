@@ -8,8 +8,8 @@
     import banner from "$lib/media/videos/banner.mp4";
     import frenchcards from "$lib/frenchcards";
     import images from "$lib/hubgames";
-
     import { onMount } from "svelte";
+    import Input from "$lib/components/Input.svelte";
 
     let index = 0;
     let slides:any;
@@ -114,11 +114,10 @@
                                 Please enter the e-mail you want your bonus to be connected to. You will automaticly get that bonus when you sign up with that e-mail.
                             </p>
                         </div>
-                        <input id="bonusemail" 
+                        <Input id="bonusemail" 
                                bind:value={email} 
                                type="email" 
-                               placeholder="example@example.com" 
-                               class="shadow text-center appearance-none border-2 border-yellow-600 rounded w-full py-2 px-3 placeholder:text-yellow-600/50 text-yellow-600 leading-tight focus:outline-none focus:shadow-outline bg-black">
+                               placeholder="example@example.com"/>
                         <p class:hidden={goodEmail} class="text-red-600 text-center m-1">Please enter a valid e-mail address.</p>
                     </div>
                 </div>
