@@ -13,7 +13,7 @@
         slot3:string = icons[giveRandom(icons.slice(0,6))],
         goldenicons:string[] = icons.slice(7,14),
         feedback:string = $state("Start spinning!"), 
-        bet:number = $state(1),
+        bet:number = $state(10),
         autorun:boolean = $state(false),
         spinning:boolean = $state(false),
         modal:boolean = $state(false);
@@ -176,7 +176,6 @@
         // transaction
 
         balance += gain;
-        console.log(`Spin: ${fruit1} + ${fruit2} + ${fruit3}`)
 
         setTimeout(() => {
             if (autorun && balance !> 1) {
@@ -255,7 +254,6 @@
         setTimeout(() => {
             goldreels[2].classList.remove("goldpulse");
         }, 600)
-        
     }
 
 </script>
@@ -264,7 +262,7 @@
     <div class="absolute bottom-2">
         <a href="/hub" 
            class="text-2xl max-sm:underline hover:underline orangek" 
-           class:hidden={spinning || !bet || bet < 0 || balance < bet}>
+           class:hidden={spinning}>
            Back to Hub
         </a>
     </div>
@@ -276,7 +274,6 @@
         <div class="border flex flex-row items-center mb-2 select-none">
             {#each [slot1, slot2, slot3] as item,i}
                 <div>
-
                     <!-- Reels -->
                     <div id={"spin"+(i+1)} 
                          class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip max-sm:h-[120px] max-sm:w-[120px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] relative lg:w-[250px]">
@@ -311,9 +308,10 @@
                         type="button" 
                         class="border border-red-500 basis-1/4 text-3xl rounded-2xl max-sm:basis-1/2 disabled:bg-transparent hover:scale-[1.05] disabled:hover:scale-100 duration-200" 
                         class:animate-pulse={spinning} 
-                        disabled={spinning || !bet || bet < 0 || balance < bet} 
+                        disabled={spinning || !bet || bet < 10 || balance < bet} 
                         onclick={spin}>
-                        Spin</button>
+                    Spin
+                </button>
 
                 <input type="text" 
                        disabled 
@@ -324,7 +322,7 @@
                         type="button" 
                         class="border-red-500 disabled:bg-transparent disabled:hover:scale-100 border basis-1/4 text-3xl rounded-2xl animation max-sm:basis-1/2 hover:scale-[1.05] duration-200" 
                         class:animate-pulse={autorun} 
-                        disabled={!bet || bet < 0 || balance < bet} 
+                        disabled={!bet || bet < 10 || balance < bet} 
                         onclick={() => {autorun = !autorun; if (!spinning) spin();}}>
                         {#if autorun}Autorun On{:else}Autorun{/if}</button>
             </div>
@@ -335,7 +333,7 @@
                     <span class="inline-flex items-center text-2xl bg-red-900 border-red-900 basis-1/4 border rounded-e-0 border-e-0 rounded-s-2xl justify-center orangek">BET:</span>
                     
                     <input type="number" 
-                           min="1" 
+                           min="10" 
                            max={balance} 
                            disabled={spinning} 
                            bind:value={bet} 
@@ -347,13 +345,12 @@
                     <div class="flex">
                         <span class="inline-flex items-center text-2xl px-1 bg-red-900 border-red-900 border rounded-e-0 border-e-0 rounded-s-2xl basis-3/12 justify-center orangek">BALANCE:</span>
                         
-                        <input type="text" 
-                               min="1" 
+                        <input type="text"
                                disabled bind:value={balance} 
                                class="rounded-none bg-red-50 border border-e-0 text-gray-900 py-2 text-center basis-[63%]" 
                                placeholder="Place your bet!">
                         
-                               <span class="inline-flex items-center text-2xl px-1 bg-red-50 border border-s-0 rounded-e-2xl basis-[12%] justify-end orangek">
+                        <span class="inline-flex items-center text-2xl px-1 bg-red-50 border border-s-0 rounded-e-2xl basis-[12%] justify-end orangek">
                             <img src={chip} 
                                  alt="chip" 
                                  class="h-8">
@@ -366,7 +363,9 @@
 
         <!-- Rules modal trigger -->
         <button class="text-center text-wrap hover:underline max-sm:underline orangek text-xl mx-auto flex px-3" 
-                onclick={() => modal = true}>Rules</button>
+                onclick={() => modal = true}>
+            Rules
+        </button>
     </div>
 </div>
 
@@ -377,21 +376,21 @@
     
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto text-white">
         <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-            <div  class="shadow-[0_0px_600px_-15px_rgba(0,0,0,0.3)] shadow-white relative transform overflow-hidden bg-red-700 text-left border transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 p-2 rounded-3xl orangek">
-                <h1 class="text-center text-5xl pb-2 border-b">Rules</h1>
+            <div  class="shadow-[0_0px_600px_-15px_rgba(0,0,0,0.3)] shadow-white relative transform overflow-hidden bg-red-700 text-left border transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 p-2 rounded-3xl">
+                <h1 class="text-center text-5xl pb-2 border-b orangek">Rules</h1>
 
                 <!-- Description -->
-                <div class="p-2">
+                <div class="p-3">
                     <p class="text-justify text-xl sm:text-2xl leading-6">
-                        The reels contain 7 fruits and a can contain up to 3 golden variants of the fruits. Golden variants boosts the win. You win if you get identical fruits next to each other, or you get triple fruits.
+                        The reels contain 7 fruits and can contain up to 3 golden variants of the fruits. Golden variants boost the win. You win if you get three identical fruits next to each other.
                     </p>
                     <p class="text-justify text-xl sm:text-2xl leading-6 mt-2">
-                        Press the spin button to try your luck. You can use the autorun button to keep the machine continously running. The minimum bet is 1 chip.
+                        Press the spin button to try your luck. You can use the autorun button to keep the machine continously running. The minimum bet is 10 chip.
                     </p>
                 </div>
                 
                 <div class="border-t pt-2 flex justify-center">
-                    <button class="border text-2xl p-1 rounded-2xl w-24 hover:scale-105" onclick={() => modal = false}>Close</button>
+                    <button class="border text-2xl p-1 rounded-xl w-24 hover:bg-white hover:text-red-700 duration-300" onclick={() => modal = false}>Close</button>
                 </div>
             </div>
         </div>
