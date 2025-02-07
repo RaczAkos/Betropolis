@@ -10,7 +10,7 @@
             </a>
             <ul id='alma' class="flex flex-wrap max-md:flex-col items-center max-lg:text-xl text-2xl font-medium mt-5">
                 <li>
-                    <a href="/login" class="hover:underline sm:me-6">Login</a>
+                    <a href="/sign-in" class="hover:underline sm:me-6">Login</a>
                 </li>
                 <li>
                     <a href="/about" class="hover:underline sm:me-6">About</a>

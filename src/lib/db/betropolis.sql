@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Jan 24. 13:07
+-- Létrehozás ideje: 2025. Feb 06. 08:28
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.1.17
 
@@ -38,7 +38,7 @@ CREATE TABLE `bonus` (
 --
 
 INSERT INTO `bonus` (`email`, `starting_bonus`, `status`) VALUES
-('efeffeeffe@efeef.fe', 3000, 0);
+('example@example.com', 2700, 0);
 
 -- --------------------------------------------------------
 
@@ -49,16 +49,38 @@ INSERT INTO `bonus` (`email`, `starting_bonus`, `status`) VALUES
 CREATE TABLE `game` (
   `gameid` int(3) NOT NULL,
   `name` varchar(30) NOT NULL,
-  `type` varchar(20) NOT NULL,
-  `description` text NOT NULL
+  `type-id` int(2) NOT NULL,
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `game`
 --
 
-INSERT INTO `game` (`gameid`, `name`, `type`, `description`) VALUES
-(1, 'Fruit Jackpot Frenzy', 'slot', 'Spin your way to juicy rewards in Fruit Jackpot Frenzy! This vibrant slot game is packed with colorful fruit symbols, exciting bonus rounds, and thrilling multipliers. With every spin, you\'ll have the chance to hit massive jackpots while enjoying the playful, fruity theme. Whether you\'re a casual player or a high roller, the fun never stops in this fruit-filled adventure!');
+INSERT INTO `game` (`gameid`, `name`, `type-id`, `description`) VALUES
+(1, 'Fruit Frenzy Classic', 1, 'Spin your way to juicy rewards in Fruit Jackpot Frenzy! This vibrant slot game is packed with colorful fruit symbols, exciting bonus rounds, and thrilling multipliers. With every spin, you\'ll have the chance to hit massive jackpots while enjoying the playful, fruity theme. Whether you\'re a casual player or a high roller, the fun never stops in this fruit-filled adventure!'),
+(2, 'Crash', 3, NULL),
+(3, 'Find Card', 2, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `game-type`
+--
+
+CREATE TABLE `game-type` (
+  `id` int(2) NOT NULL,
+  `category` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `game-type`
+--
+
+INSERT INTO `game-type` (`id`, `category`) VALUES
+(1, 'slot-machine'),
+(2, 'card'),
+(3, 'other');
 
 -- --------------------------------------------------------
 
@@ -91,22 +113,12 @@ INSERT INTO `statistics` (`transactionid`, `email`, `gameid`, `gain`, `oldbalanc
 
 CREATE TABLE `users` (
   `email` varchar(50) NOT NULL,
-  `firstname` varchar(20) NOT NULL,
-  `lastname` varchar(20) NOT NULL,
   `age` int(3) NOT NULL,
   `gender` char(1) NOT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
   `balance` bigint(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `users`
---
-
-INSERT INTO `users` (`email`, `firstname`, `lastname`, `age`, `gender`, `username`, `password`, `balance`) VALUES
-('racz.akoscsaba-2020@keri.mako.', 'Akos', 'Racz', 19, 'M', 'Zsakosakiraj', 'admin', 99999),
-('racz.akoscsaba-2020@keri.mako.hu', 'Akos', 'Racz', 19, 'M', 'Zsakosakiraj', 'admin', 99999);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -125,6 +137,12 @@ ALTER TABLE `game`
   ADD PRIMARY KEY (`gameid`);
 
 --
+-- A tábla indexei `game-type`
+--
+ALTER TABLE `game-type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- A tábla indexei `statistics`
 --
 ALTER TABLE `statistics`
@@ -140,6 +158,18 @@ ALTER TABLE `users`
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
+
+--
+-- AUTO_INCREMENT a táblához `game`
+--
+ALTER TABLE `game`
+  MODIFY `gameid` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT a táblához `game-type`
+--
+ALTER TABLE `game-type`
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `statistics`
