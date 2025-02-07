@@ -62,14 +62,29 @@
 </script>
 
 
-<header class="w-[1440px] xl:w-screen">
-    <div class="relative text-center">
+<header class="w-auto xl:w-screen">
+    <div class="relative">
         <video poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 
                src={banner} 
                autoplay muted loop 
-               class=" blur-sm drop-shadow-none sepia-0 poster">
+               class=" blur-sm drop-shadow-none sepia-0 poster"
+               preload='auto'>
         </video>
-        <!--<p>Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.</p>-->
+        <div class="absolute bottom-0 left-0 right-0 top-0 grid place-items-center text-center">
+            <div class="w-[50vw] text-yellow-600 text-4xl" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
+                        -1px 1px 0 #000, 1px 1px 0 #000;">
+                Welcome to Betropolis!
+                <br>
+                <div class="text-xl pt-5 border-t-2 border-yellow-600">
+                    your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.
+                </div>
+                <br>
+                <div class="text-2xl inline-block ms-5 p-2 shadow-lg  text-white border rounded-md hover:bg-yellow-600 hover:text-black hover:border-yellow-600">
+                    <a href="/conditions"><h1>Rules & Games</h1></a>
+                </div>
+            </div>        
+        </div>
+
     </div>
 </header>
 <!--Carousel-->
