@@ -11,7 +11,7 @@ export function generateSessionToken(): string {
 
 export async function createSession(token: string, userId: number): Promise<Session> {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-    let db = dbConnect();
+    let db = await dbConnect();
 	const session: Session = {
 		id: sessionId,
 		userId,
@@ -29,7 +29,7 @@ export async function createSession(token: string, userId: number): Promise<Sess
 
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-    let db = dbConnect();
+    let db = await dbConnect();
 	const row = await db.query(
 		"SELECT user_session.id, user_session.user_id, user_session.expires_at, users.id FROM user_session INNER JOIN users ON users.id = user_session.user_id WHERE id = ?",
 		[sessionId]
@@ -62,13 +62,13 @@ export async function validateSessionToken(token: string): Promise<SessionValida
 }
 
 export async function invalidateSession(sessionId: string): Promise<void> {
-    let db = dbConnect();
+    let db = await dbConnect();
 	await db.execute("DELETE FROM user_session WHERE id = ?", sessionId);
     db = null;
 }
 
 export async function invalidateAllSessions(userId: number): Promise<void> {
-    let db = dbConnect();
+    let db = await dbConnect();
 	await db.execute("DELETE FROM user_session WHERE user_id = ?", userId);
     db = null;
 }
