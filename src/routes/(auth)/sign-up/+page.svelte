@@ -6,6 +6,7 @@
 <script lang="ts">
     import Input from "$lib/components/Input.svelte";
 
+    // Registration type checking
     interface Registration {
         name:string,
         username:string,
@@ -48,7 +49,7 @@
     $effect(() => {
         passFormat = /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[.!#$%&? "]).*$/.test(user.password);
         if (passFormat) passConf = (user.password == password2)? true : false;
-    })
+    });
 
     // Checking fields
     $effect(() => {
@@ -60,11 +61,8 @@
             passConf &&
             conditions.checked &&
             over18.checked
-        ) {
-            valid = true;
-        }
-    })
-    console.log(currentDate)
+        ) valid = true;
+    });
     
 </script>
 
@@ -168,12 +166,20 @@
     </div>
 </div>
 
+<!-- Accepting sign up conditions -->
 <div class="my-2">
     <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer block">
       <input type="checkbox" 
              class="accent-yellow-600" 
              bind:this={conditions}>
-       I have read and accept the <a href="/terms&conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy policy</a>.
+       I have read and accept the 
+       <a href="/terms&conditions"
+          class="sm:hover:underline italic max-sm:underline">Terms & Conditions</a> 
+       and 
+       <a href="/privacy-policy"
+          class="sm:hover:underline italic max-sm:underline">
+          Privacy Policy
+        </a>.
     </label>
     <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer block">
         <input type="checkbox" 

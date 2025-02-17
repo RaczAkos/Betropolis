@@ -1,7 +1,9 @@
+/* Tailwindcss init */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Fonts */
 @font-face{
     font-family: Orange_Knight;
     src: url("$lib/font/Orange_Knight.ttf") format("TrueType");
@@ -18,6 +20,7 @@
 		 url("$lib/font/Dracutaz.ttf") format("TrueType");
 }
 
+/* Classes for fonts */
 .dracutaz {
 	font-family: 'Dracutaz';
 }
@@ -30,6 +33,7 @@
 	font-family: Orange_Knight;
 }
 
+/* Other styles, animations */
 body{
     background-color: black;
 }

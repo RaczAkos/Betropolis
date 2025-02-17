@@ -1,12 +1,20 @@
+<svelte:head>
+    <title>Hub - Betropolis</title>
+    <meta name="description" content="Game Hub of the Casino." />
+</svelte:head>
+
 <script lang="ts">
   import images from "$lib/hubgames";
 </script>
+
 <div class="text-white">
     <p>temporary hyperlinks</p>
     <a href="/fruit-frenzy-classic">Fruit Frenzy</a>
     <a href="/findcard">Findcard</a>
-    <a href="fortunewheel">fortunewheel</a>
-    <a href="crashgame">crash</a>
+    <a href="/fortunewheel">fortunewheel</a>
+    <a href="/crashgame">crash</a>
+    <a href="/">home</a>
+    
 </div>
 <div class="flex justify-center max-h-[90%] overflow-y-scroll pt-[3%] no-scrollbar">
     <div class="grid py-[2%] xl:w-2/3 text-yellow-600 text-xl max-xl:px-[10%] max-xl:py-[3%]">

@@ -15,11 +15,13 @@ export async function POST ({ request }: { request: Request }) {
             // Checking email in database
             let emailCheck = await db.query("SELECT * FROM bonus WHERE email='"+req.email+"';").then((rows:any) => { return rows; });
             
+            // If bonus claimed successfully
             if (!emailCheck[0].length){
-                db.query("INSERT INTO bonus VALUES (?,?,?)", [req.email, bonus, 0]);
+                await db.query("INSERT INTO bonus VALUES (?,?,?)", [req.email, bonus, 0]);
                 title = "Succesfully claimed bonus!";
                 message = "Sign up to claim your starting bonus: " + bonus + " chips";
             }
+            // If email is already registered
             else {
                 title = "Bonus already registered with e-mail!";
                 message = "This email has been already registered for a bonus. Sign up with this e-mail to claim the bonus.";

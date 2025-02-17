@@ -5,7 +5,7 @@
 </script>
 
 <main class="h-screen grid place-items-center bg-scroll bg-center bg-cover bg-no-repeat">
-    <div class=" bg-black shadow-md rounded px-8 pt-6 pb-8 border-double border-yellow-600 border-4">
+    <div class=" bg-black shadow-md rounded px-8 pt-6 pb-2 border-double border-yellow-600 border-4">
 
         <!-- Logo, Welcome -->
         <a href="/" class="text-yellow-600 text-md italic hover:underline max-sm:underline">Back to Home</a>

@@ -1,7 +1,9 @@
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { dbConnect } from "./db";
+import type { RequestEvent } from "@sveltejs/kit";
 
+// Generating session token
 export function generateSessionToken(): string {
 	const bytes = new Uint8Array(20);
 	crypto.getRandomValues(bytes);
@@ -9,6 +11,7 @@ export function generateSessionToken(): string {
 	return token;
 }
 
+// Creating session
 export async function createSession(token: string, userId: number): Promise<Session> {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
     let db = await dbConnect();
@@ -17,62 +20,89 @@ export async function createSession(token: string, userId: number): Promise<Sess
 		userId,
 		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
 	};
+  // Storing session in database
 	await db.query(
 		"INSERT INTO user_session (id, user_id, expires_at) VALUES (?, ?, ?)",
 		[session.id,
 		session.userId,
 		session.expiresAt]
 	);
-    db = null;
 	return session;
 }
 
+// Validating session
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
 	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-    let db = await dbConnect();
+  let db = await dbConnect();
+  // Getting session
 	const row = await db.query(
-		"SELECT user_session.id, user_session.user_id, user_session.expires_at, users.id FROM user_session INNER JOIN users ON users.id = user_session.user_id WHERE id = ?",
+		"SELECT id, user_id, expires_at FROM user_session WHERE user_session.id = ?",
 		[sessionId]
-	);
-	if (row === null) {
+	).then((row:any) => {return row[0][0]});
+
+  // Checking if session exists
+	if (row === undefined || !row) {
 		return { session: null, user: null };
 	}
-	const session: Session = {
-		id: row[0],
-		userId: row[1],
-		expiresAt: row[2]
+  
+	let session: Session = {
+		id: row.id,
+		userId: row.user_id,
+		expiresAt: row.expires_at
 	};
-	const user: User = {
-		id: row[3]
+	let user: User = {
+    id: row.user_id
 	};
+
+  // Checking if session expired, or extending it didn't
 	if (Date.now() >= session.expiresAt.getTime()) {
-		await db.query("DELETE FROM user_session WHERE id = ?", [session.id]);
+    await db.query("DELETE FROM user_session WHERE id = ?", [session.id]);
 		return { session: null, user: null };
 	}
 	if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
-		session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+    session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
 		await db.query(
-			"UPDATE user_session SET expires_at = ? WHERE id = ?",
+      "UPDATE user_session SET expires_at = ? WHERE id = ?",
 			[session.expiresAt,
-			session.id]
-		);
-	}
-    db = null;
+        session.id]
+      );
+    }
 	return { session, user };
 }
 
+// Invalidating a specific session
 export async function invalidateSession(sessionId: string): Promise<void> {
-    let db = await dbConnect();
-	await db.execute("DELETE FROM user_session WHERE id = ?", sessionId);
-    db = null;
+  let db = await dbConnect();
+	await db.query("DELETE FROM user_session WHERE id = ?", [sessionId]);
 }
 
+// Invalidating all sessions from a user
 export async function invalidateAllSessions(userId: number): Promise<void> {
-    let db = await dbConnect();
-	await db.execute("DELETE FROM user_session WHERE user_id = ?", userId);
-    db = null;
+  let db = await dbConnect();
+	await db.query("DELETE FROM user_session WHERE user_id = ?", [userId]);
 }
 
+// Setting session cookie
+export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date): void {
+	event.cookies.set("session", token, {
+		httpOnly: true,
+		sameSite: "lax",
+		expires: expiresAt,
+		path: "/"
+	});
+}
+
+// Deleting session cookie
+export function deleteSessionTokenCookie(event: RequestEvent): void {
+	event.cookies.set("session", "", {
+		httpOnly: true,
+		sameSite: "lax",
+		maxAge: 0,
+		path: "/"
+	});
+}
+
+// Type checking for session and user
 export type SessionValidationResult =
 	| { session: Session; user: User }
 	| { session: null; user: null };
