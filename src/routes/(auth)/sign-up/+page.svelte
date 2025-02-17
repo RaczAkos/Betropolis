@@ -6,6 +6,7 @@
 
 <script lang="ts">
   import Input from "$lib/components/Input.svelte";
+  import { enhance } from "$app/forms";
 
   // Registration type checking
   interface Registration {
@@ -29,6 +30,7 @@
       password2:string = $state(""),
       passConf:boolean = $state(false),
       passFormat:boolean = $state(false),
+      userNameFormat:boolean = $state(false),
       date = new Date(),
       month = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
       day = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
@@ -37,17 +39,22 @@
       over18:HTMLInputElement,
       valid = $state(false);
 
-  // Checking password
+  // Checking password format
   $effect(() => {
     passFormat = /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[.!#$%&? "]).*$/.test(user.password);
     if (passFormat) passConf = (user.password == password2)? true : false;
+  });
+
+  // Checking username format
+  $effect(() => {
+    userNameFormat = /^[a-zA-Z0-9]{5,20}$/.test(user.username);
   });
 
   // Checking fields
   $effect(() => {
     if (user.name.length > 3 && 
       user.name.indexOf(' ') && 
-      user.username.length > 4 &&
+      userNameFormat &&
       user.gender && 
       user.birthdate != "" &&
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(user.email) &&
@@ -58,7 +65,7 @@
   });
 </script>
 
-<form method="POST">
+<form method="POST" use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
   <div class="flex sm:flex-row flex-col sm:w-[500px]">
     <div class="sm:w-1/2">
       <!-- Name -->
@@ -72,7 +79,13 @@
         <Input id="name" 
                bind:value={user.username}
                name="username"
-               label="Username" />
+               label="Username"
+               type="text" />
+        <div class:text-green-400={userNameFormat} 
+             class:opacity-100={userNameFormat} 
+             class="text-gray-300 opacity-50 text-xs text-wrap !text-justify m-1">
+          Username should be 5 to 20 characters and should only contain letters and numbers.
+        </div>
       </div>
       
       <!-- Date of birth -->
