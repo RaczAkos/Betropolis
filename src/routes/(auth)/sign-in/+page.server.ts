@@ -13,18 +13,18 @@ export const actions = {
     let db = await dbConnect();
     
     // Get user from database
-    let user = await db.query(`SELECT id, password FROM users WHERE email = ? OR username = ?;`, [id,id]).then((rows:any) => { return rows[0][0]; });
+    let checkuser = await db.query(`SELECT id, password FROM users WHERE email = ? OR username = ?;`, [id,id]).then((rows:any) => { return rows[0][0]; });
     
     // Close database connection
     db = null;
 
     // Check if user exists
-    if (user) {
+    if (checkuser) {
       // Check if password is correct
-      if(user.password === password) {
+      if(checkuser.password === password) {
         // Create user session
         const token = generateSessionToken();
-        const session = await createSession(token, user.id);
+        const session = await createSession(token, checkuser.id);
         // Set session cookie
         setSessionTokenCookie(event, token, session.expiresAt);
         return redirect(308, "/hub");
