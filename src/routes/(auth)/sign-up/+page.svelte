@@ -7,6 +7,7 @@
 <script lang="ts">
   import Input from "$lib/components/Input.svelte";
   import { enhance } from "$app/forms";
+    import { preventDefault } from "svelte/legacy";
 
   let { form } = $props();
 
@@ -37,8 +38,8 @@
       month = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
       day = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
       currentDate = `${date.getFullYear()-18}-${month}-${day}`,
-      conditions:HTMLInputElement,
-      over18:HTMLInputElement,
+      conditions = $state(false),
+      over18 = $state(false),
       valid = $state(false);
 
   // Checking password format
@@ -61,9 +62,10 @@
       user.birthdate != "" &&
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(user.email) &&
       passConf &&
-      conditions.checked &&
-      over18.checked
+      conditions &&
+      over18
     ) valid = true;
+    else valid = false;
   });
 </script>
 
@@ -150,7 +152,8 @@
                id="password" 
                {type} 
                name="password"
-               label="Password"/>
+               label="Password"
+               onpaste={(e:Event) => e.preventDefault()}/>
         <div class:text-green-400={passFormat} 
              class:opacity-100={passFormat} 
              class="text-gray-300 opacity-50 text-xs text-wrap !text-justify m-1">
@@ -172,11 +175,13 @@
         </div>
       </div>
 
+      <!-- Password confirm -->
       <div class="mb-1">
         <Input bind:value={password2} 
                type="password" 
                id="passconf" 
-               label="Confirm password"/>
+               label="Confirm password" 
+               onpaste={(e:Event) => e.preventDefault()}/>
       </div>
 
       {#if passConf}
@@ -192,7 +197,7 @@
     <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer block">
         <input type="checkbox" 
                class="accent-yellow-600" 
-               bind:this={conditions}>
+               bind:checked={conditions}>
       I have read and accept the 
       <a href="/terms&conditions"
          class="sm:hover:underline italic max-sm:underline">
@@ -207,7 +212,7 @@
     <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer block">
       <input type="checkbox" 
              class="accent-yellow-600" 
-             bind:this={over18}>
+             bind:checked={over18}>
       I am 18 years old or older.
     </label>
   </div>

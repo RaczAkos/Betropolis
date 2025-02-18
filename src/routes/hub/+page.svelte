@@ -41,7 +41,7 @@
     </ul>
   </div>
   <div class="basis-1/3 invisible"></div>
-  <div class:invisible={false} class="basis-1/3 text-white border bg-slate-400">
+  <div class:invisible={false} class="basis-1/3 text-white border bg-slate-400 text-center">
     <ul>
       <li>
         Statistics
@@ -52,7 +52,7 @@
       <li>
         Statistics
       </li>
-      <li>
+      <li class="">
         <button onclick={signOut}>
           Sign out
         </button>

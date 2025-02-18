@@ -47,7 +47,7 @@
            label="Password"/>
   
     <!-- Show password -->
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-1">
       <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer block">
         <input type="checkbox" 
                class="accent-yellow-600" 
