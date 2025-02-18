@@ -76,9 +76,6 @@
                 <div class="w-1/2">
                     Welcome to Betropolis!
                 </div>
-                <br>
-                <div class="text-xl pt-5 border-t-2 border-yellow-600">
-                </div>
             </div>        
         </div>
     </div>
