@@ -83,6 +83,9 @@ $effect(() => {
       if (decideIfCrashed) {
         if (crashText) {
           crashText.classList.remove("hidden");
+          setTimeout(() => {
+            crashText.classList.add("hidden");
+          }, 3000);
         }
         multiplierDom.classList.remove("text-yellow-600");
         multiplierDom.classList.add("text-red-600");
@@ -188,10 +191,10 @@ $effect(() => {
 
 <div class="flex justify-center items-center h-screen select-none bgImg dracutaz">
   <div class="text-center md:w-[70%]">
-    <div class="game-area shadow-yellow-600 shadow-lg overflow-hidden">
-      <div class="flex flex-row h-[85%]">
+    <div class="game-area shadow-yellow-600 shadow-lg">
+      <div class="flex h-[85%] overflow-y-scroll overflow-x-hidden">
         <div class="px-5 my-auto">
-          <div class="overflow-clip w-[25vw] min-w-[200px] mx-auto">
+          <div class="overflow-clip w-[25vw] min-w-[100px] mx-auto kep">
             <img src="{image}" alt="" class="scale-150">
           </div>
           <!-- Define amount -->
@@ -293,7 +296,7 @@ $effect(() => {
 
         <!-- Moving Scale -->
         <div class="grow items-center max-md:ps-1">
-          <p class='text-center text-red-600 text-[120px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>Crashed at {multiplier.toFixed(2)}x!</p>
+          <p class='text-center text-red-600 text-[120px] max-md:text-[70px] max-sm:text-[40px] max-xs:text-[15px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>Crashed at {multiplier.toFixed(2)}x!</p>
           <canvas
             bind:this={canvas}
             class="h-full fireborder"
@@ -476,6 +479,17 @@ $effect(() => {
       0 -.8em .6em #973716, 
       -.2em -1em .8em #451b0e;
   }
+}
+
+@media (max-height: 768px) {
+    .specmax {
+        background: rgb(202,138,4);
+        background: linear-gradient(90deg, rgba(202,138,4,1) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(202,138,4,1) 100%); 
+    }
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 </style>
