@@ -64,7 +64,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
 		await db.query(
       "UPDATE user_session SET expires_at = ? WHERE id = ?",
 			[session.expiresAt,
-        session.id]
+       session.id]
       );
     }
 	return { session, user };

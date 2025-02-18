@@ -18,10 +18,24 @@ export const actions = {
         },
         db = await dbConnect();
     
+    // Check username in database
     let nameCheck = await db.query("SELECT balance FROM users WHERE username LIKE ?;", [user.username]).then((row:any) => {return row[0][0]});
-    if (nameCheck) {
-      console.log(nameCheck)
-    }
+    if (nameCheck) return {error: "Username already taken."};
+
+    // Check email in database
+    let emailCheck = await db.query("SELECT balance FROM users WHERE email LIKE ?;", [user.email]).then((row:any) => {return row[0][0]});
+    if (emailCheck) return {error: "E-mail already used by someone."};
+
+    // Upload user to db and get back the id
+    await db.query("INSERT INTO users (email, username, password, name, gender, birthdate, balance) VALUES (?,?,?,?,?,?,500)", [user.email, user.username, user.password, user.name, user.gender, user.birthdate]);
+    let id = await db .query("SELECT id FROM users WHERE email = ?", [user.email]).then((row:any) =>  {return row[0][0]})
     
+    // Create session
+    const token = generateSessionToken();
+    const session = await createSession(token, id);
+    
+    // Set session cookie
+    setSessionTokenCookie(event, token, session.expiresAt);
+    return redirect(308, "/hub");
   }
 } satisfies Actions;

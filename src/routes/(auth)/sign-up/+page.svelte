@@ -8,23 +8,25 @@
   import Input from "$lib/components/Input.svelte";
   import { enhance } from "$app/forms";
 
+  let { form } = $props();
+
   // Registration type checking
   interface Registration {
     name:string,
     username:string,
     birthdate:string,
-    gender:string|null,
+    gender:string,
     email:string,
     password:string
   }
 
   let user: Registration = $state({
-        name: "Teszt János",
-        username: "janiteszt",
-        birthdate: "2000-01-01",
-        gender: null,
-        email: "teszt.janos@mail.com",
-        password: "password123."
+        name: "",
+        username: "",
+        birthdate: "",
+        gender: "",
+        email: "",
+        password: ""
       }),
       type:string      = $state("password"),
       password2:string = $state(""),
@@ -214,10 +216,25 @@
   <div class="flex justify-center items-center my-1">
     <button class="disabled:opacity-35 disabled:hover:bg-yellow-600 bg-yellow-600 hover:bg-black border-yellow-600 border-2 hover:border-opacity-100 text-black hover:text-yellow-600 disabled:hover:text-black font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline duration-300" 
             disabled={!valid}>
-      Sign In
+      Sign Up
     </button>
   </div>
+
+  <!-- Go to Sign in -->
+  <div class="flex justify-center">
+    <a class="hover:underline text-yellow-600 italic" href="/sign-in">Already have an account?</a>
+  </div>
 </form>
+
+<!-- Display error/feedback -->
+<div class="bg-red-600 text-white text-center mt-2 rounded-md p-1"
+     class:invisible={!form?.error}>
+  {#if form?.error}
+    {form.error}
+  {:else}
+    hidden
+  {/if}
+</div>
 
 <style>
     input[type="date"] {
