@@ -4,12 +4,13 @@
 </svelte:head>
 
 <script lang="ts">
-  // Sign out
+  let profile:boolean = $state(false),
+      friends:boolean = $state(false)
+
   function signOut() {
     fetch("/api/sign-out").then(() => window.location.reload());
   }
 
-  // Sign out everywhere
   function signOutAll() {
     fetch("/api/sign-out-all").then(() => window.location.reload());
   }
@@ -26,8 +27,8 @@
 
 
 
-<div class="bottom-12 absolute flex w-full items-end">
-  <div class:invisible={false} class="basis-1/3 text-white border bg-slate-400 h-fit">
+<div class="bottom-12 absolute w-full [&_li]:text-center [&_li]:m-2]">
+  <div class:hidden={!friends} class="w-1/3 text-white border bg-slate-400 h-fit float-start">
     <ul>
       <li>
         Friends
@@ -40,8 +41,7 @@
       </li>
     </ul>
   </div>
-  <div class="basis-1/3 invisible"></div>
-  <div class:invisible={false} class="basis-1/3 text-white border bg-slate-400 text-center">
+  <div class:hidden={!profile} class="w-1/3 text-white border bg-slate-400 float-right">
     <ul>
       <li>
         Statistics
@@ -68,13 +68,15 @@
 
 <!-- Hub navbar -->
 <nav class="flex bg-black bottom-0 w-full text-white fixed text-center border-t border-gray-600 border-opacity-70">
-  <button class="basis-1/3 p-3">
+  <button class="basis-1/3 p-3"
+          onclick={() => {friends = !friends; profile = false}}>
     Friends
   </button>
   <button class="basis-1/3 p-3 border-x border-gray-600 border-opacity-70">
     Add funds
   </button>
-  <button class="basis-1/3 p-3">
+  <button class="basis-1/3 p-3"
+          onclick={() => {profile = !profile; friends = false}}>
     Profile
   </button>
 </nav>
