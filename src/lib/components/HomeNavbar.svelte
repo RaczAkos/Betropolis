@@ -12,7 +12,7 @@
         <div class="place-items-start w-1/3 place-content-center">
           <!-- To be implemented -->
         </div>
-        <div class="w-1/3 place-items-center place-content-center grid p-1">
+        <div class="w-1/3 place-items-center place-content-center grid p-1 nav">
           <a href="/">
             <img src="{logo}" alt="Casino Logo" class="h-[80px]">
           </a>
@@ -51,8 +51,7 @@
 </nav>
 
 <style>
-    nav{
-        background: rgb(0,0,0);
-        background: linear-gradient(90deg, rgba(0,0,0,1) 30%, rgba(165, 128, 5, 0.705) 50%, rgba(0,0,0,1) 70%);
+    .nav{
+      background-image: linear-gradient(to left, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
     }
 </style>
