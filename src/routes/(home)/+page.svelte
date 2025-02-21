@@ -70,25 +70,25 @@
                class=" blur-sm drop-shadow-none sepia-0 poster"
                preload='auto'>
         </video>
-        <div class="absolute bottom-0 left-0 right-0 top-0 max-md:top-5 grid place-items-center text-center">
-            <div class="w-[50vw] text-yellow-600 text-4xl max-sm:text-2xl place-items-center textShadow">
-                <div class="w-1/2">
+        <div class="absolute bottom-0 left-0 right-0 top-0 max-md:top-5 flex justify-center items-center text-center w-full">
+            <div class="text-yellow-600 text-4xl max-sm:text-2xl flex justify-center textShadow">
+                <h1 class="">
                     Welcome to Betropolis!
-                </div>
+                </h1>
             </div>        
         </div>
     </div>
 </header>
 <div class="goldenbg">
-    <div class="relative w-full max-w-[1400px] mx-auto flex flex-wrap md:flex-nowrap items-center py-[50px] text-yellow-600 text-xl text-center max-sm:text-sm">
-        <div class="md:w-3/4 text-center justify-items-center p-5">
-            <p class="border-yellow-600 border-t border-b pt-5 pb-5 rounded-xl max-md:w-3/4 max-sm:px-3 textShadow">
+    <div class="relative w-full max-w-[1400px] mx-auto flex flex-wrap md:flex-nowrap items-center py-[50px] text-yellow-600 text-xl text-center max-sm:text-sm borgens">
+        <div class="md:w-3/4 text-center justify-items-center flex justify-center p-5">
+            <p class="border-yellow-600 border-y pt-5 pb-5 rounded-xl max-md:w-3/4 max-sm:px-3 textShadow text-justify px-3 max-sm:w-full">
                 Your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.
             </p>
         </div>
         
         <!-- Carousel -->
-        <div class="md:w-[1000px] overflow-hidden">
+        <div class="md:w-[1000px] overflow-hidden m-1">
             <div bind:this={slides} class="flex transition-transform duration-500">
                 <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
                 <div class="w-full flex-shrink-0"><img src="{images[1]}" class="w-full rounded-lg" /></div>
@@ -100,7 +100,7 @@
 
 
 <!-- Bonus Game -->
-<div class="flex justify-center mt-3 borgens text-3xl text-yellow-600 text-center max-sm:text-2xl">
+<div class="flex justify-center mt-9 borgens text-3xl text-yellow-600 text-center max-sm:text-2xl">
     <div class="mx-5 lg:basis-2/3">
         <h2 class="select-none">Choose a card for a free extra starting bonus!</h2>
         <div class="ledBorder grid grid-cols-4 max-md:grid-cols-2 mx-5 my-2 gap-2 p-2 rounded-3xl">
