@@ -108,3 +108,8 @@ body{
 	50%  {background-color:rgb(185, 28, 28);}
 	100% {background-color:transparent;}
 }
+
+::selection {
+	background: black;
+	color: #ca8a04;
+}
