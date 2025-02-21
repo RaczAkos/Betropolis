@@ -71,8 +71,7 @@
                preload='auto'>
         </video>
         <div class="absolute bottom-0 left-0 right-0 top-0 max-md:top-5 grid place-items-center text-center">
-            <div class="w-[50vw] text-yellow-600 text-4xl max-sm:text-2xl place-items-center" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
-                        -1px 1px 0 #000, 1px 1px 0 #000;">
+            <div class="w-[50vw] text-yellow-600 text-4xl max-sm:text-2xl place-items-center textShadow">
                 <div class="w-1/2">
                     Welcome to Betropolis!
                 </div>
@@ -80,18 +79,25 @@
         </div>
     </div>
 </header>
-<div class="specmin">
-    <!--Carousel-->
-    <div class="relative w-full max-w-2xl mx-auto overflow-hidden py-[50px] text-yellow-600 text-xl text-center place-items-center max-sm:text-sm">
-        <p class="border-yellow-600 border-t border-b pt-5 pb-5 rounded-xl max-md:w-3/4 specmax max-sm:px-3">
-            Your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.</p>
-        <div bind:this={slides} class="flex transition-transform duration-500 pt-5">
-        <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
-        <div class="w-full flex-shrink-0"><img src="{images[1]}" class="w-full rounded-lg" /></div>
-        <div class="w-full flex-shrink-0"><img src="{images[2]}" class="w-full rounded-lg" /></div>
+<div class="goldenbg">
+    <div class="relative w-full max-w-[1400px] mx-auto flex flex-wrap md:flex-nowrap items-center py-[50px] text-yellow-600 text-xl text-center max-sm:text-sm">
+        <div class="md:w-3/4 text-center justify-items-center p-5">
+            <p class="border-yellow-600 border-t border-b pt-5 pb-5 rounded-xl max-md:w-3/4 max-sm:px-3 textShadow">
+                Your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.
+            </p>
+        </div>
+        
+        <!-- Carousel -->
+        <div class="md:w-[1000px] overflow-hidden">
+            <div bind:this={slides} class="flex transition-transform duration-500">
+                <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
+                <div class="w-full flex-shrink-0"><img src="{images[1]}" class="w-full rounded-lg" /></div>
+                <div class="w-full flex-shrink-0"><img src="{images[2]}" class="w-full rounded-lg" /></div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!-- Bonus Game -->
 <div class="flex justify-center mt-3 borgens text-3xl text-yellow-600 text-center max-sm:text-2xl">
@@ -180,16 +186,10 @@
         background-position: cover;
         background-position: center;
     }
-    @media (min-width: 768px) {
-        .specmin {
-            background: rgb(202,138,4);
-            background: linear-gradient(90deg, rgba(202,138,4,1) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(202,138,4,1) 100%); 
-        }
+    .goldenbg{
+        background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
     }
-    @media (max-width: 768px) {
-        .specmax {
-            background: rgb(202,138,4);
-            background: linear-gradient(90deg, rgba(202,138,4,1) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(202,138,4,1) 100%); 
-        }
+    .textShadow{
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
 </style>
