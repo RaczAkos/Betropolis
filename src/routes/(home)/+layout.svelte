@@ -2,10 +2,10 @@
 	import '$lib/app.css';
 	import Navbar from '$lib/components/HomeNavbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	let { children } = $props();
+	let { children, data } = $props();
 </script>
 
-<Navbar signin="Sign in" signup="Sign up" linksignin="/sign-in" linksignup="/sign-up"></Navbar>
+<Navbar logged={data.logged}></Navbar>
 
 {@render children()}
 

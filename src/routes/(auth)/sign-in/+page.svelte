@@ -10,17 +10,17 @@
 
   let { form }:PageProps = $props();
 
-  interface Login {
+  // Sign in type checking
+  interface SignIn {
     id:string,
     password:string
   }
 
   let type:string = $state("password"),
       disabling:boolean = $state(false),
-      error:string = $state("error"),
-      user:Login = $state({
-        id: "johndoe",
-        password: "password123"
+      user:SignIn = $state({
+        id: "",
+        password: ""
       });
 </script>
 
@@ -41,20 +41,20 @@
     <Input bind:value={user.password} 
            disabled={disabling} 
            id="password" 
-           name="password"
+           name="password" 
            {type} 
-           required={true}
+           required={true} 
            label="Password"/>
   
     <!-- Show password -->
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-1">
       <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer block">
         <input type="checkbox" 
                class="accent-yellow-600" 
                onchange={() => { 
                  if (type == "password") type = "text";
                  else type = "password";
-                }}>
+               }}>
         Show password
       </label>
     </div>
@@ -71,7 +71,7 @@
   <!-- Sign in -->
   <div class="flex justify-center items-center mb-1">
     <button class="disabled:opacity-35 disabled:hover:bg-yellow-600 bg-yellow-600 hover:bg-black border-yellow-600 border-2 hover:border-opacity-100 text-black hover:text-yellow-600 disabled:hover:text-black font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline duration-300" 
-    disabled={(user.password.length < 8 || user.id.length < 4) || disabling}>
+    disabled={(user.password.length < 8 || user.id.length < 5) || disabling}>
       Sign In
     </button>
   </div>
