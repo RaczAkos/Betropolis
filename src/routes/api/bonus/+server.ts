@@ -17,7 +17,7 @@ export async function POST ({ request }: { request: Request }) {
             
             // If bonus claimed successfully
             if (!emailCheck[0].length){
-                await db.query("INSERT INTO bonus VALUES (?,?,?)", [req.email, bonus, 0]);
+                await db.query("INSERT INTO bonus (email, starting_bonus, status) VALUES (?,?,?)", [req.email, bonus, 0]);
                 title = "Succesfully claimed bonus!";
                 message = "Sign up to claim your starting bonus: " + bonus + " chips";
             }
