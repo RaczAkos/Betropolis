@@ -28,8 +28,12 @@ export const actions = {
 
     // Upload user to db and get back the id
     await db.query("INSERT INTO users (email, username, password, name, gender, birthdate, balance) VALUES (?,?,?,?,?,?,500)", [user.email, user.username, user.password, user.name, user.gender, user.birthdate]);
-    let id = await db .query("SELECT id FROM users WHERE email = ?", [user.email]).then((row:any) =>  {return row[0][0]})
-    
+    let id = await db.query("SELECT id FROM users WHERE email = ?", [user.email]).then((row:any) =>  {return row[0][0]});
+
+    // Add bonus to balance if claimed
+    let bonus = await db.query("SELECT starting_bonus FROM bonus WHERE email LIKE ? AND status LIKE 0;", [user.email]).then((row:any) =>  {return row[0][0]});
+    if (bonus) await db.query("UPDATE users SET balance = 500 + ? WHERE id = ?; UPDATE bonus SET status = 1 WHERE email = ?;", [bonus.starting_bonus, id.id, user.email]);
+
     // Create session
     const token = generateSessionToken();
     const session = await createSession(token, id);

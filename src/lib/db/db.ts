@@ -8,7 +8,8 @@ export function dbConnect(){
             host: "localhost", // XAMPP
             user: "root",
             password: "",
-            database: "betropolis"
+            database: "betropolis",
+            multipleStatements: true
         });
     }
 

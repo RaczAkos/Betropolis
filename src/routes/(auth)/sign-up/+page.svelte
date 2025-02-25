@@ -7,7 +7,6 @@
 <script lang="ts">
   import Input from "$lib/components/Input.svelte";
   import { enhance } from "$app/forms";
-    import { preventDefault } from "svelte/legacy";
 
   let { form } = $props();
 
@@ -44,7 +43,7 @@
 
   // Checking password format
   $effect(() => {
-    passFormat = /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[.!#$%&? "]).*$/.test(user.password);
+    passFormat = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!#$%&?<>_ "]).*$/.test(user.password);
     if (passFormat) passConf = (user.password == password2)? true : false;
   });
 
@@ -76,14 +75,14 @@
       <Input id="name" 
              bind:value={user.name}
              name="name" 
-             label="Full name"/>
+             label="Full name (required)"/>
       
       <!-- Username -->
       <div class="my-2">
         <Input id="name" 
                bind:value={user.username}
                name="username"
-               label="Username"
+               label="Username (required)"
                type="text" />
         <div class:text-green-400={userNameFormat} 
              class:opacity-100={userNameFormat} 
@@ -94,7 +93,7 @@
       
       <!-- Date of birth -->
       <div class="relative">
-        <div class="block text-yellow-600 text-md font-bold p-1">Date of birth</div>
+        <div class="block text-yellow-600 text-md font-bold p-1">Date of birth (required)</div>
         <input bind:value={user.birthdate} 
                max={currentDate} 
                type="date"
@@ -105,7 +104,7 @@
       <div class="flex flex-row max-sm:flex-col p-1 mb-2 gap-2">
         <!-- Gender -->
         <div class="w-full mt-2">
-          <p class="block text-yellow-600 font-bold text-md">Gender</p>
+          <p class="block text-yellow-600 font-bold text-md">Gender (required)</p>
           <div class="flex flex-row justify-center items-center h-2/3 gap-3">
             <div class="basis-1/2">
               <input bind:group={user.gender} 
@@ -143,7 +142,7 @@
                id="email" 
                type="email" 
                name="email"
-               label="E-mail"/>
+               label="E-mail (required)"/>
       </div>
     
       <!-- Password -->
@@ -152,7 +151,7 @@
                id="password" 
                {type} 
                name="password"
-               label="Password"
+               label="Password (required)"
                onpaste={(e:Event) => e.preventDefault()}/>
         <div class:text-green-400={passFormat} 
              class:opacity-100={passFormat} 
@@ -180,7 +179,7 @@
         <Input bind:value={password2} 
                type="password" 
                id="passconf" 
-               label="Confirm password" 
+               label="Confirm password (required)" 
                onpaste={(e:Event) => e.preventDefault()}/>
       </div>
 
