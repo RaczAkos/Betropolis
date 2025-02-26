@@ -15,6 +15,10 @@
       balance = $state(1000),
       multiplier = $state(0.0),
       targetMultiplier = $state(2.0),
+      carousel = $state(),
+      showModal = $state(true),
+      currentSlide = $state(0),
+      totalSlides = $state(3),
       k=0.0025;
 
 function calcOne(e: any) {
@@ -47,6 +51,14 @@ function subtractAmount() {
 function get_crash_probability(multiplier:any, k:any){
     return 1 - Math.exp(-k * (multiplier - 1));
 }
+
+ // Modal
+ function nextSlide() {
+    currentSlide++;
+    if (currentSlide >= totalSlides) {
+      showModal = false;
+    }
+  }
 
 $effect(() => {
   const ctx = canvas.getContext("2d");
@@ -188,6 +200,52 @@ $effect(() => {
   });
 });
 </script>
+{#if showModal}
+  <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+    <div class=" p-5 rounded-lg shadow-lg w-[80vw] max-w-3xl">
+      <div id="horizontal-thumbnails" bind:this={carousel} data-carousel={JSON.stringify({ loadingClasses: "opacity-0" })} class="relative w-full overflow-hidden">
+        <div class="carousel flex w-full h-full">
+          <div class="carousel-body flex w-full h-full transition-transform duration-500" style="transform: translateX(-{currentSlide * 100}%);">
+            <!-- Slide 1 -->
+            <div class="carousel-slide w-full flex-shrink-0">
+              <div class="flex w-full h-full justify-center">
+                <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-21.png" class="w-full h-full object-cover" alt="mountain" />
+              </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-slide w-full flex-shrink-0">
+              <div class="flex w-full h-full justify-center">
+                <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-14.png" class="w-full h-full object-cover" alt="sand" />
+              </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="carousel-slide w-full flex-shrink-0">
+              <div class="flex w-full h-full justify-center">
+                <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-7.png" class="w-full h-full object-cover" alt="cloud" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Thumbnails -->
+        <div class="carousel-pagination grid grid-cols-3 justify-center gap-2 mt-4">
+          <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-21.png" class="object-cover cursor-pointer {currentSlide === 0 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="mountain" onclick={() => currentSlide = 0} />
+          <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-14.png" class="object-cover cursor-pointer {currentSlide === 1 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="sand" onclick={() => currentSlide = 1} />
+          <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-7.png" class="object-cover cursor-pointer {currentSlide === 2 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="cloud" onclick={() => currentSlide = 2} />
+        </div>
+        <!-- Navigation -->
+        <button type="button" class="absolute top-[40%] left-4 transform -translate-y-1/2 bg-yellow-600 p-2 rounded-full shadow" onclick={() => currentSlide = Math.max(0, currentSlide - 1)}>
+          &#10094;
+        </button>
+        <button type="button" class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 p-2 rounded-full shadow" onclick={nextSlide}>
+          &#10095;
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
+
+
 
 <div class="flex justify-center items-center h-screen select-none bgImg dracutaz">
   <div class="text-center md:w-[70%]">
@@ -336,7 +394,7 @@ $effect(() => {
   }
 
   .bgImg{
-    background-image: url("../../lib/media/images/crashgame/dragon.jfif") !important;
+    background-image: url("../../../lib/media/images/crashgame/dragon.jfif") !important;
     background-size: cover;
   }
 
@@ -349,7 +407,7 @@ $effect(() => {
   }
   
   canvas {
-    background-image: url('../../lib/media/images/crashgame/net.png');
+    background-image: url('../../../lib/media/images/crashgame/net.png');
     background-repeat: repeat;
     background-size: auto;
     background-position: 0 0;
