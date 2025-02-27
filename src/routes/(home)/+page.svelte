@@ -117,7 +117,6 @@
 <!-- Bonus Game Modal -->
 <div class={`relative z-10 transition-opacity duration-500 ${modal ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-black/90 modalbg" aria-hidden="true"></div>
-    
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
             <div class="!w-[400px] relative transform overflow-hidden bg-black text-left border border-yellow-600 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
@@ -187,12 +186,5 @@
     }
     .goldenbg{
         background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
-    }
-    .textShadow{
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-    .modalbg{
-      background-image: radial-gradient(circle, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
-      opacity: 90%;
     }
 </style>

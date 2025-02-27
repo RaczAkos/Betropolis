@@ -117,3 +117,8 @@ body{
 .textShadow{
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+
+.modalbg{
+	background-image: radial-gradient(circle, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
+	opacity: 90%;
+}

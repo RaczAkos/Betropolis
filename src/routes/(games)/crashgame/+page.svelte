@@ -1,7 +1,5 @@
 <script lang="ts">
-  import image from "$lib/media/images/gamelogos/crash.png";
-  import chip from "$lib/media/images/chip.png";
-  import target from "$lib/media/images/crashgame/crosshair.png";
+  import crashpics from "$lib/crashpics";
 
   let canvas: any,
       multiplierDom: any,
@@ -201,7 +199,8 @@ $effect(() => {
 });
 </script>
 {#if showModal}
-  <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+  <div class="fixed inset-0 flex items-center justify-center z-50 modalbg">
+    <h1 class="fixed top-12 text-4xl">Tutorial</h1>
     <div class=" p-5 rounded-lg shadow-lg w-[80vw] max-w-3xl">
       <div id="horizontal-thumbnails" bind:this={carousel} data-carousel={JSON.stringify({ loadingClasses: "opacity-0" })} class="relative w-full overflow-hidden">
         <div class="carousel flex w-full h-full">
@@ -209,36 +208,47 @@ $effect(() => {
             <!-- Slide 1 -->
             <div class="carousel-slide w-full flex-shrink-0">
               <div class="flex w-full h-full justify-center">
-                <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-21.png" class="w-full h-full object-cover" alt="mountain" />
+                <img src={crashpics[3]} class="w-full h-full object-cover" alt="mountain" />
               </div>
             </div>
             <!-- Slide 2 -->
             <div class="carousel-slide w-full flex-shrink-0">
               <div class="flex w-full h-full justify-center">
-                <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-14.png" class="w-full h-full object-cover" alt="sand" />
+                <img src={crashpics[4]} class="w-full h-full object-cover" alt="sand" />
               </div>
             </div>
             <!-- Slide 3 -->
             <div class="carousel-slide w-full flex-shrink-0">
               <div class="flex w-full h-full justify-center">
-                <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-7.png" class="w-full h-full object-cover" alt="cloud" />
+                <img src={crashpics[5]} class="w-full h-full object-cover" alt="cloud" />
               </div>
             </div>
           </div>
         </div>
         <!-- Thumbnails -->
         <div class="carousel-pagination grid grid-cols-3 justify-center gap-2 mt-4">
-          <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-21.png" class="object-cover cursor-pointer {currentSlide === 0 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="mountain" onclick={() => currentSlide = 0} />
-          <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-14.png" class="object-cover cursor-pointer {currentSlide === 1 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="sand" onclick={() => currentSlide = 1} />
-          <img src="https://cdn.flyonui.com/fy-assets/components/carousel/image-7.png" class="object-cover cursor-pointer {currentSlide === 2 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="cloud" onclick={() => currentSlide = 2} />
+          <img src={crashpics[3]} class="object-cover cursor-pointer {currentSlide === 0 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="mountain" onclick={() => currentSlide = 0} />
+          <img src={crashpics[4]} class="object-cover cursor-pointer {currentSlide === 1 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="sand" onclick={() => currentSlide = 1} />
+          <img src={crashpics[5]} class="object-cover cursor-pointer {currentSlide === 2 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="cloud" onclick={() => currentSlide = 2} />
         </div>
         <!-- Navigation -->
-        <button type="button" class="absolute top-[40%] left-4 transform -translate-y-1/2 bg-yellow-600 p-2 rounded-full shadow" onclick={() => currentSlide = Math.max(0, currentSlide - 1)}>
+        
+        {#if currentSlide !== 0}
+        <button type="button" class="absolute top-[40%] left-4 transform -translate-y-1/2 bg-yellow-600 rounded-full" onclick={() => currentSlide = Math.max(0, currentSlide - 1)}>
           &#10094;
         </button>
-        <button type="button" class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 p-2 rounded-full shadow" onclick={nextSlide}>
-          &#10095;
-        </button>
+        {/if}
+        {#if currentSlide !== 2}
+          <button type="button" class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full" onclick={nextSlide}>
+            &#10095;
+          </button>
+        
+        {:else}
+          <button type="button" class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600  rounded-full" onclick={nextSlide}>
+            &#10006;
+          </button>
+        {/if}
+        
       </div>
     </div>
   </div>
@@ -253,7 +263,7 @@ $effect(() => {
       <div class="flex h-[85%] overflow-y-scroll overflow-x-hidden">
         <div class="px-5 my-auto">
           <div class="overflow-clip w-[25vw] min-w-[100px] mx-auto kep">
-            <img src="{image}" alt="" class="scale-150">
+            <img src="{crashpics[0]}" alt="" class="scale-150">
           </div>
           <!-- Define amount -->
           <form class="w-full max-w-sm mb-4">
@@ -304,7 +314,7 @@ $effect(() => {
                     step="0.1"
                     min="2"
                   >
-                  <img src="{target}" alt="chip" class="w-[30px] max-sm:hidden">
+                  <img src="{crashpics[2]}" alt="chip" class="w-[30px] max-sm:hidden">
                 </div>
               </div>
             </div>
@@ -332,7 +342,7 @@ $effect(() => {
                     type="text"
                     disabled
                   >
-                  <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
+                  <img src="{crashpics[1]}" alt="chip" class="w-[30px] max-sm:hidden">
                 </div>
               </div>
 
@@ -346,7 +356,7 @@ $effect(() => {
                     type="text"
                     disabled
                   >
-                  <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
+                  <img src="{crashpics[1]}" alt="chip" class="w-[30px] max-sm:hidden">
                 </div>
               </div>
             </div>
