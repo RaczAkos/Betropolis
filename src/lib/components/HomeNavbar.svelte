@@ -1,10 +1,9 @@
 <script>
+  import SignOutModal from './SignOutModal.svelte';
 	import logo from '$lib/media/images/logo.png';
   let { logged } = $props();
 
-  function signOut() {
-    fetch("/api/sign-out").then(() => window.location.reload());
-  }
+  let signOutClicked = $state(false);
 </script>
 
 <nav>
@@ -26,7 +25,7 @@
               </div>
             </a>
             <button class="hover-1 textShadow inline-block font-bold float-end hover:scale-110 bg-black border-yellow-600 border-2 text-yellow-600 me-2 p-2 rounded focus:outline-none focus:shadow-outline duration-300"
-                    onclick={signOut}>
+                    onclick={() => {signOutClicked = true}}>
               Sign out
             </button>
           {:else}
@@ -49,6 +48,8 @@
         <img src="{logo}" alt="Casino Logo" class="h-[90px]">
     </div>
 </nav>
+
+<SignOutModal bind:clicked={signOutClicked} show={signOutClicked} />
 
 <style>
     .nav{
