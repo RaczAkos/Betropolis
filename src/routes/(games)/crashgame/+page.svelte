@@ -200,55 +200,109 @@ $effect(() => {
 </script>
 {#if showModal}
   <div class="fixed inset-0 flex items-center justify-center z-50 modalbg">
-    <h1 class="fixed top-12 text-4xl">Tutorial</h1>
-    <div class=" p-5 rounded-lg shadow-lg w-[80vw] max-w-3xl">
-      <div id="horizontal-thumbnails" bind:this={carousel} data-carousel={JSON.stringify({ loadingClasses: "opacity-0" })} class="relative w-full overflow-hidden">
+    <h1 class="fixed top-12 text-4xl">For begginers</h1>
+    <div class="p-5 rounded-lg shadow-lg w-[80vw] max-w-3xl">
+      <div
+        id="horizontal-thumbnails"
+        bind:this={carousel}
+        data-carousel={JSON.stringify({ loadingClasses: "opacity-0" })}
+        class="relative w-full overflow-hidden"
+      >
         <div class="carousel flex w-full h-full">
-          <div class="carousel-body flex w-full h-full transition-transform duration-500" style="transform: translateX(-{currentSlide * 100}%);">
-            <!-- Slide 1 -->
-            <div class="carousel-slide w-full flex-shrink-0">
+          <div
+            class="carousel-body flex w-full h-full transition-transform duration-500"
+            style="transform: translateX(-{currentSlide * 100}%);"
+          >
+            <!-- Slide 1: Text at the bottom, full width -->
+            <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
                 <img src={crashpics[3]} class="w-full h-full object-cover" alt="mountain" />
               </div>
+              {#if currentSlide === 0}
+                <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
+                  <p>Here you can enter the amount of <span class="text-yellow-600">chips</span> you would like to increase or decrease your current bet with. After setting the correct amount, add or subtract it from the current bet with the &uarr; or &darr; buttons.</p>
+                  <p>Add your <span class="text-red-600">target multiplier</span> where you want to withdraw your bet.</p>
+                </div>
+              {/if}
             </div>
-            <!-- Slide 2 -->
-            <div class="carousel-slide w-full flex-shrink-0">
+
+            <!-- Slide 2: Text at the top, full width -->
+            <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
                 <img src={crashpics[4]} class="w-full h-full object-cover" alt="sand" />
               </div>
+              {#if currentSlide === 1}
+                <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
+                  <p>Here you can see your <span class="text-yellow-600">current multiplier</span>.</p>
+                  <p>With the <span class="text-green-600">Bet now</span> button, if the current bet is added, and you have enough balance, it will start the game.</p>
+                  <p>You can press the <span class="text-red-600">Cash out</span> button, if during tha game, you decided that your <span class="text-red-600">target multiplier</span> is way too risky, so you want to instantly take your chips out. Be careful tho, if you withdraw before the <span class="text-yellow-600">multiplier</span> reaches your <span class="text-red-600">target</span>, you will only receive half of your current bet.</p>
+                </div>
+              {/if}
             </div>
-            <!-- Slide 3 -->
-            <div class="carousel-slide w-full flex-shrink-0">
+
+            <!-- Slide 3: Text on the left, full height -->
+            <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
                 <img src={crashpics[5]} class="w-full h-full object-cover" alt="cloud" />
               </div>
+              {#if currentSlide === 2}
+                <div class="absolute top-0 left-0 h-full bg-black bg-opacity-50 text-white p-4 flex items-center">
+                  <p>Reach for the clouds!</p>
+                </div>
+              {/if}
             </div>
           </div>
         </div>
+
         <!-- Thumbnails -->
         <div class="carousel-pagination grid grid-cols-3 justify-center gap-2 mt-4">
-          <img src={crashpics[3]} class="object-cover cursor-pointer {currentSlide === 0 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="mountain" onclick={() => currentSlide = 0} />
-          <img src={crashpics[4]} class="object-cover cursor-pointer {currentSlide === 1 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="sand" onclick={() => currentSlide = 1} />
-          <img src={crashpics[5]} class="object-cover cursor-pointer {currentSlide === 2 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}" alt="cloud" onclick={() => currentSlide = 2} />
+          <img
+            src={crashpics[3]}
+            class="object-cover cursor-pointer {currentSlide === 0 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}"
+            alt="mountain"
+            onclick={() => (currentSlide = 0)}
+          />
+          <img
+            src={crashpics[4]}
+            class="object-cover cursor-pointer {currentSlide === 1 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}"
+            alt="sand"
+            onclick={() => (currentSlide = 1)}
+          />
+          <img
+            src={crashpics[5]}
+            class="object-cover cursor-pointer {currentSlide === 2 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}"
+            alt="cloud"
+            onclick={() => (currentSlide = 2)}
+          />
         </div>
+
         <!-- Navigation -->
-        
         {#if currentSlide !== 0}
-        <button type="button" class="absolute top-[40%] left-4 transform -translate-y-1/2 bg-yellow-600 rounded-full" onclick={() => currentSlide = Math.max(0, currentSlide - 1)}>
-          &#10094;
-        </button>
+          <button
+            type="button"
+            class="absolute top-[40%] left-4 transform -translate-y-1/2 bg-yellow-600 rounded-full"
+            onclick={() => (currentSlide = Math.max(0, currentSlide - 1))}
+          >
+            &#10094;
+          </button>
         {/if}
         {#if currentSlide !== 2}
-          <button type="button" class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full" onclick={nextSlide}>
+          <button
+            type="button"
+            class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full"
+            onclick={nextSlide}
+          >
             &#10095;
           </button>
-        
         {:else}
-          <button type="button" class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600  rounded-full" onclick={nextSlide}>
-            &#10006;
+          <button
+            type="button"
+            class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full"
+            onclick={nextSlide}
+          >
+            &#10008;
           </button>
         {/if}
-        
       </div>
     </div>
   </div>
@@ -257,7 +311,8 @@ $effect(() => {
 
 
 
-<div class="flex justify-center items-center h-screen select-none bgImg dracutaz">
+
+<div class="flex justify-center items-center h-screen select-none bgImg">
   <div class="text-center md:w-[70%]">
     <div class="game-area shadow-yellow-600 shadow-lg">
       <div class="flex h-[85%] overflow-y-scroll overflow-x-hidden">
@@ -364,7 +419,7 @@ $effect(() => {
 
         <!-- Moving Scale -->
         <div class="grow items-center max-md:ps-1">
-          <p class='text-center text-red-600 text-[120px] max-md:text-[70px] max-sm:text-[40px] max-xs:text-[15px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>Crashed at {multiplier.toFixed(2)}x!</p>
+          <p class='dracutaz text-center text-red-600 text-[120px] max-md:text-[70px] max-sm:text-[40px] max-xs:text-[15px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>Crashed at {multiplier.toFixed(2)}x!</p>
           <canvas
             bind:this={canvas}
             class="h-full fireborder"
