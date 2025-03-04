@@ -1,16 +1,11 @@
 <script>
-  let { text, type = "button", href = "", click = $bindable() } = $props();
+  let { text, click = $bindable() } = $props();
 </script>
 
-<li class="m-2 text-center">
-  {#if type == "button"}
-    <button type="button" 
-            onclick={() => { click = !click }}>
-      {text}
-    </button>
-  {:else}
-    <a {href}>
-      {text}
-    </a>
-  {/if}
+<li class="text-center hover:bg-slate-600 rounded-md duration-300">
+  <button type="button" 
+          class="w-full"
+          onclick={() => { click = !click }}>
+    {text}
+  </button>
 </li>
