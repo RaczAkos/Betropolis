@@ -216,7 +216,7 @@ $effect(() => {
             <!-- Slide 1: Text at the bottom, full width -->
             <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
-                <img src={crashpics[3]} class="w-full h-full object-cover" alt="mountain" />
+                <img src={crashpics[3]} class="w-full h-full object-cover"/>
               </div>
               {#if currentSlide === 0}
                 <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
@@ -229,13 +229,13 @@ $effect(() => {
             <!-- Slide 2: Text at the top, full width -->
             <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
-                <img src={crashpics[4]} class="w-full h-full object-cover" alt="sand" />
+                <img src={crashpics[4]} class="w-full h-full object-cover"/>
               </div>
               {#if currentSlide === 1}
                 <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
                   <p>Here you can see your <span class="text-yellow-600">current multiplier</span>.</p>
                   <p>With the <span class="text-green-600">Bet now</span> button, if the current bet is added, and you have enough balance, it will start the game.</p>
-                  <p>You can press the <span class="text-red-600">Cash out</span> button, if during tha game, you decided that your <span class="text-red-600">target multiplier</span> is way too risky, so you want to instantly take your chips out. Be careful tho, if you withdraw before the <span class="text-yellow-600">multiplier</span> reaches your <span class="text-red-600">target</span>, you will only receive half of your current bet.</p>
+                  <p>You can press the <span class="text-red-600">Cash out</span> button, if during the game, you decided that your <span class="text-red-600">target multiplier</span> is way too risky, so you want to instantly take your chips out. Be careful tho, if you withdraw before the <span class="text-yellow-600">multiplier</span> reaches your <span class="text-red-600">target</span>, you will only receive half of your current bet.</p>
                 </div>
               {/if}
             </div>
@@ -243,11 +243,14 @@ $effect(() => {
             <!-- Slide 3: Text on the left, full height -->
             <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
-                <img src={crashpics[5]} class="w-full h-full object-cover" alt="cloud" />
+                <img src={crashpics[5]} class="w-full h-full object-cover"/>
               </div>
               {#if currentSlide === 2}
-                <div class="absolute top-0 left-0 h-full bg-black bg-opacity-50 text-white p-4 flex items-center">
-                  <p>Reach for the clouds!</p>
+                <div class="absolute bottom-0 left-0 h-1/2 w-[40%] bg-black bg-opacity-50 text-white p-4 flex items-center">
+                  <p>This is your game field. Here you can see the scale go up as the multiplier grows.</p>
+                </div>
+                <div class="absolute bottom-0 left-0 h-1/2 w-[40%] text-[60px] text-end bg-opacity-50 p-4 flex items-center">
+                  <p class="w-full text-yellow-600">&#8599;</p>
                 </div>
               {/if}
             </div>
