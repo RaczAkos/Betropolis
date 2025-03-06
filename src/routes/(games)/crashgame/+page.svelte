@@ -1,6 +1,8 @@
 <script lang="ts">
+  // Import crash pictures from the library
   import crashpics from "$lib/crashpics";
 
+  // Declare variables and states
   let canvas: any,
       multiplierDom: any,
       cashoutBtn: any,
@@ -17,190 +19,203 @@
       showModal = $state(true),
       currentSlide = $state(0),
       totalSlides = $state(3),
-      k=0.0025;
+      k = 0.0025; // Constant for crash probability calculation
 
-function calcOne(e: any) {
-  if (e.target.innerText.length > 3) {
-    if (amount >= 2) {
+  // Function to calculate the new amount based on button clicked
+  function calcOne(e: any) {
+    if (e.target.innerText.length > 3) {
+      if (amount >= 2) {
+        amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
+      }
+    } else {
       amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
     }
-  } else {
-    amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
+    valuechange(); // Update the amount value
   }
-  valuechange();
-}
 
-function valuechange() {
-  amount = Math.round(amount);
-}
-
-function addAmount() {
-  if (balance >= amount) {
-    currentAmount = Math.round(currentAmount + amount);
+  // Function to round the amount value
+  function valuechange() {
+    amount = Math.round(amount);
   }
-}
 
-function subtractAmount() {
-  if (currentAmount - amount >= 0) {
-    currentAmount = Math.round(currentAmount - amount);
+  // Function to add amount to current amount if balance allows
+  function addAmount() {
+    if (balance >= amount) {
+      currentAmount = Math.round(currentAmount + amount);
+    }
   }
-}
-//Exponential crash calculating function
-function get_crash_probability(multiplier:any, k:any){
-    return 1 - Math.exp(-k * (multiplier - 1));
+
+  // Function to subtract amount from current amount if possible
+  function subtractAmount() {
+    if (currentAmount - amount >= 0) {
+      currentAmount = Math.round(currentAmount - amount);
+    }
+  }
+
+  // Exponential crash probability calculation function
+  function get_crash_probability(multiplier: any, k: any) {
+    // Adjust k to make crashes rarer
+    const adjustedK = k * 0.5;
+    return 1 - Math.exp(-adjustedK * (multiplier - 1));
 }
 
- // Modal
- function nextSlide() {
+  // Function to handle modal slide navigation
+  function nextSlide() {
     currentSlide++;
     if (currentSlide >= totalSlides) {
-      showModal = false;
+      showModal = false; // Hide modal after last slide
     }
   }
 
-$effect(() => {
-  const ctx = canvas.getContext("2d");
-  let ctrlbuttons = document.querySelectorAll(".ctrlbutton"),
-      crashText = document.querySelector("#crashText");
+  // Effect to handle the game logic and animation
+  $effect(() => {
+    const ctx = canvas.getContext("2d");
+    let ctrlbuttons = document.querySelectorAll(".ctrlbutton"),
+        crashText = document.querySelector("#crashText");
 
-  canvas.width = canvas.clientWidth;
-  canvas.height = canvas.clientHeight;
+    // Set canvas dimensions
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
 
-  multiplier = 0.0;
-  let crashed = false,
-      offsetX = 0,
-      offsetY = 0,
-      speedX = -2,
-      speedY = 2,
-      even = 0,
-      stopadding = false;
+    multiplier = 0.0; // Initialize multiplier
+    let crashed = false,
+        offsetX = 0,
+        offsetY = 0,
+        speedX = -2,
+        speedY = 2,
+        even = 0,
+        stopadding = false;
 
-  // Animation loop
-  function drawGraph() {
-    if (running) {
-      if (multiplier >= 1) {
-        if (even % 3 === 0) {
+    // Animation loop to draw the graph
+    function drawGraph() {
+      if (running) {
+        // Increment multiplier based on conditions
+        if (multiplier >= 1) {
+          if (even % 3 === 0) {
+            multiplier += 0.01;
+          }
+        } else {
           multiplier += 0.01;
         }
+        even++;
+
+        // Calculate crash probability and determine if crashed
+        let crash_probability = get_crash_probability(multiplier, k);
+        let random_value = Math.random();
+        let decideIfCrashed = random_value < crash_probability;
+        if (decideIfCrashed) {
+          if (crashText) {
+            crashText.classList.remove("hidden");
+            setTimeout(() => {
+              crashText.classList.add("hidden");
+            }, 3000);
+          }
+          multiplierDom.classList.remove("text-yellow-600");
+          multiplierDom.classList.add("text-red-600");
+          crashed = true;
+          cashoutBtn.disabled = true;
+          offsetX = 0;
+          offsetY = 0;
+          speedX = 0;
+          speedY = 0;
+          betBtn.removeAttribute("disabled");
+          ctrlbuttons.forEach((temp) => {
+            temp.removeAttribute("disabled");
+            if (temp !== ctrlbuttons[0] && temp !== ctrlbuttons[1]) {
+              temp.classList.add("hover:border", "hover:border-yellow-600");
+            }
+          });
+          running = false; // Stop the game
+        }
+
+        // Check if multiplier reached target
+        if (multiplier >= targetMultiplier) {
+          betBtn.removeAttribute("disabled");
+          cashoutBtn.disabled = true;
+          ctrlbuttons.forEach((temp) => {
+            temp.removeAttribute("disabled");
+          });
+          if (!stopadding) {
+            balance = Math.round(balance + currentAmount * multiplier);
+            stopadding = true; // Stop adding to balance
+          }
+        }
+      }
+
+      // Draw the graph line
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height);
+      if (multiplier <= 5 || multiplier <= 1) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.lineTo((canvas.width / 10) * multiplier, canvas.height - (canvas.height / 10) * multiplier);
       } else {
-        multiplier += 0.01;
+        offsetX += speedX;
+        offsetY += speedY;
+        canvas.style.backgroundPosition = `${offsetX}px ${offsetY}px`;
       }
-      even++;
-      //Checking crash based on exponential function
-      let crash_probability = get_crash_probability(multiplier, k)
-      let random_value = Math.random();
-      let decideIfCrashed = random_value < crash_probability;
-      if (decideIfCrashed) {
-        if (crashText) {
-          crashText.classList.remove("hidden");
-          setTimeout(() => {
-            crashText.classList.add("hidden");
-          }, 3000);
-        }
-        multiplierDom.classList.remove("text-yellow-600");
-        multiplierDom.classList.add("text-red-600");
-        crashed = true;
-        cashoutBtn.disabled = true;
-        offsetX = 0;
-        offsetY = 0;
-        speedX = 0;
-        speedY = 0;
-        betBtn.removeAttribute("disabled");
-        ctrlbuttons.forEach((temp) => {
-          temp.removeAttribute("disabled");
-          if (temp !== ctrlbuttons[0] && temp !== ctrlbuttons[1]) {
-            temp.classList.add("hover:border", "hover:border-yellow-600");
-          }
-        });
-        running = false;
-      }
-      // Check if multiplier reached target, stop if yes
-      if (multiplier >= targetMultiplier) {
-        betBtn.removeAttribute("disabled");
-        cashoutBtn.disabled = true;
-        ctrlbuttons.forEach((temp) => {
-          temp.removeAttribute("disabled");
-        });
-        if (!stopadding) {
-          balance = Math.round(balance + currentAmount * multiplier);
-          stopadding = true;
-        }
-      }
-    }
-    // Draw line
-    ctx.beginPath();
-    ctx.moveTo(0, canvas.height);
-    if (multiplier <= 5 || multiplier <= 1) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.lineTo((canvas.width / 10) * multiplier, canvas.height - (canvas.height / 10) * multiplier);
-    } else {
-      offsetX += speedX;
-      offsetY += speedY;
-      canvas.style.backgroundPosition = `${offsetX}px ${offsetY}px`;
+
+      ctx.strokeStyle = "#00FF00";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      multiplierDom.textContent = multiplier.toFixed(2) + "x";
+
+      if (running && !crashed) requestAnimationFrame(drawGraph); // Loop animation per browser fps
     }
 
-    ctx.strokeStyle = "#00FF00";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    multiplierDom.textContent = multiplier.toFixed(2) + "x";
-
-    if (running && !crashed) requestAnimationFrame(drawGraph);
-  }
-
-  // Start the game
-  betBtn.addEventListener("click", () => {
-    if (currentAmount >= 1) {
-      if (targetMultiplier >= 2) {
-        if (balance - currentAmount >= 0) {
-          balance = Math.round(balance - currentAmount)
-          running = false;
-          crashed = false;
-          stopadding = false;
-          if (!running && !crashed) {
-            offsetX = 0;
-            offsetY = 0;
-            speedX = -2;
-            speedY = 2;
-            multiplierDom.classList.remove("text-red-600");
-            multiplierDom.classList.add("text-yellow-600");
-            betBtn.setAttribute("disabled", "true");
-            crashText?.classList.add("hidden");
-            running = true;
-            multiplier = 0.0;
-            cashoutBtn.disabled = false;
-            ctrlbuttons.forEach((temp) => {
-              temp.setAttribute("disabled", "true");
-            });
-            drawGraph();
+    // Start the game on Bet button click
+    betBtn.addEventListener("click", () => {
+      if (currentAmount >= 1) {
+        if (targetMultiplier >= 2) {
+          if (balance - currentAmount >= 0) {
+            balance = Math.round(balance - currentAmount);
+            running = false;
+            crashed = false;
+            stopadding = false;
+            if (!running && !crashed) {
+              offsetX = 0;
+              offsetY = 0;
+              speedX = -2;
+              speedY = 2;
+              multiplierDom.classList.remove("text-red-600");
+              multiplierDom.classList.add("text-yellow-600");
+              betBtn.setAttribute("disabled", "true");
+              crashText?.classList.add("hidden");
+              running = true; // Start the game
+              multiplier = 0.0; // Reset multiplier
+              cashoutBtn.disabled = false;
+              ctrlbuttons.forEach((temp) => {
+                temp.setAttribute("disabled", "true");
+              });
+              drawGraph(); // Start drawing the graph
+            }
           }
         }
       }
-    }
-  });
+    });
 
-  // Cash out
-  cashoutBtn.addEventListener("click", () => {
-    if (running) {
-      betBtn.removeAttribute("disabled");
-      cashoutBtn.disabled = true;
-      if (multiplier < targetMultiplier) {
-        balance = Math.round((balance + (currentAmount)/2));
+    // Cash out functionality
+    cashoutBtn.addEventListener("click", () => {
+      if (running) {
+        betBtn.removeAttribute("disabled");
+        cashoutBtn.disabled = true;
+        if (multiplier < targetMultiplier) {
+          balance = Math.round((balance + (currentAmount) / 2)); // Half return if cashed out early
+        } else {
+          balance = Math.round(balance + currentAmount * multiplier); // Full return if cashed out at target
+        }
+        ctrlbuttons.forEach((temp) => {
+          temp.removeAttribute("disabled");
+        });
+        crashed = true; // Mark as crashed
       }
-      else{
-        balance = Math.round(balance + currentAmount * multiplier);
-      }
-      ctrlbuttons.forEach((temp) => {
-        temp.removeAttribute("disabled");
-      });
-      crashed = true;
-    }
+    });
   });
-});
 </script>
+
 {#if showModal}
   <div class="fixed inset-0 flex items-center justify-center z-50 modalbg">
-    <h1 class="fixed top-12 text-4xl">For begginers</h1>
+    <h1 class="fixed top-12 text-4xl">For beginners</h1>
     <div class="p-5 rounded-lg shadow-lg w-[80vw] max-w-3xl">
       <div
         id="horizontal-thumbnails"
@@ -213,7 +228,7 @@ $effect(() => {
             class="carousel-body flex w-full h-full transition-transform duration-500"
             style="transform: translateX(-{currentSlide * 100}%);"
           >
-            <!-- Slide 1: Text at the bottom, full width -->
+            <!-- Slide 1: Text at the bottom-->
             <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
                 <img src={crashpics[3]} class="w-full h-full object-cover"/>
@@ -226,7 +241,7 @@ $effect(() => {
               {/if}
             </div>
 
-            <!-- Slide 2: Text at the top, full width -->
+            <!-- Slide 2: Text at the top-->
             <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
                 <img src={crashpics[4]} class="w-full h-full object-cover"/>
@@ -235,12 +250,12 @@ $effect(() => {
                 <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
                   <p>Here you can see your <span class="text-yellow-600">current multiplier</span>.</p>
                   <p>With the <span class="text-green-600">Bet now</span> button, if the current bet is added, and you have enough balance, it will start the game.</p>
-                  <p>You can press the <span class="text-red-600">Cash out</span> button, if during the game, you decided that your <span class="text-red-600">target multiplier</span> is way too risky, so you want to instantly take your chips out. Be careful tho, if you withdraw before the <span class="text-yellow-600">multiplier</span> reaches your <span class="text-red-600">target</span>, you will only receive half of your current bet.</p>
+                  <p>You can press the <span class="text-red-600">Cash out</span> button, if during the game, you decided that your <span class="text-red-600">target multiplier</span> is way too risky, so you want to instantly take your chips out. Be careful though, if you withdraw before the <span class="text-yellow-600">multiplier</span> reaches your <span class="text-red-600">target</span>, you will only receive half of your current bet.</p>
                 </div>
               {/if}
             </div>
 
-            <!-- Slide 3: Text on the left, full height -->
+            <!-- Slide 3: Text on the left-->
             <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
                 <img src={crashpics[5]} class="w-full h-full object-cover"/>
@@ -311,10 +326,6 @@ $effect(() => {
   </div>
 {/if}
 
-
-
-
-
 <div class="flex justify-center items-center h-screen select-none bgImg">
   <div class="text-center md:w-[70%]">
     <div class="game-area shadow-yellow-600 shadow-lg">
@@ -376,49 +387,49 @@ $effect(() => {
                 </div>
               </div>
             </div>
-            </form>
+          </form>
 
-            <!-- Multiplier buttons -->
-            <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-              {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
-                <button class="text-yellow-600 ctrlbutton firetext fireborder" onclick={calcOne}>
-                  {multiplier}
-                </button>
-              {/each}
+          <!-- Multiplier buttons -->
+          <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+            {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
+              <button class="text-yellow-600 ctrlbutton firetext fireborder" onclick={calcOne}>
+                {multiplier}
+              </button>
+            {/each}
+          </div>
+
+          <!-- Current Chips and Balance-->
+          <div class="info-container mt-5 w-[80%]">
+            <!-- Current Chips -->
+            <div class="info-item">
+              <span class="block text-xl font-medium text-yellow-600 text-start">Current bet</span>
+              <div class="flex items-center space-x-2">
+                <input
+                  bind:value={currentAmount}
+                  min="1"
+                  class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                  type="text"
+                  disabled
+                >
+                <img src="{crashpics[1]}" alt="chip" class="w-[30px] max-sm:hidden">
+              </div>
             </div>
 
-            <!-- Current Chips and Balance-->
-            <div class="info-container mt-5 w-[80%]">
-              <!-- Current Chips -->
-              <div class="info-item">
-                <span class="block text-xl font-medium text-yellow-600 text-start">Current bet</span>
-                <div class="flex items-center space-x-2">
-                  <input
-                    bind:value={currentAmount}
-                    min="1"
-                    class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
-                    type="text"
-                    disabled
-                  >
-                  <img src="{crashpics[1]}" alt="chip" class="w-[30px] max-sm:hidden">
-                </div>
-              </div>
-
-              <!-- Balance -->
-              <div class="info-item">
-                <span class="block text-xl font-medium text-yellow-600 text-start">Balance</span>
-                <div class="flex items-center space-x-2">
-                  <input
-                    bind:value={balance}
-                    class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
-                    type="text"
-                    disabled
-                  >
-                  <img src="{crashpics[1]}" alt="chip" class="w-[30px] max-sm:hidden">
-                </div>
+            <!-- Balance -->
+            <div class="info-item">
+              <span class="block text-xl font-medium text-yellow-600 text-start">Balance</span>
+              <div class="flex items-center space-x-2">
+                <input
+                  bind:value={balance}
+                  class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                  type="text"
+                  disabled
+                >
+                <img src="{crashpics[1]}" alt="chip" class="w-[30px] max-sm:hidden">
               </div>
             </div>
           </div>
+        </div>
 
         <!-- Moving Scale -->
         <div class="grow items-center max-md:ps-1">
@@ -446,22 +457,17 @@ $effect(() => {
   </div>
 </div>
 
-  
-
-
-
-
 <style>
   @-webkit-keyframes MOVE-BG {
     from {
-     transform: translateX(0);
-   }
-   to { 
-     transform: translateX(-187%);
-   }
+      transform: translateX(0);
+    }
+    to { 
+      transform: translateX(-187%);
+    }
   }
 
-  .bgImg{
+  .bgImg {
     background-image: url("../../../lib/media/images/crashgame/dragon.jfif") !important;
     background-size: cover;
   }
@@ -481,7 +487,7 @@ $effect(() => {
     background-position: 0 0;
     width: 100%;
     border-radius: 8px;
-    }
+  }
   
   .info {
     align-items: center;
@@ -521,6 +527,7 @@ $effect(() => {
     font-size: 12px;
     color: #666;
   }
+
   .info-container {
     display: flex;
     flex-direction: column;
@@ -533,39 +540,27 @@ $effect(() => {
   }
   
   .firetext {
-  animation: burn 1.5s linear infinite alternate;
-}
+    animation: burn 1.5s linear infinite alternate;
+  }
 
-@keyframes burn {
-  from { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .4em #ffae34, .2em -.3em .3em #ec760c, -.2em -.4em .4em #cd4606, .1em -.5em .7em #973716, .1em -.7em .7em #451b0e; }
-  45%  { text-shadow: .1em -.2em .5em #fefcc9, .15em 0 .4em #feec85, -.1em -.25em .5em #ffae34, .15em -.45em .5em #ec760c, -.1em -.5em .6em #cd4606, 0 -.8em .6em #973716, .2em -1em .8em #451b0e; }
-  70%  { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .6em #ffae34, .2em -.3em .4em #ec760c, -.2em -.4em .7em #cd4606, .1em -.5em .7em #973716, .1em -.7em .9em #451b0e; }
-  to   { text-shadow: -.1em -.2em .6em #fefcc9, -.15em 0 .6em #feec85, .1em -.25em .6em #ffae34, -.15em -.45em .5em #ec760c, .1em -.5em .6em #cd4606, 0 -.8em .6em #973716, -.2em -1em .8em #451b0e; }
-}
-.fireborder {
-  position: relative;
-  animation: burning 1.5s linear infinite alternate;
-}
+  @keyframes burn {
+    from { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .4em #ffae34, .2em -.3em .3em #ec760c, -.2em -.4em .4em #cd4606, .1em -.5em .7em #973716, .1em -.7em .7em #451b0e; }
+    45%  { text-shadow: .1em -.2em .5em #fefcc9, .15em 0 .4em #feec85, -.1em -.25em .5em #ffae34, .15em -.45em .5em #ec760c, -.1em -.5em .6em #cd4606, 0 -.8em .6em #973716, .2em -1em .8em #451b0e; }
+    70%  { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .6em #ffae34, .2em -.3em .4em #ec760c, -.2em -.4em .7em #cd4606, .1em -.5em .7em #973716, .1em -.7em .9em #451b0e; }
+    to   { text-shadow: -.1em -.2em .6em #fefcc9, -.15em 0 .6em #feec85, .1em -.25em .6em #ffae34, -.15em -.45em .5em #ec760c, .1em -.5em .6em #cd4606, 0 -.8em .6em #973716, -.2em -1em .8em #451b0e; }
+  }
 
-.fireborder::before {
-  content: "";
-  position: absolute;
-  inset: 0; /* Covers the entire div */
-  border-radius: 4px; /* Optional: matches your div style */
-  z-index: -1; /* Places it behind the div content */
-  box-shadow: 
-    -.1em 0 .3em #fefcc9, 
-    .1em -.1em .3em #feec85, 
-    -.2em -.2em .4em #ffae34, 
-    .2em -.3em .3em #ec760c, 
-    -.2em -.4em .4em #cd4606, 
-    .1em -.5em .7em #973716, 
-    .1em -.7em .7em #451b0e;
-  animation: burning 1.5s linear infinite alternate;
-}
+  .fireborder {
+    position: relative;
+    animation: burning 1.5s linear infinite alternate;
+  }
 
-@keyframes burning {
-  from {
+  .fireborder::before {
+    content: "";
+    position: absolute;
+    inset: 0; /* Covers the entire div */
+    border-radius: 4px; /* Optional: matches your div style */
+    z-index: -1; /* Places it behind the div content */
     box-shadow: 
       -.1em 0 .3em #fefcc9, 
       .1em -.1em .3em #feec85, 
@@ -574,48 +569,60 @@ $effect(() => {
       -.2em -.4em .4em #cd4606, 
       .1em -.5em .7em #973716, 
       .1em -.7em .7em #451b0e;
+    animation: burning 1.5s linear infinite alternate;
   }
-  45% {
-    box-shadow: 
-      .1em -.2em .5em #fefcc9, 
-      .15em 0 .4em #feec85, 
-      -.1em -.25em .5em #ffae34, 
-      .15em -.45em .5em #ec760c, 
-      -.1em -.5em .6em #cd4606, 
-      0 -.8em .6em #973716, 
-      .2em -1em .8em #451b0e;
-  }
-  70% {
-    box-shadow: 
-      -.1em 0 .3em #fefcc9, 
-      .1em -.1em .3em #feec85, 
-      -.2em -.2em .6em #ffae34, 
-      .2em -.3em .4em #ec760c, 
-      -.2em -.4em .7em #cd4606, 
-      .1em -.5em .7em #973716, 
-      .1em -.7em .9em #451b0e;
-  }
-  to {
-    box-shadow: 
-      -.1em -.2em .6em #fefcc9, 
-      -.15em 0 .6em #feec85, 
-      .1em -.25em .6em #ffae34, 
-      -.15em -.45em .5em #ec760c, 
-      .1em -.5em .6em #cd4606, 
-      0 -.8em .6em #973716, 
-      -.2em -1em .8em #451b0e;
-  }
-}
 
-@media (max-height: 768px) {
-    .specmax {
-        background: rgb(202,138,4);
-        background: linear-gradient(90deg, rgba(202,138,4,1) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(202,138,4,1) 100%); 
+  @keyframes burning {
+    from {
+      box-shadow: 
+        -.1em 0 .3em #fefcc9, 
+        .1em -.1em .3em #feec85, 
+        -.2em -.2em .4em #ffae34, 
+        .2em -.3em .3em #ec760c, 
+        -.2em -.4em .4em #cd4606, 
+        .1em -.5em .7em #973716, 
+        .1em -.7em .7em #451b0e;
     }
-}
+    45% {
+      box-shadow: 
+        .1em -.2em .5em #fefcc9, 
+        .15em 0 .4em #feec85, 
+        -.1em -.25em .5em #ffae34, 
+        .15em -.45em .5em #ec760c, 
+        -.1em -.5em .6em #cd4606, 
+        0 -.8em .6em #973716, 
+        .2em -1em .8em #451b0e;
+    }
+    70% {
+      box-shadow: 
+        -.1em 0 .3em #fefcc9, 
+        .1em -.1em .3em #feec85, 
+        -.2em -.2em .6em #ffae34, 
+        .2em -.3em .4em #ec760c, 
+        -.2em -.4em .7em #cd4606, 
+        .1em -.5em .7em #973716, 
+        .1em -.7em .9em #451b0e;
+    }
+    to {
+      box-shadow: 
+        -.1em -.2em .6em #fefcc9, 
+        -.15em 0 .6em #feec85, 
+        .1em -.25em .6em #ffae34, 
+        -.15em -.45em .5em #ec760c, 
+        .1em -.5em .6em #cd4606, 
+        0 -.8em .6em #973716, 
+        -.2em -1em .8em #451b0e;
+    }
+  }
 
-::-webkit-scrollbar {
-  display: none;
-}
+  @media (max-height: 768px) {
+    .specmax {
+      background: rgb(202,138,4);
+      background: linear-gradient(90deg, rgba(202,138,4,1) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(202,138,4,1) 100%); 
+    }
+  }
 
+  ::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
+  }
 </style>

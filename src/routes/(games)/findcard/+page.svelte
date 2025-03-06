@@ -17,9 +17,10 @@
         previous = $state(-1),
         rnd = $state(4),
         amount = $state(0),
-        need:any,
         balance = $state(1000),
-        currentAmount = $state(0);
+        currentAmount = $state(0),
+        resetcost = $state(0);
+        
 
     onMount(async () => {
         createTable();
@@ -55,33 +56,44 @@
 
     //Card Reveal function
     function reveal(e:any){
-        document.querySelectorAll(".ctrlbutton").forEach((temp) => {
-          temp.setAttribute("disabled", "true");
-        });
-        resetBtn.classList.add("shadow-lg", "shadow-yellow-600");
-        resetBtn.disabled = false;
-        let target = e?.target;
-        //Card fold animation
-        setTimeout(() => {
-            //Reveal card
-            target.src = target.id;
-        }, 150);
-        setTimeout(() => {
-          if (target.src.split('_')[target.src.split('_').length-1].split('.')[0] == example.src.split('/')[example.src.split('/').length-1].split('.')[0]) {
-            balance += currentAmount;
-          }
-          else{
-            balance -= currentAmount;
-          }
-        }, 150);
-        target.classList.remove("cursor-pointer"); 
-        target.classList.add("[transform:rotateY(180deg)]");
+      if (currentAmount <= balance) {
+        if (currentAmount != 0) {
+          document.querySelectorAll(".ctrlbutton").forEach((temp) => {
+            temp.setAttribute("disabled", "true");
+          });
+          resetBtn.classList.add("shadow-lg", "shadow-yellow-600");
+          resetBtn.disabled = false;
+          let target = e?.target;
+          //Card fold animation
+          setTimeout(() => {
+              //Reveal card
+              target.src = target.id;
+          }, 150);
+          setTimeout(() => {
+            if (target.src.split('_')[target.src.split('_').length-1].split('.')[0] == example.src.split('/')[example.src.split('/').length-1].split('.')[0] 
+                || target.src.split('_')[target.src.split('_').length-1].split('.')[0] == "joker") {
+              balance += currentAmount;
+            }
+            else{
+              balance -= currentAmount;
+            }
+          }, 150);
+          resetcost -= currentAmount*0.25;
+          target.classList.remove("cursor-pointer"); 
+          target.classList.add("[transform:rotateY(180deg)]");
+        }
+        else{
+          alert("Choose a bet first!")
+        }
+      }
     }
 
     //Table and button reset function
     function resetFunct(){
         resetBtn.disabled = true;
         resetBtn.classList.remove("shadow-lg", "shadow-yellow-600");
+        balance -= resetcost;
+        resetcost = currentAmount*5;
         createTable();
     }
 
@@ -115,6 +127,7 @@
     function addAmount() {
       if (balance >= amount) {
         currentAmount = Math.round(currentAmount + amount);
+        resetcost = currentAmount*5;
       }
     }
 
@@ -123,7 +136,6 @@
         currentAmount = Math.round(currentAmount - amount);
       }
     }
-
     </script>
 
 
@@ -137,7 +149,7 @@
                     onclick="{resetFunct}" 
                     class="resetter w-full h-[100px] bg-transparent enabled:hover:bg-yellow-600 enabled:hover:text-black text-white font-bold py-2 px-4 rounded border border-yellow-600" 
                     disabled>
-              Reset
+              Reset ({resetcost})
             </button>  
         </div>
         <form class="w-full max-w-sm mb-auto">
