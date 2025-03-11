@@ -16,8 +16,7 @@
       profileClicked = $state(false),
       addFundsClicked = $state(false),
       friendsClicked = $state(false),
-      signOutClicked = $state(false),
-      signOutAllTrigger = $state(false);
+      signOutClicked = $state(false)
 
   $effect(() => {
     if (profileClicked) {
@@ -31,7 +30,6 @@
       friendsClicked = false;
     }
     
-    $inspect(signOutClicked);
   })
 </script>
 
@@ -48,7 +46,7 @@
 
 <div class="bottom-14 absolute w-full [&_li]:text-center [&_li]:m-2 font-bold sm:text-xl [&_li]:onhover:">
   <div class:hidden={!friends} 
-       class="w-1/3 text-white border-4 border-gray-600/70 bg-black rounded-tr-xl h-fit float-start">
+       class="w-1/3 text-white border-4 border-yellow-600 bg-black rounded-tr-xl h-fit float-start">
     <ul>
       <li>
         Friends
@@ -62,24 +60,21 @@
     </ul>
   </div>
   <div class:hidden={!profile}
-       class="w-1/3 text-white border-4 border-gray-600/70 bg-black rounded-tl-xl float-right">
+       class="w-1/3 text-white border-4 border-yellow-600 bg-black rounded-tl-xl float-right">
     <ul>
       <li>
         Statistics
       </li>
-      <li>
-        Profile
-      </li>
-      <li>
-        Statistics
-      </li>
       
+      <HubNavLi text="Profile" type="link" href="/profile"/>
       <HubNavLi text="Sign out" bind:click={signOutClicked}/>
+      <HubNavLi text="Terms & Conditions" type="link" href="/terms&conditions"/>
+      <HubNavLi text="Privacy Policy" type="link" href="/privacy-policy"/>
     </ul>
   </div>
 </div>
 
-<nav class="flex bg-black bottom-0 w-full text-white fixed text-center border-t border-gray-600/70 font-bold [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-gray-600/70">
+<nav class="flex bg-black bottom-0 w-full text-white fixed text-center border-t border-yellow-600 font-bold [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600">
   <HubNavButton text="Friends" img={group} alt="Friends icon" bind:click={friendsClicked}/>
   <HubNavButton text="Add funds" img={add} alt="Add icon" bind:click={addFundsClicked}/>
   <HubNavButton text="Profile" img={user} alt="User icon" bind:click={profileClicked}/>
