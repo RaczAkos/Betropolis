@@ -12,7 +12,7 @@
   <div class="w-full mx-auto md:py-4 p-3 text-yellow-600">
     <div class="sm:flex sm:items-center sm:justify-between md:ps-9">
       <a href="/" class="flex items-center max-lg:flex-col mb-0 space-x-3 rtl:space-x-reverse">
-        <img src={logo} class="max-md:h-32 h-24" alt="Casino logo" />
+        <img src={logo} class="max-lg:h-32 h-24" alt="Casino logo" />
       </a>
       <ul class="flex flex-wrap max-lg:flex-col items-center max-lg:text-xl text-2xl font-medium mt-5">
         {#if !logged}

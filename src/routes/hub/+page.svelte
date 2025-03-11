@@ -7,16 +7,17 @@
   import HubNavButton from "$lib/components/HubNavButton.svelte";
   import HubNavLi from "$lib/components/HubNavLi.svelte";
   import SignOutModal from "$lib/components/SignOutModal.svelte";
+  import chip from "$lib/media/images/chip.png";
 
   import user from "$lib/media/images/hub/user.png";
   import group from "$lib/media/images/hub/group.png";
   import add from "$lib/media/images/hub/add.png";
   let profile:boolean = $state(false),
       friends:boolean = $state(false),
-      profileClicked = $state(false),
+      profileClicked  = $state(false),
       addFundsClicked = $state(false),
-      friendsClicked = $state(false),
-      signOutClicked = $state(false)
+      friendsClicked  = $state(false),
+      signOutClicked  = $state(false)
 
   $effect(() => {
     if (profileClicked) {
@@ -61,6 +62,10 @@
   </div>
   <div class:hidden={!profile}
        class="w-1/3 text-white border-4 border-yellow-600 bg-black rounded-tl-xl float-right">
+    <div>
+      <span>User: </span>
+      <span> <img src={chip} alt="chips"></span>
+    </div>
     <ul>
       <li>
         Statistics
