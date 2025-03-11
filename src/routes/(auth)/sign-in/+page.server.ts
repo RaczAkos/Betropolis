@@ -1,7 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 import { dbConnect } from "$lib/db/db";
-import { createSession, generateSessionToken, setSessionTokenCookie } from "$lib/db/lucia";
+import { createSession, generateSessionToken, setSessionTokenCookie } from "$lib/db/session";
 
 // Sign in
 export const actions = {

@@ -2,7 +2,7 @@ import {
 	validateSessionToken,
 	setSessionTokenCookie,
 	deleteSessionTokenCookie
-} from "$lib/db/lucia";
+} from "$lib/db/session";
 
 import type { Handle } from "@sveltejs/kit";
 

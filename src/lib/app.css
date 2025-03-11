@@ -16,8 +16,7 @@
 
 @font-face {
 	font-family: "Dracutaz";
-	src: url("$lib/font/Dracutaz.otf"),
-		 url("$lib/font/Dracutaz.ttf") format("TrueType");
+	src: url("$lib/font/Dracutaz.otf"), url("$lib/font/Dracutaz.ttf") format("TrueType");
 }
 
 /* Classes for fonts */
@@ -35,7 +34,7 @@
 
 /* Other styles, animations */
 body{
-    background-color: black;
+  background-color: black;
 }
 
 .ledBorder {

@@ -1,4 +1,4 @@
-import { deleteSessionTokenCookie, invalidateSession } from '$lib/db/lucia';
+import { deleteSessionTokenCookie, invalidateSession } from '$lib/db/session';
 import { json } from '@sveltejs/kit';
 
 // Sign out of current session

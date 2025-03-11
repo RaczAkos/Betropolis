@@ -67,7 +67,7 @@
         <video poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 
                src={banner} 
                autoplay muted loop 
-               class=" blur-sm drop-shadow-none sepia-0 poster"
+               class=" blur-[7px] drop-shadow-none sepia-0 poster"
                preload='auto'>
         </video>
         <div class="absolute bottom-0 left-0 right-0 top-0 max-md:top-5 flex justify-center items-center text-center w-full">
@@ -90,9 +90,9 @@
         <!-- Carousel -->
         <div class="md:w-[1000px] overflow-hidden m-1">
             <div bind:this={slides} class="flex transition-transform duration-500">
-                <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" /></div>
-                <div class="w-full flex-shrink-0"><img src="{images[1]}" class="w-full rounded-lg" /></div>
-                <div class="w-full flex-shrink-0"><img src="{images[2]}" class="w-full rounded-lg" /></div>
+                <div class="w-full flex-shrink-0"><img src="{images[0]}" class="w-full rounded-lg" alt="img"/></div>
+                <div class="w-full flex-shrink-0"><img src="{images[1]}" class="w-full rounded-lg" alt="img"/></div>
+                <div class="w-full flex-shrink-0"><img src="{images[2]}" class="w-full rounded-lg" alt="img"/></div>
             </div>
         </div>
     </div>

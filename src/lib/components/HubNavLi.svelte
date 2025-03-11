@@ -11,7 +11,7 @@
   </button>
   {:else}
   <a {href}>
-    <div class="w-full">
+    <div class="w-full select-none">
       {text}
     </div>
   </a>

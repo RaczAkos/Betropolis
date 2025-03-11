@@ -77,9 +77,10 @@ export async function invalidateSession(sessionId: string): Promise<void> {
 }
 
 // Invalidating all sessions from a user
-export async function invalidateAllSessions(userId: number): Promise<void> {
+export async function invalidateAllSessions(user:any): Promise<void> {
   let db = await dbConnect();
-	await db.query("DELETE FROM user_session WHERE user_id = ?", [userId]);
+  console.log(user.id)
+	await db.query("DELETE FROM user_session WHERE user_id = ?", [user.id]);
 }
 
 // Setting session cookie
