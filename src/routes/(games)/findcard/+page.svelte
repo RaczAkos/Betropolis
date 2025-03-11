@@ -1,254 +1,304 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    const cardsrecord = import.meta.glob("$lib/media/images/findcardgame/cards/*.png");
-    import cardback from "$lib/media/images/findcardgame/cardback.png";
-    import frenchcards from "$lib/frenchcards";
-    import chip from "$lib/media/images/chip.png";
+  import { onMount } from 'svelte';
+  import { fade, scale } from 'svelte/transition';
 
-    //Convert Record to Array
-    const cardsarray:any[] = [];
-    for (const temp in cardsrecord) {
-        cardsarray.push(temp);
-    }
-    let gamearea:any,
-        example:any,
-        resetBtn:any,
-        resetone: any,
-        previous = $state(-1),
-        rnd = $state(4),
-        amount = $state(0),
-        balance = $state(1000),
-        currentAmount = $state(0),
-        resetcost = $state(0);
-        
+  // Import assets
+  const cardsrecord = import.meta.glob("$lib/media/images/findcardgame/cards/*.png");
+  import cardback from "$lib/media/images/findcardgame/cardback.png";
+  import frenchcards from "$lib/frenchcards";
+  import chip from "$lib/media/images/chip.png";
 
-    onMount(async () => {
-        createTable();
-	});
+  // Convert Record to Array
+  const cardsarray: any[] = [];
+  for (const temp in cardsrecord) {
+      cardsarray.push(temp);
+  }
 
-    //Generate cards
-    function createTable(){
-        //Clear table
-        gamearea.innerHTML = "";
+  // Game state variables
+  let gamearea: any,
+      example: any,
+      resetBtn: any,
+      resetone: any,
+      previous = $state(-1),
+      rnd = $state(4),
+      amount = $state(0),
+      balance = $state(1000),
+      currentAmount = $state(0),
+      gameIsRunning = $state(false),
+      isZoomed = $state(false);
 
-        //Randomize data sequence
-        let shuffled = shuffle(cardsarray);
+  onMount(async () => {
+      createTable();
+  });
 
-        //Create all card images
-        shuffled.forEach(element => {
-            let card = document.createElement("img");
-            card.classList.add("!h-full", "!w-full", "object-fill", "duration-500", "cursor-pointer");
-            card.addEventListener("click", reveal);
-            card.id = element;
-            card.src = cardback;
-            gamearea?.append(card);
-        });
-        do {
-            rnd = Math.floor(Math.random()*3)
-        } while (rnd == previous);
-        example.src = frenchcards[rnd]
-        previous = rnd;
+  // Generate game table
+  function createTable() {
+      // Clear table
+      gamearea.innerHTML = "";
 
-        document.querySelectorAll(".ctrlbutton").forEach((temp) => {
-          temp.removeAttribute("disabled");
-        });
-    }
+      // Randomize card order
+      let shuffled = shuffle(cardsarray);
 
-    //Card Reveal function
-    function reveal(e:any){
-      if (currentAmount <= balance) {
-        if (currentAmount != 0) {
-          document.querySelectorAll(".ctrlbutton").forEach((temp) => {
-            temp.setAttribute("disabled", "true");
-          });
-          resetBtn.classList.add("shadow-lg", "shadow-yellow-600");
-          resetBtn.disabled = false;
-          let target = e?.target;
-          //Card fold animation
-          setTimeout(() => {
-              //Reveal card
-              target.src = target.id;
-          }, 150);
-          setTimeout(() => {
-            if (target.src.split('_')[target.src.split('_').length-1].split('.')[0] == example.src.split('/')[example.src.split('/').length-1].split('.')[0] 
-                || target.src.split('_')[target.src.split('_').length-1].split('.')[0] == "joker") {
-              balance += currentAmount;
-            }
-            else{
-              balance -= currentAmount;
-            }
-          }, 150);
-          resetcost -= currentAmount*0.25;
-          target.classList.remove("cursor-pointer"); 
-          target.classList.add("[transform:rotateY(180deg)]");
-        }
-        else{
-          alert("Choose a bet first!")
-        }
-      }
-    }
+      // Create card elements
+      shuffled.forEach(element => {
+          let card = document.createElement("img");
+          card.classList.add("!h-full", "!w-full", "object-fill", "duration-500", "cursor-pointer");
+          card.addEventListener("click", reveal);
+          card.id = element;
+          card.src = cardback;
+          gamearea?.append(card);
+      });
 
-    //Table and button reset function
-    function resetFunct(){
-        resetBtn.disabled = true;
-        resetBtn.classList.remove("shadow-lg", "shadow-yellow-600");
-        balance -= resetcost;
-        resetcost = currentAmount*5;
-        createTable();
-    }
+      // Select a random example card
+      do {
+          rnd = Math.floor(Math.random() * 3);
+      } while (rnd == previous);
+      
+      example.src = frenchcards[rnd];
+      previous = rnd;
+  }
 
-    //Randomization function
-    function shuffle(array: string[]) {
-        let currentIndex = array.length;
-        while (currentIndex != 0) {
-            let randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-        }
-        return array;
-    }
+  // Reveal card function
+  function reveal(e: any) {
+      if (currentAmount != 0) {
+          if (gameIsRunning) {
+              let target = e?.target;
 
-    function calcOne(e:any){
-        if (e.target.innerText.length > 3) {
-          if (amount >= 2) {
-            amount *= parseFloat(e.target.innerText.substr(0 , e.target.innerText.length-1));
+              // Card flip animation
+              setTimeout(() => {
+                  target.src = target.id; // Reveal card
+              }, 150);
+
+              setTimeout(() => {
+                  if (
+                      target.src.split('_').pop()?.split('.')[0] === example.src.split('/').pop()?.split('.')[0] ||
+                      target.src.split('_').pop()?.split('.')[0] === "joker"
+                  ) {
+                      balance += amount * 3;
+                      currentAmount--;
+                  } else {
+                      currentAmount--;
+                  }
+
+                  if (currentAmount == 0) {
+                      gameIsRunning = false;
+                      resetone.disabled = false;
+                      resetBtn.disabled = true;
+                      document.querySelectorAll(".ctrlbutton").forEach((temp) => {
+                          temp.removeAttribute("disabled");
+                      });
+                  }
+              }, 150);
+
+              target.classList.remove("cursor-pointer");
+              target.classList.add("[transform:rotateY(180deg)]");
+          } else {
+              alert("Buy some cards first!");
           }
-        }
-        else{
-          amount *= parseFloat(e.target.innerText.substr(0 , e.target.innerText.length-1));
-        }
-        valuechange();
-    }
-
-    function valuechange() {
-        amount = Math.round(amount)
-    }
-
-    function addAmount() {
-      if (balance >= amount) {
-        currentAmount = Math.round(currentAmount + amount);
-        resetcost = currentAmount*5;
       }
-    }
+  }
 
-    function subtractAmount() {
-      if (currentAmount - amount >= 0) {
-        currentAmount = Math.round(currentAmount - amount);
+  // Start game function
+  function startFunct() {
+      resetBtn.disabled = true;
+      gameIsRunning = true;
+
+      document.querySelectorAll(".ctrlbutton").forEach((temp) => {
+          temp.setAttribute("disabled", "true");
+      });
+
+      resetBtn.classList.remove("shadow-lg", "shadow-yellow-600");
+      createTable();
+  }
+
+  // Shuffle array function
+  function shuffle(array: string[]) {
+      let currentIndex = array.length;
+      while (currentIndex != 0) {
+          let randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
       }
-    }
-    </script>
+      return array;
+  }
+
+  // Calculate multiplier
+  function calcOne(e: any) {
+      let multiplier = parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1));
+      if (!isNaN(multiplier)) {
+          amount *= multiplier;
+          valuechange();
+      }
+  }
+
+  // Update amount value
+  function valuechange() {
+      amount = Math.round(amount);
+  }
+
+  // Add bet amount
+  function addAmount() {
+      if (balance >= amount && amount > 0) {
+          resetone.disabled = true;
+          resetBtn.disabled = false;
+          resetBtn.classList.add("shadow-lg", "shadow-yellow-600");
+
+          Array.from(document.querySelectorAll(".ctrlbutton"))
+              .slice(2)
+              .forEach((temp) => temp.setAttribute("disabled", "true"));
+
+          balance -= amount;
+          currentAmount++;
+      }
+  }
+
+  // Subtract bet amount
+  function subtractAmount() {
+      if (currentAmount > 0) {
+          balance += amount;
+          currentAmount--;
+
+          if (currentAmount == 0) {
+              resetone.disabled = false;
+              resetBtn.disabled = true;
+              resetBtn.classList.remove("shadow-lg", "shadow-yellow-600");
+              document.querySelectorAll(".ctrlbutton").forEach((temp) => {
+                  temp.removeAttribute("disabled");
+              });
+          }
+      }
+  }
+</script>
 
 
+{#if isZoomed}
+  <!-- Zoomed-in game start message -->
+  <div class="fixed inset-0 flex items-center justify-center">
+    <p class="text-[120px] font-bold animate-pulse transition-transform duration-500 text-yellow-600 textShadow"
+      transition:scale={{ start: 0.2, duration: 500 }}>
+      Game started!
+    </p>
+  </div>
+{/if}
 
-<div class="flex justify-center h-full select-none overflow-y-scroll no-scrollbar">
+<div class="flex justify-center h-full select-none overflow-y-scroll no-scrollbar">   
+  
+  <!-- Sidebar -->
+  <div class="fixed bottom-0 inset-y-0 left-0 w-[15%] items-center bg-black shadow-[20px_6px_20px_14px_#000000]">
+    
+    <!-- Start Button -->
+    <div class="flex items-center h-auto"> 
+      <button bind:this={resetBtn} 
+              onclick={() => {  
+                startFunct(); 
+                isZoomed = !isZoomed; 
+                setTimeout(() => {
+                  isZoomed = !isZoomed;
+                }, 2000); 
+              }} 
+              class="resetter w-full h-[100px] bg-transparent enabled:hover:bg-yellow-600 enabled:hover:text-black text-white font-bold 
+                     py-2 px-4 rounded border border-yellow-600" 
+              disabled>
+        Start
+      </button>  
+    </div>
 
-    <!--Sidebar-->
-    <div class="fixed bottom-0 inset-y-0 left-0 w-[15%] items-center bg-black shadow-[20px_6px_20px_14px_#000000]">
-        <div class="flex items-center h-auto"> 
-            <button bind:this={resetBtn} 
-                    onclick="{resetFunct}" 
-                    class="resetter w-full h-[100px] bg-transparent enabled:hover:bg-yellow-600 enabled:hover:text-black text-white font-bold py-2 px-4 rounded border border-yellow-600" 
-                    disabled>
-              Reset ({resetcost})
-            </button>  
+    <!-- Betting Form -->
+    <form class="w-full max-w-sm mb-auto">
+      <div class="lg:flex border-b border-yellow-600 py-2">
+        <!-- Input field for chips -->
+        <input bind:value={amount}
+               bind:this={resetone}
+               oninput={valuechange}
+               onfocus={() => (resetone.value = "")}
+               min="1"
+               class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+               type="number"
+               aria-label="Chips to add" 
+               placeholder="Chips to add">
+        
+        <!-- Add/Subtract buttons -->
+        <span class="control">
+          <button onclick={addAmount} 
+                  class="bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" 
+                  type="button">
+            <span class="text-xl">+1</span>
+          </button>
+        </span>
+        
+        <span class="control">
+          <button onclick={subtractAmount} 
+                  class="border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton" 
+                  type="button">
+            <span class="text-xl">-1</span>
+          </button>
+        </span>
+      </div>
+    </form>
+
+    <!-- Multiplier Buttons -->
+    <div class="grid max-sm:grid-cols-1 grid-cols-2 lg:grid-cols-3">
+      {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
+        <div class="border border-opacity-0 border-yellow-600 hover:border-opacity-100 flex justify-center rounded-lg">
+          <button class="text-yellow-600 ctrlbutton control" onclick={calcOne}>
+            {multiplier}
+          </button>
         </div>
-        <form class="w-full max-w-sm mb-auto">
-            <div class="lg:flex border-b border-yellow-600 py-2">
-              <input bind:value={amount}
-                     bind:this={resetone}
-                     oninput={valuechange}
-                     onfocus={() => (resetone.value = "")}
-                     min="1"
-                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
-                     type="number"
-                     aria-label="Chips to add" 
-                     placeholder="Chips to add"
-              >
-              <!--Add/subtract buttons-->
-              <span class="control">
-                <button onclick={addAmount} 
-                        class=" bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" 
-                        type="button"
-                > 
-                  <span class="text-xl">&uarr;</span>
-                </button>
-              </span>
-              <span class="control">
-                <button onclick={subtractAmount} class="border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton" type="button" >
-                  <span class="text-xl">&darr;</span>
-                </button>
-              </span>
-            </div>
-          </form>
-
-          <!--Multiplier buttons-->
-          <div class="grid max-sm:grid-cols-1 grid-cols-2 lg:grid-cols-3 ">
-            {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
-              <div class="border border-opacity-0 border-yellow-600 hover:border-opacity-100 flex justify-center rounded-lg">
-                <button class="text-yellow-600 ctrlbutton control"  onclick={calcOne}>
-                  {multiplier}
-                </button>
-              </div>
-            {/each}
+      {/each}
+    </div>
+    
+    <!-- Current Chips In -->
+    <div class="text-start">
+      <form>
+        <label class="block">
+          <span class="block text-xl font-medium text-yellow-600 py-5">Cards left</span>
+          <div class="flex items-center space-x-2">
+            <input bind:value={currentAmount} 
+                   min="1" 
+                   class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" 
+                   type="text" 
+                   disabled>
+            <img src="{chip}" alt="chip" class="w-[30px]">
           </div>
-          
-          <!-- Current Chips In -->
-          <div class="text-start">
-            <form>
-                <label class="block">
-                    <span class="block text-xl font-medium text-yellow-600 py-5">Current bet</span>
-                    <div class="flex items-center space-x-2">
-                        <input 
-                            bind:value={currentAmount} 
-                            min="1" 
-                            class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" 
-                            type="text" 
-                            disabled
-                        >
-                        <img src="{chip}" alt="chip" class="w-[30px]">
-                    </div>
-                </label>
-            </form>
+        </label>
+      </form>
 
-            <!-- Balance -->
-            <form>
-                <label class="block">
-                    <span class="block text-xl font-medium text-yellow-600 py-5">Balance</span>
-                    <div class="flex items-center space-x-2">
-                        <input 
-                            class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" 
-                            type="text" 
-                            disabled 
-                            bind:value={balance}
-                        >
-                        <img src="{chip}" alt="chip" class="w-[30px]">
-                    </div>
-                </label>
-            </form>
+      <!-- Balance -->
+      <form>
+        <label class="block">
+          <span class="block text-xl font-medium text-yellow-600 py-5">Balance</span>
+          <div class="flex items-center space-x-2">
+            <input class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" 
+                   type="text" 
+                   disabled 
+                   bind:value={balance}>
+            <img src="{chip}" alt="chip" class="w-[30px]">
           </div>
+        </label>
+      </form>
     </div>
+  </div>
 
-    <!--Example card-->
-    <div class="fixed bottom-0 left-0 w-[15%] items-center">
-        <div class="flex items-center h-auto"> 
-            <img bind:this={example} 
-                 src="" 
-                 alt="" 
-                 class="border rounded-2xl bg-gray-300"
-            >
-        </div>
+  <!-- Example Card -->
+  <div class="fixed bottom-0 left-0 w-[15%] items-center">
+    <div class="flex items-center h-auto"> 
+      <img bind:this={example} 
+           src="" 
+           alt="Example card" 
+           class="border rounded-2xl bg-gray-300">
     </div>
+  </div>
 
-    <!--Gamearea-->
-    <div bind:this={gamearea} 
-         class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4 ps-[20%] pe-[5%] w-auto"
-    >
-    </div>
+  <!-- Game Area -->
+  <div bind:this={gamearea} 
+       class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4 ps-[20%] pe-[5%] w-auto"
+       class:invisible={isZoomed}>
+  </div>
+
 </div>
 
-
 <style>
-button:not(.resetter) {
+  button:not(.resetter) {
     margin: 5px;
     padding: 10px 20px;
     font-size: 16px;

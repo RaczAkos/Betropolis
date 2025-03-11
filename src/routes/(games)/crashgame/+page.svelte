@@ -52,6 +52,7 @@
     }
   }
 
+
   // Exponential crash probability calculation function
   function get_crash_probability(multiplier: any, k: any) {
     // Adjust k to make crashes rarer
@@ -66,6 +67,8 @@
       showModal = false; // Hide modal after last slide
     }
   }
+
+  
 
   // Effect to handle the game logic and animation
   $effect(() => {
@@ -215,7 +218,6 @@
 
 {#if showModal}
   <div class="fixed inset-0 flex items-center justify-center z-50 modalbg">
-    <h1 class="fixed top-12 text-4xl">For beginners</h1>
     <div class="p-5 rounded-lg shadow-lg w-[80vw] max-w-3xl">
       <div
         id="horizontal-thumbnails"
@@ -234,6 +236,9 @@
                 <img src={crashpics[3]} class="w-full h-full object-cover"/>
               </div>
               {#if currentSlide === 0}
+              <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
+                <p class="text-yellow-600 text-4xl">For beginners</p>
+              </div>
                 <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
                   <p>Here you can enter the amount of <span class="text-yellow-600">chips</span> you would like to increase or decrease your current bet with. After setting the correct amount, add or subtract it from the current bet with the &uarr; or &darr; buttons.</p>
                   <p>Add your <span class="text-red-600">target multiplier</span> where you want to withdraw your bet.</p>
@@ -332,7 +337,11 @@
       <div class="flex h-[85%] overflow-y-scroll overflow-x-hidden">
         <div class="px-5 my-auto">
           <div class="overflow-clip w-[25vw] min-w-[100px] mx-auto kep">
-            <img src="{crashpics[0]}" alt="" class="scale-150">
+            <a href="/hub" class="relative inline-block">
+                <span title="Back to hub">
+                    <img src="{crashpics[0]}" class="scale-150 hover:opacity-40">
+                </span>
+            </a>
           </div>
           <!-- Define amount -->
           <form class="w-full max-w-sm mb-4">
