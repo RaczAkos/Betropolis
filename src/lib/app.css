@@ -109,7 +109,7 @@ body{
 }
 
 ::selection {
-	background: black;
+	background: rgb(0, 0, 0);
 	color: #ca8a04;
 }
 
