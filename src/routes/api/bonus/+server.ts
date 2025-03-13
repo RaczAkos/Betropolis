@@ -8,21 +8,22 @@ function generateBonus() {
 export async function POST ({ request }: { request: Request }) {
   let req = await request.json(),
       db = await dbConnect(),
-      title = "", message = "",
+      title = "", message = "", extra = null,
       bonus =  generateBonus();
   
   try {
     // Check if user reqistered
-    let userCheck = await db.query(`SELECT id FROM users WHERE email = '${req.email}';`).then( (rows:any) => { return rows[0]; } );
-    if (!userCheck.length) {
+    let userCheck = await db.query(`SELECT id FROM users WHERE email = '${req.email}';`).then( (rows:any) => { return rows; } );
+    if (!userCheck[0].length) {
       
       // Check if bonus exists
-      let emailCheck = await db.query(`SELECT id FROM bonus WHERE email = '${req.email}';`).then( (rows:any) => { return rows[0]; } );
+      let emailCheck = await db.query(`SELECT id FROM bonus WHERE email = '${req.email}';`).then( (rows:any) => { return rows; } );
       if (!emailCheck[0].length){
         
         await db.query("INSERT INTO bonus (email, starting_bonus, status) VALUES (?,?,?)", [req.email, bonus, 0]);
         title = "Succesfully claimed bonus!";
-        message = `Sign up to claim your starting bonus: ${bonus} chips (Other cards contained: ${generateBonus()}, ${generateBonus()}, ${generateBonus()})`;
+        message = `Sign up to claim your starting bonus: ${bonus} chips`;
+        extra = `(Other cards contained: ${generateBonus()}, ${generateBonus()}, ${generateBonus()})`;
       }
 
       // If email is already registered
@@ -31,7 +32,7 @@ export async function POST ({ request }: { request: Request }) {
         message = "This email has been already registered for a bonus. Sign up with this e-mail to claim the bonus.";
       }
       db = null;
-      return json({title, message});
+      return json({title, message, extra});
     
     } else {  
       db = null;
