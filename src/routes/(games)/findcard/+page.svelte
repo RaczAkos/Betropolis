@@ -26,7 +26,8 @@
       currentAmount = $state(0),
       gameIsRunning = $state(false),
       isZoomed = $state(false),
-      correctGuess = $state(false);
+      correctGuess = $state(false),
+      won = $state(0);
 
   onMount(async () => {
       createTable();
@@ -60,6 +61,27 @@
       previous = rnd;
   }
 
+  async function addToBalance(){
+    const res = await fetch('/api/balance_update', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({data: amount*3*won}),
+    })
+  }
+
+  async function subtrFromBalance(){
+    const res = await fetch('/api/balance_update', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({data: amount - currentAmount*amount*2}),
+    })
+    .then(response => console.log(response));
+  }
+
   // Reveal card function
   function reveal(e: any) {
       if (currentAmount != 0) {
@@ -88,6 +110,7 @@
                   onecard.addEventListener('click', reveal)
                 });
               }, 1500);
+              addToBalance();
             } 
             else 
             {
@@ -119,7 +142,8 @@
   function startFunct() {
       resetBtn.disabled = true;
       gameIsRunning = true;
-
+      won = 0;
+      subtrFromBalance();
       document.querySelectorAll(".ctrlbutton").forEach((temp) => {
           temp.setAttribute("disabled", "true");
       });
