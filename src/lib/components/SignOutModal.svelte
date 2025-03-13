@@ -12,12 +12,12 @@
 
 <div class:hidden={!show} class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
-  <div class="fixed inset-0 bg-black/90 transition-opacity" aria-hidden="true"></div>
+  <div class="fixed inset-0 bg-black/90 transition-opacity modalbg" aria-hidden="true"></div>
   
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto text-white">
     <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
       <div class="relative transform overflow-hidden border-yellow-600 bg-black text-left border transition-all sm:my-8 max-w-3xl mx-2 p-4 rounded-3xl text-yellow-600">
-        <h1 class="text-center text-5xl font-bold borgens">Signing out!</h1>          
+        <h1 class="text-center text-5xl borgens">Signing out!</h1>          
         
         <div class="text-center">Are you sure you want to sign out?</div>
         

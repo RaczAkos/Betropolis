@@ -6,6 +6,4 @@ export const load: LayoutServerLoad = async (event) => {
 	if (event.locals.user === null) {
 		return redirect(307, "/sign-in");
 	}
-
-  
 };

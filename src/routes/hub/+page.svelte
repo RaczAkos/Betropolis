@@ -12,12 +12,16 @@
   import user from "$lib/media/images/hub/user.png";
   import group from "$lib/media/images/hub/group.png";
   import add from "$lib/media/images/hub/add.png";
-  let profile:boolean = $state(false),
+
+  let { data } = $props(),
+      profile:boolean = $state(false),
       friends:boolean = $state(false),
-      profileClicked  = $state(false),
-      addFundsClicked = $state(false),
-      friendsClicked  = $state(false),
-      signOutClicked  = $state(false)
+      profileClicked:boolean  = $state(false),
+      addFundsClicked:boolean = $state(false),
+      signOutClicked:boolean  = $state(false),
+      friendsClicked:boolean  = $state(false),
+      addFriendClicked:boolean= $state(false),
+      friendRequestClicked:boolean = $state(false);
 
   $effect(() => {
     if (profileClicked) {
@@ -30,7 +34,6 @@
       profile = false;
       friendsClicked = false;
     }
-    
   })
 </script>
 
@@ -43,36 +46,30 @@
     <a href="/">home</a>
 </div>
 
-
-
-<div class="bottom-14 absolute w-full [&_li]:text-center [&_li]:m-2 font-bold sm:text-xl [&_li]:onhover:">
+<div class="bottom-14 absolute w-full [&_li]:text-center text-white [&_li]:m-2 font-bold sm:text-xl [&_li]:onhover:">
   <div class:hidden={!friends} 
-       class="w-1/3 text-white border-4 border-yellow-600 bg-black rounded-tr-xl h-fit float-start">
+       class="w-1/3  border-4 bg-black border-yellow-600 rounded-tr-xl h-fit float-start">
     <ul>
-      <li>
-        Friends
-      </li>
-      <li>
-        Friend requests
-      </li>
-      <li>
-        Add friend
-      </li>
+      <HubNavLi text="Friends" bind:click={friendsClicked}/>
+      <HubNavLi text="Friend Requests" bind:click={friendRequestClicked}/>
+      <HubNavLi text="Add Friend" bind:click={addFriendClicked}/>
     </ul>
   </div>
   <div class:hidden={!profile}
-       class="w-1/3 text-white border-4 border-yellow-600 bg-black rounded-tl-xl float-right">
-    <div>
-      <span>User: </span>
-      <span> <img src={chip} alt="chips"></span>
+       class="w-1/3 border-4 bg-black border-yellow-600 rounded-tl-xl float-right">
+    <div class="p-2 flex max-lg:flex-col max-lg:text-center border-yellow-600 place-content-between border-b-4">
+      <div>User: <span class="italic font-bold text-yellow-600">{data.user.username}</span></div>
+      <div class="flex flex-row justify-center">
+        <div class="flex place-items-center">
+          <div class="text-lg me-1">{data.user.balance}</div>
+          <img src={chip} alt="chips" class="h-6">
+        </div>
+      </div>
     </div>
     <ul>
-      <li>
-        Statistics
-      </li>
-      
+      <HubNavLi text="Statistics" type="link" href="/statistics"/>
       <HubNavLi text="Profile" type="link" href="/profile"/>
-      <HubNavLi text="Sign out" bind:click={signOutClicked}/>
+      <HubNavLi text="Sign Out" bind:click={signOutClicked}/>
       <HubNavLi text="Terms & Conditions" type="link" href="/terms&conditions"/>
       <HubNavLi text="Privacy Policy" type="link" href="/privacy-policy"/>
     </ul>
