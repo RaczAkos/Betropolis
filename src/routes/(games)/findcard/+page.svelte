@@ -25,11 +25,13 @@
       balance = $state(1000),
       currentAmount = $state(0),
       gameIsRunning = $state(false),
-      isZoomed = $state(false);
+      isZoomed = $state(false),
+      correctGuess = $state(false);
 
   onMount(async () => {
       createTable();
   });
+
 
   // Generate game table
   function createTable() {
@@ -42,7 +44,7 @@
       // Create card elements
       shuffled.forEach(element => {
           let card = document.createElement("img");
-          card.classList.add("!h-full", "!w-full", "object-fill", "duration-500", "cursor-pointer");
+          card.classList.add("!h-full", "!w-full", "object-fill", "duration-500", "cursor-pointer", "forqs");
           card.addEventListener("click", reveal);
           card.id = element;
           card.src = cardback;
@@ -61,40 +63,55 @@
   // Reveal card function
   function reveal(e: any) {
       if (currentAmount != 0) {
-          if (gameIsRunning) {
-              let target = e?.target;
-
-              // Card flip animation
+        if (gameIsRunning) {
+          let target = e?.target;
+          // Card flip animation
+          setTimeout(() => {
+               target.src = target.id; // Reveal card
+          }, 150);
+          setTimeout(() => {
+            if (
+              target.src.split('_').pop()?.split('.')[0] === example.src.split('/').pop()?.split('.')[0] ||
+              target.src.split('_').pop()?.split('.')[0] === "joker"
+            ) 
+            {
+              balance += amount * 3;
+              currentAmount--;
+              correctGuess = true;
+              //Preventing cards from being folded up, while win animations -> no bug
+              document.querySelectorAll(".forqs").forEach((onecard) => {
+                onecard.removeEventListener('click', reveal)
+              });
               setTimeout(() => {
-                  target.src = target.id; // Reveal card
-              }, 150);
-
-              setTimeout(() => {
-                  if (
-                      target.src.split('_').pop()?.split('.')[0] === example.src.split('/').pop()?.split('.')[0] ||
-                      target.src.split('_').pop()?.split('.')[0] === "joker"
-                  ) {
-                      balance += amount * 3;
-                      currentAmount--;
-                  } else {
-                      currentAmount--;
-                  }
-
-                  if (currentAmount == 0) {
-                      gameIsRunning = false;
-                      resetone.disabled = false;
-                      resetBtn.disabled = true;
-                      document.querySelectorAll(".ctrlbutton").forEach((temp) => {
-                          temp.removeAttribute("disabled");
-                      });
-                  }
-              }, 150);
-
-              target.classList.remove("cursor-pointer");
-              target.classList.add("[transform:rotateY(180deg)]");
-          } else {
-              alert("Buy some cards first!");
+                correctGuess = !correctGuess;
+                document.querySelectorAll(".forqs").forEach((onecard) => {
+                  onecard.addEventListener('click', reveal)
+                });
+              }, 1500);
+            } 
+            else 
+            {
+              currentAmount--;
+            }
+            if (currentAmount == 0) {
+              gameIsRunning = false;
+              resetone.disabled = false;
+              resetBtn.disabled = true;
+              document.querySelectorAll(".ctrlbutton").forEach((temp) => {
+                temp.removeAttribute("disabled");
+              });
+            }
+          }, 150);
+          target.classList.remove("cursor-pointer");
+          target.classList.add("[transform:rotateY(180deg)]");
           }
+        else {
+          alert("Start the game first!");
+        }
+      }
+      else 
+      {
+        alert("Buy some cards first!");
       }
   }
 
@@ -173,10 +190,22 @@
 
 {#if isZoomed}
   <!-- Zoomed-in game start message -->
-  <div class="fixed inset-0 flex items-center justify-center">
+  <div class="fixed inset-0 max-lg:left-1/3 flex items-center justify-center">
     <p class="text-[120px] font-bold animate-pulse transition-transform duration-500 text-yellow-600 textShadow"
-      transition:scale={{ start: 0.2, duration: 500 }}>
-      Game started!
+       id="creditShow"
+       transition:scale={{ start: 0.2, duration: 500 }}>
+       Game started!
+    </p>
+  </div>
+{/if}
+
+{#if correctGuess}
+  <!-- Zoomed-in game start message -->
+  <div class="fixed inset-0 max-lg:left-1/3 flex items-center justify-center">
+    <p class="text-[120px] font-bold animate-pulse transition-transform duration-500 text-yellow-600 textShadow"
+       id="creditShow"
+       transition:scale={{ start: 0.2, duration: 500 }}>
+       +{amount * 3}
     </p>
   </div>
 {/if}
@@ -205,34 +234,38 @@
 
     <!-- Betting Form -->
     <form class="w-full max-w-sm mb-auto">
-      <div class="lg:flex border-b border-yellow-600 py-2">
+      <div class="border-b border-yellow-600 py-2 flex flex-col xl:flex-row xxl:flex">
+        
         <!-- Input field for chips -->
         <input bind:value={amount}
                bind:this={resetone}
                oninput={valuechange}
                onfocus={() => (resetone.value = "")}
                min="1"
-               class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+               class="appearance-none bg-transparent border-none w-full text-gray-400 py-1 px-2 focus:outline-none md:mb-0 mb-3"
                type="number"
                aria-label="Chips to add" 
                placeholder="Chips to add">
-        
-        <!-- Add/Subtract buttons -->
-        <span class="control">
-          <button onclick={addAmount} 
-                  class="bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton" 
-                  type="button">
-            <span class="text-xl">+1</span>
-          </button>
-        </span>
-        
-        <span class="control">
-          <button onclick={subtractAmount} 
-                  class="border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton" 
-                  type="button">
-            <span class="text-xl">-1</span>
-          </button>
-        </span>
+    
+        <!-- Buttons Wrapper -->
+    <div class="flex flex-col lg:flex-row  space-y-2 sm:space-y-0 sm:space-x-2 md:space-x-0">
+      <span class="control">
+        <button onclick={addAmount} 
+                class="bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton w-full" 
+                type="button">
+          <span class="text-xl">+1</span>
+        </button>
+      </span>
+
+      <span class="control">
+        <button onclick={subtractAmount} 
+                class="border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton w-full" 
+                type="button">
+          <span class="text-xl">-1</span>
+        </button>
+      </span>
+    </div>
+    
       </div>
     </form>
 
@@ -258,7 +291,7 @@
                    class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" 
                    type="text" 
                    disabled>
-            <img src="{chip}" alt="chip" class="w-[30px]">
+            <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
           </div>
         </label>
       </form>
@@ -272,7 +305,7 @@
                    type="text" 
                    disabled 
                    bind:value={balance}>
-            <img src="{chip}" alt="chip" class="w-[30px]">
+            <img src="{chip}" alt="chip" class="w-[30px] max-sm:hidden">
           </div>
         </label>
       </form>
@@ -291,8 +324,8 @@
 
   <!-- Game Area -->
   <div bind:this={gamearea} 
-       class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4 ps-[20%] pe-[5%] w-auto"
-       class:invisible={isZoomed}>
+       class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4 ps-[20%] pe-[5%] w-auto {correctGuess ? 'opacity-10': 'opacity-100'}"
+       class:hidden={isZoomed}>
   </div>
 
 </div>
