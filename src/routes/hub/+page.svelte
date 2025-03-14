@@ -7,8 +7,8 @@
   import HubNavButton from "$lib/components/HubNavButton.svelte";
   import HubNavLi from "$lib/components/HubNavLi.svelte";
   import SignOutModal from "$lib/components/SignOutModal.svelte";
+  import AddFriendModal from "$lib/components/AddFriendModal.svelte";
   import chip from "$lib/media/images/chip.png";
-
   import user from "$lib/media/images/hub/user.png";
   import group from "$lib/media/images/hub/group.png";
   import add from "$lib/media/images/hub/add.png";
@@ -21,7 +21,8 @@
       signOutClicked:boolean  = $state(false),
       friendsClicked:boolean  = $state(false),
       addFriendClicked:boolean= $state(false),
-      friendRequestClicked:boolean = $state(false);
+      friendRequestClicked:boolean = $state(false),
+      friendsButtonClicked:boolean = $state(false);
 
   $effect(() => {
     if (profileClicked) {
@@ -50,7 +51,7 @@
   <div class:hidden={!friends} 
        class="w-1/3  border-4 bg-black border-yellow-600 rounded-tr-xl h-fit float-start">
     <ul>
-      <HubNavLi text="Friends" bind:click={friendsClicked}/>
+      <HubNavLi text="Friends" bind:click={friendsButtonClicked}/>
       <HubNavLi text="Friend Requests" bind:click={friendRequestClicked}/>
       <HubNavLi text="Add Friend" bind:click={addFriendClicked}/>
     </ul>
@@ -82,4 +83,5 @@
   <HubNavButton text="Profile" img={user} alt="User icon" bind:click={profileClicked}/>
 </nav>
 
-<SignOutModal bind:clicked={signOutClicked} show={signOutClicked}/>
+<AddFriendModal bind:show={addFriendClicked}/>
+<SignOutModal bind:clicked={signOutClicked} />

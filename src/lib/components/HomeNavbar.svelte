@@ -31,29 +31,31 @@
       <!-- Sign out / Hub -->
       {#if logged}
       <a href="/hub">
-        <div class="inline-block font-bold float-end bg-yellow-600 hover:scale-110 border-yellow-600 border-2 text-black me-5 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
+        <div class=" hover-1 inline-block font-bold float-end bg-yellow-600 hover:scale-110 border-yellow-600 border-2 text-black me-5 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
           Hub
         </div>
       </a>
-      <button class="textShadow inline-block font-bold float-end hover:scale-110 bg-black border-yellow-600 border-2 text-yellow-600 me-2 p-2 rounded focus:outline-none focus:shadow-outline duration-300"
+      <button class="hover-1 textShadow inline-block font-bold float-end hover:scale-110 bg-black border-yellow-600 border-2 text-yellow-600 me-2 p-2 rounded focus:outline-none focus:shadow-outline duration-300"
               onclick={() => {signOutClicked = true}}>
         Sign out
       </button>
       {:else}
       <!-- Sign in / up -->
       <a href="/sign-up">
-        <div class="inline-block font-bold float-end bg-yellow-600 hover:scale-110 border-yellow-600 border-2  text-black  me-6 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
+        <div class="hover-1 inline-block font-bold float-end bg-yellow-600 hover:scale-110 border-yellow-600 border-2  text-black  me-6 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
           Sign up
         </div>
       </a>
       <a href="/sign-in">
-        <div class="textShadow inline-block font-bold float-end hover:scale-110 bg-black border-yellow-600 border-2 text-yellow-600 me-2 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
+        <div class="hover-1 textShadow inline-block font-bold float-end hover:scale-110 bg-black border-yellow-600 border-2 text-yellow-600 me-2 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
           Sign in
         </div>
       </a>
       {/if}
     </div>
   </div>
+
+  <!-- Mobile view -->
   <div class="md:hidden">
     <button class="w-full p-2 goldenbg flex flex-row place-items-center" onclick={() => mobileViewOpen = !mobileViewOpen}>
       <div class="basis-1/2">
@@ -80,7 +82,7 @@
         <!-- Sign out / Hub -->
         {#if logged}
         <a href="/hub" class="basis-1/2 p-1">
-          <div class="w-full text-center font-bold float-end bg-yellow-600 border-yellow-600 border-2 text-black p-2 rounded focus:outline-none focus:shadow-outline">
+          <div class="hover-1 w-full text-center font-bold float-end bg-yellow-600 border-yellow-600 border-2 text-black p-2 rounded focus:outline-none focus:shadow-outline">
             Hub
           </div>
         </a>
@@ -109,7 +111,7 @@
   </div>
 </nav>
 
-<SignOutModal bind:clicked={signOutClicked} show={signOutClicked} />
+<SignOutModal bind:clicked={signOutClicked} />
 
 <style>
   .nav{
@@ -119,22 +121,4 @@
     background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
   }
 
-  /*.hover-1 {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hover-1::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    width: 0%;
-    background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
-    transition: width 0.1s ease-in-out;
-    z-index: -1;
-  }
-
-  .hover-1:hover::before {
-    width: 100%;
-  }*/
 </style>

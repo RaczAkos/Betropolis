@@ -121,3 +121,22 @@ body{
 	background-image: radial-gradient(circle, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
 	opacity: 90%;
 }
+
+.hover-1 {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-1::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
+  transition: width 0.1s ease-in-out;
+  z-index: -1;
+}
+
+.hover-1:hover::before {
+  width: 100%;
+}
