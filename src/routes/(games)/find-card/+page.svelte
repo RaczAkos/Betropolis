@@ -5,7 +5,7 @@
   // Import assets
   const cardsrecord = import.meta.glob("$lib/media/images/findcardgame/cards/*.png");
   import cardback from "$lib/media/images/findcardgame/cardback.png";
-  import frenchcards from "$lib/frenchcards";
+  import frenchcards from "$lib/exports/frenchcards";
   import chip from "$lib/media/images/chip.png";
 
   // Convert Record to Array

@@ -4,84 +4,114 @@
 </svelte:head>
 
 <script lang="ts">
-  import HubNavButton from "$lib/components/HubNavButton.svelte";
-  import HubNavLi from "$lib/components/HubNavLi.svelte";
-  import SignOutModal from "$lib/components/SignOutModal.svelte";
-  import AddFriendModal from "$lib/components/AddFriendModal.svelte";
-  import chip from "$lib/media/images/chip.png";
-  import user from "$lib/media/images/hub/user.png";
-  import group from "$lib/media/images/hub/group.png";
-  import add from "$lib/media/images/hub/add.png";
+    import HubNavbar from "$lib/components/hub/HubNavbar.svelte";
+    import Input from "$lib/components/Input.svelte";
+    import homeImg from "$lib/media/images/hub/home.png";
+    import searchImg from "$lib/media/images/hub/search.png";
+    import closeImg from "$lib/media/images/hub/close.png";
 
-  let { data } = $props(),
-      profile:boolean = $state(false),
-      friends:boolean = $state(false),
-      profileClicked:boolean  = $state(false),
-      addFundsClicked:boolean = $state(false),
-      signOutClicked:boolean  = $state(false),
-      friendsClicked:boolean  = $state(false),
-      addFriendClicked:boolean= $state(false),
-      friendRequestClicked:boolean = $state(false),
-      friendsButtonClicked:boolean = $state(false);
+    let { data } = $props(),
+        windowWidth = $state(0),
+        gameList = $state(data.games),
+        search:string = $state(""),
+        searchBar:boolean = $state(false);
 
-  $effect(() => {
-    if (profileClicked) {
-      profile = !profile;
-      friends = false;
-      profileClicked = false;
-    }
-    if (friendsClicked) {
-      friends = !friends;
-      profile = false;
-      friendsClicked = false;
-    }
-  })
+    $effect(() => {
+      if (search) gameList = data.games.filter((game:any) => game.name.toLowerCase().search(search.toLowerCase()) != -1);
+      else gameList = data.games;
+
+      if (windowWidth > 639) searchBar = false;
+      else if (windowWidth < 640 && search) searchBar = true;
+    })
 </script>
 
-<!-- Temp stuff -->
-<div class="text-white">
-    <p>temporary hyperlinks</p>
-    <a href="/fruit-frenzy-classic">Fruit Frenzy</a>
-    <a href="/findcard">Findcard</a>
-    <a href="/crashgame">crash</a>
-    <a href="/">home</a>
-</div>
+<svelte:window bind:innerWidth={windowWidth} />
 
-<div class="bottom-14 absolute w-full [&_li]:text-center text-white [&_li]:m-2 font-bold sm:text-xl [&_li]:onhover:">
-  <div class:hidden={!friends} 
-       class="w-1/3  border-4 bg-black border-yellow-600 rounded-tr-xl h-fit float-start">
-    <ul>
-      <HubNavLi text="Friends" bind:click={friendsButtonClicked}/>
-      <HubNavLi text="Friend Requests" bind:click={friendRequestClicked}/>
-      <HubNavLi text="Add Friend" bind:click={addFriendClicked}/>
-    </ul>
+<!-- Top bar -->
+<div class="p-2 borgens flex justify-between text-center select-none">
+  {#if searchBar}
+
+  <!-- Mobile searchbar -->
+  <div class="w-full flex text-2xl">
+    <Input bind:value={search} 
+           type="search" 
+           placeholder="search"
+           id="search"
+           name="search"/>
+    <button type="button"
+            class="bg-red-600 rounded p-2 !min-w-12 ms-2"
+            onclick={() => {searchBar = false; search = ""}}>
+      <img src={closeImg} 
+           alt="Home" 
+           class="h-8">
+    </button>
   </div>
-  <div class:hidden={!profile}
-       class="w-1/3 border-4 bg-black border-yellow-600 rounded-tl-xl float-right">
-    <div class="p-2 flex max-lg:flex-col max-lg:text-center border-yellow-600 place-content-between border-b-4">
-      <div>User: <span class="italic font-bold text-yellow-600">{data.user.username}</span></div>
-      <div class="flex flex-row justify-center">
-        <div class="flex place-items-center">
-          <div class="text-lg me-1">{data.user.balance}</div>
-          <img src={chip} alt="chips" class="h-6">
+  {:else}
+  <div class="basis-1/3">
+    <a href="/" class="float-left">
+      <div class="inline-block p-2 rounded bg-yellow-600 text-2xl">
+        <div class="flex justify-center items-center gap-1">
+          <img src={homeImg} 
+               alt="Home" 
+               class="h-8 sm:hidden">
+          <div class="max-sm:hidden">
+            Home
+          </div>
         </div>
       </div>
-    </div>
-    <ul>
-      <HubNavLi text="Statistics" type="link" href="/statistics"/>
-      <HubNavLi text="Profile" type="link" href="/profile"/>
-      <HubNavLi text="Sign Out" bind:click={signOutClicked}/>
-      <HubNavLi text="Terms & Conditions" type="link" href="/terms&conditions"/>
-      <HubNavLi text="Privacy Policy" type="link" href="/privacy-policy"/>
-    </ul>
+    </a>
   </div>
+
+  <div class="basis-1/3">
+    <h1 class="text-5xl text-yellow-600">Games</h1>
+  </div>
+
+  <div class="basis-1/3 flex items-center justify-end">
+    
+    <div class="max-sm:hidden text-xl flex">
+      <Input bind:value={search} 
+             type="search" 
+             placeholder="search"
+             id="search"
+             name="search"/>
+      <button type="button" 
+              onclick={() => {search = ""}}
+              disabled={search.length < 1}
+              class:!bg-red-600={search}
+              class="bg-yellow-600 rounded ms-1 p-2 min-w-10 enabled:hover:scale-110 duration-200">
+        {#if search}
+          <img src={closeImg} alt="close" class="h-6">
+        {:else}
+          <img src={searchImg} alt="search" class="h-6">
+        {/if}
+      </button>
+    </div>
+  
+    <button type="button" 
+            onclick={() => searchBar = true}
+            class="ms-1 bg-yellow-600 rounded p-2 sm:hidden">
+      <img src={searchImg} 
+           alt="search"
+           class="h-8">
+    </button>
+  </div>
+  {/if}
 </div>
 
-<nav class="flex bg-black bottom-0 w-full text-white fixed text-center border-t border-yellow-600 font-bold [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600">
-  <HubNavButton text="Friends" img={group} alt="Friends icon" bind:click={friendsClicked}/>
-  <HubNavButton text="Add funds" img={add} alt="Add icon" bind:click={addFundsClicked}/>
-  <HubNavButton text="Profile" img={user} alt="User icon" bind:click={profileClicked}/>
-</nav>
+<!-- Games -->
+<div class="w-full grid max-sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-white p-2">
+  {#each gameList as game}
+  <div class="border rounded-2xl flex justify-center items-center h-60 bg-cover bg-center duration-200" 
+       style="background-image: url(/src/lib/media/images/hub/{game.image}.png);">
+    <div>
+      <a href={game.route}>
+        {game.name}
+      </a>
+    </div>
+  </div>
+  {/each}
+</div>
 
-<AddFriendModal bind:show={addFriendClicked}/>
-<SignOutModal bind:clicked={signOutClicked} />
+<div class="h-14"></div>
+
+<HubNavbar {data} />

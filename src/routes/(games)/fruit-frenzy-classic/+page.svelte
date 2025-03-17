@@ -3,7 +3,7 @@
 </svelte:head>
 
 <script lang="ts">
-    import icons from "$lib/classicfruits";
+    import icons from "$lib/exports/classicfruits";
     import chip from "$lib/media/images/chip.png";
     import line from "$lib/media/images/line.png";
 

@@ -5,10 +5,10 @@
 </svelte:head>
 
 <script lang=ts>
-  import BonusGameModal from "$lib/components/BonusGameModal.svelte";
+  import BonusGameModal from "$lib/components/home/BonusGameModal.svelte";
   import banner from "$lib/media/videos/banner.mp4";
-  import frenchcards from "$lib/frenchcards";
-  import images from "$lib/hubgames";
+  import frenchcards from "$lib/exports/frenchcards";
+  import images from "$lib/exports/hubgames";
   import { onMount } from "svelte";
   let index:number = 0, 
       slides:HTMLDivElement,

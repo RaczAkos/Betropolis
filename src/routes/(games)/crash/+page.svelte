@@ -1,6 +1,6 @@
 <script lang="ts">
   // Import crash pictures from the library
-  import crashpics from "$lib/crashpics";
+  import crashpics from "$lib/exports/crashpics";
 
   // Declare variables and states
   let canvas: any,

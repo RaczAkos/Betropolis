@@ -1,5 +1,5 @@
 <script>
-  import SignOutModal from './SignOutModal.svelte';
+  import SignOutModal from '../SignOutModal.svelte';
 	import logo from '$lib/media/images/logo.png';
   import arrow from '$lib/media/images/down.png';
   let { logged, home } = $props();
@@ -14,7 +14,7 @@
     <div class="w-1/3 place-content-center place-items-start">
       {#if !home}
       <a href="/">
-        <div class=" ms-5 inline-block font-bold bg-yellow-600 hover:scale-110 border-yellow-600 border-2 text-black me-5 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
+        <div class="hover-1 ms-5 inline-block font-bold bg-yellow-600 hover:scale-110 border-yellow-600 border-2 text-black me-5 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
           Home
         </div>
       </a>
@@ -31,7 +31,7 @@
       <!-- Sign out / Hub -->
       {#if logged}
       <a href="/hub">
-        <div class=" hover-1 inline-block font-bold float-end bg-yellow-600 hover:scale-110 border-yellow-600 border-2 text-black me-5 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
+        <div class="hover-1 inline-block font-bold float-end bg-yellow-600 hover:scale-110 border-yellow-600 border-2 text-black me-5 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
           Hub
         </div>
       </a>
