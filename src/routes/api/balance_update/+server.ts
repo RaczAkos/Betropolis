@@ -5,8 +5,7 @@ import { dbConnect } from "$lib/db/db";
 
 export const POST: RequestHandler = async (event) => {
     let req = await event.request.json(),
-        db = await dbConnect(),
-        userId = event.locals.user.id;
+        db = await dbConnect();
     console.log(req);
 
     try {

@@ -1,6 +1,7 @@
 
 <script lang=ts>
   import AddFriendModal from "./AddFriendModal.svelte";
+  import FriendRequestsModal from "./FriendRequestsModal.svelte";
   import HubNavLi from "./HubNavLi.svelte";
 
   let { show = $bindable() } = $props(),
@@ -20,3 +21,4 @@
 </div>
 
 <AddFriendModal bind:show={addFriendClicked}/>
+<FriendRequestsModal bind:show={friendRequestClicked}/>

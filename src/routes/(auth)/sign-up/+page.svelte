@@ -10,7 +10,6 @@
 
   let { form } = $props();
 
-  // Registration type checking
   interface Registration {
     name:string,
     username:string,
@@ -31,7 +30,7 @@
       type:string      = $state("password"),
       password2:string = $state(""),
       passConf:boolean = $state(false),
-      passFormat:boolean = $state(false),
+      passwordFormat:boolean = $state(false),
       userNameFormat:boolean = $state(false),
       date = new Date(),
       month = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
@@ -41,13 +40,11 @@
       over18 = $state(false),
       valid = $state(false);
 
-  // Checking password format
   $effect(() => {
-    passFormat = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!#$%&?<>_ "]).*$/.test(user.password);
-    if (passFormat) passConf = (user.password == password2)? true : false;
+    passwordFormat = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!#$%&?<>_ "]).*$/.test(user.password);
+    if (passwordFormat) passConf = (user.password == password2)? true : false;
   });
 
-  // Checking username format
   $effect(() => {
     userNameFormat = /^[a-zA-Z0-9]{5,20}$/.test(user.username);
   });
@@ -153,8 +150,8 @@
                name="password"
                label="Password (required)"
                onpaste={(e:Event) => e.preventDefault()}/>
-        <div class:text-green-400={passFormat} 
-             class:opacity-100={passFormat} 
+        <div class:text-green-400={passwordFormat} 
+             class:opacity-100={passwordFormat} 
              class="text-gray-300 opacity-50 text-xs text-wrap !text-justify m-1">
           Password must be at least 8 characters, containing at least 1 uppercase, 1 lowercase and 1 number character.
         </div>
