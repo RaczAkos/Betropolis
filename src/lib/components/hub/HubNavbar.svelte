@@ -34,12 +34,12 @@
 
 <nav class=" bg-black bottom-0 w-full text-white fixed text-center border-t border-yellow-600">
   <div class="bottom-14 absolute w-full [&_li]:text-center [&_li]:m-2 sm:text-xl">
-    <HubFriendsMenu show={friends}/>
+    <HubFriendsMenu show={friends} requests={data.friendRequests}/>
     <HubProfileMenu show={profile} {data} />
   </div>
 
   <div class="flex [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600 borgens">
-    <HubNavButton text="Friends" img={group} alt="Friends icon" bind:click={friendsClicked}/>
+    <HubNavButton text="Friends" img={group} alt="Friends icon" notification={data.friendRequests.length} bind:click={friendsClicked}/>
     <HubNavButton text="Manage funds" img={add} alt="Add icon" bind:click={addFundsClicked}/>
     <HubNavButton text="Profile" img={user} alt="User icon" bind:click={profileClicked}/>
   </div>
