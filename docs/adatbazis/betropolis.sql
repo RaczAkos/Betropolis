@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2025 at 01:58 AM
+-- Generation Time: Mar 19, 2025 at 01:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -51,17 +51,18 @@ CREATE TABLE `game` (
   `gameid` int(3) NOT NULL,
   `name` varchar(30) NOT NULL,
   `route` varchar(40) NOT NULL,
-  `image` varchar(50) NOT NULL
+  `image` varchar(50) NOT NULL,
+  `font` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `game`
 --
 
-INSERT INTO `game` (`gameid`, `name`, `route`, `image`) VALUES
-(1, 'Fruit Frenzy Classic', '/fruit-frenzy-classic', 'fruit-frenzy'),
-(2, 'Crash', '/crash', 'dragoncrash'),
-(3, 'Find Card', '/find-card', 'findcard');
+INSERT INTO `game` (`gameid`, `name`, `route`, `image`, `font`) VALUES
+(1, 'Fruit Frenzy Classic', '/fruit-frenzy-classic', 'fruitslotbg.jfif', 'orangek'),
+(2, 'Crash', '/crash', 'dragon.jfif', 'dracutaz'),
+(3, 'Find Card', '/find-card', 'findcardbg.jfif', 'borgens');
 
 -- --------------------------------------------------------
 
@@ -163,13 +164,6 @@ CREATE TABLE `user_session` (
   `user_id` int(11) NOT NULL,
   `expires_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user_session`
---
-
-INSERT INTO `user_session` (`id`, `user_id`, `expires_at`) VALUES
-('7fdf40710aa63cebbacfda1dd92e8209c36f07eb153e4568945427d95e405131', 1, '2025-04-15 23:17:17');
 
 --
 -- Indexes for dumped tables

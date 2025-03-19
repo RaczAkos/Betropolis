@@ -477,7 +477,7 @@
   }
 
   .bgImg {
-    background-image: url("../../../lib/media/images/crashgame/dragon.jfif") !important;
+    background-image: url("src/lib/media/images/backgrounds/dragon.jfif") !important;
     background-size: cover;
   }
 
