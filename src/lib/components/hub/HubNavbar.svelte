@@ -16,7 +16,6 @@
       profileClicked:boolean  = $state(false),
       addFundsClicked:boolean = $state(false),
       friendsClicked:boolean  = $state(false)
-      
 
   $effect(() => {
     if (profileClicked) {
@@ -39,7 +38,7 @@
   </div>
 
   <div class="flex [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600 borgens">
-    <HubNavButton text="Friends" img={group} alt="Friends icon" notification={data.friendRequests.length} bind:click={friendsClicked}/>
+    <HubNavButton text="Friends" img={group} alt="Friends icon" notification={data.friendRequests[0].length} bind:click={friendsClicked}/>
     <HubNavButton text="Manage funds" img={add} alt="Add icon" bind:click={addFundsClicked}/>
     <HubNavButton text="Profile" img={user} alt="User icon" bind:click={profileClicked}/>
   </div>

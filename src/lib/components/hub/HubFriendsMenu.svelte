@@ -1,5 +1,6 @@
 
 <script lang=ts>
+
   import AddFriendModal from "./AddFriendModal.svelte";
   import FriendRequestsModal from "./FriendRequestsModal.svelte";
   import HubNavLi from "./HubNavLi.svelte";
@@ -15,10 +16,10 @@
      class="w-1/2 sm:w-1/3 border-4 bg-black border-yellow-600 rounded-tr-xl h-fit float-start">
   <ul>
     <HubNavLi text="Friends" bind:click={friendsButtonClicked} count=0/>
-    <HubNavLi text="Friend Requests" bind:click={friendRequestClicked}/>
+    <HubNavLi text="Friend Requests" bind:click={friendRequestClicked} notification={requests[0].length}/>
     <HubNavLi text="Add Friend" bind:click={addFriendClicked}/>
   </ul>
 </div>
 
 <AddFriendModal bind:show={addFriendClicked}/>
-<FriendRequestsModal bind:show={friendRequestClicked}/>
+<FriendRequestsModal bind:show={friendRequestClicked} requestsData={requests}/>
