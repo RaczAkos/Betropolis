@@ -37,7 +37,7 @@
     <HubProfileMenu show={profile} {data} />
   </div>
 
-  <div class="flex [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600 borgens">
+  <div class="flex [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600">
     <HubNavButton text="Friends" img={group} alt="Friends icon" notification={data.friendRequests[0].length} bind:click={friendsClicked}/>
     <HubNavButton text="Manage funds" img={add} alt="Add icon" bind:click={addFundsClicked}/>
     <HubNavButton text="Profile" img={user} alt="User icon" bind:click={profileClicked}/>
