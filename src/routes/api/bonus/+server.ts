@@ -13,14 +13,19 @@ export async function POST ({ request }: { request: Request }) {
   
   try {
     // Check if user reqistered
-    let userCheck = await db.query(`SELECT id FROM users WHERE email = '${req.email}';`).then( (rows:any) => { return rows; } );
+    let userCheck = await db.query(`SELECT id FROM users WHERE email = '${req.email}';`);
     if (!userCheck[0].length) {
       
       // Check if bonus exists
-      let emailCheck = await db.query(`SELECT id FROM bonus WHERE email = '${req.email}';`).then( (rows:any) => { return rows; } );
+      let emailCheck = await db.query(`SELECT id 
+                                       FROM bonus 
+                                       WHERE email = '${req.email}';`);
       if (!emailCheck[0].length){
         
-        await db.query("INSERT INTO bonus (email, starting_bonus, status) VALUES (?,?,?)", [req.email, bonus, 0]);
+        await db.query(`INSERT INTO bonus (email, starting_bonus, status) 
+                        VALUES (?,?,?)`, 
+                        [req.email, bonus, 0]);
+
         title = "Succesfully claimed bonus!";
         message = `Sign up to claim your starting bonus: ${bonus} chips`;
         extra = `(Other cards contained: ${generateBonus()}, ${generateBonus()}, ${generateBonus()})`;
@@ -45,7 +50,7 @@ export async function POST ({ request }: { request: Request }) {
   catch (error : any) {
     return json({
       "title": "Some error happened!", 
-      "message": "Please try again!"
+      "message": error.message
     });
   }
 }

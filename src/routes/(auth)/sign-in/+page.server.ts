@@ -12,15 +12,17 @@ export const actions = {
         password = data.get('password'),
         db = await dbConnect();
     
-    let user = await db.query(`SELECT id, password FROM users WHERE email = ? OR username = ?;`, [id,id]).then((rows:any) => { return rows[0][0]; });
+    let user = await db.query(`SELECT id, password 
+                               FROM users 
+                               WHERE email = ? OR username = ?;`, [id,id]);
     
-    if (user) {
-      if(user.password === password) {
+    if (user[0][0]) {
+      if(user[0][0].password === password) {
 
         const token = generateSessionToken();
-        const session = await createSession(token, user.id);
-        
+        const session = await createSession(token, user[0][0].id);
         setSessionTokenCookie(event, token, session.expiresAt);
+        
         return redirect(308, "/hub");
       }
       return {error: "Wrong password!"};

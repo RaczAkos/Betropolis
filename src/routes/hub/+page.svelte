@@ -4,11 +4,13 @@
 </svelte:head>
 
 <script lang="ts">
+
   import GameCard from "$lib/components/hub/GameCard.svelte";
-import HubNavbar from "$lib/components/hub/HubNavbar.svelte";
+  import HubNavbar from "$lib/components/hub/HubNavbar.svelte";
   import HubTopbar from "$lib/components/hub/HubTopbar.svelte";
+
   let { data } = $props(),
-      windowWidth = $state(0),
+      windowWidth:number = $state(0),
       gameList = $state(data.games),
       search:string = $state(""),
       searchBar:boolean = $state(false);
@@ -20,13 +22,15 @@ import HubNavbar from "$lib/components/hub/HubNavbar.svelte";
     if (windowWidth > 639) searchBar = false;
     else if (windowWidth < 640 && search) searchBar = true;
   })
+  
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
 
 <div class="h-16"></div>
 
-<HubTopbar bind:search={search} bind:searchBar={searchBar}/>
+<HubTopbar bind:search={search} 
+           bind:searchBar={searchBar}/>
 
 <!-- Games -->
 {#if gameList.length > 0}

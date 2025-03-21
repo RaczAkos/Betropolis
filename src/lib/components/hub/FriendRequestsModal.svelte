@@ -130,7 +130,7 @@
 
         <div class="mt-2 border-t pt-2 border-yellow-600 px-2 max-sm:flex-col-reverse gap-2 flex justify-center font-bold">
           <button class="hover:scale-110 border-2 p-1 rounded bg-black text-yellow-600 border-yellow-600 duration-300" 
-                  onclick={() => { show = false; feedback = {}}}>
+                  onclick={() => { show = false; feedback = {}; }}>
             Close
           </button>
         </div>

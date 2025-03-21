@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 19. 12:32
+-- Létrehozás ideje: 2025. Már 21. 13:26
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.1.17
 
@@ -53,6 +53,13 @@ CREATE TABLE `friends` (
   `friend2` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `friends`
+--
+
+INSERT INTO `friends` (`id`, `friend1`, `friend2`) VALUES
+(5, 3, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -62,8 +69,19 @@ CREATE TABLE `friends` (
 CREATE TABLE `friend_requests` (
   `id` int(11) NOT NULL,
   `senderId` int(11) NOT NULL,
-  `sentToId` int(11) NOT NULL
+  `sentToId` int(11) NOT NULL,
+  `status` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `friend_requests`
+--
+
+INSERT INTO `friend_requests` (`id`, `senderId`, `sentToId`, `status`) VALUES
+(2, 1, 3, 'accepted'),
+(3, 3, 2, 'active'),
+(4, 1, 2, 'active'),
+(5, 3, 4, 'active');
 
 -- --------------------------------------------------------
 
@@ -194,7 +212,10 @@ CREATE TABLE `user_session` (
 --
 
 INSERT INTO `user_session` (`id`, `user_id`, `expires_at`) VALUES
-('c029efe64022e16677a33cfda0fd1bf6533ed3f072b3a4be5c5939ac282cafae', 2, '2025-04-18 12:35:19');
+('0bfa6ec2cfa7a4cffe666e1e0a8d82f57d2963329ccf464e273e114f7194d79a', 3, '2025-04-20 09:29:11'),
+('8a361288692fff15b6e3d9eb829903a3216bcfb54023c58391bee0e63142a439', 1, '2025-04-20 09:29:47'),
+('c029efe64022e16677a33cfda0fd1bf6533ed3f072b3a4be5c5939ac282cafae', 2, '2025-04-18 12:35:19'),
+('e40a308de4ed98042cebb9c7c3be9db4f7b3f4df0090ea98bd10fa23f9ea9c56', 1, '2025-04-20 13:56:21');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -258,13 +279,13 @@ ALTER TABLE `bonus`
 -- AUTO_INCREMENT a táblához `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `friend_requests`
 --
 ALTER TABLE `friend_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `game`
@@ -282,7 +303,7 @@ ALTER TABLE `statistics`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
