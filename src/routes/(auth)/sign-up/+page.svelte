@@ -7,6 +7,7 @@
 <script lang="ts">
   import Input from "$lib/components/Input.svelte";
   import { enhance } from "$app/forms";
+  import avatarsAll from "$lib/exports/avatars.js";
 
   let { form } = $props();
 
@@ -16,7 +17,8 @@
     birthdate:string,
     gender:string,
     email:string,
-    password:string
+    password:string,
+    picture:string
   }
 
   let user: Registration = $state({
@@ -25,7 +27,8 @@
         birthdate: "",
         gender: "",
         email: "",
-        password: ""
+        password: "",
+        picture:""
       }),
       type:string      = $state("password"),
       password2:string = $state(""),
@@ -39,6 +42,9 @@
       conditions = $state(false),
       over18 = $state(false),
       valid = $state(false);
+    
+  let selectedAvatarIndex = $state(-1);
+
 
   $effect(() => {
     passwordFormat = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!#$%&?<>_ "]).*$/.test(user.password);
@@ -59,10 +65,17 @@
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(user.email) &&
       passConf &&
       conditions &&
-      over18
+      over18 &&
+      selectedAvatarIndex != -1
     ) valid = true;
     else valid = false;
   });
+
+  function selectAvatar(index:any) {
+    selectedAvatarIndex = index;
+    console.log("Selected Avatar Index:", index);
+  }
+  
 </script>
 
 <form method="POST" use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
@@ -213,6 +226,43 @@
     </label>
   </div>
 
+  {#if user.gender}
+    <div class="text-center sm:w-[500px] max-sm:w-[84vw] mb-5">
+    <h2 class="text-xl font-semibold mb-4">Choose Your Avatar!</h2>
+    <!-- Scrollable container -->
+    <div class="overflow-x-scroll sm:w-[500px] max-sm:w-[84vw] scrollDesign">
+      <div class="flex gap-4 w-max px-4 py-2">
+        {#if user.gender == 'F'}
+          {#each avatarsAll[1] as avatar, index}
+            <button onclick={() => selectAvatar(index)} type="button">
+              <img  
+                src={avatar}
+                alt="Avatar {index}"
+                class="w-20 h-20 rounded-full border-4 cursor-pointer transition-all
+                      {selectedAvatarIndex === index ? 'border-yellow-600' : 'border-transparent hover:border-gray-400'}"
+              />
+            </button>
+          {/each}
+          <input name="picture" class="hidden" type="text" bind:value={avatarsAll[1][selectedAvatarIndex]}>
+        {/if}
+        {#if user.gender == 'M'}
+          {#each avatarsAll[0] as avatar, index}
+            <button onclick={() => selectAvatar(index)} type="button">
+              <img  
+                src={avatar}
+                alt="Avatar {index}"
+                class="w-20 h-20 rounded-full border-4 cursor-pointer transition-all
+                      {selectedAvatarIndex === index ? 'border-yellow-600' : 'border-transparent hover:border-gray-400'}"
+              />
+            </button>
+          {/each}
+          <input name="picture" class="hidden" type="text" bind:value={avatarsAll[0][selectedAvatarIndex]}>
+        {/if}
+      </div>
+    </div>
+  </div>
+  {/if}
+
   <!-- Sign in -->
   <div class="flex justify-center items-center my-1">
     <button class="disabled:opacity-35 disabled:hover:bg-yellow-600 bg-yellow-600 hover:bg-black border-yellow-600 border-2 hover:border-opacity-100 text-black hover:text-yellow-600 disabled:hover:text-black font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline duration-300" 
@@ -256,5 +306,19 @@
         background-size: contain;
         cursor: pointer;
         opacity: 1;
+    }
+    .scrollDesign::-webkit-scrollbar{
+      height: 0.5rem
+    }
+
+    .scrollDesign::-webkit-scrollbar-track{
+      background: #1e1e24;
+    }
+
+    .scrollDesign::-webkit-scrollbar-thumb{
+      border-radius: 5px;
+    }
+    .scrollDesign::-webkit-scrollbar-thumb:hover{
+      background-color: #ca8a04;
     }
 </style>
