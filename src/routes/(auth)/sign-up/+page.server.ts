@@ -13,7 +13,8 @@ export const actions = {
           birthdate: data.get('birthdate'),
           gender: data.get('gender'),
           email: data.get('email'),
-          password: data.get('password')
+          password: data.get('password'),
+          picture: data.get('picture')
         },
         db = await dbConnect();
     
