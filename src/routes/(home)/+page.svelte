@@ -71,7 +71,7 @@
 
 
   <!-- Bonus Game -->
-  <div class="flex justify-center mt-9 borgens select-none text-3xl text-yellow-600 text-center max-sm:text-2xl">
+  <div class="flex justify-center mt-[100px] borgens select-none text-3xl text-yellow-600 text-center max-sm:text-2xl">
     <div class="mx-5 lg:basis-2/3">
       <h2 class="">Choose a card for a free extra starting bonus!</h2>
       <div class="ledBorder grid grid-cols-4 max-md:grid-cols-2 mx-5 my-2 gap-2 p-2 rounded-3xl">
