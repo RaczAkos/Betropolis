@@ -56,7 +56,7 @@
   // Exponential crash probability calculation function
   function get_crash_probability(multiplier: any, k: any) {
     // Adjust k to make crashes rarer
-    const adjustedK = k * 0.5;
+    const adjustedK = k * 0.4;
     return 1 - Math.exp(-adjustedK * (multiplier - 1));
 }
 

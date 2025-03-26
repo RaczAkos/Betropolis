@@ -22,9 +22,7 @@
     </div>
 
     <div class="w-1/3 place-items-center place-content-center grid p-1 nav">
-      <a href="/">
-        <img src={logo} alt="Casino Logo" class="h-[80px]">
-      </a>
+      <img src={logo} alt="Casino Logo" class="h-[80px]">
     </div>
 
     <div class="place-content-center w-1/3">
