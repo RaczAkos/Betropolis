@@ -27,8 +27,8 @@ export const actions = {
     if (emailCheck[0][0]) return {error: "E-mail already used by someone."};
 
     // Upload user to db and get back the id
-    let uploadUser = await db.query("INSERT INTO users (email, username, password, name, gender, birthdate, balance) VALUES (?,?,?,?,?,?,500)", 
-                                    [user.email, user.username, user.password, user.name, user.gender, user.birthdate]);
+    let uploadUser = await db.query("INSERT INTO users (email, username, password, name, gender, birthdate, avatar, balance) VALUES (?,?,?,?,?,?,?,0)", 
+                                    [user.email, user.username, user.password, user.name, user.gender, user.birthdate, user.picture]);
 
     // Add bonus to balance if claimed
     let bonus = await db.query("SELECT starting_bonus FROM bonus WHERE email = ? AND status = 0;", [user.email]);
