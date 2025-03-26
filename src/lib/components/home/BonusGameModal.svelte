@@ -37,7 +37,7 @@
   <div class="fixed inset-0 bg-black/90 modalbg" aria-hidden="true"></div>
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-      <div class="relative transform overflow-hidden bg-black text-left border border-yellow-600 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
+      <div class="relative transform overflow-hidden bg-black text-left border-2 border-yellow-600 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
         
         <div class="px-4 pt-4">
           <h3 class="text-center text-4xl borgens">
@@ -69,7 +69,7 @@
           </div>
         </div>
         
-        <div class="border-t-yellow-600 border-t my-1 mt-2 px-4 py-2 sm:flex sm:flex-row-reverse sm:px-6 justify-center">
+        <div class="border-t-yellow-600 border-t-2 my-1 mt-2 px-4 py-2 sm:flex sm:flex-row-reverse sm:px-6 justify-center">
           {#if !returnedBonus}
           <button onclick={bonusGame} 
                   disabled={!goodEmail}

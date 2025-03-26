@@ -2,9 +2,8 @@
   import logo from "$lib/media/images/logo.png";
   let { logged, home } = $props();
   let links = [
-    { text: "About", href: "/about" },
     { text: "Terms & Conditions", href: "/terms&conditions" },
-    { text: "Privacy Policy", href: "/privacy-policy" },
+    { text: "Privacy Policy", href: "/privacy-policy" }
   ];
 </script>
 

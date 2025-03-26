@@ -7,13 +7,10 @@ export async function POST(event) {
   
   try {
     await db.query(`UPDATE friend_requests 
-                    SET status = "accepted" 
+                    SET status = "deleted" 
                     WHERE id = ${data.requestId};`);
 
-    await db.query("INSERT INTO friends (friend1, friend2) VALUES (?,?);", 
-                   [event.locals.user.id, data.senderId]);
-
-    return json({"success":"Friend request accepted!"});
+    return json({"success":"Request deleted!"});
   }
   catch (e:any) {
     return json({error: e.message});

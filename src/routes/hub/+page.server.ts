@@ -25,10 +25,19 @@ export const load: PageServerLoad = async (event) => {
                                           WHERE senderId = ${event.locals.user.id} 
                                           AND status = 'active';`),
 
-      friendData = await db.query(`SELECT friend1, friend2 
+      friendData = await db.query(`SELECT users.username 
                                    FROM friends 
-                                   WHERE friend1 = ${event.locals.user.id} 
-                                   OR friend2 = ${event.locals.user.id};`);
+                                   INNER JOIN users 
+                                   ON users.id = friends.friend2 
+                                   WHERE friend1 = ${event.locals.user.id};
+                                   
+                                   SELECT users.username 
+                                   FROM friends 
+                                   INNER JOIN users 
+                                   ON users.id = friends.friend1 
+                                   WHERE friend2 = ${event.locals.user.id};`);
 
-  return {user: userData[0], games: gamesData[0], friendRequests: friendRequestData[0], friends: friendData[0]};
+  friendData = friendData[0][0].concat(friendData[0][1]);
+
+  return {user: userData[0], games: gamesData[0], friendRequests: friendRequestData[0], friends: friendData};
 }

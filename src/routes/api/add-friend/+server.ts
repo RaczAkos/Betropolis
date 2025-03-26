@@ -9,14 +9,14 @@ export async function POST(event) {
 
     let friend = await db.query(`SELECT id 
                                  FROM users 
-                                 WHERE username LIKE '${data.friendUsername}';`);
+                                 WHERE username = '${data.friendUsername}';`);
 
-    if (friend[0][0] == undefined) return json({error: "User doesnt exists!"});
-    else if (friend[0][0].id == event.locals.user.id) return json({error: "You cant add yourself as friend!"});
+    if (friend[0][0] == undefined) return json({error: "User doesn't exists!"});
+    else if (friend[0][0].id == event.locals.user.id) return json({error: "You can't add yourself as friend!"});
     else {
       let requestQuery = `SELECT id 
                           FROM friend_requests 
-                          WHERE (senderId LIKE ? AND sentToId LIKE ?) 
+                          WHERE (senderId = ? AND sentToId = ?) 
                           AND status = 'active';`,
           friendId = friend[0][0].id;
 
@@ -28,8 +28,8 @@ export async function POST(event) {
 
       let friends = await db.query(`SELECT id 
                                     FROM friends 
-                                    WHERE (friend1 LIKE ? OR friend1 LIKE ?) 
-                                    AND (friend2 LIKE ? OR friend2 LIKE ?);`,
+                                    WHERE (friend1 = ? OR friend1 = ?) 
+                                    AND (friend2 = ? OR friend2 = ?);`,
                                    [friendId, event.locals.user.id, friendId, event.locals.user.id]);
       if (friends[0][0]) return json({error: "You are already friends!"});
     }
