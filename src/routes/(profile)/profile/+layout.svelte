@@ -4,7 +4,7 @@
 	let { children, data } = $props();
 </script>
 
-<HomeNavbar logged={data.logged} home={data.home}/>
+<HomeNavbar logged={data.userEvent.logged} home={data.userEvent.home}/>
 
 <div class="fixed">
 	{@render children()}

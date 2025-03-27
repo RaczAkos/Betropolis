@@ -9,10 +9,11 @@ export const load: LayoutServerLoad = async (event) => {
                                  FROM users 
                                  WHERE id = ${event.locals.user?.id}`);
 
-  let data = {
-    logged: event.locals.user !== null,
-    home: event.url.pathname === '/',
-    user: userData[0]
-  };
-  return data;
+  let userEvent = {
+        logged: event.locals.user !== null,
+        home: event.url.pathname === '/',
+        user: userData[0]
+      };
+                                 
+  return {user: userData[0], userEvent}
 };

@@ -9,13 +9,13 @@ export const POST: RequestHandler = async (event) => {
     console.log(req);
 
     try {
-        const userId = 1; // Replace with session or request-based ID
+        const userId = event.locals.user.id; // Replace with session or request-based ID
 
         // Fetch current balance
         const [rows]: any = await db.query("SELECT balance FROM users WHERE id = ?", [userId]);
 
         const oldBalance = rows[0].balance;
-        const newBalance = oldBalance + data;
+        const newBalance = oldBalance + req;
 
         // Update balance
         await db.execute("UPDATE users SET balance = ? WHERE id = ?", [newBalance, userId]);

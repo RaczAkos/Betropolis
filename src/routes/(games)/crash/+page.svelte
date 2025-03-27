@@ -2,6 +2,21 @@
   // Import crash pictures from the library
   import crashpics from "$lib/exports/crashpics";
 
+  async function subtrFromBalance(addToBalance:any) {
+    const response = await fetch('/api/balance-update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ number: addToBalance }),  // Send the number in the body
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Query result:', result);  // Log the result from the server
+    }
+  }
+
   // Declare variables and states
   let canvas: any,
       multiplierDom: any,
@@ -171,7 +186,7 @@
       if (currentAmount >= 1) {
         if (targetMultiplier >= 2) {
           if (balance - currentAmount >= 0) {
-            balance = Math.round(balance - currentAmount);
+            subtrFromBalance(currentAmount);
             running = false;
             crashed = false;
             stopadding = false;
