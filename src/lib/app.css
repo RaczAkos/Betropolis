@@ -5,7 +5,7 @@
 
 /* Fonts */
 @font-face{
-    font-family: Orange_Knight;
+    font-family: "Orange Knight";
     src: url("$lib/font/Orange_Knight.ttf") format("TrueType");
 }
 
@@ -18,18 +18,25 @@
 	font-family: "Dracutaz";
 	src: url("$lib/font/Dracutaz.otf"), url("$lib/font/Dracutaz.ttf") format("TrueType");
 }
-
 /* Classes for fonts */
 .dracutaz {
-	font-family: 'Dracutaz';
+  font-family: 'Dracutaz';
 }
 
 .borgens {
-	font-family: 'Borgens Burlesque';
+  font-family: 'Borgens Burlesque';
 }
 
 .orangek {
-	font-family: Orange_Knight;
+  font-family: "Orange Knight";
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+	  -webkit-appearance: none;
+	  margin: 0;
+	}
 }
 
 /* Other styles, animations */
@@ -87,13 +94,6 @@ body{
 	display: none;
 }
 
-@layer base {
-	input[type="number"]::-webkit-inner-spin-button,
-	input[type="number"]::-webkit-outer-spin-button {
-	  -webkit-appearance: none;
-	  margin: 0;
-	}
-}
 
 .goldpulse {
 	animation-name: goldpulse;

@@ -5,8 +5,8 @@
 	let { children, data } = $props();
 </script>
 
-<HomeNavbar logged={data.logged} home={data.home}/>
+<HomeNavbar logged={data.data.logged} home={data.data.home}/>
 
 {@render children()}
 
-<Footer logged={data.logged} home={data.home}/>
+<Footer logged={data.data.logged} home={data.data.home}/>

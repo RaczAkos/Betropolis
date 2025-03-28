@@ -3,10 +3,11 @@ import {
 	setSessionTokenCookie,
 	deleteSessionTokenCookie
 } from "$lib/db/session";
-
+import { locale } from "svelte-i18n";
 import type { Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
+
   // Getting token from cookie
 	const token = event.cookies.get("session") ?? null;
 
@@ -19,9 +20,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   // Validating user
 	let { session, user } = await validateSessionToken(token);
-	if (session !== null) {
-		setSessionTokenCookie(event, token, session.expiresAt);
+	if (session && user) {
+    locale.set(user.lang);
+    
+    setSessionTokenCookie(event, token, session.expiresAt);
 	} else {
+    const lang = event.request.headers.get('accept-language')?.split(',')[0];
+	  if (lang) locale.set(lang);
+
 		deleteSessionTokenCookie(event);
 	}
 

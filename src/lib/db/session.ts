@@ -20,41 +20,49 @@ export async function createSession(token: string, userId: number): Promise<Sess
 		userId,
 		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
 	};
+
   // Storing session in database
 	await db.query(
 		"INSERT INTO user_session (id, user_id, expires_at) VALUES (?, ?, ?)",
 		[session.id,
-		session.userId,
-		session.expiresAt]
+		 session.userId,
+		 session.expiresAt]
 	);
+
 	return session;
 }
 
 // Validating session
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
-	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-  let db = await dbConnect();
+	let sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token))), 
+      db = await dbConnect();
+  
   // Getting session
-	const row = await db.query(
-		"SELECT id, user_id, expires_at FROM user_session WHERE user_session.id = ?",
-		[sessionId]
-	).then((row:any) => {return row[0][0]});
+	let sessionData = await db.query(`SELECT id, user_id, expires_at 
+                                    FROM user_session 
+                                    WHERE id = "${sessionId}"`);
 
   // Checking if session exists
-	if (row === undefined || !row) {
-		return { session: null, user: null };
-	}
+	if (sessionData === undefined || !sessionData) return { session: null, user: null };
+
+  // Getting user
+  let userData = await db.query(`SELECT id, username, lang, balance 
+                                 FROM users 
+                                 WHERE id = ${sessionData[0][0].user_id}`);
   
 	let session: Session = {
-		id: row.id,
-		userId: row.user_id,
-		expiresAt: row.expires_at
-	};
-	let user: User = {
-    id: row.user_id
-	};
+		    id: sessionData[0][0].id,
+		    userId: sessionData[0][0].user_id,
+		    expiresAt: sessionData[0][0].expires_at
+	    },  
+      user: User = {
+        id: userData[0][0].id,
+        username: userData[0][0].username,
+        lang: userData[0][0].lang,
+        balance: userData[0][0].balance
+	    };
 
-  // Checking if session expired, or extending it didn't
+  // Checking if session expired, or extending it
 	if (Date.now() >= session.expiresAt.getTime()) {
     await db.query("DELETE FROM user_session WHERE id = ?", [session.id]);
 		return { session: null, user: null };
@@ -116,4 +124,7 @@ export interface Session {
 
 export interface User {
 	id: number;
+  lang: string;
+  username: string;
+  balance: number;
 }

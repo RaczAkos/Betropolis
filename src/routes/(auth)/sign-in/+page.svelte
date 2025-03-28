@@ -1,9 +1,10 @@
 <svelte:head>
-    <title>Sign In - Betropolis</title>
+    <title>{$_("page.sign-in.title")} - Betropolis</title>
     <meta name="description" content="Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience." />
 </svelte:head>
 
 <script lang="ts">
+  import { _ } from "svelte-i18n";
   import Input from "$lib/components/Input.svelte";
   import type { PageProps } from "./$types";
   import { enhance } from '$app/forms';
@@ -24,7 +25,8 @@
       });
 </script>
 
-<form method="POST" use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
+<form method="POST" 
+      use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
 
   <!-- Username / E-mail -->
   <div class="my-3">
@@ -33,7 +35,7 @@
            name="id"
            id="identifier"
            required={true}
-           label="Username or e-mail address"/>
+           label={$_("page.sign-in.id")}/>
   </div>
 
   <!-- Password -->
@@ -44,7 +46,7 @@
            name="password" 
            {type} 
            required={true} 
-           label="Password"/>
+           label={$_("page.sign-in.password")}/>
   
     <!-- Show password -->
     <div class="flex justify-center mt-1">
@@ -55,7 +57,7 @@
                  if (type == "password") type = "text";
                  else type = "password";
                }}>
-        Show password
+        {$_("page.sign-in.showPassword")}
       </label>
     </div>
 
@@ -72,22 +74,22 @@
   <div class="flex justify-center items-center mb-1">
     <button class="disabled:opacity-35 disabled:hover:bg-yellow-600 bg-yellow-600 hover:bg-black border-yellow-600 border-2 hover:border-opacity-100 text-black hover:text-yellow-600 disabled:hover:text-black font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline duration-300" 
     disabled={(user.password.length < 8 || user.id.length < 5) || disabling}>
-      Sign In
+      {$_("page.sign-in.title")}
     </button>
   </div>
 
   <!-- Go to Sign Up -->
   <div class="flex justify-center">
-    <a class="hover:underline text-yellow-600 italic" href="/sign-up">Don't have an account?</a>
+    <a class="hover:underline text-yellow-600 italic" href="/sign-up">{$_("page.sign-in.toSignUp")}</a>
   </div>
 
   <!-- Display error/feedback -->
+  {#if form?.error}
   <div class="bg-red-600 text-white text-center mt-2 rounded-md p-1"
        class:invisible={!form?.error}>
     {#if form?.error}
       {form.error}
-    {:else}
-      hidden
     {/if}
   </div>
+  {/if}
 </form>

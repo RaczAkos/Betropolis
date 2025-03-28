@@ -1,12 +1,16 @@
 import type { LayoutServerLoad } from "./$types";
 
 // Check if user is logged in
-export const load: LayoutServerLoad = async (event) => {
+export const load: LayoutServerLoad = async ({locals, url}) => {
   let data = {
     logged: false,
-    home: false
+    home: false,
+    lang: null
   }
-	if (event.locals.user !== null) data.logged = true;
-  if (event.url.pathname == '/') data.home = true;
-  return data;
+	if (locals.user){
+    data.logged = true;
+    data.lang = locals.user.lang;
+  } 
+  if (url.pathname == '/') data.home = true;
+  return {data};
 };

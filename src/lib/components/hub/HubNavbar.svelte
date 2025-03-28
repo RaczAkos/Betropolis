@@ -3,8 +3,8 @@
   import user from "$lib/media/images/hub/user.png";
   import group from "$lib/media/images/hub/group.png";
   import add from "$lib/media/images/hub/add.png";
-    import HubFriendsMenu from "./HubFriendsMenu.svelte";
-    import HubProfileMenu from "./HubProfileMenu.svelte";
+  import HubFriendsMenu from "./HubFriendsMenu.svelte";
+  import HubProfileMenu from "./HubProfileMenu.svelte";
 
   let { data } = $props(),
       profile:boolean = $state(false),
@@ -33,7 +33,7 @@
                     requests={data.friendRequests} 
                     friends={data.friends}/>
     <HubProfileMenu show={profile} 
-                    {data} />
+                    user={data.user} />
   </div>
 
   <div class="flex [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600">

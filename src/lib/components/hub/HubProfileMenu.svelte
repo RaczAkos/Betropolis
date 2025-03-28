@@ -1,17 +1,13 @@
 
 <script lang="ts">
-  import chip from "$lib/media/images/chip.png"
+  import { _ } from "svelte-i18n";
+  import chip from "$lib/media/images/chip.png";
   import SignOutModal from "../SignOutModal.svelte";
   import HubNavLi from "./HubNavLi.svelte";
 
-  let { show = $bindable(), data = {} } = $props(),
+  let { show = $bindable(), user = {} } = $props(),
       signOutClicked:boolean  = $state(false),
-      links = [
-        {text: "Statistics", href: "/statistics"},
-        {text: "Profile", href: "/profile"},
-        {text: "Terms & Conditions", href: "/terms&conditions"},
-        {text: "Privacy Policy", href: "/privacy-policy"},
-      ];
+      links:string[] = [ "statistics", "profile", "terms&conditions", "privacy-policy" ];
 </script>
 
 <div class:hidden={!show}
@@ -19,15 +15,15 @@
 
   <div class="p-2 flex max-lg:flex-col max-lg:text-center border-yellow-600 place-content-between border-b-4">
     <div class="borgens">
-      Profile: 
+      {$_("page.profile.title")}: 
       <span class="italic text-yellow-600">
-        {data.user[0].username}
+        {user.username}
       </span>
     </div>
     <div class="flex flex-row justify-center">
       <div class="flex place-items-center">
         <div class="text-lg me-1 font-extrabold">
-          {data.user[0].balance}
+          {user.balance}
         </div>
         <img src={chip} 
              alt="chips" 
@@ -38,11 +34,11 @@
 
   <ul>
     {#each links as link}
-      <HubNavLi text={link.text} 
+      <HubNavLi text={$_(`page.${link}.title`)} 
                 type="link" 
-                href={link.href}/>
+                href={"/"+link}/>
     {/each}
-    <HubNavLi text="Sign Out" 
+    <HubNavLi text={$_("sign-out")} 
               bind:click={signOutClicked}/>
   </ul>
 </div>
