@@ -12,5 +12,5 @@ export const load: LayoutServerLoad = async ({locals, url}) => {
     data.lang = locals.user.lang;
   } 
   if (url.pathname == '/') data.home = true;
-  return {data};
+  return data;
 };
