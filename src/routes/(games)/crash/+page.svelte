@@ -1,8 +1,9 @@
 <script lang="ts">
   // Import crash pictures from the library
   import crashpics from "$lib/exports/crashpics";
+  import { onMount } from "svelte";
 
-  async function subtrFromBalance(addToBalance:any) {
+  async function updateBalance(addToBalance:any) {
     const response = await fetch('/api/balance-update', {
       method: 'POST',
       headers: {
@@ -11,11 +12,16 @@
       body: JSON.stringify({ number: addToBalance }),  // Send the number in the body
     });
 
-    if (response.ok) {
-      const result = await response.json();
-      console.log('Query result:', result);  // Log the result from the server
-    }
+      const data = await response.json();
+      balance = data.new_balance;
   }
+
+  async function getBalance() {
+    const response = await fetch('/api/balance-update');
+    const data = await response.json();
+    balance = (data.balance)
+  }
+    
 
   // Declare variables and states
   let canvas: any,
@@ -83,7 +89,9 @@
     }
   }
 
-  
+  onMount(() => {
+    getBalance()
+  })
 
   // Effect to handle the game logic and animation
   $effect(() => {
@@ -148,13 +156,12 @@
 
         // Check if multiplier reached target
         if (multiplier >= targetMultiplier) {
-          betBtn.removeAttribute("disabled");
           cashoutBtn.disabled = true;
           ctrlbuttons.forEach((temp) => {
             temp.removeAttribute("disabled");
           });
           if (!stopadding) {
-            balance = Math.round(balance + currentAmount * multiplier);
+            updateBalance(Math.round(currentAmount * multiplier));
             stopadding = true; // Stop adding to balance
           }
         }
@@ -186,7 +193,7 @@
       if (currentAmount >= 1) {
         if (targetMultiplier >= 2) {
           if (balance - currentAmount >= 0) {
-            subtrFromBalance(currentAmount);
+            updateBalance(-currentAmount);
             running = false;
             crashed = false;
             stopadding = false;
@@ -218,9 +225,9 @@
         betBtn.removeAttribute("disabled");
         cashoutBtn.disabled = true;
         if (multiplier < targetMultiplier) {
-          balance = Math.round((balance + (currentAmount) / 2)); // Half return if cashed out early
+          updateBalance(Math.round((balance + (currentAmount) / 2))); // Half return if cashed out early
         } else {
-          balance = Math.round(balance + currentAmount * multiplier); // Full return if cashed out at target
+          updateBalance(Math.round(balance + currentAmount * multiplier)); // Full return if cashed out at target
         }
         ctrlbuttons.forEach((temp) => {
           temp.removeAttribute("disabled");
@@ -393,7 +400,7 @@
             </div>
             <div class="flex border-b border-yellow-600 py-2">
               <!-- Target Multiplier -->
-              <div class="info-item">
+              <div class="w-full">
                 <div class="flex items-center space-x-2">
                   <input
                     bind:value={targetMultiplier} 
@@ -425,7 +432,7 @@
           <!-- Current Chips and Balance-->
           <div class="info-container mt-5 w-[80%]">
             <!-- Current Chips -->
-            <div class="info-item">
+            <div class="w-full">
               <span class="block text-xl font-medium text-yellow-600 text-start">Current bet</span>
               <div class="flex items-center space-x-2">
                 <input
@@ -440,7 +447,7 @@
             </div>
 
             <!-- Balance -->
-            <div class="info-item">
+            <div class="w-full">
               <span class="block text-xl font-medium text-yellow-600 text-start">Balance</span>
               <div class="flex items-center space-x-2">
                 <input
@@ -559,9 +566,6 @@
     max-width: 100%;
   }
 
-  .info-item {
-    width: 100%;
-  }
   
   .firetext {
     animation: burn 1.5s linear infinite alternate;

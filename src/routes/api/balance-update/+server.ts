@@ -9,18 +9,24 @@ export const POST: RequestHandler = async (event) => {
     console.log(req);
 
     try {
-        const userId = event.locals.user.id; // Replace with session or request-based ID
 
-        // Fetch current balance
-        const [rows]: any = await db.query("SELECT balance FROM users WHERE id = ?", [userId]);
-
-        const oldBalance = rows[0].balance;
-        const newBalance = oldBalance + req;
+        const oldBalance = event.locals.user.balance;
+        const newBalance = oldBalance + req.number;
 
         // Update balance
-        await db.execute("UPDATE users SET balance = ? WHERE id = ?", [newBalance, userId]);
+        await db.execute("UPDATE users SET balance = ? WHERE id = ?", [newBalance, event.locals.user.id]);
 
         return json({ new_balance: newBalance });
+    } catch (error) {
+        console.error("Error updating balance:", error);
+        return json({ error: "Internal Server Error" }, { status: 500 });
+    }
+};
+
+export const GET: RequestHandler = async (event) => {
+    let db = await dbConnect();
+    try {
+        return json({ balance: event.locals.user.balance });
     } catch (error) {
         console.error("Error updating balance:", error);
         return json({ error: "Internal Server Error" }, { status: 500 });
