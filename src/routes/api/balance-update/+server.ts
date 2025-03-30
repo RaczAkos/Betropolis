@@ -9,12 +9,23 @@ export const POST: RequestHandler = async (event) => {
     console.log(req);
 
     try {
-        const newBalance = event.locals.user.balance + req.number;
+        const oldBalance = event.locals.user.balance,
+              newBalance = oldBalance + req.number,
+              gameid = req.gameid,
+              userId = event.locals.user.id,
+              gain = req.number
 
         // Update balance
         await db.execute("UPDATE users SET balance = ? WHERE id = ?", [newBalance, event.locals.user.id]);
 
-        return json({ new_balance: newBalance });
+
+        // Insert statistics
+        await db.execute(`INSERT INTO statistics(user_id, gameid, gain, oldbalance, newbalance) 
+                          VALUES (?,?,?,?,?)`, 
+                          [userId, gameid, gain, oldBalance, newBalance]);
+
+        return json({id: userId, gameid: gameid, gain: gain, oldBalance: oldBalance, newBalance: newBalance});
+
     } catch (error) {
         console.error("Error updating balance:", error);
         return json({ error: "Internal Server Error" }, { status: 500 });

@@ -1,5 +1,4 @@
 <script lang="ts">
-  // Import crash pictures from the library
   import crashpics from "$lib/exports/crashpics";
   import { onMount } from "svelte";
 
@@ -9,36 +8,22 @@
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ number: addToBalance }),  // Send the number in the body
+      body: JSON.stringify({ 
+        number: addToBalance,
+        gameid: 2
+       }),
     });
 
       const data = await response.json();
-      balance = data.new_balance;
+      console.log(data);
+      balance = data.newBalance;
   }
 
   async function getBalance() {
     const response = await fetch('/api/balance-update');
     const data = await response.json();
     balance = (data.balance)
-  }
-
-  async function statisticsAdd(addToBalance:any) {
-    const response = await fetch('/api/balance-update', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 
-        number: addToBalance,
-        gameid: 2,
-        gain: totalgain
-      }),  // Send the number in the body
-    });
-
-      const data = await response.json();
-      balance = data.new_balance;
-  }
-    
+  }   
 
   // Declare variables and states
   let canvas: any,
@@ -57,8 +42,7 @@
       showModal = $state(true),
       currentSlide = $state(0),
       totalSlides = $state(3),
-      k = 0.0025, // Constant for crash probability calculation
-      totalgain = $state(0);
+      k = 0.0025; // Constant for crash probability calculation
 
   // Function to calculate the new amount based on button clicked
   function calcOne(e: any) {
@@ -178,9 +162,8 @@
             temp.removeAttribute("disabled");
           });
           if (!stopadding) {
-            updateBalance(Math.round(currentAmount * multiplier));
-            totalgain = Math.round(currentAmount * multiplier);
             stopadding = true; // Stop adding to balance
+            updateBalance(Math.round(currentAmount * targetMultiplier));
           }
         }
       }
@@ -211,7 +194,6 @@
       if (currentAmount >= 1) {
         if (targetMultiplier >= 2) {
           if (balance - currentAmount >= 0) {
-            totalgain = 0;
             updateBalance(-currentAmount);
             running = false;
             crashed = false;
@@ -244,11 +226,7 @@
         betBtn.removeAttribute("disabled");
         cashoutBtn.disabled = true;
         if (multiplier < targetMultiplier) {
-          updateBalance(Math.round((balance + (currentAmount) / 2))); // Half return if cashed out early
-          totalgain = Math.round((currentAmount) / 2);
-        } else {
-          updateBalance(Math.round(balance + currentAmount * multiplier)); // Full return if cashed out at target
-          totalgain = Math.round(currentAmount * multiplier);
+          updateBalance(Math.round(((currentAmount) / 2))); // Half return if cashed out early
         }
         ctrlbuttons.forEach((temp) => {
           temp.removeAttribute("disabled");
