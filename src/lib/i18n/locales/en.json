@@ -2,16 +2,55 @@
   "page": {
     "home": {
       "title": "Welcome to Betropolis Casino!",
+      "loggedTitle": "Welcome back to Betropolis Casino!",
       "description": "Your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.",
       "catchphrase": "Start betting now!",
       "bonus": "Choose a card for a free extra starting bonus!",
       "alreadyClaimed": "Already claimed the bonus?"
     },
     "privacy-policy": {
-      "title": "Privacy Policy"
+      "title": "Privacy Policy",
+      "intro": "Your privacy is essential to us at Betropolis. Here’s a breakdown of how we handle your personal information:",
+      "titles": {
+        "1": "Information We Collect",
+        "2": "Why We Collect Your Information",
+        "3": "Data Protection",
+        "4": "Third-Party Sharing",
+        "5": "Cookies",
+        "6": "Your Rights",
+        "7": "Changes to Our Policy"
+      },
+      "paragraphs": {
+        "1": "Account Information: Personal information, contact details when you sign up. Financial Information: Deposit and withdrawal details, securely processed through our trusted payment partners.",
+        "2": "To process payments and manage your account. To prevent fraud and ensure fair gaming practices.",
+        "3": "We use advanced methods and secure storage to protect your data. Access to personal data is restricted to authorized personnel only.",
+        "4": "We do not sell or share your data with third parties, except as required by law or with trusted partners who help us run our services (e.g., payment processors).",
+        "5": "We use cookies to remember your preferences and improve our site’s performance. You can manage cookies in your browser settings",
+        "6": "You have the right to access, update, or delete your personal information at any time. Visit your profile to exercise these rights.",
+        "7": "We may update this Privacy Policy as necessary. Significant changes will be posted on our site, so please check back regularly."
+      }
     },
     "terms&conditions": {
-      "title": "Terms & Conditions"
+      "title": "Terms & Conditions",
+      "intro": "We’re thrilled to have you here. Before you dive into the games, please take a moment to go over our terms and conditions. By using our services, you agree to the following:",
+      "titles": {
+        "1": "Eligibility",
+        "2": "Account Creation",
+        "3": "Fair Play",
+        "4": "Deposits and Withdrawals",
+        "5": "Responsible Gaming",
+        "6": "Closing Your Account",
+        "7": "Changes to Terms"
+      },
+      "paragraphs": {
+        "1": "You must be at least 18 years old to use our platform. You must accept these conditions and our privacy policy.",
+        "2": "Keep your account information secure. Don’t share your password with others. Provide accurate and up-to-date information when creating your account.",
+        "3": "We maintain a fair gaming environment, with games that use certified Random Number Generators (RNG). Any attempts to cheat, exploit, or use prohibited software to gain an advantage will lead to account suspension or permanent bans.",
+        "4": "We accept various payment methods. You can complete payments in our hub under \"Manage funds\". Withdrawals are subject to verification and may take up to 48 hours for processing.",
+        "5": "Gambling should always be fun. If you feel it’s getting out of control, please search for some kind of help.",
+        "6": "You can close your account any time, if you decide to. You can do this easily on your profile.",
+        "7": "We reserve the right to modify these Terms at any time. We’ll do our best to notify you, but it’s your responsibility to stay updated."
+      }
     },
     "sign-in": {
       "title": "Sign in",
@@ -29,8 +68,17 @@
     "hub": {
       "title": "Hub",
       "games": "Games",
-      "search": "Search"
+      "search": "Search",
+      "noGames": "No games found!"
     }
+  },
+  "friends": {
+    "add": "Add Friend",
+    "title": "Friends",
+    "requests": "Friend requests"
+  },
+  "funds": {
+    "title": "Manage funds"
   },
   "sign-out": "Sign out",
   "sign-out-all": "Sign out everywhere",

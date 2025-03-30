@@ -15,7 +15,7 @@
     name:string,
     username:string,
     birthdate:string,
-    gender:string,
+    gender:number|null,
     email:string,
     password:string,
     picture:string
@@ -25,11 +25,12 @@
         name: "",
         username: "",
         birthdate: "",
-        gender: "",
+        gender: null,
         email: "",
         password: "",
         picture:""
       }),
+      windowWidth:number = $state(0),
       type:string      = $state("password"),
       password2:string = $state(""),
       passConf:boolean = $state(false),
@@ -78,6 +79,8 @@
   
 </script>
 
+<svelte:window bind:innerWidth={windowWidth}/>
+
 <form method="POST" use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
   <div class="flex sm:flex-row flex-col sm:w-[500px]">
     <div class="sm:w-1/2">
@@ -118,7 +121,7 @@
           <div class="flex flex-row justify-center items-center h-2/3 gap-3">
             <div class="basis-1/2">
               <input bind:group={user.gender} 
-                     value='M' 
+                     value=0 
                      id="gender-male" 
                      type="radio" 
                      name="gender" 
@@ -130,7 +133,7 @@
             </div>
             <div class="basis-1/2">
               <input bind:group={user.gender} 
-                     value='F' 
+                     value=1 
                      id="gender-female" 
                      type="radio" 
                      name="gender" 
@@ -166,7 +169,7 @@
         <div class:text-green-400={passwordFormat} 
              class:opacity-100={passwordFormat} 
              class="text-gray-300 opacity-50 text-xs text-wrap !text-justify m-1">
-          Password must be at least 8 characters, containing at least 1 uppercase, 1 lowercase and 1 number character.
+          Password must be at least 8 characters, containing at least 1 uppercase, 1 lowercase, 1 number and 1 special character.
         </div>
     
         <!-- Show password -->
@@ -227,13 +230,13 @@
   </div>
 
   {#if user.gender}
-    <div class="text-center sm:w-[500px] max-sm:w-[84vw] mb-5">
-    <h2 class="text-xl font-semibold mb-4">Choose Your Avatar!</h2>
-    <!-- Scrollable container -->
-    <div class="overflow-x-scroll sm:w-[500px] max-sm:w-[84vw] scrollDesign">
-      <div class="flex gap-4 w-max px-4 py-2">
-        {#if user.gender == 'F'}
-          {#each avatarsAll[1] as avatar, index}
+  <div>
+    <div class="text-center sm:w-[500px] mb-5" style="max-width: {windowWidth-89}px;">
+      <h2 class="text-xl font-semibold mb-4">Choose Your Avatar!</h2>
+      <!-- Scrollable container -->
+      <div class="overflow-x-scroll sm:w-[500px] scrollDesign">
+        <div class="flex gap-4 w-max px-4 py-2">
+          {#each avatarsAll[user.gender] as avatar, index}
             <button onclick={() => selectAvatar(index)} type="button">
               <img  
                 src={avatar}
@@ -243,21 +246,8 @@
               />
             </button>
           {/each}
-          <input name="picture" class="hidden" type="text" bind:value={avatarsAll[1][selectedAvatarIndex]}>
-        {/if}
-        {#if user.gender == 'M'}
-          {#each avatarsAll[0] as avatar, index}
-            <button onclick={() => selectAvatar(index)} type="button">
-              <img  
-                src={avatar}
-                alt="Avatar {index}"
-                class="w-20 h-20 rounded-full border-4 cursor-pointer transition-all
-                      {selectedAvatarIndex === index ? 'border-yellow-600' : 'border-transparent hover:border-gray-400'}"
-              />
-            </button>
-          {/each}
-          <input name="picture" class="hidden" type="text" bind:value={avatarsAll[0][selectedAvatarIndex]}>
-        {/if}
+          <input name="picture" class="hidden" type="text" bind:value={avatarsAll[user.gender][selectedAvatarIndex]}>
+        </div>
       </div>
     </div>
   </div>

@@ -31,21 +31,17 @@
   <!-- Back to Home -->
   <div class="basis-1/3 flex items-center justify-start">
     <a href="/">
-      <div class="hover:bg-black hover:text-yellow-600 sm:hover:scale-110 border-2 border-yellow-600 inline-block p-2 rounded bg-yellow-600 text-xl duration-300">
+      <div class="sm:hover:scale-110 border-2 border-yellow-600 inline-block p-2 rounded bg-yellow-600 text-xl duration-300">
         <div class="flex justify-center items-center gap-1">
           <img src={homeImg} 
-               alt={$_("home")} 
-               class="sm:hidden">
-          <div class="max-sm:hidden">
-            {$_("home")}
-          </div>
+               alt={$_("home")}>
         </div>
       </div>
     </a>
   </div>
 
   <div class="basis-1/3 flex items-center justify-center">
-    <h1 class="text-6xl text-yellow-600">
+    <h1 class="text-5xl text-yellow-600">
       {$_("page.hub.games")}
     </h1>
   </div>

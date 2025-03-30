@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { _ } from "svelte-i18n";
   import HubNavButton from "$lib/components/hub/HubNavButton.svelte";
   import user from "$lib/media/images/hub/user.png";
   import group from "$lib/media/images/hub/group.png";
@@ -37,16 +38,16 @@
   </div>
 
   <div class="flex [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600">
-    <HubNavButton text="Friends" 
+    <HubNavButton text={$_("friends.title")} 
                   img={group} 
                   alt="Friends icon" 
                   notification={data.friendRequests[0].length} 
                   bind:click={friendsClicked}/>
-    <HubNavButton text="Manage funds" 
+    <HubNavButton text={$_("funds.title")} 
                   img={add} 
                   alt="Add icon" 
                   bind:click={addFundsClicked}/>
-    <HubNavButton text="Profile" 
+    <HubNavButton text={$_("page.profile.title")} 
                   img={user} 
                   alt="User icon" 
                   bind:click={profileClicked}/>

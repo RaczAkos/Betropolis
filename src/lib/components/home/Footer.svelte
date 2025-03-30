@@ -1,6 +1,7 @@
 <script>
   import logo from "$lib/media/images/logo.png";
   import { _ } from "svelte-i18n";
+  import { page } from "$app/state";
   let { logged, home } = $props();
   let links = [ "terms&conditions", "privacy-policy" ];
 </script>
@@ -26,11 +27,13 @@
         </li>
       {/if}
       {#each links as link}
-        <li>
-          <a href={"/"+link}>
-            {$_(`page.${link}.title`)}
-          </a>
-        </li>
+        {#if page.params.doc !== link}
+          <li>
+            <a href={"/"+link}>
+              {$_(`page.${link}.title`)}
+            </a>
+          </li>
+        {/if}
       {/each}
     </ul>
   </div>

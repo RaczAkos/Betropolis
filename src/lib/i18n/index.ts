@@ -6,6 +6,6 @@ register('en', () => import('./locales/en.json'))
 register('hu-HU', () => import('./locales/hu.json'))
 
 init({
-	fallbackLocale: 'en',
-	initialLocale: browser ? window.navigator.language : 'en',
+	fallbackLocale: 'hu-HU',
+	initialLocale: browser ? window.navigator.language : 'hu-HU',
 })

@@ -1,9 +1,10 @@
 <svelte:head>
-    <title>Hub - Betropolis</title>
+    <title>{$_("page.hub.title")} - Betropolis</title>
     <meta name="description" content="Game Hub of the Casino." />
 </svelte:head>
 
 <script lang="ts">
+  import { _ } from "svelte-i18n";
 
   import GameCard from "$lib/components/hub/GameCard.svelte";
   import HubNavbar from "$lib/components/hub/HubNavbar.svelte";
@@ -41,7 +42,7 @@
   </div>
 {:else}
   <h1 class="borgens text-4xl text-center text-yellow-600 mt-5">
-    No games found!
+    {$_("page.hub.noGames")}
   </h1>
 {/if}
 

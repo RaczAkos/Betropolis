@@ -2,16 +2,55 @@
   "page": {
     "home": {
       "title": "Üdvözlünk a Betropolis Kaszinóban!",
+      "loggedTitle": "Üdvözlünk újra a Betropolis Kaszinóban!",
       "description": "A végső online célpontja az izgalmas kaszinójátékoknak és a végtelen szórakozásnak! Lépj be egy olyan világba, ahol az izgalom sosem áll meg, és minden pörgetés, kártyafordítás és kockadobás közelebb visz a felejthetetlen nyereményekhez. A Betropolisnál a csúcsminőségű játékokat, a legmodernebb biztonságot és a zökkenőmentes játékmenetet ötvözzük, hogy prémium minőségű online kaszinóélményt nyújtsunk.",
       "catchphrase": "Kezdj el fogadni!",
-      "bonus": "Válasz egy kártyát egy extra kezdő bónuszért!",
+      "bonus": "Válasz egy kártyát egy egyszeri extra bónuszért!",
       "alreadyClaimed": "Már megkaptad a bónuszt?"
     },
     "privacy-policy": {
-      "title": "Privacy Policy"
+      "title": "Adatkezelési Nyilatkozat",
+      "intro": "",
+      "titles": {
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "7": ""
+      },
+      "paragraphs": {
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "7": ""
+      }
     },
     "terms&conditions": {
-      "title": "Terms & Conditions"
+      "title": "Felhasználási feltételek",
+      "intro": "",
+      "titles": {
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "7": ""
+      },
+      "paragraphs": {
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "7": ""
+      }
     },
     "sign-in": {
       "title": "Bejelentkezés",
@@ -29,8 +68,17 @@
     "hub": {
       "title": "Központ",
       "games": "Játékok",
-      "search": "Keresés"
+      "search": "Keresés",
+      "noGames": "Nincs talált játék!"
     }
+  },
+  "friends": {
+    "title": "Barátok",
+    "add": "Kérés küldése",
+    "requests": "Barátkérések"
+  },
+  "funds": {
+    "title": "Pénzügyek"
   },
   "sign-out": "Kijelentkezés",
   "sign-out-all": "Kijelentkezés mindenhol",
@@ -43,7 +91,7 @@
   "copyright": "© 2025 - Szabó Tamás, Rácz Ákos Csaba - Minden jog fenntartva.",
   "contact": {
     "information": "Kapcsolat információk",
-    "dev1": "Tamás Szabó",
-    "dev2": "Ákos Csaba Rácz"
+    "dev1": "Szabó Tamás",
+    "dev2": "Rácz Ákos Csaba"
   }
 }
