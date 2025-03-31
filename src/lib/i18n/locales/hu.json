@@ -3,95 +3,54 @@
     "home": {
       "title": "Üdvözlünk a Betropolis Kaszinóban!",
       "loggedTitle": "Üdvözlünk újra a Betropolis Kaszinóban!",
-      "description": "A végső online célpontja az izgalmas kaszinójátékoknak és a végtelen szórakozásnak! Lépj be egy olyan világba, ahol az izgalom sosem áll meg, és minden pörgetés, kártyafordítás és kockadobás közelebb visz a felejthetetlen nyereményekhez. A Betropolisnál a csúcsminőségű játékokat, a legmodernebb biztonságot és a zökkenőmentes játékmenetet ötvözzük, hogy prémium minőségű online kaszinóélményt nyújtsunk.",
-      "catchphrase": "Kezdj el fogadni!",
-      "bonus": "Válasz egy kártyát egy egyszeri extra bónuszért!",
-      "alreadyClaimed": "Már megkaptad a bónuszt?"
+      "description": "A végső online célpont az izgalmas kaszinójátékok és a végtelen szórakozás kedvelőinek! Lépj be egy olyan világba, ahol az izgalom sosem áll meg, és minden pörgetés, kártyafordítás és kockadobás közelebb visz a felejthetetlen nyereményekhez. A Betropolisnál a csúcsminőségű játékokat, a legmodernebb biztonságot és a zökkenőmentes játékmenetet ötvözzük, hogy prémium online kaszinóélményt nyújtsunk.",
+      "catchphrase": "Kezdj el fogadni most!",
+      "bonus": "Válassz egy kártyát egy ingyenes kezdő bónuszért!",
+      "alreadyClaimed": "Már igényelted a bónuszt?"
     },
     "privacy-policy": {
-      "title": "Adatkezelési Nyilatkozat",
-      "intro": "",
+      "title": "Adatkezelési nyilatkozat",
+      "intro": "A magánéleted fontos számunkra a Betropolisnál. Íme, hogyan kezeljük személyes adataidat:",
       "titles": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": "",
-        "5": "",
-        "6": "",
-        "7": ""
+        "1": "Milyen információkat gyűjtünk",
+        "2": "Miért gyűjtjük az adataidat",
+        "3": "Adatvédelem",
+        "4": "Harmadik féllel való megosztás",
+        "5": "Sütik (Cookies)",
+        "6": "A te jogaid",
+        "7": "Szabályzatunk változásai"
       },
       "paragraphs": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": "",
-        "5": "",
-        "6": "",
-        "7": ""
+        "1": "Fiókadatok: személyes információk, elérhetőségi adatok a regisztráció során. Pénzügyi adatok: befizetések és kifizetések részletei, amelyeket megbízható fizetési partnereink dolgoznak fel biztonságosan.",
+        "2": "A fizetések feldolgozása és fiókod kezelése érdekében. A csalás megelőzése és a tisztességes játék biztosítása érdekében.",
+        "3": "Fejlett módszereket és biztonságos tárolást alkalmazunk adataid védelmére. A személyes adatokhoz csak jogosult személyzet férhet hozzá.",
+        "4": "Nem adjuk el vagy osztjuk meg adataid harmadik felekkel, kivéve ha azt a törvény előírja, vagy megbízható partnereinkkel, akik segítenek szolgáltatásaink működtetésében (pl. fizetési feldolgozók).",
+        "5": "Sütiket használunk preferenciáid megjegyzésére és oldalunk teljesítményének javítására. A sütiket a böngésződ beállításaiban kezelheted.",
+        "6": "Jogod van hozzáférni, frissíteni vagy törölni személyes adataidat bármikor. Ezeket a profilodban módosíthatod.",
+        "7": "Időről időre frissíthetjük ezt az adatkezelési nyilatkozatot. A jelentős változásokat közzétesszük weboldalunkon, ezért kérjük, ellenőrizd rendszeresen."
       }
     },
     "terms&conditions": {
       "title": "Felhasználási feltételek",
-      "intro": "",
+      "intro": "Örülünk, hogy itt vagy! Mielőtt belevágnál a játékba, kérjük, olvasd el a felhasználási feltételeinket. Szolgáltatásaink használatával elfogadod az alábbiakat:",
       "titles": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": "",
-        "5": "",
-        "6": "",
-        "7": ""
+        "1": "Jogosultság",
+        "2": "Fiók létrehozása",
+        "3": "Tisztességes játék",
+        "4": "Befizetések és kifizetések",
+        "5": "Felelős szerencsejáték",
+        "6": "Fiók megszüntetése",
+        "7": "Feltételek módosítása"
       },
       "paragraphs": {
-        "1": "",
-        "2": "",
-        "3": "",
-        "4": "",
-        "5": "",
-        "6": "",
-        "7": ""
+        "1": "Legalább 18 évesnek kell lenned, hogy használhasd platformunkat. El kell fogadnod ezeket a feltételeket és az adatkezelési nyilatkozatunkat.",
+        "2": "Tartsd biztonságban a fiókadataidat. Ne oszd meg jelszavad másokkal. A regisztráció során pontos és naprakész információkat kell megadnod.",
+        "3": "Tisztességes játékot biztosítunk, tanúsított véletlenszám-generátorok (RNG) használatával. A csalás, visszaélés vagy tiltott szoftverek használata fiókod felfüggesztéséhez vagy végleges tiltásához vezethet.",
+        "4": "Többféle fizetési módot elfogadunk. A fizetések kezelése a \"Pénzügyek\" menüpontban érhető el. A kifizetések ellenőrzéshez kötöttek, és feldolgozásuk akár 48 órát is igénybe vehet.",
+        "5": "A szerencsejátéknak mindig szórakoztató tevékenységnek kell maradnia. Ha úgy érzed, hogy problémát okoz számodra, kérj segítséget szakemberektől.",
+        "6": "Bármikor megszüntetheted fiókodat, ha úgy döntesz. Ezt egyszerűen elvégezheted a profilodban.",
+        "7": "Fenntartjuk a jogot, hogy bármikor módosítsuk ezeket a feltételeket. Megpróbálunk értesíteni, de a te felelősséged, hogy naprakész maradj."
       }
-    },
-    "sign-in": {
-      "title": "Bejelentkezés",
-      "id": "Felhasználónév vagy e-mail cím",
-      "password": "Jelszó",
-      "toSignUp": "Nincs fiókod?",
-      "showPassword": "Jelszó mutatása"
-    },
-    "sign-up": {
-      "title": "Feliratkozás"
-    },
-    "profile": {
-      "title": "Profil"
-    },
-    "hub": {
-      "title": "Központ",
-      "games": "Játékok",
-      "search": "Keresés",
-      "noGames": "Nincs talált játék!"
     }
-  },
-  "friends": {
-    "title": "Barátok",
-    "add": "Kérés küldése",
-    "requests": "Barátkérések"
-  },
-  "funds": {
-    "title": "Pénzügyek"
-  },
-  "sign-out": "Kijelentkezés",
-  "sign-out-all": "Kijelentkezés mindenhol",
-  "sign-out.title": "Kijelentkezés",
-  "sign-out.text": "Biztos ki akarsz jelentkezni?",
-  "close": "Bezárás",
-  "home": "Főoldal",
-  "backToHome": "Vissza a főoldalra",
-  "authTitle": "Welcome to Betropolis!",
-  "copyright": "© 2025 - Szabó Tamás, Rácz Ákos Csaba - Minden jog fenntartva.",
-  "contact": {
-    "information": "Kapcsolat információk",
-    "dev1": "Szabó Tamás",
-    "dev2": "Rácz Ákos Csaba"
   }
 }
