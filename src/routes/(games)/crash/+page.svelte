@@ -1,29 +1,7 @@
 <script lang="ts">
   import crashpics from "$lib/exports/crashpics";
   import { onMount } from "svelte";
-
-  async function updateBalance(addToBalance:any) {
-    const response = await fetch('/api/balance-update', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 
-        number: addToBalance,
-        gameid: 2
-       }),
-    });
-
-      const data = await response.json();
-      console.log(data);
-      balance = data.newBalance;
-  }
-
-  async function getBalance() {
-    const response = await fetch('/api/balance-update');
-    const data = await response.json();
-    balance = (data.balance)
-  }   
+  import { updateBalance, getBalance } from '$lib/exports/balance';
 
   // Declare variables and states
   let canvas: any,
@@ -91,8 +69,8 @@
     }
   }
 
-  onMount(() => {
-    getBalance()
+  onMount(async () => {
+    balance = await getBalance()
   })
 
   // Effect to handle the game logic and animation
@@ -115,7 +93,7 @@
         stopadding = false;
 
     // Animation loop to draw the graph
-    function drawGraph() {
+    async function drawGraph() {
       if (running) {
         // Increment multiplier based on conditions
         if (multiplier >= 1) {
@@ -163,7 +141,7 @@
           });
           if (!stopadding) {
             stopadding = true; // Stop adding to balance
-            updateBalance(Math.round(currentAmount * targetMultiplier));
+            balance = await updateBalance(Math.round(currentAmount * targetMultiplier));
           }
         }
       }
@@ -190,11 +168,11 @@
     }
 
     // Start the game on Bet button click
-    betBtn.addEventListener("click", () => {
+    betBtn.addEventListener("click", async () => {
       if (currentAmount >= 1) {
         if (targetMultiplier >= 2) {
           if (balance - currentAmount >= 0) {
-            updateBalance(-currentAmount);
+            balance = await updateBalance(-currentAmount);
             running = false;
             crashed = false;
             stopadding = false;
@@ -220,21 +198,24 @@
       }
     });
 
-    // Cash out functionality
-    cashoutBtn.addEventListener("click", () => {
+    cashoutBtn.addEventListener("click", async () => {
       if (running) {
-        betBtn.removeAttribute("disabled");
-        cashoutBtn.disabled = true;
-        if (multiplier < targetMultiplier) {
-          updateBalance(Math.round(((currentAmount) / 2))); // Half return if cashed out early
-        }
-        ctrlbuttons.forEach((temp) => {
-          temp.removeAttribute("disabled");
-        });
-        crashed = true; // Mark as crashed
+          betBtn.removeAttribute("disabled");
+          cashoutBtn.disabled = true;
+
+          if (multiplier < targetMultiplier) {
+              balance = await updateBalance(Math.round(currentAmount / 2)); // Half return if cashed out early
+          }
+
+          ctrlbuttons.forEach((temp) => {
+              temp.removeAttribute("disabled");
+          });
+
+          crashed = true; // Mark as crashed
       }
     });
-  });
+});
+
 </script>
 
 {#if showModal}

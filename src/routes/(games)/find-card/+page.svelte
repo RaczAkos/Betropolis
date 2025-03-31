@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { fade, scale } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
+  import { updateBalance, getBalance } from '$lib/exports/balance';
 
   // Import assets
   const cardsrecord = import.meta.glob("$lib/media/images/findcardgame/cards/*.png");
@@ -26,11 +27,11 @@
       currentAmount = $state(0),
       gameIsRunning = $state(false),
       isZoomed = $state(false),
-      correctGuess = $state(false),
-      won = $state(0);
+      correctGuess = $state(false);
 
   onMount(async () => {
       createTable();
+      balance = await getBalance();
   });
 
 
@@ -61,26 +62,6 @@
       previous = rnd;
   }
 
-  async function addToBalance(){
-    const res = await fetch('/api/balance_update', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({data: amount*3*won}),
-    })
-  }
-
-  async function subtrFromBalance(){
-    const res = await fetch('/api/balance_update', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({data: amount - currentAmount*amount*2}),
-    })
-    .then(response => console.log(response));
-  }
 
   // Reveal card function
   function reveal(e: any) {
@@ -91,13 +72,13 @@
           setTimeout(() => {
                target.src = target.id; // Reveal card
           }, 150);
-          setTimeout(() => {
+          setTimeout(async () => {
             if (
               target.src.split('_').pop()?.split('.')[0] === example.src.split('/').pop()?.split('.')[0] ||
               target.src.split('_').pop()?.split('.')[0] === "joker"
             ) 
             {
-              balance += amount * 3;
+              balance = await updateBalance(amount * 3);
               currentAmount--;
               correctGuess = true;
               //Preventing cards from being folded up, while win animations -> no bug
@@ -110,7 +91,6 @@
                   onecard.addEventListener('click', reveal)
                 });
               }, 1500);
-              addToBalance();
             } 
             else 
             {
@@ -139,11 +119,10 @@
   }
 
   // Start game function
-  function startFunct() {
+  async function startFunct() {
       resetBtn.disabled = true;
       gameIsRunning = true;
-      won = 0;
-      subtrFromBalance();
+      balance = await updateBalance(-(amount*currentAmount));
       document.querySelectorAll(".ctrlbutton").forEach((temp) => {
           temp.setAttribute("disabled", "true");
       });
@@ -348,7 +327,7 @@
 
   <!-- Game Area -->
   <div bind:this={gamearea} 
-       class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4 ps-[20%] pe-[5%] w-auto {correctGuess ? 'opacity-10': 'opacity-100'}"
+       class="grid grid-cols-3 md:grid-cols-6 xl:grid-cols-9 gap-4 ps-[20%] pe-[5%] w-auto {correctGuess ? 'opacity-10': 'opacity-100'}"
        class:hidden={isZoomed}>
   </div>
 
