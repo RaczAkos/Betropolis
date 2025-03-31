@@ -1,4 +1,4 @@
-export async function updateBalance(addToBalance: number) {
+export async function updateBalance(addToBalance: number, game:any) {
     const response = await fetch('/api/balance-update', {
         method: 'POST',
         headers: {
@@ -6,7 +6,7 @@ export async function updateBalance(addToBalance: number) {
         },
         body: JSON.stringify({ 
             number: addToBalance,
-            gameid: 2
+            gameid: game
         }),
     });
 

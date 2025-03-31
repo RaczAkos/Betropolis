@@ -141,7 +141,7 @@
           });
           if (!stopadding) {
             stopadding = true; // Stop adding to balance
-            balance = await updateBalance(Math.round(currentAmount * targetMultiplier));
+            balance = await updateBalance(Math.round(currentAmount * targetMultiplier), 2);
           }
         }
       }
@@ -172,7 +172,7 @@
       if (currentAmount >= 1) {
         if (targetMultiplier >= 2) {
           if (balance - currentAmount >= 0) {
-            balance = await updateBalance(-currentAmount);
+            balance = await updateBalance(-currentAmount, 2);
             running = false;
             crashed = false;
             stopadding = false;
@@ -204,7 +204,7 @@
           cashoutBtn.disabled = true;
 
           if (multiplier < targetMultiplier) {
-              balance = await updateBalance(Math.round(currentAmount / 2)); // Half return if cashed out early
+              balance = await updateBalance(Math.round(currentAmount / 2), 2); // Half return if cashed out early
           }
 
           ctrlbuttons.forEach((temp) => {

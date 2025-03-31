@@ -78,7 +78,7 @@
               target.src.split('_').pop()?.split('.')[0] === "joker"
             ) 
             {
-              balance = await updateBalance(amount * 3);
+              balance = await updateBalance(amount * 3, 3);
               currentAmount--;
               correctGuess = true;
               //Preventing cards from being folded up, while win animations -> no bug
@@ -122,7 +122,7 @@
   async function startFunct() {
       resetBtn.disabled = true;
       gameIsRunning = true;
-      balance = await updateBalance(-(amount*currentAmount));
+      balance = await updateBalance(-(amount*currentAmount), 3);
       document.querySelectorAll(".ctrlbutton").forEach((temp) => {
           temp.setAttribute("disabled", "true");
       });
