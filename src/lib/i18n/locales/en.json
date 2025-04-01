@@ -102,6 +102,13 @@
   "funds": {
     "title": "Manage funds"
   },
+  "lang": {
+    "title": "Change Language",
+    "name": {
+      "en":"English",
+      "hu":"Hungarian"
+    }
+  },
   "sign-out": "Sign out",
   "sign-out-all": "Sign out everywhere",
   "sign-out.title": "Signing out",

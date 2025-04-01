@@ -1,16 +1,14 @@
-<script lang=ts>
-
+<script lang="ts">
   import { _ } from "svelte-i18n";
   import AddFriendModal from "../friends/AddFriendModal.svelte";
   import FriendRequestsModal from "../friends/FriendRequestsModal.svelte";
   import FriendsModal from "../friends/FriendsModal.svelte";
   import HubNavLi from "./HubNavLi.svelte";
 
-  let { show = $bindable(), requests = [], friends = [] } = $props(),
+  let { show = $bindable(), requests } = $props(),
       addFriendClicked:boolean= $state(false),
       friendRequestClicked:boolean = $state(false),
       friendsButtonClicked:boolean = $state(false);
-  
 </script>
 
 <!-- Menu -->
@@ -21,15 +19,13 @@
               bind:click={friendsButtonClicked} />
     <HubNavLi text={$_("friends.requests")}
               bind:click={friendRequestClicked} 
-              notification={requests[0].length}/>
+              notification={requests[0].notification}/>
     <HubNavLi text={$_("friends.add")} 
               bind:click={addFriendClicked}/>
   </ul>
 </div>
 
 <!-- Modals -->
-<FriendsModal bind:show={friendsButtonClicked}
-              friendData={friends}/>
-<FriendRequestsModal bind:show={friendRequestClicked} 
-                     requestsData={requests}/>
+<FriendsModal bind:show={friendsButtonClicked}/>
+<FriendRequestsModal bind:show={friendRequestClicked}/>
 <AddFriendModal bind:show={addFriendClicked}/>

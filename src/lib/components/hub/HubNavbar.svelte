@@ -31,17 +31,16 @@
 <nav class=" bg-black bottom-0 w-full text-white fixed text-center border-t border-yellow-600">
   <div class="bottom-14 absolute w-full [&_li]:text-center [&_li]:m-2 sm:text-xl">
     <HubFriendsMenu show={friends} 
-                    requests={data.friendRequests} 
-                    friends={data.friends}/>
+                    requests={data.friendRequests}/>
     <HubProfileMenu show={profile} 
-                    user={data.user} />
+                    user={data.user}/>
   </div>
 
   <div class="flex [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600">
     <HubNavButton text={$_("friends.title")} 
                   img={group} 
                   alt="Friends icon" 
-                  notification={data.friendRequests[0].length} 
+                  notification={data.friendRequests[0].notification} 
                   bind:click={friendsClicked}/>
     <HubNavButton text={$_("funds.title")} 
                   img={add} 

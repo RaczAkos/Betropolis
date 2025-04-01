@@ -12,9 +12,9 @@
   @reference "../app.css";
   
   h2 { 
-    @apply border-b italic text-2xl mt-5;  
+    @apply border-b italic text-3xl mt-5;  
     font-family: "Borgens Burlesque"; 
   }
 
-  p { @apply text-justify mb-3 mt-1; }
+  p { @apply text-justify mb-3 mt-1 text-xl; }
 </style>

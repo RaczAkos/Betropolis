@@ -7,7 +7,7 @@
 
   let { show = $bindable(), user = {} } = $props(),
       signOutClicked:boolean  = $state(false),
-      links:string[] = [ "statistics", "profile", "terms&conditions", "privacy-policy" ];
+      links:string[] = [ "profile", "terms&conditions", "privacy-policy" ];
 </script>
 
 <div class:hidden={!show}

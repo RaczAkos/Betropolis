@@ -10,7 +10,7 @@
 </script>
 
 <main class="flex justify-center select-text w-full text-wrap">
-  <div class="border m-1 text-white md:w-3/4 lg:w-1/2 mt-5 px-5 pb-4">
+  <div class="border m-1 text-white md:w-3/4 lg:w-1/2 mt-5 px-5 pb-4 [&_p]:text-xl">
     <div>
       <h1 class="text-5xl p-3 border-b text-center mb-2">
         {$_(`page.${page.params.doc}.title`)}
@@ -20,7 +20,7 @@
         {$_("authTitle")}
       </h2>
 
-      <h3 class="text-xl text-justify">
+      <h3 class="text-2xl text-justify">
         {$_(`page.${page.params.doc}.intro`)}
       </h3>
 
@@ -39,7 +39,7 @@
 <style>
   @reference "$lib/app.css";
 
-  h2{ @apply border-b italic text-2xl mt-5; }
+  h2{ @apply border-b italic text-3xl mt-5; }
 
   h1, h2, h3 { font-family: "Borgens Burlesque"; }
 </style>

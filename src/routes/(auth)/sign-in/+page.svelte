@@ -26,6 +26,7 @@
 </script>
 
 <form method="POST" 
+      class="text-yellow-600"
       use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
 
   <!-- Username / E-mail -->
@@ -50,7 +51,7 @@
   
     <!-- Show password -->
     <div class="flex justify-center mt-1">
-      <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer block">
+      <label class="text-sm font-bold mb-2 cursor-pointer block">
         <input type="checkbox" 
                class="accent-yellow-600" 
                onchange={() => { 
@@ -59,14 +60,6 @@
                }}>
         {$_("page.sign-in.showPassword")}
       </label>
-    </div>
-
-    <!-- Reset password -->
-    <div class="flex justify-center">
-      <a class="text-center align-baseline font-bold text-sm text-yellow-600 hover:underline italic" 
-         href="/reset-password">
-        Forgot Password?
-      </a>
     </div>
   </div>
 
@@ -80,7 +73,8 @@
 
   <!-- Go to Sign Up -->
   <div class="flex justify-center">
-    <a class="hover:underline text-yellow-600 italic" href="/sign-up">{$_("page.sign-in.toSignUp")}</a>
+    <a class="hover:underline italic" 
+       href="/sign-up">{$_("page.sign-in.toSignUp")}</a>
   </div>
 
   <!-- Display error/feedback -->

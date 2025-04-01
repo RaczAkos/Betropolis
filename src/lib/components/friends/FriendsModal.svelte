@@ -1,7 +1,15 @@
 
 <script lang="ts">
-  let { show = $bindable(), friendData = [] } = $props(),
-      friends = $state(friendData);
+  import { onMount } from "svelte";
+  import { _ } from "svelte-i18n";
+  let { show = $bindable() } = $props(),
+      friends:any = $state([]);
+
+  /*onMount(async () => {
+    fetch("/api/get-friends")
+    .then(res => res.json())
+    .then(res => friends = res)
+  })*/
 
   async function deleteFriend() {
     let response = fetch("/api/delete-friend", {
@@ -21,15 +29,29 @@
     <div class="flex min-h-full justify-center text-center items-center sm:p-0">
       <div class="relative transform overflow-hidden border-yellow-600 bg-black text-left border-2 transition-all sm:my-8 max-w-2xl m-1 p-2 sm:p-4 rounded-3xl text-yellow-600">
         <h1 class="text-center text-5xl borgens">
-          Friends
+          {$_("friends.title")}
         </h1>
 
         <div class="p-2">
           {#if friends.length}
             {#each friends as friend}
-            <div class="p-1 border-t">
-              <div>
+            <div class="max-sm:text-sm flex border-t border-yellow-600 m-2 pt-1">
+              <div class="basis-3/5 flex items-center justify-center italic p-2">
                 {friend.username}
+              </div>
+              <div class="p-1 basis-1/5">
+                <a href="/profile/{friend.username}">
+                  <div class="bg-blue-600 text-black rounded p-1 w-full hover:scale-110 hover:bg-black hover:text-blue-600 duration-300 border-2 border-blue-600">
+                    Statistics
+                  </div>
+                </a>
+              </div>
+              <div class="p-1 basis-1/5">
+                <button type="button"
+                        class="bg-red-600 rounded p-1 w-full text-black hover:text-red-600 hover:bg-black hover:scale-110 duration-300 border-2 border-red-600"
+                        onclick={() => deleteFriend()}>
+                  Delete
+                </button>
               </div>
             </div>
             {/each}

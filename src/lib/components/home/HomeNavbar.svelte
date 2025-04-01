@@ -5,7 +5,7 @@
   import arrow from '$lib/media/images/down.png';
   import LanguageModal from "../LanguageModal.svelte";
   
-  let { logged, home } = $props(), 
+  let { logged, home, lang } = $props(), 
       signOutClicked:boolean = $state(false),
       mobileViewOpen:boolean = $state(false),
       languageClicked:boolean = $state(false);
@@ -21,14 +21,6 @@
           {$_("home")}
         </div>
       </a>
-      {/if}
-
-      {#if !logged}
-        <button class="hover-1 float-left button1 textShadow"
-                class:ml-3={home}
-                onclick={() => languageClicked = true}>
-          {$_("lang")}
-        </button>
       {/if}
     </div>
 

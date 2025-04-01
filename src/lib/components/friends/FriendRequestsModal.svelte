@@ -1,10 +1,21 @@
 
 <script lang="ts">
+  import { _ } from "svelte-i18n";
+  import { onMount } from "svelte";
 
-  let { show = $bindable(), requestsData = [[], []] } = $props(),
-      gotRequests = $state(requestsData[0]),
-      sentRequests = $state(requestsData[1]),
+  let { show = $bindable() } = $props(),
+      gotRequests:any = $state([]),
+      sentRequests:any = $state([]),
       feedback:any = $state({});
+
+  onMount(async () => {
+    await fetch("/api/get-friend-requests")
+    .then(res => res.json())
+    .then(res => {
+      gotRequests = res.data[0];
+      sentRequests = res.data[1];
+    })
+  })
 
   async function deleteOrAcceptFriendRequest(type:string, data:any, index:number) {
     feedback = {};
@@ -35,16 +46,18 @@
     <div class="flex min-h-full justify-center text-center items-center sm:p-0">
       <div class="relative transform overflow-hidden border-yellow-600 bg-black text-left border-2 transition-all sm:my-8 max-w-2xl m-1 p-2 sm:p-4 rounded-3xl text-yellow-600">
         <h1 class="text-center text-5xl borgens">
-          Friend Requests
+          {$_("friends.requests")}
         </h1>
-        
+
         {#if gotRequests.length || sentRequests.length}
           <div class="m-2 p-2">
 
           <!-- Requests got -->
           {#if gotRequests.length}
             <div class="border-2 border-yellow-600 rounded-2xl p-2 shadow-md shadow-yellow-600">
-              <h2 class="text-center borgens text-3xl">Friend requests</h2>
+              <h2 class="text-center borgens text-3xl">
+                Friend requests
+              </h2>
               {#each gotRequests as request}
               <div class="max-sm:text-sm flex border-t border-yellow-600 m-2 pt-1">
                 <div class="basis-3/5 flex gap-1 items-center justify-center italic">

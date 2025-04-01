@@ -1,4 +1,5 @@
 import { locale, waitLocale } from "svelte-i18n";
+import '$lib/i18n';
 import { browser } from "$app/environment";
 import type { LayoutLoad } from "../(home)/$types";
 

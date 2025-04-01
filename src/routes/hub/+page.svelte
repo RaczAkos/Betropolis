@@ -23,7 +23,6 @@
     if (windowWidth > 639) searchBar = false;
     else if (windowWidth < 640 && search) searchBar = true;
   })
-  
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
@@ -35,7 +34,7 @@
 
 <!-- Games -->
 {#if gameList.length > 0}
-  <div class="w-full grid max-sm:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-white p-2 py-3">
+  <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-white p-2 py-3">
     {#each gameList as game}
       <GameCard {game} />
     {/each}

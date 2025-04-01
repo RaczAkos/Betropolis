@@ -54,7 +54,7 @@
       }
     },
     "sign-in": {
-      "title": "Bejelentkezés",
+      "title": "Belépés",
       "id": "Felhasználónév vagy e-mail cím",
       "password": "Jelszó",
       "toSignUp": "Nincs fiókod?",
@@ -80,6 +80,13 @@
   },
   "funds": {
     "title": "Pénzügyek"
+  },
+  "lang": {
+    "title": "Nyelv választása",
+    "name": {
+      "en":"Angol",
+      "hu":"Magyar"
+    }
   },
   "sign-out": "Kijelentkezés",
   "sign-out-all": "Kijelentkezés mindenhol",
