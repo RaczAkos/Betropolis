@@ -9,7 +9,6 @@
 
 <style>
     div{
-		background-image: url("$lib/media/images/backgrounds/findcardbg.jfif");
 		opacity: 0;
 		animation: fadeIn 1s forwards;
 	}
