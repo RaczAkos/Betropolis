@@ -1,9 +1,11 @@
+
 <script lang="ts">
     import userpng from "$lib/media/images/profile/user.png";
     import flymoney from "$lib/media/images/profile/flying-money.png";
     import income from "$lib/media/images/profile/income.png";
     import joystick from "$lib/media/images/profile/joystick.png";
     import chip from "$lib/media/images/chip.png";
+    import { onMount } from "svelte";
 
     let { data } = $props();
 
@@ -17,9 +19,18 @@
         picture?.classList.remove('opacity-100');
     }
     
+
+    let selectedGame:any = $state(null);
+
+    function selectGame(game:any) {
+        selectedGame = game;
+    }
+
+    console.log(data.transaction)
 </script>
 <!--For the reload button-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+
 
 <div class="w-screen bg-[#141a22] justify-center items-center flex changeHeight">    
     <div class="w-[85vw] h-[75vh] bg-[#040d17] flex mx-auto rounded-lg shadow-2xl shadow-[#040d17] flex-col">
@@ -29,7 +40,7 @@
                 <img src={userpng} class="w-[20px] h-auto" alt="">
                 <p class="text-gray-500 ms-2 relative top-[1px]">Welcome, <span class="text-white">{data.user[0].username}</span></p>
             </div>
-            <div class="mt-4 w-[90%] bg-[#141a22] mx-auto rounded-lg p-8 flex items-center gap-8">
+            <div class="mt-4 w-[90%] h-[90%] bg-[#141a22] mx-auto rounded-lg p-8 flex items-center gap-8">
                 <!-- Avatar Section -->
                 <div class="relative transition-all duration-300 lg:w-[170px] md:w-[150px] sm:w-[120px] w-[100px] flex-shrink-0">
                     <img src={data.user[0].avatar+".png"} 
@@ -71,14 +82,51 @@
                         <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg min-w-[240px]">
                             <img src="{joystick}" alt="Last Game Played" class="w-[100px] mx-auto">
                             <p class="text-gray-500 py-3 text-lg">Last Game Played</p>
-                            <p class="text-pink-600 text-lg">Fruit-frenzy-classic</p>
+                            <p class="text-pink-600 text-lg">{data.lastPlayed[0].name}</p>
                         </div>
                     </div>
                 </div>
             </div>                        
-        </div>        
+        </div>
+        
+        <!-- Table and Buttons Section -->
+        <div class="w-[90%] h-[60%] bg-[#141a22] mx-auto rounded-lg p-8 flex flex-col gap-8 text-gray-500">
+            <div class="w-full h-[30%] flex gap-4">
+                {#each data.games as game}
+                <button class="" onclick={() => selectGame(game.gameid)}>
+                    {game.name}
+                </button>
+                {/each}
+            </div>
+            <div class="w-full h-[70%] overflow-x-auto">
+                {#if selectedGame}
+                    <table class="w-full h-full">
+                        <thead>
+                            <tr>
+                                {#each Object.keys(data.transaction[0]) as key}
+                                    <th>{key}</th>
+                                {/each}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#each data.transaction as row}
+                            <tr>
+                                {#each Object.entries(row) as [key, value]}
+                                    {#if row.gameid == selectedGame}
+                                        <td class="">{value}</td>
+                                    {/if}
+                                {/each}
+                            </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                {/if}
+            </div>
+        </div>
     </div>
 </div>
+
+
 
 
 

@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Crash! - Betropolis</title>
+</svelte:head>
+
 <script lang="ts">
   import crashpics from "$lib/exports/crashpics";
   import { onMount } from "svelte";
@@ -238,10 +242,10 @@
                 <img src={crashpics[3]} class="w-full h-full object-cover"/>
               </div>
               {#if currentSlide === 0}
-              <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
-                <p class="text-yellow-600 text-4xl">For beginners</p>
+              <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 p-4 text-center">
+                <p class="text-yellow-600 lg:text-4xl md:text-2xl max-sm:text-sm sm:text-sm">For beginners</p>
               </div>
-                <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
+                <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
                   <p>Here you can enter the amount of <span class="text-yellow-600">chips</span> you would like to increase or decrease your current bet with. After setting the correct amount, add or subtract it from the current bet with the &uarr; or &darr; buttons.</p>
                   <p>Add your <span class="text-red-600">target multiplier</span> where you want to withdraw your bet.</p>
                 </div>
@@ -254,7 +258,7 @@
                 <img src={crashpics[4]} class="w-full h-full object-cover"/>
               </div>
               {#if currentSlide === 1}
-                <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center">
+                <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
                   <p>Here you can see your <span class="text-yellow-600">current multiplier</span>.</p>
                   <p>With the <span class="text-green-600">Bet now</span> button, if the current bet is added, and you have enough balance, it will start the game.</p>
                   <p>You can press the <span class="text-red-600">Cash out</span> button, if during the game, you decided that your <span class="text-red-600">target multiplier</span> is way too risky, so you want to instantly take your chips out. Be careful though, if you withdraw before the <span class="text-yellow-600">multiplier</span> reaches your <span class="text-red-600">target</span>, you will only receive half of your current bet.</p>
@@ -268,7 +272,7 @@
                 <img src={crashpics[5]} class="w-full h-full object-cover"/>
               </div>
               {#if currentSlide === 2}
-                <div class="absolute bottom-0 left-0 h-1/2 w-[40%] bg-black bg-opacity-50 text-white p-4 flex items-center">
+                <div class="absolute top-0 left-0 h-1/2 w-[40%] bg-black bg-opacity-50 text-white p-4 flex items-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
                   <p>This is your game field. Here you can see the scale go up as the multiplier grows.</p>
                 </div>
                 <div class="absolute bottom-0 left-0 h-1/2 w-[40%] text-[60px] text-end bg-opacity-50 p-4 flex items-center">
@@ -305,7 +309,8 @@
         {#if currentSlide !== 0}
           <button
             type="button"
-            class="absolute top-[40%] left-4 transform -translate-y-1/2 bg-yellow-600 rounded-full"
+            class="absolute top-[40%] left-4 transform -translate-y-1/2 bg-yellow-600 rounded-full 
+                  p-4 text-xl md:!p-3 md:!text-lg sm:!p-2 sm:!text-base max-sm:!p-1 max-sm:!text-sm"
             onclick={() => (currentSlide = Math.max(0, currentSlide - 1))}
           >
             &#10094;
@@ -314,7 +319,8 @@
         {#if currentSlide !== 2}
           <button
             type="button"
-            class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full"
+            class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full 
+                  p-4 text-xl md:!p-3 md:!text-lg sm:!p-2 sm:!text-base max-sm:!p-1 max-sm:!text-sm"
             onclick={nextSlide}
           >
             &#10095;
@@ -322,7 +328,8 @@
         {:else}
           <button
             type="button"
-            class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full"
+            class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full 
+                  p-4 text-xl md:!p-3 md:!text-lg sm:!p-2 sm:!text-base max-sm:!p-1 max-sm:!text-sm"
             onclick={nextSlide}
           >
             &#10008;

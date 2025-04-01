@@ -11,7 +11,6 @@ export async function updateBalance(addToBalance: number, game:any) {
     });
 
     const data = await response.json();
-    console.log(data);
     return data.newBalance;
 }
 

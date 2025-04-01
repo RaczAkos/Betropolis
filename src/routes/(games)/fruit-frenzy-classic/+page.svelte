@@ -6,6 +6,13 @@
     import icons from "$lib/exports/classicfruits";
     import chip from "$lib/media/images/chip.png";
     import line from "$lib/media/images/line.png";
+    import { updateBalance, getBalance } from '$lib/exports/balance';
+    import { onMount } from "svelte";
+    import { generateRandomInteger } from "@oslojs/crypto/random";
+
+    onMount(async() => {
+        balance = await getBalance();
+    })
 
     let balance = $state(10000);
     let slot1:string = icons[giveRandom(icons.slice(0,6))],
@@ -21,7 +28,7 @@
     // Return random index
     function giveRandom(array:string[]) { return Math.floor(Math.random() * array.length); }
 
-    function spin() {
+    async function spin() {
 
         let gold1:string[] = [], 
             gold2:string[] = [], 
@@ -50,7 +57,7 @@
         fruits2 = fruits2.concat(gold2);
         fruits3 = fruits3.concat(gold3);
         
-        balance -= bet;
+        balance = await updateBalance(-bet, 1);
         feedback = "Spinning!";
         spinning = true;
 
@@ -135,7 +142,7 @@
         },800)
     }
 
-    function calculate(fruits:string[]) {
+    async function calculate(fruits:string[]) {
         let fruit1:string = fruits[0].split('/')[fruits[0].split('/').length-1],
             fruit2:string = fruits[1].split('/')[fruits[1].split('/').length-1],
             fruit3:string = fruits[2].split('/')[fruits[2].split('/').length-1],
@@ -174,8 +181,9 @@
         
 
         // transaction
-
-        balance += gain;
+        if (gain > 0) {
+            balance = await updateBalance(gain, 1);
+        }
 
         setTimeout(() => {
             if (autorun && balance !> 1) {

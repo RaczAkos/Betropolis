@@ -318,10 +318,14 @@
   <!-- Example Card -->
   <div class="fixed bottom-0 left-0 w-[15%] items-center">
     <div class="flex items-center h-auto"> 
-      <img bind:this={example} 
-           src="" 
-           alt="Example card" 
-           class="border rounded-2xl bg-gray-300">
+      <a href="/hub" class="relative inline-block">
+        <span title="Back to hub">
+          <img bind:this={example} 
+          src="" 
+          alt="Example card" 
+          class="border rounded-2xl bg-gray-300 shadow-xl shadow-white hover:shadow-2xl hover:shadow-white transition-all duration-300">
+        </span>
+      </a>
     </div>
   </div>
 
