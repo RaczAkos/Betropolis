@@ -37,16 +37,12 @@
     
     <div class="borgens absolute italic inset-0 max-md:top-5 flex justify-center items-center text-center w-full">
       <div class="text-yellow-600 flex justify-center flex-col textShadow">
-        <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl p-1">
-          {#if !data.logged}
-            {$_("page.home.title")}
-          {:else}
-            {$_("page.home.loggedTitle")}
-          {/if}
+        <h1 class="text-3xl sm:text-6xl md:text-7xl p-1">
+          {$_(!data.logged ? "page.home.title" : "page.home.loggedTitle")}
         </h1>
         <h2 class="text-2xl sm:text-4xl lg:text-5xl underline">
           <a href="/hub">
-            {$_("page.home.catchphrase")}
+            {$_(!data.logged ? "page.home.catchphrase" : "page.home.loggedCatchphrase")}
           </a>
         </h2>
       </div>        
@@ -105,7 +101,7 @@
   </div>
 </main>
 
-<BonusGameModal bind:show={modal}/>
+<BonusGameModal bind:show={modal} logged={data.logged}/>
 
 <style>
   @reference "$lib/app.css";

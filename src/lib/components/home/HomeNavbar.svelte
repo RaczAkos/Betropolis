@@ -1,24 +1,34 @@
-<script>
+<script lang="ts">
   import { _ } from "svelte-i18n";
   import SignOutModal from '../SignOutModal.svelte';
 	import logo from '$lib/media/images/logo.png';
   import arrow from '$lib/media/images/down.png';
-  let { logged, home } = $props();
-
-  let signOutClicked = $state(false),
-      mobileViewOpen = $state(false);
+  import LanguageModal from "../LanguageModal.svelte";
+  
+  let { logged, home } = $props(), 
+      signOutClicked:boolean = $state(false),
+      mobileViewOpen:boolean = $state(false),
+      languageClicked:boolean = $state(false);
 </script>
 
-<nav>
-  <div class="w-screen flex justify-between max-md:hidden text-2xl">
+<nav class="font-bold">
+  <div class="w-screen flex justify-between max-md:hidden text-lg lg:text-2xl">
 
-    <div class="w-1/3 place-content-center place-items-start">
+    <div class="w-1/3 place-content-center">
       {#if !home}
       <a href="/">
-        <div class="hover-1 ms-5 inline-block font-bold bg-yellow-600 hover:scale-110 border-yellow-600 border-2 text-black me-5 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
+        <div class="hover-1 ml-3 mr-2 float-left button2">
           {$_("home")}
         </div>
       </a>
+      {/if}
+
+      {#if !logged}
+        <button class="hover-1 float-left button1 textShadow"
+                class:ml-3={home}
+                onclick={() => languageClicked = true}>
+          {$_("lang")}
+        </button>
       {/if}
     </div>
 
@@ -27,26 +37,21 @@
     </div>
 
     <div class="place-content-center w-1/3">
-      <!-- Sign out / Hub -->
-      {#if logged}
-      <a href="/hub">
-        <div class="hover-1 inline-block font-bold float-end bg-yellow-600 hover:scale-110 border-yellow-600 border-2 text-black me-5 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
-          {$_("page.hub.title")}
+      <a href={logged ? "/hub" : "/sign-up"}>
+        <div class="button2 mr-5 ml-2 hover-1 float-right">
+          {$_(logged ? "page.hub.title": "page.sign-up.title")}
         </div>
       </a>
-      <button class="hover-1 textShadow inline-block font-bold float-end hover:scale-110 bg-black border-yellow-600 border-2 text-yellow-600 me-2 p-2 rounded focus:outline-none focus:shadow-outline duration-300"
+
+      {#if logged}
+      <button class="button1 textShadow hover-1 float-right"
               onclick={() => {signOutClicked = true}}>
         {$_("sign-out")}
       </button>
       {:else}
-      <!-- Sign in / up -->
-      <a href="/sign-up">
-        <div class="hover-1 inline-block font-bold float-end bg-yellow-600 hover:scale-110 border-yellow-600 border-2  text-black  me-6 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
-          {$_("page.sign-up.title")}
-        </div>
-      </a>
+      
       <a href="/sign-in">
-        <div class="hover-1 textShadow inline-block font-bold float-end hover:scale-110 bg-black border-yellow-600 border-2 text-yellow-600 me-2 p-2 rounded focus:outline-none focus:shadow-outline duration-300">
+        <div class="button1 textShadow hover-1 float-right">
           {$_("page.sign-in.title")}
         </div>
       </a>
@@ -78,28 +83,21 @@
       {/if}
     
       <div class="flex flex-row-reverse w-full mb-2">
-        <!-- Sign out / Hub -->
-        {#if logged}
-        <a href="/hub" class="basis-1/2 p-1">
-          <div class="hover-1 w-full text-center font-bold float-end bg-yellow-600 border-yellow-600 border-2 text-black p-2 rounded focus:outline-none focus:shadow-outline">
-            {$_("page.hub.title")}
+        <a href={logged ? "/hub" : "/sign-up"} class="basis-1/2 p-1">
+          <div class=" w-full text-center float-end button2">
+            {$_(logged ? "page.hub.title": "page.sign-up.title")}
           </div>
         </a>
+        {#if logged}
         <div class="basis-1/2 p-1">
-          <button class="w-full font-bold bg-black border-yellow-600 border-2 text-yellow-600 p-2 rounded focus:outline-none focus:shadow-outline"
+          <button class="w-full button1"
                   onclick={() => {signOutClicked = true}}>
             {$_("sign-out")}
           </button>
         </div>
         {:else}
-        <!-- Sign in / up -->
-        <a href="/sign-up" class="basis-1/2 p-1">
-          <div class="w-full text-center font-bold bg-yellow-600 border-yellow-600 border-2 text-black p-2 rounded focus:outline-none focus:shadow-outline">
-            {$_("page.sign-up.title")}
-          </div>
-        </a>
         <a href="/sign-in" class="basis-1/2 p-1">
-          <div class="w-full text-center textShadow font-bold bg-black border-yellow-600 border-2 text-yellow-600 p-2 rounded focus:outline-none focus:shadow-outline">
+          <div class="w-full text-center textShadow button1">
             {$_("page.sign-in.title")}
           </div>
         </a>
@@ -111,13 +109,27 @@
 </nav>
 
 <SignOutModal bind:clicked={signOutClicked} />
+<LanguageModal bind:clicked={languageClicked} />
 
 <style>
+  @reference "$lib/app.css";
+
   .nav{
     background-image: linear-gradient(to left, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
   }
   .goldenbg{
     background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
+  }
+
+  .button1 {
+    @apply bg-black text-yellow-600;
+  }
+  .button2 {
+    @apply bg-yellow-600 text-black ;
+  }
+
+  .button1, .button2 {
+    @apply p-2 rounded md:duration-300 md:hover:scale-110 border-yellow-600 border-2;
   }
 
 </style>

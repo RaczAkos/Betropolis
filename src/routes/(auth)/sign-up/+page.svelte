@@ -18,7 +18,8 @@
     gender:number|null,
     email:string,
     password:string,
-    picture:string
+    picture:string,
+    lang:string
   }
 
   let user: Registration = $state({
@@ -28,25 +29,27 @@
         gender: null,
         email: "",
         password: "",
-        picture:""
+        picture:"",
+        lang: ""
       }),
-      windowWidth:number = $state(0),
-      type:string      = $state("password"),
-      password2:string = $state(""),
-      passConf:boolean = $state(false),
+      windowWidth:number     = $state(0),
+      type:string            = $state("password"),
+      password2:string       = $state(""),
+      passConf:boolean       = $state(false),
       passwordFormat:boolean = $state(false),
       userNameFormat:boolean = $state(false),
-      date = new Date(),
-      month = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
-      day = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
-      currentDate = `${date.getFullYear()-18}-${month}-${day}`,
-      conditions = $state(false),
-      over18 = $state(false),
-      valid = $state(false);
+      date:Date              = new Date(),
+      month:string|number    = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
+      day:string|number      = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
+      currentDate:string     = `${date.getFullYear()-18}-${month}-${day}`,
+      conditions:boolean     = $state(false),
+      over18:boolean         = $state(false),
+      valid:boolean          = $state(false);
     
   let selectedAvatarIndex = $state(-1);
 
 
+  // Testing password format
   $effect(() => {
     passwordFormat = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!#$%&?<>_ "]).*$/.test(user.password);
     if (passwordFormat) passConf = (user.password == password2)? true : false;
@@ -268,14 +271,11 @@
 </form>
 
 <!-- Display error/feedback -->
-<div class="bg-red-600 text-white text-center mt-2 rounded-md p-1"
-     class:invisible={!form?.error}>
-  {#if form?.error}
+{#if form?.error}
+  <div class="bg-red-600 text-white text-center mt-2 rounded-md p-1">
     {form.error}
-  {:else}
-    hidden
-  {/if}
-</div>
+  </div>
+{/if}
 
 <style>
     input[type="date"] {

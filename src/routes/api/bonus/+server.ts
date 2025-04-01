@@ -8,7 +8,7 @@ function generateBonus() {
 export async function POST ({ request }: { request: Request }) {
   let req = await request.json(),
       db = await dbConnect(),
-      title = "", message = "", extra = null,
+      title = "", description = "", extra = null,
       bonus =  generateBonus();
   
   try {
@@ -26,31 +26,34 @@ export async function POST ({ request }: { request: Request }) {
                         VALUES (?,?,?)`, 
                         [req.email, bonus, 0]);
 
-        title = "Succesfully claimed bonus!";
-        message = `Sign up to claim your starting bonus: ${bonus} chips`;
-        extra = `(Other cards contained: ${generateBonus()}, ${generateBonus()}, ${generateBonus()})`;
+        title = "bonus.returned.title";
+        description = "bonus.returned.description";
+        extra = [generateBonus(), generateBonus(), generateBonus()];
       }
 
       // If email is already registered
       else {
         title = "Bonus already registered with e-mail!";
-        message = "This email has been already registered for a bonus. Sign up with this e-mail to claim the bonus.";
+        description = "This email has been already registered for a bonus. Sign up with this e-mail to claim the bonus.";
       }
       db = null;
-      return json({title, message, extra});
-    
-    } else {  
-      db = null;
       return json({
-        "title":"Your account already exists!",
-        "message":"Please log in to your account and claim your bonus in the hub if you haven't already claimed it."
+        title, 
+        description, 
+        extra, 
+        bonus
       });
-    }
+    
+    } else return json({
+      title: "",
+      description: "",
+      extra: [generateBonus(), generateBonus(), generateBonus()]
+    });
   }
   catch (error : any) {
     return json({
-      "title": "Some error happened!", 
-      "message": error.message
+      "title": "bonus.error.title", 
+      "description": error.message
     });
   }
 }

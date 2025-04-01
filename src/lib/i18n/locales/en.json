@@ -5,6 +5,7 @@
       "loggedTitle": "Welcome back to Betropolis Casino!",
       "description": "Your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience.",
       "catchphrase": "Start betting now!",
+      "loggedCatchphrase": "Continue the betting!",
       "bonus": "Choose a card for a free extra starting bonus!",
       "alreadyClaimed": "Already claimed the bonus?"
     },
@@ -72,9 +73,30 @@
       "noGames": "No games found!"
     }
   },
+  "bonus": {
+    "title": "Claim your extra bonus!",
+    "description": "Please enter the e-mail you want your bonus to be connected to. You will automaticly get that bonus when you sign up with that e-mail.",
+    "claim": "Claim",
+    "returned": {
+      "title": "Successfully claimed bonus!",
+      "description": "Sign up to claim your starting bonus:",
+      "extra": "Other cards contained:"
+    },
+    "logged": {
+      "title": "Your account already exists!",
+      "description": "Your bonus should be added to your balance:"
+    },
+    "error": {
+      "email": {
+        "title": "Your account already exists!",
+        "description": "Your bonus should be added to your balance:"
+      },
+      "unknown": "Some error happened!"
+    }
+  },
   "friends": {
-    "add": "Add Friend",
     "title": "Friends",
+    "add": "Add Friend",
     "requests": "Friend requests"
   },
   "funds": {

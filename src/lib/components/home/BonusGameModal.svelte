@@ -1,11 +1,12 @@
 <script lang="ts">
   import Input from "$lib/components/Input.svelte";
+  import { _ } from "svelte-i18n";
+  import chip from "$lib/media/images/chip.png";
 
-  let { show = $bindable() } = $props(),
+  let { show = $bindable(), logged } = $props(),
       email:string = $state(""),
       goodEmail = $state(false),
-      returnedBonus = $state(false),
-      bonus:any = $state({title:"", message:""});
+      bonus:any = $state({});
 
   async function bonusGame() {
       const res = await fetch('/api/bonus', {
@@ -17,13 +18,14 @@
       
       bonus = {
         title: res.title,
-        message: res.message,
-        extra: res.extra
+        description: res.description,
+        extra: res.extra,
+        bonus: res.bonus
       }
-
-      returnedBonus = true;
       email = "";
   }
+
+  // E-mail format check
   $effect(() => {
     if (/^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/.test(email)) goodEmail = true;
     else goodEmail = false;
@@ -38,29 +40,27 @@
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
       <div class="relative transform overflow-hidden bg-black text-left border-2 border-yellow-600 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
-        
         <div class="px-4 pt-4">
+          
           <h3 class="text-center text-4xl borgens">
-            {#if !returnedBonus}
-              Claim your extra starting bonus!
-            {:else}
-              {bonus.title}
-            {/if}
+            {$_(!bonus.title ? "bonus.title": bonus.title)}
           </h3>
-          <div class="mt-3 text-center sm:mt-0 sm:text-left">
+          <div class="mt-3 [&_p]:text-center sm:mt-0 sm:text-left">
             <div class="my-2">
-              <p class="text-center">
-                {#if !returnedBonus}
-                  Please enter the e-mail you want your bonus to be connected to. You will automaticly get that bonus when you sign up with that e-mail.
-                {:else}
-                  {bonus.message}
+              <p>
+                {$_(!bonus.description ? "bonus.description": bonus.description)}
+                {#if bonus.bonus}
+                  {bonus.bonus}
+                  <img src={chip} 
+                       alt="chips" 
+                       class="h-6 inline-block">
                 {/if}
               </p>
               {#if bonus.extra}
-                <p class="text-center">{bonus.extra}</p>
+                <p>({$_("bonus.returned.extra")} {bonus.extra[0]}, {bonus.extra[1]}, {bonus.extra[2]})</p>
               {/if}
             </div>
-            {#if !returnedBonus}
+            {#if !bonus.title}
             <Input id="bonusemail" 
                    bind:value={email} 
                    type="email" 
@@ -70,18 +70,23 @@
         </div>
         
         <div class="border-t-yellow-600 border-t-2 my-1 mt-2 px-4 py-2 sm:flex sm:flex-row-reverse sm:px-6 justify-center">
-          {#if !returnedBonus}
+          {#if !bonus.title}
           <button onclick={bonusGame} 
                   disabled={!goodEmail}
                   type="button" 
                   class="max-sm:mb-2 sm:ms-2 inline-flex w-full justify-center rounded bg-black p-2 text-md font-semibold border-2 border-yellow-600 enabled:hover:bg-yellow-600 enabled:hover:text-black disabled:text-yellow-600/50 disabled:border-yellow-600/50 duration-300 sm:w-auto">
-            Claim
+            {$_("bonus.claim")}
           </button>
           {/if}
-          <button onclick={() =>{ show = !show; email = ""; goodEmail = false; if (returnedBonus) {bonus = {}; returnedBonus = false;}}} 
+          <button onclick={() =>{ 
+                    show = !show; 
+                    email = ""; 
+                    goodEmail = false; 
+                    if (bonus.title) bonus = {};
+                  }} 
                   type="button" 
                   class="w-full justify-center rounded bg-black p-2 text-md font-semibold border-2 border-yellow-600 hover:bg-yellow-600 hover:text-black duration-300 sm:w-auto">
-            Close
+            {$_("close")}
           </button>
         </div>
       </div>
