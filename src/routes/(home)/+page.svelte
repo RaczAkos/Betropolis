@@ -77,26 +77,38 @@
 
 
   <!-- Bonus Game -->
-  <div class="flex justify-center mt-[100px] borgens select-none text-3xl text-yellow-600 text-center max-sm:text-2xl">
+  <div class="flex justify-center mt-12 mb-3 borgens select-none text-3xl text-yellow-600 text-center max-sm:text-2xl">
     <div class="mx-5 lg:basis-2/3">
-      <h2>
-        {$_("page.home.bonus")}
-      </h2>
+      {#if !data.claimedBonus}
+        <h2>
+          {$_("page.home.bonus")}
+        </h2>
+      {/if}
 
-      <div class="ledBorder bonus">
-        {#each frenchcards as img}
-          <button onclick={() => modal = !modal} 
-                  class="card">
-            <img src={img} alt="Card" class="h-1/2">
-          </button>
-        {/each}
-      </div>
-      <h2>
-        {$_("page.home.alreadyClaimed")} 
-        <a href="/sign-up">
-          {$_("page.sign-up.title")}!
-        </a>
-      </h2>
+      {#if !data.claimedBonus}
+        <div class="ledBorder bonus">
+          {#each frenchcards as img}
+            <button onclick={() => modal = !modal} 
+                    class="card">
+              <img src={img} 
+                   alt="Card" 
+                   class="h-1/2">
+            </button>
+          {/each}
+        </div>
+      {:else}
+        <div class="mx-5 my-2 gap-2 p-2 rounded-3xl ledBorder grid border-2 border-yellow-600">
+          {$_("page.home.claimedBonus")}
+        </div>
+      {/if}
+      {#if !data.logged}
+        <h2>
+          {$_("page.home.alreadyClaimed")} 
+          <a href="/sign-up">
+            {$_("page.sign-up.title")}!
+          </a>
+        </h2>
+      {/if}
     </div>
   </div>
 </main>

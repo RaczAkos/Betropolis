@@ -14,11 +14,11 @@
     </a>
 
     <div class="flex justify-center items-center px-3">
-      <a href="/">
+      <div>
         <img src={logo} 
              alt="Casino Logo"  
              class="self-center w-52">
-      </a>
+      </div>
     </div>
     <div class="w-full text-center text-xl font-bold my-2 italic">
       {$_("authTitle")}

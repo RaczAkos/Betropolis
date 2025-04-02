@@ -7,7 +7,8 @@
       "catchphrase": "Kezdj el fogadni most!",
       "loggedCatchphrase": "Folytasd a fogadást!",
       "bonus": "Válassz egy kártyát egy egyszeri extra bónuszért!",
-      "alreadyClaimed": "Már igényelted a bónuszt?"
+      "alreadyClaimed": "Már igényelted a bónuszt?",
+      "claimedBonus": "Már igényelted a bónuszt!"
     },
     "privacy-policy": {
       "title": "Adatkezelési Nyilatkozat",
@@ -67,7 +68,7 @@
       "required": "szükséges",
       "fullName": "Teljes név",
       "username": "Felhasználónév",
-      "usernameDescription": "Username should be 5 to 20 characters and should only contain letters and numbers.",
+      "usernameDescription": "A felhasználónév legyen 5-20 karakter hosszú és csak betűket és számokat tartalmazhat.",
       "dateOfBirth": "Születési dátum",
       "gender": "Nem",
       "male": "Férfi",
@@ -75,9 +76,17 @@
       "confirmPassword": "Jelszó megerősítése",
       "confirmed": "megerősítve",
       "notConfirmed": "nincs megerősítve",
-      "passwordDescription": "Password must be at least 8 characters, containing at least 1 uppercase, 1 lowercase, 1 number and 1 special character.",
+      "passwordDescription": "A jelszó legyen legalább 8 karakter, amiben 1 nagybetű, 1 kisbetű, 1 szám és egy 1 speciális karakter is szerepel.",
       "read": "Elolvastam és elfogadom a",
-      "over18": "Elmúltam 18 éves"
+      "over18": "Elmúltam 18 éves",
+      "account": "Már van fiókod?",
+      "t&c": "Felhasználási Feltételeket",
+      "p-p": "Adatvédelmi Nyilatkozatot",
+      "avatar": "Válassz avatárt!",
+      "error": {
+        "email": "Ez az e-mail már használatban van.",
+        "username": "Felhasználónév foglalt."
+      }
     },
     "profile": {
       "title": "Profil"
@@ -91,7 +100,7 @@
   },
   "bonus": {
     "title": "Igényeld az extra bónuszt!",
-    "description": "Írd be az e-mailt amihez a bónuszt akarod kötni. A bónuszt automatikusan megkapod, regisztrász azzal az emaillel.",
+    "description": "Írd be az e-mailt amihez a bónuszt akarod kötni. A bónuszt automatikusan megkapod, regisztrálsz azzal az emaillel.",
     "claim": "Igénylés",
     "returned": {
       "title": "Sikeresen igényelt bónusz!",
@@ -99,13 +108,13 @@
       "extra": "Más kártyákon volt:"
     },
     "logged": {
-      "title": "Your account already exists!",
-      "description": "Your bonus should be added to your balance:"
+      "title": "A fiókod már létezik!",
+      "description": "Jelentkezz be és igényeld a bónuszod ott."
     },
     "error": {
       "email": {
-        "title": "Your account already exists!",
-        "description": "Your bonus should be added to your balance:"
+        "title": "Bónusz már igényelve az e-mail címhez!",
+        "description": "Ez a e-mail már regisztrálva lett egy bónuszhoz. Regisztrálj az e-mail címmmel, hogy megkapd a bónuszt."
       },
       "unknown": "Valami hiba történt!"
     }
@@ -125,13 +134,13 @@
       "hu":"Magyar"
     }
   },
+  "and": "és az",
   "sign-out": "Kijelentkezés",
   "sign-out-all": "Kijelentkezés mindenhol",
   "sign-out.title": "Kijelentkezés",
   "sign-out.text": "Biztos ki akarsz jelentkezni?",
   "close": "Bezárás",
   "home": "Otthon",
-  "and": "és az",
   "backToHome": "Vissza az otthonra",
   "authTitle": "Üdvözlünk a Betropolisnál!",
   "copyright": "© 2025 - Szabó Tamás, Rácz Ákos Csaba - Minden jog fenntartva.",

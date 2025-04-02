@@ -2,12 +2,16 @@
   import { _ } from "svelte-i18n";
   import en from "$lib/media/images/lang/en.png";
   import hu from "$lib/media/images/lang/hu-HU.png";
+    import { onMount } from "svelte";
   let { clicked = $bindable(), selectedLang = $bindable() } = $props(),
       langs = [
         {id: "en", name: $_("lang.name.en"), defaultName: "English", img: en},
         {id: "hu-HU",name: $_("lang.name.hu"), defaultName: "Hungarian", img: hu}
       ];
 
+  onMount(() => {
+    
+  })
 </script>
 
 <!-- Language change modal -->

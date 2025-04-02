@@ -8,7 +8,9 @@
   import { _ } from "svelte-i18n";
   import Input from "$lib/components/Input.svelte";
   import { enhance } from "$app/forms";
-  import avatarsAll from "$lib/exports/avatars.js";
+  import avatarsAll from "$lib/exports/avatars";
+  import LanguageModal from "$lib/components/LanguageModal.svelte";
+  import { browser } from "$app/environment";
 
   let { form } = $props();
 
@@ -31,7 +33,7 @@
         email: "",
         password: "",
         picture:"",
-        lang: ""
+        lang: browser ? window.navigator.language : "en"
       }),
       genders:string[]        = ["male", "female"],
       windowWidth:number      = $state(0),
@@ -46,7 +48,8 @@
       currentDate:string      = `${date.getFullYear()-18}-${month}-${day}`,
       conditions:boolean      = $state(false),
       over18:boolean          = $state(false),
-      valid:boolean           = $state(false);
+      valid:boolean           = $state(false),
+      langClicked:boolean     = $state(false);
     
   let selectedAvatarIndex = $state(-1);
 
@@ -79,6 +82,11 @@
   function selectAvatar(index:any) {
     selectedAvatarIndex = index;
     console.log("Selected Avatar Index:", index);
+  }
+
+  function localeCheck(locale:string){
+    if (locale == "en-GB" || locale == "en-US" || locale == "en-CA") return "en";
+    return locale;
   }
 </script>
 
@@ -174,8 +182,7 @@
                    onchange={() => { 
                       if (type == "password") type = "text";
                       else type = "password";
-                   }}
-            >
+                   }}>
             {$_("page.sign-in.showPassword")}
           </label>
         </div>
@@ -207,12 +214,12 @@
       {$_("page.sign-up.read")} 
       <a href="/terms&conditions"
          class="sm:hover:underline italic max-sm:underline">
-         {$_("page.terms&conditions.title")}
+         {$_("page.sign-up.t&c")}
       </a>
       {$_("and")}
       <a href="/privacy-policy"
          class="sm:hover:underline italic max-sm:underline">
-         {$_("page.privacy-policy.title")}
+         {$_("page.sign-up.p-p")}
       </a>.
     </label>
     <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer">
@@ -226,7 +233,7 @@
   {#if user.gender !== null}
   <div>
     <div class="text-center sm:w-[500px] mb-5" style="max-width: {windowWidth-89}px;">
-      <h2 class="text-xl font-semibold mb-4">Choose Your Avatar!</h2>
+      <h2 class="text-xl font-semibold mb-4">{$_("page.sign-up.avatar")}</h2>
       <!-- Scrollable container -->
       <div class="overflow-x-scroll sm:w-[500px] scrollDesign">
         <div class="flex gap-4 w-max px-4 py-2">
@@ -248,7 +255,17 @@
   {/if}
 
   <!-- Sign in -->
-  <div class="flex justify-center items-center my-1">
+  <div class="flex justify-center items-center gap-2 my-1">
+    <button type="button"
+            onclick={() => langClicked = true}
+            class="border-2 rounded p-1 px-4 border-yellow-600">
+      <div>
+        
+        <img src={`/src/lib/media/images/lang/${localeCheck(user.lang)}.png`} 
+        alt={user.lang}
+        class="h-8">
+      </div>
+    </button>
     <button class="disabled:opacity-35 disabled:hover:bg-yellow-600 bg-yellow-600 hover:bg-black border-yellow-600 border-2 hover:border-opacity-100 text-black hover:text-yellow-600 disabled:hover:text-black font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline duration-300" 
             disabled={!valid}>
       {$_("page.sign-up.title")}
@@ -257,16 +274,22 @@
 
   <!-- Go to Sign in -->
   <div class="flex justify-center">
-    <a class="hover:underline text-yellow-600 italic" href="/sign-in">Already have an account?</a>
+    <a class="hover:underline text-yellow-600 italic" 
+       href="/sign-in">
+       {$_("page.sign-up.account")}
+    </a>
   </div>
 </form>
 
 <!-- Display error/feedback -->
 {#if form?.error}
   <div class="bg-red-600 text-white text-center mt-2 rounded-md p-1">
-    {form.error}
+    {$_("page.sign-up." + form.error)}
   </div>
 {/if}
+
+<LanguageModal bind:selectedLang={user.lang} 
+               bind:clicked={langClicked}/>
 
 <style>
     input[type="date"] {

@@ -20,11 +20,11 @@ export const actions = {
     
     // Check username in database
     let nameCheck = await db.query("SELECT balance FROM users WHERE username = ?;", [user.username]);
-    if (nameCheck[0][0]) return {error: "Username already taken."};
+    if (nameCheck[0][0]) return {error: "error.username"};
 
     // Check email in database
     let emailCheck = await db.query("SELECT balance FROM users WHERE email = ?;", [user.email]);
-    if (emailCheck[0][0]) return {error: "E-mail already used by someone."};
+    if (emailCheck[0][0]) return {error: "error.email"};
 
     // Upload user to db and get back the id
     let uploadUser = await db.query("INSERT INTO users (email, username, password, name, gender, birthdate, avatar, balance) VALUES (?,?,?,?,?,?,?,0)", 

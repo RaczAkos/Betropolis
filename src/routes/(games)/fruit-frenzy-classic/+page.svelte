@@ -149,12 +149,6 @@
             quips:string[] = ["Not this time!", "No luck!", "Try again!", "Almost!", "Maybe next time!"],
             gain:number = 0;
 
-        /*
-        fruit1 = fruit1.replace(fruit1.substring(fruit1.length-4), "");
-        fruit2 = fruit2.replace(fruit2.substring(fruit2.length-4), "");
-        fruit3 = fruit3.replace(fruit3.substring(fruit3.length-4), "");
-        */
-
         feedback = "";
         
         switch (compare(fruit1, fruit2, fruit3)) {
