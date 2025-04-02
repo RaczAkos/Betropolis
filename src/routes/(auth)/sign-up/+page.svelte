@@ -1,10 +1,11 @@
 <!-- Meta information -->
 <svelte:head>
-    <title>Sign up! - Betropolis</title>
-    <meta name="description" content="Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience." />
+    <title>{$_("page.sign-up.title")} - Betropolis</title>
+    <meta name="description" content={$_("page.home.description")} />
 </svelte:head>
 
 <script lang="ts">
+  import { _ } from "svelte-i18n";
   import Input from "$lib/components/Input.svelte";
   import { enhance } from "$app/forms";
   import avatarsAll from "$lib/exports/avatars.js";
@@ -32,27 +33,27 @@
         picture:"",
         lang: ""
       }),
-      windowWidth:number     = $state(0),
-      type:string            = $state("password"),
-      password2:string       = $state(""),
-      passConf:boolean       = $state(false),
-      passwordFormat:boolean = $state(false),
-      userNameFormat:boolean = $state(false),
-      date:Date              = new Date(),
-      month:string|number    = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
-      day:string|number      = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
-      currentDate:string     = `${date.getFullYear()-18}-${month}-${day}`,
-      conditions:boolean     = $state(false),
-      over18:boolean         = $state(false),
-      valid:boolean          = $state(false);
+      genders:string[]        = ["male", "female"],
+      windowWidth:number      = $state(0),
+      type:string             = $state("password"),
+      password2:string        = $state(""),
+      passwordConfirm:boolean = $state(false),
+      passwordFormat:boolean  = $state(false),
+      userNameFormat:boolean  = $state(false),
+      date:Date               = new Date(),
+      month:string|number     = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
+      day:string|number       = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
+      currentDate:string      = `${date.getFullYear()-18}-${month}-${day}`,
+      conditions:boolean      = $state(false),
+      over18:boolean          = $state(false),
+      valid:boolean           = $state(false);
     
   let selectedAvatarIndex = $state(-1);
-
 
   // Testing password format
   $effect(() => {
     passwordFormat = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!#$%&?<>_ "]).*$/.test(user.password);
-    if (passwordFormat) passConf = (user.password == password2)? true : false;
+    if (passwordFormat) passwordConfirm = (user.password == password2)? true : false;
   });
 
   $effect(() => {
@@ -67,7 +68,7 @@
       user.gender && 
       user.birthdate != "" &&
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(user.email) &&
-      passConf &&
+      passwordConfirm &&
       conditions &&
       over18 &&
       selectedAvatarIndex != -1
@@ -79,37 +80,37 @@
     selectedAvatarIndex = index;
     console.log("Selected Avatar Index:", index);
   }
-  
 </script>
 
 <svelte:window bind:innerWidth={windowWidth}/>
 
-<form method="POST" use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
+<form method="POST" 
+      use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
   <div class="flex sm:flex-row flex-col sm:w-[500px]">
     <div class="sm:w-1/2">
       <!-- Name -->
       <Input id="name" 
              bind:value={user.name}
              name="name" 
-             label="Full name (required)"/>
+             label="{$_("page.sign-up.fullName")} ({$_("page.sign-up.required")})"/>
       
       <!-- Username -->
       <div class="my-2">
         <Input id="name" 
-               bind:value={user.username}
-               name="username"
-               label="Username (required)"
+               bind:value={user.username} 
+               name="username" 
+               label="{$_("page.sign-up.username")} ({$_("page.sign-up.required")})" 
                type="text" />
         <div class:text-green-400={userNameFormat} 
              class:opacity-100={userNameFormat} 
              class="text-gray-300 opacity-50 text-xs text-wrap !text-justify m-1">
-          Username should be 5 to 20 characters and should only contain letters and numbers.
+          {$_("page.sign-up.usernameDescription")}
         </div>
       </div>
       
       <!-- Date of birth -->
       <div class="relative">
-        <div class="block text-yellow-600 text-md font-bold p-1">Date of birth (required)</div>
+        <div class="block text-yellow-600 text-md font-bold p-1">{$_("page.sign-up.dateOfBirth")} ({$_("page.sign-up.required")})</div>
         <input bind:value={user.birthdate} 
                max={currentDate} 
                type="date"
@@ -120,32 +121,22 @@
       <div class="flex flex-row max-sm:flex-col p-1 mb-2 gap-2">
         <!-- Gender -->
         <div class="w-full mt-2">
-          <p class="block text-yellow-600 font-bold text-md">Gender (required)</p>
+          <p class="block text-yellow-600 font-bold text-md">{$_("page.sign-up.gender")} ({$_("page.sign-up.required")})</p>
           <div class="flex flex-row justify-center items-center h-2/3 gap-3">
+            {#each genders as gender, i}
             <div class="basis-1/2">
               <input bind:group={user.gender} 
-                     value=0 
-                     id="gender-male" 
+                     value={i} 
+                     id="gender-{gender}" 
                      type="radio" 
                      name="gender" 
                      class="w-4 h-4 accent-yellow-600 bg-black border-yellow-600 focus:ring-yellow-600 ">
-              <label for="gender-male" 
+              <label for="gender-{gender}" 
                      class="ms-1 text-md font-medium text-yellow-600">
-                Male
+                {$_(`page.sign-up.${gender}`)}
               </label>
             </div>
-            <div class="basis-1/2">
-              <input bind:group={user.gender} 
-                     value=1 
-                     id="gender-female" 
-                     type="radio" 
-                     name="gender" 
-                     class="w-4 h-4 accent-yellow-600 bg-black border-yellow-600 focus:ring-yellow-600">
-              <label for="gender-female" 
-                     class="ms-1 text-md font-medium text-yellow-600">
-                Female
-              </label>
-            </div>
+            {/each}
           </div>
         </div>
       </div>
@@ -158,7 +149,7 @@
                id="email" 
                type="email" 
                name="email"
-               label="E-mail (required)"/>
+               label="E-mail ({$_("page.sign-up.required")})"/>
       </div>
     
       <!-- Password -->
@@ -167,12 +158,12 @@
                id="password" 
                {type} 
                name="password"
-               label="Password (required)"
+               label="{$_("page.sign-in.password")} ({$_("page.sign-up.required")})"
                onpaste={(e:Event) => e.preventDefault()}/>
         <div class:text-green-400={passwordFormat} 
              class:opacity-100={passwordFormat} 
              class="text-gray-300 opacity-50 text-xs text-wrap !text-justify m-1">
-          Password must be at least 8 characters, containing at least 1 uppercase, 1 lowercase, 1 number and 1 special character.
+          {$_("page.sign-up.passwordDescription")}
         </div>
     
         <!-- Show password -->
@@ -185,7 +176,7 @@
                       else type = "password";
                    }}
             >
-              Show password
+            {$_("page.sign-in.showPassword")}
           </label>
         </div>
       </div>
@@ -195,44 +186,44 @@
         <Input bind:value={password2} 
                type="password" 
                id="passconf" 
-               label="Confirm password (required)" 
+               label="{$_("page.sign-up.confirmPassword")} ({$_("page.sign-up.required")})" 
                onpaste={(e:Event) => e.preventDefault()}/>
       </div>
 
-      {#if passConf}
-        <div class="text-green-400 text-center">Password confirmed.</div>
+      {#if passwordConfirm}
+        <div class="text-green-400 text-center">{$_("page.sign-in.password")} {$_("page.sign-up.confirmed")}.</div>
       {:else}
-        <div class="text-red-400 text-center opacity-70">Password not confirmed.</div>
+        <div class="text-red-400 text-center opacity-70">{$_("page.sign-in.password")} {$_("page.sign-up.notConfirmed")}.</div>
       {/if}
     </div>
   </div>
 
   <!-- Accepting sign up conditions -->
-  <div class="my-2">
-    <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer block">
-        <input type="checkbox" 
-               class="accent-yellow-600" 
-               bind:checked={conditions}>
-      I have read and accept the 
+  <div class="my-2 flex flex-col sm:w-[500px]">
+    <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer">
+      <input type="checkbox" 
+             class="accent-yellow-600" 
+             bind:checked={conditions}>
+      {$_("page.sign-up.read")} 
       <a href="/terms&conditions"
          class="sm:hover:underline italic max-sm:underline">
-         Terms & Conditions
+         {$_("page.terms&conditions.title")}
       </a>
-      and 
+      {$_("and")}
       <a href="/privacy-policy"
          class="sm:hover:underline italic max-sm:underline">
-        Privacy Policy
+         {$_("page.privacy-policy.title")}
       </a>.
     </label>
-    <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer block">
+    <label class="text-sm font-bold mb-2 text-yellow-600 cursor-pointer">
       <input type="checkbox" 
              class="accent-yellow-600" 
              bind:checked={over18}>
-      I am 18 years old or older.
+      {$_("page.sign-up.over18")}.
     </label>
   </div>
 
-  {#if user.gender}
+  {#if user.gender !== null}
   <div>
     <div class="text-center sm:w-[500px] mb-5" style="max-width: {windowWidth-89}px;">
       <h2 class="text-xl font-semibold mb-4">Choose Your Avatar!</h2>
@@ -260,7 +251,7 @@
   <div class="flex justify-center items-center my-1">
     <button class="disabled:opacity-35 disabled:hover:bg-yellow-600 bg-yellow-600 hover:bg-black border-yellow-600 border-2 hover:border-opacity-100 text-black hover:text-yellow-600 disabled:hover:text-black font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline duration-300" 
             disabled={!valid}>
-      Sign Up
+      {$_("page.sign-up.title")}
     </button>
   </div>
 

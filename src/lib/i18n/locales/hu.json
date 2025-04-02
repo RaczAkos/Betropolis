@@ -61,7 +61,21 @@
       "showPassword": "Jelszó mutatása"
     },
     "sign-up": {
-      "title": "Feliratkozás"
+      "title": "Regisztráció",
+      "required": "szükséges",
+      "fullName": "Teljes név",
+      "username": "Felhasználónév",
+      "usernameDescription": "Username should be 5 to 20 characters and should only contain letters and numbers.",
+      "dateOfBirth": "Születési dátum",
+      "gender": "Nem",
+      "male": "Férfi",
+      "female": "Nő",
+      "confirmPassword": "Jelszó megerősítése",
+      "confirmed": "megerősítve",
+      "notConfirmed": "nincs megerősítve",
+      "passwordDescription": "Password must be at least 8 characters, containing at least 1 uppercase, 1 lowercase, 1 number and 1 special character.",
+      "read": "Elolvastam és elfogadom a",
+      "over18": "Elmúltam 18 éves"
     },
     "profile": {
       "title": "Profil"
@@ -94,6 +108,7 @@
   "sign-out.text": "Biztos ki akarsz jelentkezni?",
   "close": "Bezárás",
   "home": "Otthon",
+  "and": "és az",
   "backToHome": "Vissza az otthonra",
   "authTitle": "Üdvözlünk a Betropolisnál!",
   "copyright": "© 2025 - Szabó Tamás, Rácz Ákos Csaba - Minden jog fenntartva.",

@@ -5,7 +5,7 @@
   import arrow from '$lib/media/images/down.png';
   import LanguageModal from "../LanguageModal.svelte";
   
-  let { logged, home, lang } = $props(), 
+  let { logged, home } = $props(), 
       signOutClicked:boolean = $state(false),
       mobileViewOpen:boolean = $state(false),
       languageClicked:boolean = $state(false);

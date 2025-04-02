@@ -61,7 +61,21 @@
       "showPassword": "Show password"
     },
     "sign-up": {
-      "title": "Sign up"
+      "title": "Sign up",
+      "required": "required",
+      "fullName": "Full name",
+      "username": "Username",
+      "usernameDescription": "Username should be 5 to 20 characters and should only contain letters and numbers.",
+      "dateOfBirth": "Date of birth",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "confirmPassword": "Confirm password",
+      "confirmed": "confirmed",
+      "notConfirmed": "not confirmed",
+      "passwordDescription": "Password must be at least 8 characters, containing at least 1 uppercase, 1 lowercase, 1 number and 1 special character.",
+      "read": "I have read and accept the",
+      "over18": "I am 18 years old or older"
     },
     "profile": {
       "title": "Profile"
@@ -109,6 +123,7 @@
       "hu":"Hungarian"
     }
   },
+  "and": "and",
   "sign-out": "Sign out",
   "sign-out-all": "Sign out everywhere",
   "sign-out.title": "Signing out",

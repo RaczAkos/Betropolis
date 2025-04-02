@@ -1,6 +1,6 @@
 <svelte:head>
     <title>{$_("page.sign-in.title")} - Betropolis</title>
-    <meta name="description" content="Welcome to Betropolis — your ultimate online destination for thrilling casino games and endless entertainment! Step into a world where the excitement never stops, and every spin, card flip, and roll of the dice brings you closer to unforgettable winnings. At Betropolis, we combine top-tier games, cutting-edge security, and seamless gameplay to create a premium online casino experience." />
+    <meta name="description" content={$_("page.home.description")} />
 </svelte:head>
 
 <script lang="ts">
@@ -26,16 +26,16 @@
 </script>
 
 <form method="POST" 
-      class="text-yellow-600"
+      class="text-yellow-600" 
       use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
 
   <!-- Username / E-mail -->
   <div class="my-3">
     <Input bind:value={user.id} 
            disabled={disabling} 
-           name="id"
-           id="identifier"
-           required={true}
+           name="id" 
+           id="identifier" 
+           required={true} 
            label={$_("page.sign-in.id")}/>
   </div>
 
