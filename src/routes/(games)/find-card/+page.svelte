@@ -159,10 +159,6 @@
   // Add bet amount
   function addAmount() {
       if (balance >= amount && amount > 0) {
-          resetone.disabled = true;
-          resetBtn.disabled = false;
-          resetBtn.classList.add("shadow-lg", "shadow-yellow-600");
-
           Array.from(document.querySelectorAll(".ctrlbutton"))
               .slice(2)
               .forEach((temp) => temp.setAttribute("disabled", "true"));
@@ -179,9 +175,6 @@
           currentAmount--;
 
           if (currentAmount == 0) {
-              resetone.disabled = false;
-              resetBtn.disabled = true;
-              resetBtn.classList.remove("shadow-lg", "shadow-yellow-600");
               document.querySelectorAll(".ctrlbutton").forEach((temp) => {
                   temp.removeAttribute("disabled");
               });
@@ -229,8 +222,8 @@
                 }, 2000); 
               }} 
               class="resetter w-full h-[100px] bg-transparent enabled:hover:bg-yellow-600 enabled:hover:text-black text-white font-bold 
-                     py-2 px-4 rounded border border-yellow-600" 
-              disabled>
+                     py-2 px-4 rounded border border-yellow-600 {currentAmount > 54 || currentAmount < 1 ? "shadow-none" : "shadow-lg shadow-yellow-600"}"
+              disabled={currentAmount > 54 || currentAmount < 1 ? true : false}>
         Start
       </button>  
     </div>

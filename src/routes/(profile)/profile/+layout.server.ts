@@ -9,7 +9,7 @@ export const load: LayoutServerLoad = async ({locals}) => {
                                  FROM users 
                                  WHERE id = ${locals.user.id}`);
                                  
-  let transactionData = await db.query(`SELECT *
+  let transactionData = await db.query(`SELECT gameid, gain, oldbalance, newbalance, date
                                         FROM statistics 
                                         WHERE user_id = ${locals.user.id}`);
 
