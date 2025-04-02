@@ -102,7 +102,13 @@
                                 <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg">
                                     <img src="{joystick}" alt="Last Game Played" class="w-[80px] mx-auto md:w-[100px]">
                                     <p class="text-gray-500 py-3 text-lg text-nowrap">Last Game Played</p>
-                                    <p class="text-pink-600 text-lg text-nowrap">{data.lastPlayed[0].name}</p>
+                                    <p class="text-pink-600 text-lg text-nowrap">
+                                        {#if data.lastPlayed.length == 0}
+                                            None
+                                            {:else}
+                                            {data.lastPlayed[0].name}
+                                        {/if}
+                                    </p>
                                 </div>
                             </div>
                         </div>
