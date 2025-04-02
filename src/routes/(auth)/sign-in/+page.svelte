@@ -80,7 +80,7 @@
   <!-- Display error/feedback -->
   {#if form?.error}
     <div class="bg-red-600 text-white text-center mt-2 rounded-md p-1">
-      {form.error}
+      {$_("page.sign-in." + form.error)}
     </div>
   {/if}
 </form>

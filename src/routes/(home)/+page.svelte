@@ -12,7 +12,7 @@
   import images from "$lib/exports/hubgames";
   import { onMount } from "svelte";
   let { data } = $props();
-  let index:number = 0, 
+  let index:number = 0,
       slides:HTMLDivElement,
       modal = $state(false);
 
@@ -37,7 +37,7 @@
     
     <div class="borgens absolute italic inset-0 max-md:top-5 flex justify-center items-center text-center w-full">
       <div class="text-yellow-600 flex justify-center flex-col textShadow">
-        <h1 class="text-3xl sm:text-6xl md:text-7xl p-1">
+        <h1 class="text-3xl sm:text-6xl md:text-7xl p-3">
           {$_(!data.logged ? "page.home.title" : "page.home.loggedTitle")}
         </h1>
         <h2 class="text-2xl sm:text-4xl lg:text-5xl underline">

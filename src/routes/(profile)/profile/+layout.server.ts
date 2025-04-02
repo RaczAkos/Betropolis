@@ -2,33 +2,29 @@ import type { LayoutServerLoad } from "./$types";
 import { dbConnect } from "$lib/db/db";
 
 // Check if user is logged in
-export const load: LayoutServerLoad = async (event) => {
+export const load: LayoutServerLoad = async ({locals}) => {
   let db = await dbConnect();
 
   let userData = await db.query(`SELECT email, username, gender, birthdate, balance, avatar 
                                  FROM users 
-                                 WHERE id = ${event.locals.user?.id}`);
+                                 WHERE id = ${locals.user.id}`);
                                  
   let transactionData = await db.query(`SELECT *
                                         FROM statistics 
-                                        WHERE user_id = ${event.locals.user?.id}`);
+                                        WHERE user_id = ${locals.user.id}`);
 
   let gamedist = await db.query(`SELECT DISTINCT game.gameid, game.name
                                         FROM statistics
                                         INNER JOIN game ON game.gameid = statistics.gameid 
-                                        WHERE user_id = ${event.locals.user?.id}
+                                        WHERE user_id = ${locals.user.id}
                                         ORDER BY game.gameid`);
   
   let lastplayedselect = await db.query(`SELECT game.name
                                  FROM statistics
                                  INNER JOIN game ON game.gameid = statistics.gameid 
-                                 WHERE user_id = ${event.locals.user?.id}
+                                 WHERE user_id = ${locals.user.id}
                                  ORDER BY id DESC
                                  LIMIT 1`);
-
-  let userEvent = {
-        logged: event.locals.user !== null,
-        home: event.url.pathname === '/',
-      };                         
-  return {user: userData[0], transaction: transactionData[0], games: gamedist[0], lastPlayed: lastplayedselect[0], userEvent}
+                         
+  return {user: userData[0], transaction: transactionData[0], games: gamedist[0], lastPlayed: lastplayedselect[0]}
 };

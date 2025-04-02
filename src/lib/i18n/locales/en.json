@@ -58,7 +58,9 @@
       "id": "Username or e-mail address",
       "password": "Password",
       "toSignUp": "Don't have an account?",
-      "showPassword": "Show password"
+      "showPassword": "Show password",
+      "wrongId": "User doesn't exist!",
+      "wrongPassword": "Wrong password!"
     },
     "sign-up": {
       "title": "Sign up",

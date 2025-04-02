@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 30. 19:08
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Apr 02, 2025 at 09:02 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `betropolis`
+-- Database: `betropolis`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `bonus`
+-- Table structure for table `bonus`
 --
 
 CREATE TABLE `bonus` (
@@ -35,7 +35,7 @@ CREATE TABLE `bonus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `bonus`
+-- Dumping data for table `bonus`
 --
 
 INSERT INTO `bonus` (`id`, `email`, `starting_bonus`, `status`) VALUES
@@ -44,7 +44,7 @@ INSERT INTO `bonus` (`id`, `email`, `starting_bonus`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `friends`
+-- Table structure for table `friends`
 --
 
 CREATE TABLE `friends` (
@@ -54,7 +54,7 @@ CREATE TABLE `friends` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `friends`
+-- Dumping data for table `friends`
 --
 
 INSERT INTO `friends` (`id`, `friend1`, `friend2`) VALUES
@@ -63,7 +63,7 @@ INSERT INTO `friends` (`id`, `friend1`, `friend2`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `friend_requests`
+-- Table structure for table `friend_requests`
 --
 
 CREATE TABLE `friend_requests` (
@@ -74,7 +74,7 @@ CREATE TABLE `friend_requests` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `friend_requests`
+-- Dumping data for table `friend_requests`
 --
 
 INSERT INTO `friend_requests` (`id`, `senderId`, `sentToId`, `status`) VALUES
@@ -86,7 +86,7 @@ INSERT INTO `friend_requests` (`id`, `senderId`, `sentToId`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `game`
+-- Table structure for table `game`
 --
 
 CREATE TABLE `game` (
@@ -98,7 +98,7 @@ CREATE TABLE `game` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `game`
+-- Dumping data for table `game`
 --
 
 INSERT INTO `game` (`gameid`, `name`, `route`, `image`, `font`) VALUES
@@ -109,7 +109,7 @@ INSERT INTO `game` (`gameid`, `name`, `route`, `image`, `font`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `statistics`
+-- Table structure for table `statistics`
 --
 
 CREATE TABLE `statistics` (
@@ -118,21 +118,65 @@ CREATE TABLE `statistics` (
   `gameid` int(3) NOT NULL,
   `gain` int(11) NOT NULL,
   `oldbalance` bigint(11) NOT NULL,
-  `newbalance` bigint(11) NOT NULL
+  `newbalance` bigint(11) NOT NULL,
+  `date` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `statistics`
+-- Dumping data for table `statistics`
 --
 
-INSERT INTO `statistics` (`id`, `user_id`, `gameid`, `gain`, `oldbalance`, `newbalance`) VALUES
-(1, 58, 2, -1000, 13000, 12000),
-(2, 58, 2, 2000, 12000, 14000);
+INSERT INTO `statistics` (`id`, `user_id`, `gameid`, `gain`, `oldbalance`, `newbalance`, `date`) VALUES
+(1, 58, 2, -1000, 13000, 12000, ''),
+(2, 58, 2, 2000, 12000, 14000, ''),
+(3, 1, 1, -10, 472, 462, '2025. 04. 02. 19:29:30'),
+(4, 1, 1, -10, 462, 452, '2025. 04. 02. 19:29:35'),
+(5, 1, 1, -10, 452, 442, '2025. 04. 02. 20:18:18'),
+(6, 1, 1, -10, 442, 432, '2025. 04. 02. 20:18:23'),
+(7, 1, 1, -10, 432, 422, '2025. 04. 02. 20:18:27'),
+(8, 1, 1, -10, 422, 412, '2025. 04. 02. 20:18:32'),
+(9, 1, 1, -10, 412, 402, '2025. 04. 02. 20:18:37'),
+(10, 1, 1, -10, 402, 392, '2025. 04. 02. 20:18:41'),
+(11, 1, 1, -10, 392, 382, '2025. 04. 02. 20:18:46'),
+(12, 1, 1, -10, 382, 372, '2025. 04. 02. 20:18:51'),
+(13, 1, 1, -10, 372, 362, '2025. 04. 02. 20:18:55'),
+(14, 1, 1, -10, 362, 352, '2025. 04. 02. 20:19:18'),
+(15, 1, 1, -10, 352, 342, '2025. 04. 02. 20:22:28'),
+(16, 1, 1, -10, 342, 332, '2025. 04. 02. 20:22:33'),
+(17, 1, 1, -10, 332, 322, '2025. 04. 02. 20:22:38'),
+(18, 1, 1, -10, 322, 312, '2025. 04. 02. 20:22:43'),
+(19, 1, 1, -10, 312, 302, '2025. 04. 02. 20:22:48'),
+(20, 1, 1, -10, 302, 292, '2025. 04. 02. 20:22:52'),
+(21, 1, 1, -10, 292, 282, '2025. 04. 02. 20:22:57'),
+(22, 1, 1, -10, 282, 272, '2025. 04. 02. 20:23:02'),
+(23, 1, 1, -10, 272, 262, '2025. 04. 02. 20:23:06'),
+(24, 1, 1, -10, 262, 252, '2025. 04. 02. 20:23:11'),
+(25, 1, 1, -10, 252, 242, '2025. 04. 02. 20:23:16'),
+(26, 1, 1, -10, 242, 232, '2025. 04. 02. 20:23:20'),
+(27, 1, 1, -10, 232, 222, '2025. 04. 02. 20:23:25'),
+(28, 1, 1, -10, 222, 212, '2025. 04. 02. 20:23:29'),
+(29, 1, 1, -10, 212, 202, '2025. 04. 02. 20:23:34'),
+(30, 1, 1, -10, 202, 192, '2025. 04. 02. 20:23:39'),
+(31, 1, 1, -10, 192, 182, '2025. 04. 02. 20:23:43'),
+(32, 1, 1, -10, 182, 172, '2025. 04. 02. 20:23:48'),
+(33, 1, 1, -10, 172, 162, '2025. 04. 02. 20:23:53'),
+(34, 1, 1, -10, 162, 152, '2025. 04. 02. 20:23:57'),
+(35, 1, 1, -10, 152, 142, '2025. 04. 02. 20:24:02'),
+(36, 1, 1, -10, 142, 132, '2025. 04. 02. 20:24:07'),
+(37, 1, 1, 1000, 132, 1132, '2025. 04. 02. 20:24:10'),
+(38, 1, 1, -10, 1132, 1122, '2025. 04. 02. 20:24:11'),
+(39, 1, 1, -10, 1122, 1112, '2025. 04. 02. 20:24:16'),
+(40, 1, 1, -10, 1112, 1102, '2025. 04. 02. 20:24:20'),
+(41, 1, 1, -10, 1102, 1092, '2025. 04. 02. 20:24:25'),
+(42, 1, 1, -10, 1092, 1082, '2025. 04. 02. 20:24:30'),
+(43, 1, 1, -10, 1082, 1072, '2025. 04. 02. 20:24:34'),
+(44, 1, 1, -10, 1072, 1062, '2025. 04. 02. 20:24:39'),
+(45, 1, 1, -10, 1062, 1052, '2025. 04. 02. 20:24:44');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -149,11 +193,11 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `name`, `gender`, `birthdate`, `balance`, `lang`, `avatar`) VALUES
-(1, 'john.doe@example.com', 'johndoe', 'Password123.', 'John Doe', 0, '1990-01-01', 500, 'hu-HU', ''),
+(1, 'john.doe@example.com', 'johndoe', 'Password123.', 'John Doe', 0, '1990-01-01', 1052, 'hu-HU', ''),
 (2, 'jane.smith@example.com', 'janesmith', 'Password123.', 'Jane Smith', 0, '1992-02-02', 500, 'en', ''),
 (3, 'bob.jones@example.com', 'bobjones', 'Password123.', 'Bob Jones', 0, '1985-03-03', 500, 'en', ''),
 (4, 'alice.martin@example.com', 'alicemartin', 'Password123.', 'Alice Martin', 0, '1988-04-04', 500, 'en', ''),
@@ -209,7 +253,7 @@ INSERT INTO `users` (`id`, `email`, `username`, `password`, `name`, `gender`, `b
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `user_session`
+-- Table structure for table `user_session`
 --
 
 CREATE TABLE `user_session` (
@@ -219,7 +263,7 @@ CREATE TABLE `user_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `user_session`
+-- Dumping data for table `user_session`
 --
 
 INSERT INTO `user_session` (`id`, `user_id`, `expires_at`) VALUES
@@ -227,88 +271,88 @@ INSERT INTO `user_session` (`id`, `user_id`, `expires_at`) VALUES
 ('5a7bc5390037b0e4761965cba7ca9060e1b814fa2c8e7e5c78dd6377954d4ef5', 58, '2025-04-27 09:32:20');
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `bonus`
+-- Indexes for table `bonus`
 --
 ALTER TABLE `bonus`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `friends`
+-- Indexes for table `friends`
 --
 ALTER TABLE `friends`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `friend_requests`
+-- Indexes for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `game`
+-- Indexes for table `game`
 --
 ALTER TABLE `game`
   ADD PRIMARY KEY (`gameid`);
 
 --
--- A tábla indexei `statistics`
+-- Indexes for table `statistics`
 --
 ALTER TABLE `statistics`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- A tábla indexei `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `user_session`
+-- Indexes for table `user_session`
 --
 ALTER TABLE `user_session`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `bonus`
+-- AUTO_INCREMENT for table `bonus`
 --
 ALTER TABLE `bonus`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT a táblához `friends`
+-- AUTO_INCREMENT for table `friends`
 --
 ALTER TABLE `friends`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT a táblához `friend_requests`
+-- AUTO_INCREMENT for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT a táblához `game`
+-- AUTO_INCREMENT for table `game`
 --
 ALTER TABLE `game`
   MODIFY `gameid` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `statistics`
+-- AUTO_INCREMENT for table `statistics`
 --
 ALTER TABLE `statistics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
--- AUTO_INCREMENT a táblához `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;

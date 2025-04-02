@@ -1,31 +1,31 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
   import SignOutModal from '../SignOutModal.svelte';
-	import logo from '$lib/media/images/logo.png';
-  import arrow from '$lib/media/images/down.png';
-  import LanguageModal from "../LanguageModal.svelte";
   
   let { logged, home } = $props(), 
       signOutClicked:boolean = $state(false),
-      mobileViewOpen:boolean = $state(false),
-      languageClicked:boolean = $state(false);
+      mobileViewOpen:boolean = $state(false);
 </script>
 
 <nav class="font-bold">
   <div class="w-screen flex justify-between max-md:hidden text-lg lg:text-2xl">
 
-    <div class="w-1/3 place-content-center">
+    <div class="w-1/3 place-content-center pl-3">
       {#if !home}
       <a href="/">
-        <div class="hover-1 ml-3 mr-2 float-left button2">
-          {$_("home")}
+        <div class="md:hover:scale-110 border-2 w-12 lg:w-[52px] border-yellow-600 hover-1 p-2 rounded bg-yellow-600 duration-300">
+          <div class="flex justify-center items-center">
+            <img src={"/src/lib/media/images/hub/home.png"} 
+                 alt={$_("home")}
+                 class="h-[28px] lg:h-8">
+          </div>
         </div>
       </a>
       {/if}
     </div>
 
     <div class="w-1/3 place-items-center place-content-center grid p-1 nav">
-      <img src={logo} alt="Casino Logo" class="h-[80px]">
+      <img src={"/src/lib/media/images/logo.png"} alt="Casino Logo" class="h-[80px]">
     </div>
 
     <div class="place-content-center w-1/3">
@@ -55,10 +55,10 @@
   <div class="md:hidden">
     <button class="w-full p-2 goldenbg flex flex-row place-items-center" onclick={() => mobileViewOpen = !mobileViewOpen}>
       <div class="basis-1/2">
-        <img src={logo} alt="Casino Logo" class="h-20 ms-3">
+        <img src={"/src/lib/media/images/logo.png"} alt="Casino Logo" class="h-20 ms-3">
       </div>
       <div class="basis-1/2">
-        <img src={arrow} alt="Navbar Arrow" class:rotate-90={!mobileViewOpen} class="h-8 float-end me-3">
+        <img src={"/src/lib/media/images/down.png"} alt="Navbar Arrow" class:rotate-90={!mobileViewOpen} class="h-8 float-end me-3">
       </div>
     </button>
 
@@ -101,7 +101,6 @@
 </nav>
 
 <SignOutModal bind:clicked={signOutClicked} />
-<LanguageModal bind:clicked={languageClicked} />
 
 <style>
   @reference "$lib/app.css";

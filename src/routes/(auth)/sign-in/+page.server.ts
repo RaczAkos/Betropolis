@@ -25,8 +25,8 @@ export const actions = {
         
         return redirect(308, "/hub");
       }
-      return {error: "Wrong password!"};
+      return {error: "wrongPassword"};
     }
-    return {error: "User doesn't exist!"};
+    return {error: "wrongId"};
   }
 } satisfies Actions;

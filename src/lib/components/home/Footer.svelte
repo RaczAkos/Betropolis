@@ -8,17 +8,15 @@
 
 <footer>
   <div class="sm:flex sm:items-center sm:justify-between md:ps-9">
-    <a href="/" class="flex items-center max-lg:flex-col mb-0 space-x-3 rtl:space-x-reverse">
+    <div class="flex items-center max-lg:flex-col mb-0 space-x-3 rtl:space-x-reverse">
       <img src={logo} class="h-24" alt="Casino logo"/>
-    </a>
+    </div>
     <ul class="">
-      {#if !logged}
-        <li>
-          <a href="/sign-in">
-            {$_("page.sign-in.title")}
+      <li>
+        <a href="/sign-in">
+            {$_(`page.${logged ? "hub" : "sign-in"}.title`)}
           </a>
         </li>
-      {/if}
       {#if !home}
         <li>
           <a href="/">

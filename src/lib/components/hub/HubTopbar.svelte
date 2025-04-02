@@ -2,7 +2,6 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
   import Input from "$lib/components/Input.svelte";
-  import homeImg from "$lib/media/images/hub/home.png";
   import searchImg from "$lib/media/images/hub/search.png";
   import closeImg from "$lib/media/images/hub/close.png";
 
@@ -31,9 +30,9 @@
   <!-- Back to Home -->
   <div class="basis-1/3 flex items-center justify-start">
     <a href="/">
-      <div class="sm:hover:scale-110 border-2 border-yellow-600 inline-block p-2 rounded bg-yellow-600 text-xl duration-300">
-        <div class="flex justify-center items-center gap-1">
-          <img src={homeImg} 
+      <div class="sm:hover:scale-110 border-2 border-yellow-600 hover-1 p-2 rounded bg-yellow-600 text-xl duration-300">
+        <div class="flex justify-center items-center">
+          <img src={"/src/lib/media/images/hub/home.png"} 
                alt={$_("home")}>
         </div>
       </div>
