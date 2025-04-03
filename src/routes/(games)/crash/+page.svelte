@@ -19,7 +19,7 @@
       currentAmount = $state(0),
       balance = $state(1000),
       multiplier = $state(0.0),
-      targetMultiplier = $state(2.0),
+      targetMultiplier = $state(3.0),
       carousel = $state(),
       showModal = $state(true),
       currentSlide = $state(0),
@@ -174,7 +174,7 @@
     // Start the game on Bet button click
     betBtn.addEventListener("click", async () => {
       if (currentAmount >= 1) {
-        if (targetMultiplier >= 2) {
+        if (targetMultiplier >= 3) {
           if (balance - currentAmount >= 0) {
             balance = await updateBalance(-currentAmount, 2);
             running = false;
@@ -199,6 +199,9 @@
             }
           }
         }
+      }
+      else{
+        alert("Place a bet first!");
       }
     });
 
@@ -396,8 +399,8 @@
                     onfocus={() => (resettwo.value = "")} 
                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
                     type="number"
-                    aria-label="Target Multiplier (2 or higher)"
-                    placeholder="Target Multiplier (2 or higher)"
+                    aria-label="Target Multiplier (3 or higher)"
+                    placeholder="Target Multiplier (3 or higher)"
                     step="0.1"
                     min="2"
                   >

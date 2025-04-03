@@ -89,7 +89,24 @@
       }
     },
     "profile": {
-      "title": "Profile"
+      "title": "Profile",
+      "delete": "Delete profile",
+      "greeting": "Welcome, ",
+      "spent": "Chips Spent",
+      "gained": "Chips Gained",
+      "played": "Last Game Played",
+      "table":{
+        "gain": "Won",
+        "oldbalance": "Before",
+        "newbalance": "After",
+        "date": "Date"
+      },
+      "modal":{
+        "title": "Edit",
+        "save": "Save",
+        "name": "Name (new)",
+        "email": "E-mail (new)"
+      }
     },
     "hub": {
       "title": "Hub",

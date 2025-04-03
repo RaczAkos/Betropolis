@@ -89,7 +89,24 @@
       }
     },
     "profile": {
-      "title": "Profil"
+      "title": "Profil",
+      "delete": "Profil törlése",
+      "greeting": "Üdvözlünk, ",
+      "spent": "Token Elköltve",
+      "gained": "Token Szerezve",
+      "played": "Utolsó játszott játék",
+      "table":{
+        "gain": "Nyeremény",
+        "oldbalance": "Előtte",
+        "newbalance": "Utána",
+        "date": "Dátum"
+      },
+      "modal":{
+        "title": "Szerkesztés",
+        "save": "Mentés",
+        "name": "Név (új)",
+        "email": "E-mail (új)"
+      }
     },
     "hub": {
       "title": "Központ",

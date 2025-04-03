@@ -4,10 +4,19 @@
     import flymoney from "$lib/media/images/profile/flying-money.png";
     import income from "$lib/media/images/profile/income.png";
     import joystick from "$lib/media/images/profile/joystick.png";
+    import useredit from "$lib/media/images/profile/user-edit.png";
     import chip from "$lib/media/images/chip.png";
-    import { onMount } from "svelte";
+    import LanguageModal from "$lib/components/LanguageModal.svelte";
+    import { scale } from 'svelte/transition';
+    import { browser } from "$app/environment";
+    import { _ } from "svelte-i18n";
 
     let { data } = $props();
+
+    let username = $state(""),
+        email = $state(""),
+        langClicked:boolean = $state(false),
+        lang= $state(browser ? window.navigator.language : "en");
 
     function pictureHover() {
         let picture = document.getElementById('picChangebtn');
@@ -19,8 +28,11 @@
         picture?.classList.remove('opacity-100');
     }
     
-
     let selectedGame:any = $state(null);
+
+    if (data.lastPlayed.length != 0) {
+        selectedGame = data.lastPlayed[0].gameid;
+    }
 
     function selectGame(game:any) {
         selectedGame = game;
@@ -39,21 +51,59 @@
             chipsEarned += data.transaction[index].gain;
         }
     }
+
+    function openModal() {
+        const modal = document.getElementById('profileEditModal');
+        modal?.classList.remove('hidden');
+        setTimeout(() => {
+            modal?.classList.remove('opacity-0');
+            modal?.classList.remove('bg-opacity-0');
+            modal?.classList.add('bg-opacity-50');
+            modal?.classList.add('opacity-100');
+            modal?.children[0].classList.remove('scale-0');
+            modal?.children[0].classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('profileEditModal');
+        modal?.classList.add('opacity-0');
+        modal?.classList.remove('bg-opacity-50');
+        modal?.classList.remove('opacity-100');
+        modal?.classList.add('bg-opacity-0');
+        modal?.children[0].classList.add('scale-0');
+        setTimeout(() => {
+            modal?.classList.add('hidden');
+        }, 300);
+    }
+
+    function saveProfile() {
+        closeModal();
+    }
+
+    function localeCheck(locale:string){
+        if (locale == "en-GB" || locale == "en-US" || locale == "en-CA") return "en";
+        return locale;
+    }
 </script>
+
 <!--For the reload button-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 
 
-<div class="w-screen h-screen bg-[#141a22] flex justify-center items-center changeHeight">    
+<div class="w-screen h-screen bg-[#141a22] flex justify-center items-center changeHeight">
+    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 rounded btnPos left-2 fixed transition-all duration-300">
+        {$_(`page.profile.delete`)}
+    </button>    
     <div class="w-[85vw] h-[75vh] bg-[#040d17] flex mx-auto rounded-lg shadow-2xl shadow-[#040d17] flex-col">
         <!-- Greeting and Profile Data -->
         <div class="ps-4 pe-4 pt-4 flex flex-col items-start xl:h-auto xl:overflow-visible overflow-y-auto max-h-[85vh]">
             <div class="flex items-start">
                 <img src={userpng} class="w-[20px] h-auto" alt="">
-                <p class="text-gray-500 ms-2 relative top-[1px]">Welcome, <span class="text-white">{data.user[0].username}</span></p>
+                <p class="text-gray-500 ms-2 relative top-[1px]">{$_(`page.profile.greeting`)}<span class="text-white">{data.user[0].username}</span></p>
             </div>
             <!-- Scrollable Wrapper under xl -->
-            <div class="mt-4 w-full h-[90%] xl:h-[95%] bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
+            <div class="mt-4 w-full h-[90%] bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
                 
                 <!-- Avatar & Profile Stats Section -->
                 <div class="flex flex-wrap xl:flex-nowrap items-start gap-8">
@@ -63,17 +113,18 @@
                         <div class="relative w-[100px] sm:w-[120px] md:w-[150px] lg:w-[170px] flex-shrink-0">
                             <img src={data.user[0].avatar+".png"} 
                                  alt="User Avatar" 
-                                 class="w-full h-auto rounded-full border-4 border-white shadow-xl shadow-gray-500/50 hover:shadow-2xl hover:shadow-gray-700/50 transition-all duration-300"
+                                 class="w-full h-auto rounded-full border-4 border-white shadow-xl shadow-gray-500/50 hover:shadow-2xl hover:shadow-gray-500 transition-all duration-300"
                                  onmouseover="{pictureHover}"
                                  onmouseout="{pictureLeave}">
 
-                            <button class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity duration-300 bg-transparent border-0 p-0 w-10 h-10 rounded-full" id="picChangebtn">
-                                <i class="fas fa-sync-alt text-white text-3xl"></i>
+                            <button class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity duration-300 bg-transparent border-0 w-10 h-10 rounded-full" id="picChangebtn"
+                                    onclick={openModal}>
+                                <img src="{useredit}" alt="">
                             </button>
 
                             <div class="mt-4 text-center">
                                 <p class="text-yellow-600 text-xl max-sm:text-lg inline">
-                                    <img src="{chip}" alt="Chip Icon" class="w-[20px] inline">{data.user[0].balance}
+                                    <img src="{chip}" alt="Chip Icon" class="w-[20px] inline pb-1">{data.user[0].balance}
                                 </p>
                             </div>
                         </div>
@@ -83,7 +134,7 @@
                             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                                 <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg">
                                     <img src="{flymoney}" alt="Chips Spent" class="w-[80px] mx-auto md:w-[100px]">
-                                    <p class="text-gray-500 py-3 text-lg text-nowrap">Chips Spent</p>
+                                    <p class="text-gray-500 py-3 text-lg text-nowrap">{$_(`page.profile.spent`)}</p>
                                     <p class="inline text-yellow-600 text-lg text-nowrap">
                                         <img src="{chip}" alt="Chip Icon" class="w-[20px] inline pb-1">
                                         {chipsSpent*-1}
@@ -92,7 +143,7 @@
 
                                 <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg">
                                     <img src="{income}" alt="Chips Earned" class="w-[80px] mx-auto md:w-[100px]">
-                                    <p class="text-gray-500 py-3 text-lg text-nowrap">Chips Earned</p>
+                                    <p class="text-gray-500 py-3 text-lg text-nowrap">{$_(`page.profile.gained`)}</p>
                                     <p class="inline text-yellow-600 text-lg text-nowrap">
                                         <img src="{chip}" alt="Chip Icon" class="w-[20px] inline pb-1">
                                         {chipsEarned}
@@ -101,7 +152,7 @@
 
                                 <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg">
                                     <img src="{joystick}" alt="Last Game Played" class="w-[80px] mx-auto md:w-[100px]">
-                                    <p class="text-gray-500 py-3 text-lg text-nowrap">Last Game Played</p>
+                                    <p class="text-gray-500 py-3 text-lg text-nowrap">{$_(`page.profile.played`)}</p>
                                     <p class="text-pink-600 text-lg text-nowrap">
                                         {#if data.lastPlayed.length == 0}
                                             None
@@ -117,11 +168,12 @@
 
                 <!-- Table and Buttons Section -->
                 <div class="w-full text-gray-500">
-                    <div class="flex gap-4 mb-4">
+                    <div class="flex">
                         {#each data.games as game}
-                        <button class="" onclick={() => selectGame(game.gameid)}>
-                            {game.name}
-                        </button>
+                            <button class="p-3 border border-gray-500 border-b-0 rounded-t-lg hover:bg-[#040d17]"
+                                    onclick={() => selectGame(game.gameid)}>
+                                {game.name}
+                            </button>
                         {/each}
                     </div>
 
@@ -135,7 +187,7 @@
                                         <tr class="bg-[#040d17] text-white">
                                             {#each Object.keys(data.transaction[0]) as key}
                                                 {#if key != "gameid"}
-                                                <th class="p-2 border border-gray-600">{key}</th>
+                                                    <th class="p-2 border border-gray-600">{$_(`page.profile.table.${key}`)}</th>
                                                 {/if}
                                             {/each}
                                         </tr>
@@ -163,6 +215,63 @@
     </div>
 </div>
 
+<!-- Profile Edit Modal -->
+<div id="profileEditModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-0 opacity-0 hidden transition-opacity duration-700">
+    <div class="w-[80vw] max-w-[500px] bg-[#040d17] rounded-lg shadow-2xl p-6 text-white relative transform scale-0 transition-transform duration-300">
+        
+        <!-- Close Button -->
+        <button class="absolute top-3 right-3 text-gray-400 hover:text-white" onclick={closeModal}>
+            &times;
+        </button>
+
+        <h2 class="text-xl font-bold text-center mb-4">{$_(`page.profile.modal.title`)}</h2>
+        
+        <!-- Avatar Upload -->
+        <div class="flex flex-col items-center mb-4">
+            <div class="relative w-[120px] h-[120px]">
+                <img id="avatarPreview" src="{data.user[0].avatar+'.png'}" class="w-full h-auto rounded-full border-4 border-white shadow-xl">
+                <label for="avatarUpload" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer hover:bg-opacity-70">
+                    <span class="text-sm text-white">{$_(`page.profile.change_avatar`)}</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Username Input -->
+        <div class="mb-4">
+            <label class="text-gray-400 block mb-1">{$_(`page.profile.modal.name`)}</label>
+            <input bind:value={username} type="text" id="username" placeholder="{data.user[0].username}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500">
+        </div>
+
+        <!-- Email Input -->
+        <div class="mb-4">
+            <label class="text-gray-400 block mb-1">{$_(`page.profile.modal.email`)}</label>
+            <input bind:value={email} type="email" id="email" placeholder="{data.user[0].email}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500">
+        </div>
+
+        
+        <div class="w-full justify-items-center">
+            <button type="button"
+                    onclick={() => langClicked = true}
+                    class="border-2 rounded p-1 px-4 border-yellow-600 flex">
+                <div>
+                    <img src={`/src/lib/media/images/lang/${localeCheck(lang)}.png`} 
+                    alt={lang}
+                    class="h-8">
+                </div>
+            </button>
+        </div> 
+
+        <!-- Save Button -->
+        <div class="flex justify-center mt-4">
+            <button class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300" onclick={saveProfile}>
+                {$_(`page.profile.modal.save`)}
+            </button>
+        </div>
+    </div>
+</div>
+
+<LanguageModal bind:selectedLang={lang} 
+               bind:clicked={langClicked}/> 
 
 
 
@@ -173,10 +282,16 @@
         .changeHeight {
             height: calc(100vh - 96px) !important;
         }
+        .btnPos{
+            top: calc(104px) !important;
+        }
     }
     @media (min-width: 768px) { /* md breakpoint in Tailwind */
         .changeHeight {
             height: calc(100vh - 88px) !important;
+        }
+        .btnPos{
+            top: calc(96px) !important;
         }
     }
 

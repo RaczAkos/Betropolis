@@ -19,7 +19,7 @@ export const load: LayoutServerLoad = async ({locals}) => {
                                         WHERE user_id = ${locals.user.id}
                                         ORDER BY game.gameid`);
   
-  let lastplayedselect = await db.query(`SELECT game.name
+  let lastplayedselect = await db.query(`SELECT game.name, game.gameid
                                  FROM statistics
                                  INNER JOIN game ON game.gameid = statistics.gameid 
                                  WHERE user_id = ${locals.user.id}
