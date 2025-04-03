@@ -5,7 +5,7 @@
     import income from "$lib/media/images/profile/income.png";
     import joystick from "$lib/media/images/profile/joystick.png";
     import chip from "$lib/media/images/chip.png";
-    import { onMount } from "svelte";
+    import { _ } from "svelte-i18n";
 
     let { data } = $props();
 
@@ -44,13 +44,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 
 
-<div class="w-screen h-screen bg-[#141a22] flex justify-center items-center changeHeight">    
+<div class="w-screen h-screen bg-[#141a22] flex justify-center items-center changeHeight">
+    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 rounded btnPos left-2 fixed">
+        {$_(`page.profile.delete`)}
+    </button>    
     <div class="w-[85vw] h-[75vh] bg-[#040d17] flex mx-auto rounded-lg shadow-2xl shadow-[#040d17] flex-col">
         <!-- Greeting and Profile Data -->
         <div class="ps-4 pe-4 pt-4 flex flex-col items-start xl:h-auto xl:overflow-visible overflow-y-auto max-h-[85vh]">
             <div class="flex items-start">
                 <img src={userpng} class="w-[20px] h-auto" alt="">
-                <p class="text-gray-500 ms-2 relative top-[1px]">Welcome, <span class="text-white">{data.user[0].username}</span></p>
+                <p class="text-gray-500 ms-2 relative top-[1px]">{$_(`page.profile.greeting`)}<span class="text-white">{data.user[0].username}</span></p>
             </div>
             <!-- Scrollable Wrapper under xl -->
             <div class="mt-4 w-full h-[90%] xl:h-[95%] bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
@@ -63,7 +66,7 @@
                         <div class="relative w-[100px] sm:w-[120px] md:w-[150px] lg:w-[170px] flex-shrink-0">
                             <img src={data.user[0].avatar+".png"} 
                                  alt="User Avatar" 
-                                 class="w-full h-auto rounded-full border-4 border-white shadow-xl shadow-gray-500/50 hover:shadow-2xl hover:shadow-gray-700/50 transition-all duration-300"
+                                 class="w-full h-auto rounded-full border-4 border-white shadow-xl shadow-gray-500/50 hover:shadow-2xl hover:shadow-gray-500 transition-all duration-300"
                                  onmouseover="{pictureHover}"
                                  onmouseout="{pictureLeave}">
 
@@ -83,7 +86,7 @@
                             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                                 <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg">
                                     <img src="{flymoney}" alt="Chips Spent" class="w-[80px] mx-auto md:w-[100px]">
-                                    <p class="text-gray-500 py-3 text-lg text-nowrap">Chips Spent</p>
+                                    <p class="text-gray-500 py-3 text-lg text-nowrap">{$_(`page.profile.spent`)}</p>
                                     <p class="inline text-yellow-600 text-lg text-nowrap">
                                         <img src="{chip}" alt="Chip Icon" class="w-[20px] inline pb-1">
                                         {chipsSpent*-1}
@@ -92,7 +95,7 @@
 
                                 <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg">
                                     <img src="{income}" alt="Chips Earned" class="w-[80px] mx-auto md:w-[100px]">
-                                    <p class="text-gray-500 py-3 text-lg text-nowrap">Chips Earned</p>
+                                    <p class="text-gray-500 py-3 text-lg text-nowrap">{$_(`page.profile.gained`)}</p>
                                     <p class="inline text-yellow-600 text-lg text-nowrap">
                                         <img src="{chip}" alt="Chip Icon" class="w-[20px] inline pb-1">
                                         {chipsEarned}
@@ -101,7 +104,7 @@
 
                                 <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg">
                                     <img src="{joystick}" alt="Last Game Played" class="w-[80px] mx-auto md:w-[100px]">
-                                    <p class="text-gray-500 py-3 text-lg text-nowrap">Last Game Played</p>
+                                    <p class="text-gray-500 py-3 text-lg text-nowrap">{$_(`page.profile.played`)}</p>
                                     <p class="text-pink-600 text-lg text-nowrap">
                                         {#if data.lastPlayed.length == 0}
                                             None
@@ -135,7 +138,7 @@
                                         <tr class="bg-[#040d17] text-white">
                                             {#each Object.keys(data.transaction[0]) as key}
                                                 {#if key != "gameid"}
-                                                <th class="p-2 border border-gray-600">{key}</th>
+                                                <th class="p-2 border border-gray-600">{$_(`page.profile.table.${key}`)}</th>
                                                 {/if}
                                             {/each}
                                         </tr>
@@ -173,10 +176,16 @@
         .changeHeight {
             height: calc(100vh - 96px) !important;
         }
+        .btnPos{
+            top: calc(104px) !important;
+        }
     }
     @media (min-width: 768px) { /* md breakpoint in Tailwind */
         .changeHeight {
             height: calc(100vh - 88px) !important;
+        }
+        .btnPos{
+            top: calc(96px) !important;
         }
     }
 

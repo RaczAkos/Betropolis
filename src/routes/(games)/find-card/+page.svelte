@@ -90,7 +90,7 @@
                 document.querySelectorAll(".forqs").forEach((onecard) => {
                   onecard.addEventListener('click', reveal)
                 });
-              }, 1500);
+              }, 750);
             } 
             else 
             {
