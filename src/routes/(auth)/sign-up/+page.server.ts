@@ -14,21 +14,22 @@ export const actions = {
           gender: data.get('gender'),
           email: data.get('email'),
           password: data.get('password'),
-          picture: data.get('picture')
+          picture: data.get('picture'),
+          lang: data.get('lang')
         },
         db = await dbConnect();
     
     // Check username in database
-    let nameCheck = await db.query("SELECT balance FROM users WHERE username = ?;", [user.username]);
+    let nameCheck = await db.query("SELECT balance FROM users WHERE username = ?;", user.username);
     if (nameCheck[0][0]) return {error: "error.username"};
 
     // Check email in database
-    let emailCheck = await db.query("SELECT balance FROM users WHERE email = ?;", [user.email]);
+    let emailCheck = await db.query("SELECT balance FROM users WHERE email = ?;", user.email);
     if (emailCheck[0][0]) return {error: "error.email"};
 
     // Upload user to db and get back the id
-    let uploadUser = await db.query("INSERT INTO users (email, username, password, name, gender, birthdate, avatar, balance) VALUES (?,?,?,?,?,?,?,0)", 
-                                    [user.email, user.username, user.password, user.name, user.gender, user.birthdate, user.picture]);
+    let uploadUser = await db.query("INSERT INTO users (email, username, password, name, gender, birthdate, avatar, balance, lang) VALUES (?,?,?,?,?,?,?,0,?)", 
+                                    [user.email, user.username, user.password, user.name, user.gender, user.birthdate, user.picture, user.lang]);
 
     // Add bonus to balance if claimed
     let bonus = await db.query("SELECT starting_bonus FROM bonus WHERE email = ? AND status = 0;", [user.email]);

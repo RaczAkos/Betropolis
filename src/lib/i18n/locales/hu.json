@@ -98,6 +98,25 @@
       "noGames": "Nincs talált játék!"
     }
   },
+  "games": {
+    "crash": {
+
+    },
+    "find-card": {
+      "start": "Indítás",
+      "cards": "Maradt kártyák"
+    },
+    "fruit-frenzy-classic": {
+      "auto": "Automata",
+      "spin": "Futtatás",
+      "description1": "A reels contain 7 fruits and can contain up to 3 golden variants of the fruits. Golden variants boost the win. You win if you get three identical fruits next to each other.",
+      "description2": "Press the 'SPIN' button to try your luck. You can use the autorun button to keep the machine continously running. The minimum bet is 10 chip."
+    },
+    "rules": "Szabályok",
+    "back": "Visszalépés",
+    "bet": "Tét",
+    "balance": "Egyenleg"
+  },
   "bonus": {
     "title": "Igényeld az extra bónuszt!",
     "description": "Írd be az e-mailt amihez a bónuszt akarod kötni. A bónuszt automatikusan megkapod, regisztrálsz azzal az emaillel.",
@@ -132,7 +151,8 @@
     "name": {
       "en":"Angol",
       "hu":"Magyar"
-    }
+    },
+    "accept": "Elfogadás"
   },
   "and": "és az",
   "sign-out": "Kijelentkezés",

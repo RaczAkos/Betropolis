@@ -11,6 +11,7 @@
   import avatarsAll from "$lib/exports/avatars";
   import LanguageModal from "$lib/components/LanguageModal.svelte";
   import { browser } from "$app/environment";
+  import { onMount } from "svelte";
 
   let { form } = $props();
 
@@ -33,7 +34,7 @@
         email: "",
         password: "",
         picture:"",
-        lang: browser ? window.navigator.language : "en"
+        lang: ""
       }),
       genders:string[]        = ["male", "female"],
       windowWidth:number      = $state(0),
@@ -47,11 +48,19 @@
       day:string|number       = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
       currentDate:string      = `${date.getFullYear()-18}-${month}-${day}`,
       conditions:boolean      = $state(false),
+      defaultLang:boolean     = $state(false),
       over18:boolean          = $state(false),
       valid:boolean           = $state(false),
       langClicked:boolean     = $state(false);
     
   let selectedAvatarIndex = $state(-1);
+
+  onMount(() => {
+    if (browser) user.lang = localeCheck(window.navigator.language);
+    else user.lang = 'en';
+
+    if (user.lang == 'en') defaultLang = true;
+  })
 
   // Testing password format
   $effect(() => {
@@ -65,8 +74,7 @@
 
   // Checking fields
   $effect(() => {
-    if (user.name.length > 3 && 
-      user.name.indexOf(' ') && 
+    if (user.name.length > 3 && user.name.indexOf(' ') && 
       userNameFormat &&
       user.gender && 
       user.birthdate != "" &&
@@ -74,7 +82,8 @@
       passwordConfirm &&
       conditions &&
       over18 &&
-      selectedAvatarIndex != -1
+      selectedAvatarIndex != -1 &&
+      user.lang != ""
     ) valid = true;
     else valid = false;
   });
@@ -254,14 +263,15 @@
   </div>
   {/if}
 
+  <input name="lang" class="hidden" type="text" bind:value={user.lang}>
+
   <!-- Sign in -->
   <div class="flex justify-center items-center gap-2 my-1">
     <button type="button"
             onclick={() => langClicked = true}
             class="border-2 rounded p-1 px-4 border-yellow-600">
       <div>
-        
-        <img src={`/src/lib/media/images/lang/${localeCheck(user.lang)}.png`} 
+        <img src={`/src/lib/media/images/lang/${user.lang}.png`} 
         alt={user.lang}
         class="h-8">
       </div>
@@ -289,7 +299,8 @@
 {/if}
 
 <LanguageModal bind:selectedLang={user.lang} 
-               bind:clicked={langClicked}/>
+               bind:clicked={langClicked}
+               defaultLang={defaultLang}/>
 
 <style>
     input[type="date"] {

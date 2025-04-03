@@ -2,16 +2,12 @@
   import { _ } from "svelte-i18n";
   import en from "$lib/media/images/lang/en.png";
   import hu from "$lib/media/images/lang/hu-HU.png";
-    import { onMount } from "svelte";
-  let { clicked = $bindable(), selectedLang = $bindable() } = $props(),
+
+  let { clicked = $bindable(), selectedLang = $bindable(), defaultLang } = $props(),
       langs = [
         {id: "en", name: $_("lang.name.en"), defaultName: "English", img: en},
         {id: "hu-HU",name: $_("lang.name.hu"), defaultName: "Hungarian", img: hu}
       ];
-
-  onMount(() => {
-    
-  })
 </script>
 
 <!-- Language change modal -->
@@ -26,21 +22,23 @@
             {$_("lang.title")}
           </h1>
 
-          <div class="flex flex-row justify-center gap-2 my-2 text-white borgens text-3xl">
+          <div class="flex flex-row justify-center gap-4 my-5 text-white borgens text-3xl">
             {#each langs as lang}
-            <button class="rounded-2xl bg-slate-600 p-4 outline-none" 
+            <button class="rounded-2xl hover:bg-yellow-600/50 p-4 outline-none hover:scale-110 duration-500" 
                     class:outline-yellow-600={selectedLang === lang.id}
                     onclick={() => selectedLang = lang.id}>
               <img src={lang.img} alt={lang.id} class="w-40">
               <h2>{lang.name}</h2>
-              <p>({lang.defaultName})</p>
+              {#if !defaultLang}
+                <p>({lang.defaultName})</p>
+              {/if}
             </button>
             {/each}
           </div>
           <div class="mt-2 border-t-2 pt-2 border-yellow-600 px-2 max-sm:flex-col-reverse gap-2 flex justify-center font-bold">
-            <button class="hover:scale-110 border-2 p-1 rounded bg-black text-yellow-600 border-yellow-600 duration-300" 
+            <button class="hover:scale-110 hover:bg-yellow-600 hover:text-black border-2 p-1 rounded bg-black text-yellow-600 border-yellow-600 duration-300" 
                     onclick={() => { clicked = false; }}>
-              {$_("close")}
+              {$_("lang.accept")}
             </button>
           </div>
         </div>

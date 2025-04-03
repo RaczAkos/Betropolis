@@ -4,17 +4,17 @@
 
 <script lang="ts">
     import icons from "$lib/exports/classicfruits";
-    import chip from "$lib/media/images/chip.png";
     import line from "$lib/media/images/line.png";
     import { updateBalance, getBalance } from '$lib/exports/balance';
     import { onMount } from "svelte";
-    import { generateRandomInteger } from "@oslojs/crypto/random";
+    import { _ } from "svelte-i18n";
+    import Description from "$lib/components/Description.svelte";
 
     onMount(async() => {
         balance = await getBalance();
     })
 
-    let balance = $state(10000);
+    let balance = $state(0);
     let slot1:string = icons[giveRandom(icons.slice(0,6))],
         slot2:string = icons[giveRandom(icons.slice(0,6))],
         slot3:string = icons[giveRandom(icons.slice(0,6))],
@@ -260,150 +260,161 @@
 
 </script>
 
-<div class="h-screen flex justify-center items-center text-white select-none background overflow-hidden">
-    <div class="absolute bottom-2">
-        <a href="/hub" 
-           class="text-2xl max-sm:underline hover:underline orangek" 
-           class:hidden={spinning}>
-           Back to Hub
-        </a>
-    </div>
+<div class="h-screen flex justify-center items-center text-white select-none bg-center bg-no-repeat bg-cover bg-fixed bg-[url($lib/media/images/backgrounds/fruitslotbg.jfif)] overflow-hidden">
+
+  <!-- Back to hub - link -->
+  <div class="absolute bottom-2 orangek">
+    <a href="/hub" 
+       class="text-2xl max-sm:underline hover:underline italic" 
+       class:hidden={spinning}>
+       {$_("games.back")}
+    </a>
+  </div>
     
-    <div class="pt-2 px-2 bg-red-700 sm:rounded-3xl border">
-        <h1 class="text-5xl text-center orangek font-bold border-b mb-2">Fruit Frenzy</h1>
+  <div class="pt-2 px-2 bg-red-700 sm:rounded-3xl border-2">
+    <h1 class="text-4xl sm:text-5xl text-center font-bold border-b-2 mb-2 orangek">
+      Fruit Frenzy Classic
+    </h1>
         
-        <!-- Slots -->
-        <div class="border flex flex-row items-center mb-2 select-none">
-            {#each [slot1, slot2, slot3] as item,i}
-                <div>
-                    <!-- Reels -->
-                    <div id={"spin"+(i+1)} 
-                         class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip max-sm:h-[120px] max-sm:w-[120px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] relative lg:w-[250px]">
-                        <img src={item} 
-                             alt={"Reel "+i} 
-                             class="absolute">
-                    </div>
+    <!-- Slots -->
+    <div class="border flex flex-row items-center mb-2 select-none">
+      {#each [slot1, slot2, slot3] as item,i}
+        <div>
 
-                    <!-- Goldbar -->
-                    <div class="flex flex-row lg:h-[83.33px] max-sm:h-[40px] sm:h-[50px] md:h-[66.66px]">
-                        {#each Array(3) as _, index (index)}
-                            <div class="lg:w-[83.33px] max-sm:w-[40px] sm:w-[50px] md:w-[66.66px] border flex w-1/3 text-center bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% text-4xl text-black justify-center items-center">
-                                <img id={i+"-"+index} 
-                                     src={line} 
-                                     alt={i+"-"+index} 
-                                     class={`goldreel${i+1}`}>
-                            </div>
-                        {/each}
-                    </div>
-                </div>
+          <!-- Reels -->
+          <div id={"spin"+(i+1)} 
+               class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip max-sm:h-[120px] max-sm:w-[120px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] relative lg:w-[250px]">
+            <img src={item} 
+                 alt={"Reel "+i} 
+                 class="absolute">
+          </div>
+
+          <!-- Goldbar -->
+          <div class="flex flex-row lg:h-[83.33px] max-sm:h-[40px] sm:h-[50px] md:h-[66.66px]">
+            {#each Array(3) as _, index (index)}
+              <div class="lg:w-[83.33px] max-sm:w-[40px] sm:w-[50px] md:w-[66.66px] border flex w-1/3 text-center bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% text-4xl text-black justify-center items-center">
+                <img id={i+"-"+index} 
+                     src="/src/lib/media/images/line.png" 
+                     alt={i+"-"+index} 
+                     class={`goldreel${i+1}`}>
+              </div>
             {/each}
+          </div>
         </div>
-
-        <!-- Panel -->
-        <div class="flex flex-col gap-2 border-y py-2">
-            <input type="text" 
-                   disabled class="basis-2/4 text-3xl rounded-2xl orangek sm:hidden text-center pointer-events-none border bg-red-900 border-red-900" 
-                   bind:value={feedback}>
-
-            <div class="flex flex-row gap-2 orangek select-none">
-                <button class:bg-red-500={!spinning} 
-                        type="button" 
-                        class="border border-red-500 basis-1/4 text-3xl rounded-2xl max-sm:basis-1/2 disabled:bg-transparent hover:scale-[1.05] disabled:hover:scale-100 duration-200" 
-                        class:animate-pulse={spinning} 
-                        disabled={spinning || !bet || bet < 10 || balance < bet} 
-                        onclick={spin}>
-                    Spin
-                </button>
-
-                <input type="text" 
-                       disabled 
-                       class="basis-2/4 text-3xl rounded-2xl max-sm:hidden text-center pointer-events-none border bg-red-900 border-red-900" 
-                       bind:value={feedback}>
-
-                <button class:bg-red-500={!autorun} 
-                        type="button" 
-                        class="border-red-500 disabled:bg-transparent disabled:hover:scale-100 border basis-1/4 text-3xl rounded-2xl animation max-sm:basis-1/2 hover:scale-[1.05] duration-200" 
-                        class:animate-pulse={autorun} 
-                        disabled={!bet || bet < 10 || balance < bet} 
-                        onclick={() => {autorun = !autorun; if (!spinning) spin();}}>
-                        {#if autorun}Autorun On{:else}Autorun{/if}</button>
-            </div>
-
-            <!-- Bet, Balance -->
-            <div class="flex flex-row max-lg:flex-col gap-2">
-                <div class="flex basis-1/2">
-                    <span class="inline-flex items-center text-2xl bg-red-900 border-red-900 basis-1/4 border rounded-e-0 border-e-0 rounded-s-2xl justify-center orangek">BET:</span>
-                    
-                    <input type="number" 
-                           min="10" 
-                           max={balance} 
-                           disabled={spinning} 
-                           bind:value={bet} 
-                           class="rounded-none basis-3/4 rounded-e-2xl bg-red-50 border text-gray-900 py-2 pe-1 text-center" 
-                           placeholder="Place your bet!">
-                </div>
-
-                <div class="basis-1/2">
-                    <div class="flex">
-                        <span class="inline-flex items-center text-2xl px-1 bg-red-900 border-red-900 border rounded-e-0 border-e-0 rounded-s-2xl basis-3/12 justify-center orangek">BALANCE:</span>
-                        
-                        <input type="text"
-                               disabled bind:value={balance} 
-                               class="rounded-none bg-red-50 border border-e-0 text-gray-900 py-2 text-center basis-[63%]" 
-                               placeholder="Place your bet!">
-                        
-                        <span class="inline-flex items-center text-2xl px-1 bg-red-50 border border-s-0 rounded-e-2xl basis-[12%] justify-end orangek">
-                            <img src={chip} 
-                                 alt="chip" 
-                                 class="h-8">
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-
-        <!-- Rules modal trigger -->
-        <button class="text-center text-wrap hover:underline max-sm:underline orangek text-xl mx-auto flex px-3" 
-                onclick={() => modal = true}>
-            Rules
-        </button>
+      {/each}
     </div>
+
+    <!-- Panel -->
+    <div class="flex flex-col gap-2 border-y-2 py-2">
+
+      <!-- Feedback - Mobile view -->
+      <input type="text" 
+             disabled class="basis-2/4 text-3xl rounded-2xl orangek sm:hidden text-center pointer-events-none border-2 bg-red-900 border-red-900" 
+             bind:value={feedback}>
+
+      <div class="flex flex-row gap-2 orangek select-none">
+        
+        <!-- Spin -->
+        <button class:bg-red-500={!spinning} 
+                type="button" 
+                class="border-2 border-red-500 basis-1/4 text-3xl rounded-2xl max-sm:basis-1/2 disabled:bg-transparent hover:scale-[1.05] disabled:hover:scale-100 duration-200" 
+                class:animate-pulse={spinning} 
+                disabled={spinning || !bet || bet < 10 || balance < bet} 
+                onclick={spin}>
+          {$_("games.fruit-frenzy-classic.spin")}
+        </button>
+
+        <!-- Feedback -->
+        <input type="text" 
+               disabled 
+               class="basis-2/4 text-3xl rounded-2xl max-sm:hidden text-center pointer-events-none border-2 bg-red-900 border-red-900" 
+               bind:value={feedback}>
+
+        <!-- Auto-Run -->
+        <button class:bg-red-500={!autorun} 
+                type="button" 
+                class="border-red-500 disabled:bg-transparent disabled:hover:scale-100 border-2 basis-1/4 text-3xl rounded-2xl animation max-sm:basis-1/2 hover:scale-[1.05] duration-200" 
+                class:animate-pulse={autorun} 
+                disabled={!bet || bet < 10 || balance < bet} 
+                onclick={() => {autorun = !autorun; if (!spinning) spin();}}>
+          {$_(`games.fruit-frenzy-classic.auto`)}
+        </button>
+      </div>
+
+      <!-- Bet, Balance -->
+      <div class="flex flex-row max-lg:flex-col gap-2">
+        <div class="flex basis-1/2">
+          <span class="inline-flex items-center text-2xl bg-red-900 border-red-900 basis-1/4 border-2 rounded-e-0 border-e-0 rounded-s-2xl justify-center orangek uppercase">
+            {$_("games.bet")}:
+          </span>
+              
+          <input type="number" 
+                 min=10
+                 max={balance} 
+                 disabled={spinning} 
+                 bind:value={bet} 
+                 class="rounded-none basis-3/4 rounded-e-2xl bg-red-50 border-2 text-gray-900 py-2 pe-1 text-center" 
+                 placeholder="Place your bet!">
+        </div>
+
+        <div class="basis-1/2">
+          <div class="flex">
+            <span class="inline-flex items-center text-2xl px-1 bg-red-900 border-red-900 border-2 rounded-e-0 border-e-0 rounded-s-2xl basis-3/12 justify-center orangek uppercase">
+              {$_("games.balance")}:
+            </span>
+                        
+            <input type="text"
+                   disabled bind:value={balance} 
+                   class="rounded-none bg-red-50 border border-e-0 text-gray-900 py-2 text-center basis-[63%]">
+                        
+            <span class="inline-flex items-center text-2xl px-1 bg-red-50 border border-s-0 rounded-e-2xl basis-[12%] justify-end orangek">
+              <img src="/src/lib/media/images/chip.png" 
+                   alt="chip" 
+                   class="h-8">
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rules modal trigger -->
+    <button class="text-center text-wrap hover:underline max-sm:underline orangek text-2xl mx-auto flex px-3" 
+            onclick={() => modal = true}>
+      {$_("games.rules")}
+    </button>
+  </div>
 </div>
 
 <!-- Rules/Description -->
 <div class:hidden={!modal} class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-black/90 transition-opacity" aria-hidden="true"></div>
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto text-white">
+    <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
+      <div class="shadow-[0_0px_600px_-15px_rgba(0,0,0,0.3)] shadow-white relative transform overflow-hidden bg-red-700 text-left border-2 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 p-2 rounded-3xl">
+        <h1 class="text-center text-5xl pb-2 border-b-2 orangek">
+          {$_("games.rules")}
+        </h1>
 
-    <div class="fixed inset-0 bg-black/90 transition-opacity" aria-hidden="true"></div>
-    
-    <div class="fixed inset-0 z-10 w-screen overflow-y-auto text-white">
-        <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-            <div  class="shadow-[0_0px_600px_-15px_rgba(0,0,0,0.3)] shadow-white relative transform overflow-hidden bg-red-700 text-left border transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 p-2 rounded-3xl">
-                <h1 class="text-center text-5xl pb-2 border-b orangek">Rules</h1>
-
-                <!-- Description -->
-                <div class="p-3">
-                    <p class="text-justify text-xl sm:text-2xl leading-6">
-                        The reels contain 7 fruits and can contain up to 3 golden variants of the fruits. Golden variants boost the win. You win if you get three identical fruits next to each other.
-                    </p>
-                    <p class="text-justify text-xl sm:text-2xl leading-6 mt-2">
-                        Press the spin button to try your luck. You can use the autorun button to keep the machine continously running. The minimum bet is 10 chip.
-                    </p>
-                </div>
-                
-                <div class="border-t pt-2 flex justify-center">
-                    <button class="border text-2xl p-1 rounded-xl w-24 hover:bg-white hover:text-red-700 duration-300" onclick={() => modal = false}>Close</button>
-                </div>
-            </div>
+        <div class="p-3">
+          {#each Array(2) as _, i}
+            <Description text={"games.fruit-frenzy-classic.description"+(i+1)}/>
+          {/each}
         </div>
+
+        <div class="border-t-2 pt-2 flex justify-center">
+          <button class="border-2 text-2xl p-1 rounded-xl w-24 hover:scale-110 hover:bg-white hover:text-red-700 duration-300 orangek" 
+                  onclick={() => modal = false}>
+            {$_("close")}
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <style>
-    .background {
-        background-image: url("$lib/media/images/backgrounds/fruitslotbg.jfif");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
+  ::selection {
+    background-color: white;
+    color: rgb(127, 29, 29);
+  }
 </style>

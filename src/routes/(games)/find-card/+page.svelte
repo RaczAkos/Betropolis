@@ -8,6 +8,7 @@
   import cardback from "$lib/media/images/findcardgame/cardback.png";
   import frenchcards from "$lib/exports/frenchcards";
   import chip from "$lib/media/images/chip.png";
+  import { _ } from 'svelte-i18n';
 
   // Convert Record to Array
   const cardsarray: any[] = [];
@@ -23,7 +24,7 @@
       previous = $state(-1),
       rnd = $state(4),
       amount = $state(0),
-      balance = $state(1000),
+      balance = $state(0),
       currentAmount = $state(0),
       gameIsRunning = $state(false),
       isZoomed = $state(false),
@@ -224,7 +225,7 @@
               class="resetter w-full h-[100px] bg-transparent enabled:hover:bg-yellow-600 enabled:hover:text-black text-white font-bold 
                      py-2 px-4 rounded border border-yellow-600 {currentAmount > 54 || currentAmount < 1 ? "shadow-none" : "shadow-lg shadow-yellow-600"}"
               disabled={currentAmount > 54 || currentAmount < 1 ? true : false}>
-        Start
+        {$_("games.findcard.start")}
       </button>  
     </div>
 
@@ -249,7 +250,9 @@
         <button onclick={addAmount} 
                 class="bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton w-full" 
                 type="button">
-          <span class="text-xl">+1</span>
+          <span class="text-xl">
+            +1
+          </span>
         </button>
       </span>
 
@@ -257,7 +260,9 @@
         <button onclick={subtractAmount} 
                 class="border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton w-full" 
                 type="button">
-          <span class="text-xl">-1</span>
+          <span class="text-xl">
+            -1
+          </span>
         </button>
       </span>
     </div>
@@ -280,7 +285,9 @@
     <div class="text-start">
       <form>
         <label class="block">
-          <span class="block text-xl font-medium text-yellow-600 py-5">Cards left</span>
+          <span class="block text-xl font-medium text-yellow-600 py-5">
+            {$_("games.findcard.cards")}
+          </span>
           <div class="flex items-center space-x-2">
             <input bind:value={currentAmount} 
                    min="1" 
@@ -295,7 +302,9 @@
       <!-- Balance -->
       <form>
         <label class="block">
-          <span class="block text-xl font-medium text-yellow-600 py-5">Balance</span>
+          <span class="block text-xl font-medium text-yellow-600 py-5">
+            {$_("games.balance")}
+          </span>
           <div class="flex items-center space-x-2">
             <input class="text-green-700 text-lg text-center bg-black sm:border-b border-yellow-600 w-[80%]" 
                    type="text" 

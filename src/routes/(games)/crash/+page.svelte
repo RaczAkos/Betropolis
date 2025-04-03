@@ -476,7 +476,7 @@
 </div>
 
 <style>
-  @-webkit-keyframes MOVE-BG {
+  @keyframes MOVE-BG {
     from {
       transform: translateX(0);
     }

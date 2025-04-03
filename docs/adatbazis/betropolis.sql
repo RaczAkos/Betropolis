@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 02, 2025 at 09:02 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Gép: 127.0.0.1
+-- Létrehozás ideje: 2025. Ápr 03. 12:53
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `betropolis`
+-- Adatbázis: `betropolis`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bonus`
+-- Tábla szerkezet ehhez a táblához `bonus`
 --
 
 CREATE TABLE `bonus` (
@@ -35,7 +35,7 @@ CREATE TABLE `bonus` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `bonus`
+-- A tábla adatainak kiíratása `bonus`
 --
 
 INSERT INTO `bonus` (`id`, `email`, `starting_bonus`, `status`) VALUES
@@ -44,7 +44,7 @@ INSERT INTO `bonus` (`id`, `email`, `starting_bonus`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `friends`
+-- Tábla szerkezet ehhez a táblához `friends`
 --
 
 CREATE TABLE `friends` (
@@ -54,7 +54,7 @@ CREATE TABLE `friends` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `friends`
+-- A tábla adatainak kiíratása `friends`
 --
 
 INSERT INTO `friends` (`id`, `friend1`, `friend2`) VALUES
@@ -63,7 +63,7 @@ INSERT INTO `friends` (`id`, `friend1`, `friend2`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `friend_requests`
+-- Tábla szerkezet ehhez a táblához `friend_requests`
 --
 
 CREATE TABLE `friend_requests` (
@@ -74,7 +74,7 @@ CREATE TABLE `friend_requests` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `friend_requests`
+-- A tábla adatainak kiíratása `friend_requests`
 --
 
 INSERT INTO `friend_requests` (`id`, `senderId`, `sentToId`, `status`) VALUES
@@ -86,7 +86,7 @@ INSERT INTO `friend_requests` (`id`, `senderId`, `sentToId`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `game`
+-- Tábla szerkezet ehhez a táblához `game`
 --
 
 CREATE TABLE `game` (
@@ -98,7 +98,7 @@ CREATE TABLE `game` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `game`
+-- A tábla adatainak kiíratása `game`
 --
 
 INSERT INTO `game` (`gameid`, `name`, `route`, `image`, `font`) VALUES
@@ -109,7 +109,7 @@ INSERT INTO `game` (`gameid`, `name`, `route`, `image`, `font`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `statistics`
+-- Tábla szerkezet ehhez a táblához `statistics`
 --
 
 CREATE TABLE `statistics` (
@@ -123,7 +123,7 @@ CREATE TABLE `statistics` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `statistics`
+-- A tábla adatainak kiíratása `statistics`
 --
 
 INSERT INTO `statistics` (`id`, `user_id`, `gameid`, `gain`, `oldbalance`, `newbalance`, `date`) VALUES
@@ -171,12 +171,159 @@ INSERT INTO `statistics` (`id`, `user_id`, `gameid`, `gain`, `oldbalance`, `newb
 (42, 1, 1, -10, 1092, 1082, '2025. 04. 02. 20:24:30'),
 (43, 1, 1, -10, 1082, 1072, '2025. 04. 02. 20:24:34'),
 (44, 1, 1, -10, 1072, 1062, '2025. 04. 02. 20:24:39'),
-(45, 1, 1, -10, 1062, 1052, '2025. 04. 02. 20:24:44');
+(45, 1, 1, -10, 1062, 1052, '2025. 04. 02. 20:24:44'),
+(46, 1, 2, -11, 1052, 1041, '2025. 04. 03. 10:13:18'),
+(47, 1, 2, 22, 1041, 1063, '2025. 04. 03. 10:13:22'),
+(48, 1, 2, -11, 1063, 1052, '2025. 04. 03. 10:13:29'),
+(49, 1, 2, 22, 1052, 1074, '2025. 04. 03. 10:13:33'),
+(50, 1, 2, -11, 1074, 1063, '2025. 04. 03. 10:13:41'),
+(51, 1, 2, 22, 1063, 1085, '2025. 04. 03. 10:13:45'),
+(52, 1, 2, -11, 1085, 1074, '2025. 04. 03. 10:13:58'),
+(53, 1, 2, 22, 1074, 1096, '2025. 04. 03. 10:14:02'),
+(54, 1, 2, -715, 1096, 381, '2025. 04. 03. 10:14:17'),
+(55, 1, 2, 1430, 381, 1811, '2025. 04. 03. 10:14:21'),
+(56, 1, 2, -715, 1811, 1096, '2025. 04. 03. 10:14:31'),
+(57, 1, 2, -715, 1096, 381, '2025. 04. 03. 10:14:35'),
+(58, 1, 2, 1430, 381, 1811, '2025. 04. 03. 10:14:39'),
+(59, 1, 2, -715, 1811, 1096, '2025. 04. 03. 10:14:48'),
+(60, 1, 2, 1430, 1096, 2526, '2025. 04. 03. 10:14:52'),
+(61, 1, 2, -715, 2526, 1811, '2025. 04. 03. 10:15:02'),
+(62, 1, 2, -715, 1811, 1096, '2025. 04. 03. 10:15:07'),
+(63, 1, 2, 1430, 1096, 2526, '2025. 04. 03. 10:15:11'),
+(64, 1, 2, -715, 2526, 1811, '2025. 04. 03. 10:15:14'),
+(65, 1, 2, 358, 1811, 2169, '2025. 04. 03. 10:15:16'),
+(66, 1, 2, -715, 2169, 1454, '2025. 04. 03. 10:15:18'),
+(67, 1, 2, 1430, 1454, 2884, '2025. 04. 03. 10:15:22'),
+(68, 1, 2, -715, 2884, 2169, '2025. 04. 03. 10:15:28'),
+(69, 1, 2, 1430, 2169, 3599, '2025. 04. 03. 10:15:32'),
+(70, 1, 2, -715, 3599, 2884, '2025. 04. 03. 10:15:42'),
+(71, 1, 2, 1430, 2884, 4314, '2025. 04. 03. 10:15:46'),
+(72, 1, 2, -2000, 4314, 2314, '2025. 04. 03. 10:16:18'),
+(73, 1, 2, 5000, 2314, 7314, '2025. 04. 03. 10:16:24'),
+(74, 1, 2, -2000, 7314, 5314, '2025. 04. 03. 10:16:27'),
+(75, 1, 2, 5000, 5314, 10314, '2025. 04. 03. 10:16:33'),
+(76, 1, 1, -10, 10314, 10304, '2025. 04. 03. 11:05:14'),
+(77, 1, 1, -10, 10304, 10294, '2025. 04. 03. 11:11:37'),
+(78, 1, 1, -10, 10294, 10284, '2025. 04. 03. 11:11:45'),
+(79, 1, 1, -10, 10284, 10274, '2025. 04. 03. 11:12:39'),
+(80, 1, 1, -10, 10274, 10264, '2025. 04. 03. 11:13:34'),
+(81, 1, 1, -10, 10264, 10254, '2025. 04. 03. 11:13:49'),
+(82, 1, 1, -10, 10254, 10244, '2025. 04. 03. 11:13:58'),
+(83, 1, 1, -10, 10244, 10234, '2025. 04. 03. 11:14:02'),
+(84, 1, 1, -10, 10234, 10224, '2025. 04. 03. 11:14:05'),
+(85, 1, 1, -10, 10224, 10214, '2025. 04. 03. 11:14:07'),
+(86, 1, 1, -10, 10214, 10204, '2025. 04. 03. 11:14:12'),
+(87, 1, 1, -10, 10204, 10194, '2025. 04. 03. 11:14:16'),
+(88, 1, 1, -10, 10194, 10184, '2025. 04. 03. 11:14:21'),
+(89, 1, 1, -10, 10184, 10174, '2025. 04. 03. 11:14:26'),
+(90, 1, 1, -10, 10174, 10164, '2025. 04. 03. 11:14:30'),
+(91, 1, 1, -10, 10164, 10154, '2025. 04. 03. 11:14:35'),
+(92, 1, 1, -10, 10154, 10144, '2025. 04. 03. 11:14:39'),
+(93, 1, 1, -10, 10144, 10134, '2025. 04. 03. 11:14:44'),
+(94, 1, 1, -10, 10134, 10124, '2025. 04. 03. 11:14:49'),
+(95, 1, 1, -10, 10124, 10114, '2025. 04. 03. 11:14:53'),
+(96, 1, 1, -10, 10114, 10104, '2025. 04. 03. 11:14:58'),
+(97, 1, 1, -10, 10104, 10094, '2025. 04. 03. 11:15:03'),
+(98, 1, 1, -10, 10094, 10084, '2025. 04. 03. 11:15:07'),
+(99, 1, 1, -10, 10084, 10074, '2025. 04. 03. 11:15:12'),
+(100, 1, 1, -10, 10074, 10064, '2025. 04. 03. 11:15:17'),
+(101, 1, 1, -10, 10064, 10054, '2025. 04. 03. 11:15:21'),
+(102, 1, 1, -10, 10054, 10044, '2025. 04. 03. 11:15:26'),
+(103, 1, 1, -10, 10044, 10034, '2025. 04. 03. 11:15:31'),
+(104, 1, 1, -10, 10034, 10024, '2025. 04. 03. 11:15:35'),
+(105, 1, 1, -10, 10024, 10014, '2025. 04. 03. 11:15:40'),
+(106, 1, 1, -10, 10014, 10004, '2025. 04. 03. 11:15:45'),
+(107, 1, 1, -10, 10004, 9994, '2025. 04. 03. 11:15:49'),
+(108, 1, 1, -10, 9994, 9984, '2025. 04. 03. 11:15:54'),
+(109, 1, 1, -10, 9984, 9974, '2025. 04. 03. 11:15:58'),
+(110, 1, 1, -10, 9974, 9964, '2025. 04. 03. 11:16:03'),
+(111, 1, 1, -10, 9964, 9954, '2025. 04. 03. 11:16:08'),
+(112, 1, 1, -10, 9954, 9944, '2025. 04. 03. 11:16:12'),
+(113, 1, 1, -10, 9944, 9934, '2025. 04. 03. 11:16:17'),
+(114, 1, 1, -10, 9934, 9924, '2025. 04. 03. 11:16:22'),
+(115, 1, 1, -10, 9924, 9914, '2025. 04. 03. 11:16:26'),
+(116, 1, 1, -10, 9914, 9904, '2025. 04. 03. 11:16:31'),
+(117, 1, 1, -10, 9904, 9894, '2025. 04. 03. 11:16:36'),
+(118, 1, 1, -10, 9894, 9884, '2025. 04. 03. 11:17:15'),
+(119, 1, 1, -10, 9884, 9874, '2025. 04. 03. 11:17:20'),
+(120, 1, 1, -10, 9874, 9864, '2025. 04. 03. 11:17:24'),
+(121, 1, 1, -10, 9864, 9854, '2025. 04. 03. 11:19:09'),
+(122, 1, 1, -10, 9854, 9844, '2025. 04. 03. 11:19:14'),
+(123, 1, 1, -10, 9844, 9834, '2025. 04. 03. 11:19:37'),
+(124, 1, 1, -10, 9834, 9824, '2025. 04. 03. 11:19:42'),
+(125, 1, 1, -10, 9824, 9814, '2025. 04. 03. 11:19:46'),
+(126, 1, 1, -10, 9814, 9804, '2025. 04. 03. 11:20:00'),
+(127, 1, 1, -10, 9804, 9794, '2025. 04. 03. 11:20:05'),
+(128, 1, 1, -10, 9794, 9784, '2025. 04. 03. 11:20:09'),
+(129, 1, 1, -10, 9784, 9774, '2025. 04. 03. 11:20:14'),
+(130, 1, 1, -10, 9774, 9764, '2025. 04. 03. 11:20:19'),
+(131, 1, 1, 1000, 9764, 10764, '2025. 04. 03. 11:20:30'),
+(132, 1, 1, -10, 10764, 10754, '2025. 04. 03. 11:21:29'),
+(133, 1, 1, -10, 10754, 10744, '2025. 04. 03. 11:21:34'),
+(134, 1, 1, -10, 10744, 10734, '2025. 04. 03. 11:21:38'),
+(135, 1, 1, -10, 10734, 10724, '2025. 04. 03. 11:23:01'),
+(136, 1, 1, -10, 10724, 10714, '2025. 04. 03. 11:24:22'),
+(137, 1, 1, -10, 10714, 10704, '2025. 04. 03. 11:25:47'),
+(138, 1, 1, -10, 10704, 10694, '2025. 04. 03. 11:26:30'),
+(139, 1, 1, -10, 10694, 10684, '2025. 04. 03. 11:29:41'),
+(140, 1, 1, -10, 10684, 10674, '2025. 04. 03. 11:29:46'),
+(141, 1, 1, 1000, 10674, 11674, '2025. 04. 03. 11:29:49'),
+(142, 1, 1, -10, 11674, 11664, '2025. 04. 03. 11:29:59'),
+(143, 1, 1, -10, 11664, 11654, '2025. 04. 03. 11:30:04'),
+(144, 1, 1, -10, 11654, 11644, '2025. 04. 03. 11:30:08'),
+(145, 1, 1, -10, 11644, 11634, '2025. 04. 03. 11:30:13'),
+(146, 1, 1, -10, 11634, 11624, '2025. 04. 03. 11:30:17'),
+(147, 1, 1, -10, 11624, 11614, '2025. 04. 03. 11:30:22'),
+(148, 1, 1, -10, 11614, 11604, '2025. 04. 03. 11:30:33'),
+(149, 1, 1, 1000, 11604, 12604, '2025. 04. 03. 11:30:37'),
+(150, 1, 1, -10, 12604, 12594, '2025. 04. 03. 11:30:38'),
+(151, 1, 1, -10, 12594, 12584, '2025. 04. 03. 11:30:48'),
+(152, 1, 1, -10, 12584, 12574, '2025. 04. 03. 11:31:42'),
+(153, 1, 1, -10, 12574, 12564, '2025. 04. 03. 11:35:48'),
+(154, 1, 1, -10, 12564, 12554, '2025. 04. 03. 11:35:53'),
+(155, 1, 1, -10, 12554, 12544, '2025. 04. 03. 11:35:57'),
+(156, 1, 1, -10, 12544, 12534, '2025. 04. 03. 11:36:02'),
+(157, 1, 1, -10, 12534, 12524, '2025. 04. 03. 11:36:37'),
+(158, 1, 1, 1500, 12524, 14024, '2025. 04. 03. 11:37:03'),
+(159, 1, 1, -10, 14024, 14014, '2025. 04. 03. 11:37:04'),
+(160, 1, 1, -10, 14014, 14004, '2025. 04. 03. 11:37:58'),
+(161, 1, 1, -10, 14004, 13994, '2025. 04. 03. 11:38:18'),
+(162, 1, 1, -10, 13994, 13984, '2025. 04. 03. 11:39:01'),
+(163, 1, 1, -10, 13984, 13974, '2025. 04. 03. 11:39:06'),
+(164, 1, 1, -10, 13974, 13964, '2025. 04. 03. 11:39:34'),
+(165, 1, 1, -10, 13964, 13954, '2025. 04. 03. 11:40:12'),
+(166, 1, 1, -10, 13954, 13944, '2025. 04. 03. 11:40:17'),
+(167, 1, 1, -10, 13944, 13934, '2025. 04. 03. 11:40:21'),
+(168, 1, 1, -10, 13934, 13924, '2025. 04. 03. 11:40:26'),
+(169, 1, 1, -10, 13924, 13914, '2025. 04. 03. 11:40:31'),
+(170, 1, 1, -10, 13914, 13904, '2025. 04. 03. 11:40:35'),
+(171, 1, 1, -11, 13904, 13893, '2025. 04. 03. 11:40:39'),
+(172, 1, 1, -10, 13893, 13883, '2025. 04. 03. 11:40:40'),
+(173, 1, 1, -11, 13883, 13872, '2025. 04. 03. 11:40:44'),
+(174, 1, 1, -10, 13872, 13862, '2025. 04. 03. 11:40:44'),
+(175, 1, 1, -10, 13862, 13852, '2025. 04. 03. 11:40:49'),
+(176, 1, 1, -10, 13852, 13842, '2025. 04. 03. 11:40:54'),
+(177, 1, 1, -10, 13842, 13832, '2025. 04. 03. 11:40:58'),
+(178, 1, 1, -10, 13832, 13822, '2025. 04. 03. 11:41:03'),
+(179, 1, 1, -10, 13822, 13812, '2025. 04. 03. 11:41:08'),
+(180, 1, 1, -10, 13812, 13802, '2025. 04. 03. 11:41:12'),
+(181, 1, 1, -10, 13802, 13792, '2025. 04. 03. 11:41:17'),
+(182, 1, 1, -10, 13792, 13782, '2025. 04. 03. 11:41:21'),
+(183, 1, 1, -10, 13782, 13772, '2025. 04. 03. 11:41:26'),
+(184, 1, 1, -10, 13772, 13762, '2025. 04. 03. 11:41:31'),
+(185, 1, 1, -10, 13762, 13752, '2025. 04. 03. 11:41:35'),
+(186, 1, 1, -10, 13752, 13742, '2025. 04. 03. 11:41:40'),
+(187, 1, 1, -10, 13742, 13732, '2025. 04. 03. 11:41:45'),
+(188, 1, 1, -10, 13732, 13722, '2025. 04. 03. 11:41:49'),
+(189, 1, 1, -10, 13722, 13712, '2025. 04. 03. 11:41:56'),
+(190, 1, 1, -10, 13712, 13702, '2025. 04. 03. 11:42:01'),
+(191, 1, 1, -10, 13702, 13692, '2025. 04. 03. 11:42:06'),
+(192, 1, 1, -10, 13692, 13682, '2025. 04. 03. 11:42:11');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Tábla szerkezet ehhez a táblához `users`
 --
 
 CREATE TABLE `users` (
@@ -189,15 +336,15 @@ CREATE TABLE `users` (
   `birthdate` date NOT NULL,
   `balance` bigint(20) NOT NULL,
   `lang` varchar(10) NOT NULL DEFAULT 'en',
-  `avatar` varchar(51) NOT NULL
+  `avatar` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- A tábla adatainak kiíratása `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `name`, `gender`, `birthdate`, `balance`, `lang`, `avatar`) VALUES
-(1, 'john.doe@example.com', 'johndoe', 'Password123.', 'John Doe', 0, '1990-01-01', 1052, 'hu-HU', ''),
+(1, 'john.doe@example.com', 'johndoe', 'Password123.', 'John Doe', 0, '1990-01-01', 13682, 'hu-HU', ''),
 (2, 'jane.smith@example.com', 'janesmith', 'Password123.', 'Jane Smith', 0, '1992-02-02', 500, 'en', ''),
 (3, 'bob.jones@example.com', 'bobjones', 'Password123.', 'Bob Jones', 0, '1985-03-03', 500, 'en', ''),
 (4, 'alice.martin@example.com', 'alicemartin', 'Password123.', 'Alice Martin', 0, '1988-04-04', 500, 'en', ''),
@@ -248,12 +395,13 @@ INSERT INTO `users` (`id`, `email`, `username`, `password`, `name`, `gender`, `b
 (49, 'frank.bell@example.com', 'frankbell', 'Password123.', 'Frank Bell', 0, '1988-01-18', 500, 'en', ''),
 (50, 'amy.cooper@example.com', 'amycooper', 'Password123.', 'Amy Cooper', 0, '1991-02-19', 500, 'en', ''),
 (51, '', '', '', '', 0, '0000-00-00', 500, 'en', ''),
-(58, 'iskolai@gmail.com', 'iskolai', 'Password1234!', 'iskolai', 0, '2007-03-03', 14000, 'en', '/src/lib/media/images/avatars/male_avatars/avatar_8');
+(58, 'iskolai@gmail.com', 'iskolai', 'Password1234!', 'iskolai', 0, '2007-03-03', 14000, 'en', '/src/lib/media/images/avatars/male_avatars/avatar_8'),
+(59, 'pityi.panna@mail.com', 'pityipanna', 'Password123.', 'Pityi Panna', 1, '2007-03-27', 0, 'hu-HU', '/src/lib/media/images/avatars/female_avatars/avatar_2');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_session`
+-- Tábla szerkezet ehhez a táblához `user_session`
 --
 
 CREATE TABLE `user_session` (
@@ -263,99 +411,100 @@ CREATE TABLE `user_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user_session`
+-- A tábla adatainak kiíratása `user_session`
 --
 
 INSERT INTO `user_session` (`id`, `user_id`, `expires_at`) VALUES
 ('5a541c4b61e7e918d9478cbf1617378238922c3383b2c7e8e99e82a4c741168a', 58, '2025-04-29 17:51:21'),
-('5a7bc5390037b0e4761965cba7ca9060e1b814fa2c8e7e5c78dd6377954d4ef5', 58, '2025-04-27 09:32:20');
+('5a7bc5390037b0e4761965cba7ca9060e1b814fa2c8e7e5c78dd6377954d4ef5', 58, '2025-04-27 09:32:20'),
+('bb53b71ea27eae42b45da1e90d1fc61486c6d3fc14521f6f0829135dbaa633c3', 1, '2025-05-03 12:24:51');
 
 --
--- Indexes for dumped tables
+-- Indexek a kiírt táblákhoz
 --
 
 --
--- Indexes for table `bonus`
+-- A tábla indexei `bonus`
 --
 ALTER TABLE `bonus`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `friends`
+-- A tábla indexei `friends`
 --
 ALTER TABLE `friends`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `friend_requests`
+-- A tábla indexei `friend_requests`
 --
 ALTER TABLE `friend_requests`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `game`
+-- A tábla indexei `game`
 --
 ALTER TABLE `game`
   ADD PRIMARY KEY (`gameid`);
 
 --
--- Indexes for table `statistics`
+-- A tábla indexei `statistics`
 --
 ALTER TABLE `statistics`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `users`
+-- A tábla indexei `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `user_session`
+-- A tábla indexei `user_session`
 --
 ALTER TABLE `user_session`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- A kiírt táblák AUTO_INCREMENT értéke
 --
 
 --
--- AUTO_INCREMENT for table `bonus`
+-- AUTO_INCREMENT a táblához `bonus`
 --
 ALTER TABLE `bonus`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `friends`
+-- AUTO_INCREMENT a táblához `friends`
 --
 ALTER TABLE `friends`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `friend_requests`
+-- AUTO_INCREMENT a táblához `friend_requests`
 --
 ALTER TABLE `friend_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `game`
+-- AUTO_INCREMENT a táblához `game`
 --
 ALTER TABLE `game`
   MODIFY `gameid` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `statistics`
+-- AUTO_INCREMENT a táblához `statistics`
 --
 ALTER TABLE `statistics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
