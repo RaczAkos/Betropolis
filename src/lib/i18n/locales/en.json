@@ -100,6 +100,12 @@
         "oldbalance": "Before",
         "newbalance": "After",
         "date": "Date"
+      },
+      "modal":{
+        "title": "Edit",
+        "save": "Save",
+        "name": "Name (new)",
+        "email": "E-mail (new)"
       }
     },
     "hub": {

@@ -6,9 +6,17 @@
     import joystick from "$lib/media/images/profile/joystick.png";
     import useredit from "$lib/media/images/profile/user-edit.png";
     import chip from "$lib/media/images/chip.png";
+    import LanguageModal from "$lib/components/LanguageModal.svelte";
+    import { scale } from 'svelte/transition';
+    import { browser } from "$app/environment";
     import { _ } from "svelte-i18n";
 
     let { data } = $props();
+
+    let username = $state(""),
+        email = $state(""),
+        langClicked:boolean = $state(false),
+        lang= $state(browser ? window.navigator.language : "en");
 
     function pictureHover() {
         let picture = document.getElementById('picChangebtn');
@@ -20,8 +28,11 @@
         picture?.classList.remove('opacity-100');
     }
     
-
     let selectedGame:any = $state(null);
+
+    if (data.lastPlayed.length != 0) {
+        selectedGame = data.lastPlayed[0].gameid;
+    }
 
     function selectGame(game:any) {
         selectedGame = game;
@@ -40,7 +51,42 @@
             chipsEarned += data.transaction[index].gain;
         }
     }
+
+    function openModal() {
+        const modal = document.getElementById('profileEditModal');
+        modal?.classList.remove('hidden');
+        setTimeout(() => {
+            modal?.classList.remove('opacity-0');
+            modal?.classList.remove('bg-opacity-0');
+            modal?.classList.add('bg-opacity-50');
+            modal?.classList.add('opacity-100');
+            modal?.children[0].classList.remove('scale-0');
+            modal?.children[0].classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('profileEditModal');
+        modal?.classList.add('opacity-0');
+        modal?.classList.remove('bg-opacity-50');
+        modal?.classList.remove('opacity-100');
+        modal?.classList.add('bg-opacity-0');
+        modal?.children[0].classList.add('scale-0');
+        setTimeout(() => {
+            modal?.classList.add('hidden');
+        }, 300);
+    }
+
+    function saveProfile() {
+        closeModal();
+    }
+
+    function localeCheck(locale:string){
+        if (locale == "en-GB" || locale == "en-US" || locale == "en-CA") return "en";
+        return locale;
+    }
 </script>
+
 <!--For the reload button-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 
@@ -57,7 +103,7 @@
                 <p class="text-gray-500 ms-2 relative top-[1px]">{$_(`page.profile.greeting`)}<span class="text-white">{data.user[0].username}</span></p>
             </div>
             <!-- Scrollable Wrapper under xl -->
-            <div class="mt-4 w-full h-[90%] xl:h-[95%] bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
+            <div class="mt-4 w-full h-[90%] bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
                 
                 <!-- Avatar & Profile Stats Section -->
                 <div class="flex flex-wrap xl:flex-nowrap items-start gap-8">
@@ -71,7 +117,8 @@
                                  onmouseover="{pictureHover}"
                                  onmouseout="{pictureLeave}">
 
-                            <button class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity duration-300 bg-transparent border-0 w-10 h-10 rounded-full" id="picChangebtn">
+                            <button class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity duration-300 bg-transparent border-0 w-10 h-10 rounded-full" id="picChangebtn"
+                                    onclick={openModal}>
                                 <img src="{useredit}" alt="">
                             </button>
 
@@ -121,11 +168,12 @@
 
                 <!-- Table and Buttons Section -->
                 <div class="w-full text-gray-500">
-                    <div class="flex gap-4 mb-4">
+                    <div class="flex">
                         {#each data.games as game}
-                        <button class="" onclick={() => selectGame(game.gameid)}>
-                            {game.name}
-                        </button>
+                            <button class="p-3 border border-gray-500 border-b-0 rounded-t-lg hover:bg-[#040d17]"
+                                    onclick={() => selectGame(game.gameid)}>
+                                {game.name}
+                            </button>
                         {/each}
                     </div>
 
@@ -139,7 +187,7 @@
                                         <tr class="bg-[#040d17] text-white">
                                             {#each Object.keys(data.transaction[0]) as key}
                                                 {#if key != "gameid"}
-                                                <th class="p-2 border border-gray-600">{$_(`page.profile.table.${key}`)}</th>
+                                                    <th class="p-2 border border-gray-600">{$_(`page.profile.table.${key}`)}</th>
                                                 {/if}
                                             {/each}
                                         </tr>
@@ -167,6 +215,63 @@
     </div>
 </div>
 
+<!-- Profile Edit Modal -->
+<div id="profileEditModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-0 opacity-0 hidden transition-opacity duration-700">
+    <div class="w-[80vw] max-w-[500px] bg-[#040d17] rounded-lg shadow-2xl p-6 text-white relative transform scale-0 transition-transform duration-300">
+        
+        <!-- Close Button -->
+        <button class="absolute top-3 right-3 text-gray-400 hover:text-white" onclick={closeModal}>
+            &times;
+        </button>
+
+        <h2 class="text-xl font-bold text-center mb-4">{$_(`page.profile.modal.title`)}</h2>
+        
+        <!-- Avatar Upload -->
+        <div class="flex flex-col items-center mb-4">
+            <div class="relative w-[120px] h-[120px]">
+                <img id="avatarPreview" src="{data.user[0].avatar+'.png'}" class="w-full h-auto rounded-full border-4 border-white shadow-xl">
+                <label for="avatarUpload" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer hover:bg-opacity-70">
+                    <span class="text-sm text-white">{$_(`page.profile.change_avatar`)}</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Username Input -->
+        <div class="mb-4">
+            <label class="text-gray-400 block mb-1">{$_(`page.profile.modal.name`)}</label>
+            <input bind:value={username} type="text" id="username" placeholder="{data.user[0].username}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500">
+        </div>
+
+        <!-- Email Input -->
+        <div class="mb-4">
+            <label class="text-gray-400 block mb-1">{$_(`page.profile.modal.email`)}</label>
+            <input bind:value={email} type="email" id="email" placeholder="{data.user[0].email}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500">
+        </div>
+
+        
+        <div class="w-full justify-items-center">
+            <button type="button"
+                    onclick={() => langClicked = true}
+                    class="border-2 rounded p-1 px-4 border-yellow-600 flex">
+                <div>
+                    <img src={`/src/lib/media/images/lang/${localeCheck(lang)}.png`} 
+                    alt={lang}
+                    class="h-8">
+                </div>
+            </button>
+        </div> 
+
+        <!-- Save Button -->
+        <div class="flex justify-center mt-4">
+            <button class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300" onclick={saveProfile}>
+                {$_(`page.profile.modal.save`)}
+            </button>
+        </div>
+    </div>
+</div>
+
+<LanguageModal bind:selectedLang={lang} 
+               bind:clicked={langClicked}/> 
 
 
 
