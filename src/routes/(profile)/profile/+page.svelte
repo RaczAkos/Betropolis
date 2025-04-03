@@ -4,6 +4,7 @@
     import flymoney from "$lib/media/images/profile/flying-money.png";
     import income from "$lib/media/images/profile/income.png";
     import joystick from "$lib/media/images/profile/joystick.png";
+    import useredit from "$lib/media/images/profile/user-edit.png";
     import chip from "$lib/media/images/chip.png";
     import { _ } from "svelte-i18n";
 
@@ -45,7 +46,7 @@
 
 
 <div class="w-screen h-screen bg-[#141a22] flex justify-center items-center changeHeight">
-    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 rounded btnPos left-2 fixed">
+    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 rounded btnPos left-2 fixed transition-all duration-300">
         {$_(`page.profile.delete`)}
     </button>    
     <div class="w-[85vw] h-[75vh] bg-[#040d17] flex mx-auto rounded-lg shadow-2xl shadow-[#040d17] flex-col">
@@ -70,13 +71,13 @@
                                  onmouseover="{pictureHover}"
                                  onmouseout="{pictureLeave}">
 
-                            <button class="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity duration-300 bg-transparent border-0 p-0 w-10 h-10 rounded-full" id="picChangebtn">
-                                <i class="fas fa-sync-alt text-white text-3xl"></i>
+                            <button class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity duration-300 bg-transparent border-0 w-10 h-10 rounded-full" id="picChangebtn">
+                                <img src="{useredit}" alt="">
                             </button>
 
                             <div class="mt-4 text-center">
                                 <p class="text-yellow-600 text-xl max-sm:text-lg inline">
-                                    <img src="{chip}" alt="Chip Icon" class="w-[20px] inline">{data.user[0].balance}
+                                    <img src="{chip}" alt="Chip Icon" class="w-[20px] inline pb-1">{data.user[0].balance}
                                 </p>
                             </div>
                         </div>
