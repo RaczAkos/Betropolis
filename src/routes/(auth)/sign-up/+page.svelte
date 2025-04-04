@@ -90,7 +90,6 @@
 
   function selectAvatar(index:any) {
     selectedAvatarIndex = index;
-    console.log("Selected Avatar Index:", index);
   }
 
   function localeCheck(locale:string){
