@@ -169,7 +169,9 @@
   "friends": {
     "title": "Friends",
     "add": "Add Friend",
-    "requests": "Friend requests"
+    "requests": "Friend requests",
+    "add.description": "Enter your friend's username:",
+    "add.send": "Add"
   },
   "funds": {
     "title": "Manage funds"

@@ -169,7 +169,9 @@
   "friends": {
     "title": "Barátok",
     "add": "Kérés küldése",
-    "requests": "Barátkérések"
+    "requests": "Barátkérések",
+    "add.description": "Írd be a barátod felhasználónevét:",
+    "add.send": "Küldés"
   },
   "funds": {
     "title": "Pénzügyek"
