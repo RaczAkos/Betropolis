@@ -7,8 +7,9 @@
     import useredit from "$lib/media/images/profile/user-edit.png";
     import chip from "$lib/media/images/chip.png";
     import LanguageModal from "$lib/components/LanguageModal.svelte";
-    import { scale } from 'svelte/transition';
+    import { fade, scale } from 'svelte/transition';
     import { browser } from "$app/environment";
+    import avatarsAll from "$lib/exports/avatars";
     import { _ } from "svelte-i18n";
 
     let { data } = $props();
@@ -16,7 +17,9 @@
     let username = $state(""),
         email = $state(""),
         langClicked:boolean = $state(false),
-        lang= $state(browser ? window.navigator.language : "en");
+        lang= $state(browser ? window.navigator.language : "en"),
+        showModal = $state(false),
+        selectedAvatarIndex = $state(-1);
 
     function pictureHover() {
         let picture = document.getElementById('picChangebtn');
@@ -85,6 +88,11 @@
         if (locale == "en-GB" || locale == "en-US" || locale == "en-CA") return "en";
         return locale;
     }
+
+    function selectAvatar(index:any) {
+        selectedAvatarIndex = index;
+    }
+
 </script>
 
 <!--For the reload button-->
@@ -229,9 +237,11 @@
         <!-- Avatar Upload -->
         <div class="flex flex-col items-center mb-4">
             <div class="relative w-[120px] h-[120px]">
-                <img id="avatarPreview" src="{data.user[0].avatar+'.png'}" class="w-full h-auto rounded-full border-4 border-white shadow-xl">
+                <img id="avatarPreview" src="{data.user[0].avatar+'.png'}" class="w-full h-auto rounded-full border-4 border-white shadow-xl" 
+                     onclick={() => showModal = true}>
                 <label for="avatarUpload" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer hover:bg-opacity-70">
-                    <span class="text-sm text-white">{$_(`page.profile.change_avatar`)}</span>
+                    <span class="text-sm text-white" 
+                          onclick={() => showModal = true}><i class="fas fa-sync-alt text-white text-xl"></i></span>
                 </label>
             </div>
         </div>
@@ -239,13 +249,13 @@
         <!-- Username Input -->
         <div class="mb-4">
             <label class="text-gray-400 block mb-1">{$_(`page.profile.modal.name`)}</label>
-            <input bind:value={username} type="text" id="username" placeholder="{data.user[0].username}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500">
+            <input bind:value={username} type="text" id="username" placeholder="{data.user[0].username}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
         </div>
 
         <!-- Email Input -->
         <div class="mb-4">
             <label class="text-gray-400 block mb-1">{$_(`page.profile.modal.email`)}</label>
-            <input bind:value={email} type="email" id="email" placeholder="{data.user[0].email}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500">
+            <input bind:value={email} type="email" id="email" placeholder="{data.user[0].email}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
         </div>
 
         
@@ -272,6 +282,53 @@
 
 <LanguageModal bind:selectedLang={lang} 
                bind:clicked={langClicked}/> 
+
+
+
+<!-- Modal -->
+{#if showModal}
+  <div
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    transition:fade
+    onclick={() => showModal = false}
+  >
+    <!-- Modal content box -->
+    <div
+      class="bg-white p-6 rounded-xl shadow-xl w-full max-w-3xl"
+      transition:scale={{ duration: 250 }}
+    >
+      <h2 class="text-xl font-bold mb-4">Choose Your Avatar</h2>
+
+      <div class="flex gap-4 w-max px-4 py-2">
+        {#each avatarsAll[data.user[0].gender] as avatar, index}
+          <button onclick={() => selectAvatar(index)} type="button">
+            <img  
+              src={avatar}
+              alt="Avatar {index}"
+              class="w-20 h-20 rounded-full border-4 cursor-pointer transition-all
+              {selectedAvatarIndex === index
+                ? 'border-yellow-600'
+                : 'border-transparent hover:border-gray-400'}"
+            />
+          </button>
+        {/each}
+        <input
+          name="picture"
+          class="hidden"
+          type="text"
+          bind:value={avatarsAll[data.user[0].gender][selectedAvatarIndex]}
+        />
+      </div>
+
+      <button
+        class="mt-4 bg-gray-800 text-white px-4 py-2 rounded"
+        onclick={() => showModal = false}
+      >
+        Close
+      </button>
+    </div>
+  </div>
+{/if}
 
 
 
