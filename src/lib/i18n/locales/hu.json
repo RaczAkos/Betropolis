@@ -126,8 +126,9 @@
     "fruit-frenzy-classic": {
       "auto": "Automata",
       "spin": "Futtatás",
-      "description1": "A reels contain 7 fruits and can contain up to 3 golden variants of the fruits. Golden variants boost the win. You win if you get three identical fruits next to each other.",
-      "description2": "Press the 'SPIN' button to try your luck. You can use the autorun button to keep the machine continously running. The minimum bet is 10 chip."
+      "placeBet": "Tegyél tétet!",
+      "description1": "A kerekek tartalmaznak 7 gyümölcsöt és tartalmazhatnak akár 3 arany variánst ezekből. Az arany gyümölcsök növelik a nyereményt. Akkor nyersz, ha 3 egyforma gyümölcs van egymás mellett, nyertél.",
+      "description2": "Nyomd meg a ,,Futtatás\" gombot, hogy próbára tedd a szerencséd. Az ,,Automata\" gomb megnyomásával a gép folyamatosan futni fog. A minimum tét 10 token."
     },
     "rules": "Szabályok",
     "back": "Visszalépés",

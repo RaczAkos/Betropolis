@@ -354,7 +354,7 @@
                  disabled={spinning} 
                  bind:value={bet} 
                  class="rounded-none basis-3/4 rounded-e-2xl bg-red-50 border-2 text-gray-900 py-2 pe-1 text-center" 
-                 placeholder="Place your bet!">
+                 placeholder={$_("games.fruit-frenzy-classic.placeBet")}>
         </div>
 
         <div class="basis-1/2">

@@ -126,6 +126,7 @@
     "fruit-frenzy-classic": {
       "auto": "Auto-Run",
       "spin": "Spin",
+      "placeBet": "Place your bet!",
       "description1": "The reels contain 7 fruits and can contain up to 3 golden variants of the fruits. Golden variants boost the win. You win if you get three identical fruits next to each other.",
       "description2": "Press the 'SPIN' button to try your luck. You can use the autorun button to keep the machine continously running. The minimum bet is 10 chip."
     },
