@@ -105,7 +105,8 @@
         "title": "Szerkesztés",
         "save": "Mentés",
         "name": "Név (új)",
-        "email": "E-mail (új)"
+        "email": "E-mail (új)",
+        "password": "Jelszó (új)"
       }
     },
     "hub": {
