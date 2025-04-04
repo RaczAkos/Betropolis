@@ -15,12 +15,26 @@ export const POST: RequestHandler = async (event) => {
               languageToPost = req.newLanguage
 
         await db.execute(
-            `UPDATE users SET avatar = ?, username = ?, email = ?, lang = ? WHERE id = ?`,
-            [avatarToPost, nameToPost, emailToPost, languageToPost, event.locals.user.id]
+            `UPDATE users SET avatar = ?, username = ?, email = ?, lang = ?, password = ? WHERE id = ?`,
+            [avatarToPost, nameToPost, emailToPost, languageToPost, passwordToPost, event.locals.user.id]
         );
 
         return json({succesful: "Succesful!"});
 
+    } catch (error) {
+        console.error("Error updating balance:", error);
+        return json({ error: "Internal Server Error" }, { status: 500 });
+    }
+};
+
+export const GET: RequestHandler = async (event) => {
+        let db = await dbConnect();
+    try {
+        await db.execute(
+            `DELETE FROM users WHERE id = ?`,
+            [event.locals.user.id]
+        );;
+    return json({kutyareturn: "kutyareturn"})
     } catch (error) {
         console.error("Error updating balance:", error);
         return json({ error: "Internal Server Error" }, { status: 500 });

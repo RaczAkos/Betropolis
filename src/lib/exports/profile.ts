@@ -14,3 +14,7 @@ export async function profileChange(img:string, name:string, email:string, passw
     });
     const data = await response.json();
 }
+export async function deleteCharacter() {
+    const response = await fetch('/api/profile');
+    const data = await response.json();
+}

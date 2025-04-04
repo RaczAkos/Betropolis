@@ -10,7 +10,7 @@
     import { fade, scale } from 'svelte/transition';
     import { browser } from "$app/environment";
     import avatarsAll from "$lib/exports/avatars";
-    import { profileChange } from '$lib/exports/profile';
+    import { deleteCharacter, profileChange } from '$lib/exports/profile';
     import { _ } from "svelte-i18n";
 
     let { data } = $props();
@@ -114,6 +114,10 @@
             closeModal();  
         }
     }
+    
+    function deleteUser() {
+        deleteCharacter();
+    }
 
     $effect(() => {
        if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && 
@@ -133,7 +137,8 @@
 
 
 <div class="w-screen h-screen bg-[#141a22] flex justify-center items-center changeHeight">
-    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 rounded btnPos left-2 fixed transition-all duration-300">
+    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 rounded btnPos left-2 fixed transition-all duration-300"
+            onclick={deleteUser}>
         {$_(`page.profile.delete`)}
     </button>    
     <div class="w-[85vw] h-[75vh] bg-[#040d17] flex mx-auto rounded-lg shadow-2xl shadow-[#040d17] flex-col">
@@ -224,7 +229,7 @@
                         {#if selectedGame}
                             <div class="w-full">
                                 <table class="w-full border border-gray-700">
-                                    <thead>
+                                    <thead class="">
                                         <tr class="bg-[#040d17] text-white">
                                             {#each Object.keys(data.transaction[0]) as key}
                                                 {#if key != "gameid"}
