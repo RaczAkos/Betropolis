@@ -126,6 +126,16 @@
     "fruit-frenzy-classic": {
       "auto": "Automata",
       "spin": "Futtatás",
+      "spinning": "Pörgés!",
+      "startSpin": "Pörgess!",
+      "gain": "+{gain}",
+      "quips": {
+        "1": "Nem most!",
+        "2": "Nincs szerencséd!",
+        "3": "Próbáld újra!",
+        "4": "Majdnem!",
+        "5": "Talán legközelebb!"
+      },
       "placeBet": "Tegyél tétet!",
       "description1": "A kerekek tartalmaznak 7 gyümölcsöt és tartalmazhatnak akár 3 arany variánst ezekből. Az arany gyümölcsök növelik a nyereményt. Akkor nyersz, ha 3 egyforma gyümölcs van egymás mellett, nyertél.",
       "description2": "Nyomd meg a ,,Futtatás\" gombot, hogy próbára tedd a szerencséd. Az ,,Automata\" gomb megnyomásával a gép folyamatosan futni fog. A minimum tét 10 token."
