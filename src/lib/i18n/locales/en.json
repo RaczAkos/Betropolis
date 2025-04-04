@@ -105,7 +105,8 @@
         "title": "Edit",
         "save": "Save",
         "name": "Name (new)",
-        "email": "E-mail (new)"
+        "email": "E-mail (new)",
+        "password": "Password (new)"
       }
     },
     "hub": {

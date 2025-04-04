@@ -5,7 +5,7 @@ import { dbConnect } from "$lib/db/db";
 export const load: LayoutServerLoad = async ({locals}) => {
   let db = await dbConnect();
 
-  let userData = await db.query(`SELECT email, username, gender, birthdate, balance, avatar 
+  let userData = await db.query(`SELECT email, username, gender, birthdate, balance, avatar
                                  FROM users 
                                  WHERE id = ${locals.user.id}`);
                                  
