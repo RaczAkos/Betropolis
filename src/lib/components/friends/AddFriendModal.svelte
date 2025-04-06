@@ -1,38 +1,35 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
   import Input from "../Input.svelte";
+  import type { Feedback, Modal } from "$lib/interfaces";
 
-  let { show = $bindable() } = $props(),
-      friendUsername = $state(""),
-      disabled = $state(true),
-      feedback:any = $state({});
+  let { show = $bindable() }: Modal = $props(),
+      friendUsername: string = $state(""),
+      feedback: Feedback     = $state({});
 
-  async function addFriend() {
+  // Adding friend
+  async function addFriend(): Promise<void> {
     feedback = {};
 
-    let res:any = fetch("/api/add-friend", {
+    await fetch("/api/add-friend", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ friendUsername })
     })
-
-    res = (await res).json();
-    res.then((res:any) => {
+    .then((res: Response) => res.json())
+    .then(res => {
       if (res.success) feedback["success"] = res.success;
       else feedback['error'] = res.error;
     })
 
     friendUsername = "";
   }
-
-  $effect(() => {
-    disabled = /^[a-zA-Z0-9]{5,20}$/.test(friendUsername);
-  })
 </script>
 
-<div class:hidden={!show} class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div class:hidden={!show} 
+     class="relative z-10">
 
-  <div class="fixed inset-0 bg-black/90 transition-opacity modalbg" aria-hidden="true"></div>
+  <div class="fixed inset-0 bg-black/90 transition-opacity modalbg"></div>
   
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
@@ -44,25 +41,32 @@
         <div class="text-center mb-2 p-2">
           {$_("friends.add.description")}
         </div>
+
         <div class="px-5">
           <Input bind:value={friendUsername}/>
         </div>
+
+        <!-- Display success or error -->
         {#if feedback.success || feedback.error}
           <div class:bg-green-600={feedback.success}
                class:bg-red-600={feedback.error} 
                class="m-2 rounded text-white text-center p-1 text-md">
-            {feedback.success}
-            {feedback.error}
+            {#if feedback.success}
+              {$_("friends.success.add")}
+            {:else}
+              {$_("friends.errors.add." + feedback.error)}
+            {/if}
           </div>
         {/if}
 
+        <!-- Close and Add buttons -->
         <div class="mt-2 border-t-2 pt-2 border-yellow-600 px-2 max-sm:flex-col-reverse gap-2 flex justify-center font-bold">
           <button class="hover:scale-110 border-2 p-1 rounded bg-black text-yellow-600 border-yellow-600 duration-300" 
                   onclick={() => { show = false; friendUsername = "", feedback = {}}}>
             {$_("close")}
           </button>
-          <button class="enabled:hover:scale-110 border-2 p-1 rounded bg-yellow-600 text-black border-yellow-600 enabled:hover:bg-black enabled:hover:text-yellow-600 disabled:bg-yellow-600/50 disabled:border-yellow-600/50 duration-300" 
-                  disabled={!disabled}
+          <button class="enabled:hover:scale-110 border-2 p-1 rounded bg-yellow-600 text-black border-yellow-600 enabled:hover:bg-black enabled:hover:text-yellow-600 disabled:opacity-50 duration-300" 
+                  disabled={!/^[a-zA-Z0-9]{5,20}$/.test(friendUsername)}
                   onclick={addFriend}>
             {$_("friends.add.send")}
           </button>

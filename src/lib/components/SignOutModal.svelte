@@ -1,19 +1,21 @@
-<script>
+<script lang="ts">
   import { _ } from "svelte-i18n";
-  let { clicked = $bindable() } = $props();
+  import type { Modal } from "$lib/interfaces";
+  let { show = $bindable() }: Modal = $props();
 
-  function signOut() {
+  function signOut(): void {
     fetch("/api/sign-out").then(() => window.location.reload());
   }
 
-  function signOutAll() {
+  function signOutAll(): void {
     fetch("/api/sign-out-all").then(() => window.location.reload());
   }
 </script>
 
-<div class:hidden={!clicked} class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div class:hidden={!show} 
+     class="relative z-10">
 
-  <div class="fixed inset-0 bg-black/90 transition-opacity modalbg" aria-hidden="true"></div>
+  <div class="fixed inset-0 bg-black/90 transition-opacity modalbg"></div>
   
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto text-white">
     <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
@@ -28,7 +30,7 @@
         
         <div class="mt-2 border-t-2 pt-2 border-yellow-600 px-2 max-sm:flex-col-reverse gap-2 flex justify-center font-bold">
           <button class="hover:scale-105 border-2 p-1 rounded bg-black text-yellow-600 border-yellow-600 duration-300" 
-                  onclick={() => clicked = false}>
+                  onclick={() => show = false}>
             {$_("close")}
           </button>
           <button class="hover:scale-105 border-2 p-1 rounded bg-yellow-600 text-black border-yellow-600 hover:bg-black hover:text-yellow-600 duration-300" 

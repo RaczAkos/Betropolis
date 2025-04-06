@@ -1,10 +1,9 @@
 <script lang="ts">
-	import '$lib/app.css';
-  import HomeNavbar from '$lib/components/home/HomeNavbar.svelte';
+  import Navbar from '$lib/components/Navbar.svelte';
 	let { children } = $props();
 </script>
 
-<HomeNavbar logged={true} home={false}/>
+<Navbar logged={true} home={false}/>
 
 <div class="h-screen fixed">
 	{@render children()}

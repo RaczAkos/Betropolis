@@ -9,17 +9,14 @@
   import type { PageProps } from "./$types";
   import { enhance } from '$app/forms';
 
-  let { form }:PageProps = $props();
-
-  // Sign in type checking
   interface SignIn {
     id:string,
     password:string
   }
-
-  let type:string = $state("password"),
-      disabling:boolean = $state(false),
-      user:SignIn = $state({
+  
+  let { form }: PageProps = $props(),
+      type: string        = $state("password"),
+      user: SignIn        = $state({
         id: "",
         password: ""
       });
@@ -32,7 +29,6 @@
   <!-- Username / E-mail -->
   <div class="my-3">
     <Input bind:value={user.id} 
-           disabled={disabling} 
            name="id" 
            id="identifier" 
            required={true} 
@@ -41,8 +37,7 @@
 
   <!-- Password -->
   <div class="mb-2">
-    <Input bind:value={user.password} 
-           disabled={disabling} 
+    <Input bind:value={user.password}
            id="password" 
            name="password" 
            {type} 
@@ -65,8 +60,8 @@
 
   <!-- Sign in -->
   <div class="flex justify-center items-center mb-1">
-    <button class="disabled:opacity-35 disabled:hover:bg-yellow-600 bg-yellow-600 hover:bg-black border-yellow-600 border-2 hover:border-opacity-100 text-black hover:text-yellow-600 disabled:hover:text-black font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline duration-300" 
-    disabled={(user.password.length < 8 || user.id.length < 5) || disabling}>
+    <button class="disabled:opacity-35 bg-yellow-600 enabled:hover:bg-black border-yellow-600 border-2 text-black enabled:hover:text-yellow-600 font-bold p-2 rounded duration-300" 
+    disabled={user.password.length < 8 || user.id.length < 5}>
       {$_("page.sign-in.title")}
     </button>
   </div>
@@ -77,7 +72,7 @@
        href="/sign-up">{$_("page.sign-in.toSignUp")}</a>
   </div>
 
-  <!-- Display error/feedback -->
+  <!-- Display error -->
   {#if form?.error}
     <div class="bg-red-600 text-white text-center mt-2 rounded-md p-1">
       {$_("page.sign-in." + form.error)}

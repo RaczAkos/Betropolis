@@ -1,7 +1,9 @@
-<script>
+<script lang="ts">
   import { _ } from "svelte-i18n";
+  import type { Input } from "$lib/interfaces";
   // Props
-  let { value = $bindable(""), 
+  let { 
+        value = $bindable(""), 
         disabled = false, 
         type = "text", 
         id = "", 
@@ -9,7 +11,8 @@
         label = null, 
         name="", 
         required = false,
-        onpaste = null} = $props();
+        onpaste = null
+      }: Input = $props();
 </script>
 
 <!-- Custom input -->

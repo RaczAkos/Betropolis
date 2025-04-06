@@ -225,7 +225,7 @@
               class="resetter w-full h-[100px] bg-transparent enabled:hover:bg-yellow-600 enabled:hover:text-black text-white font-bold 
                      py-2 px-4 rounded border border-yellow-600 {currentAmount > 54 || currentAmount < 1 ? "shadow-none" : "shadow-lg shadow-yellow-600"}"
               disabled={currentAmount > 54 || currentAmount < 1 ? true : false}>
-        {$_("games.findcard.start")}
+        {$_("games.find-card.start")}
       </button>  
     </div>
 
@@ -286,7 +286,7 @@
       <form>
         <label class="block">
           <span class="block text-xl font-medium text-yellow-600 py-5">
-            {$_("games.findcard.cards")}
+            {$_("games.find-card.cards")}
           </span>
           <div class="flex items-center space-x-2">
             <input bind:value={currentAmount} 

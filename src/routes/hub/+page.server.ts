@@ -1,24 +1,20 @@
 import type { PageServerLoad } from "./$types";
 import { dbConnect } from "$lib/db/db";
+import type { Game } from "$lib/interfaces";
 
-export const load: PageServerLoad = async ({locals}) => {
+export const load: PageServerLoad = async ({locals}: {locals: App.Locals}) => {
   let db = await dbConnect();
 
-  let gamesData = await db.query(`SELECT name, route, image, font 
-                                  FROM game;`), 
-
-      friendRequestsNumber = await db.query(`SELECT COUNT(id) AS 'notification' 
-                                          FROM friend_requests  
-                                          WHERE sentToId = ${locals.user.id} 
-                                          AND status = 'active';`)
-
+  let gamesData: Array<Array<Game>> = await db.query(
+        `SELECT name, route, image, font 
+         FROM game;`
+      );
 
   return {
     user: {
       "balance": locals.user.balance,
       "username": locals.user.username
     }, 
-    games: gamesData[0], 
-    friendRequests: friendRequestsNumber[0]
+    games: gamesData[0]
   };
 }

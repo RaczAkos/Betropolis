@@ -11,8 +11,8 @@ export async function POST(event) {
                                  FROM users 
                                  WHERE username = '${data.friendUsername}';`);
 
-    if (friend[0][0] == undefined) return json({error: "User doesn't exists!"});
-    else if (friend[0][0].id == event.locals.user.id) return json({error: "You can't add yourself as friend!"});
+    if (friend[0][0] == undefined) return json({error: "noUser"});
+    else if (friend[0][0].id == event.locals.user.id) return json({error: "self"});
     else {
       let requestQuery = `SELECT id 
                           FROM friend_requests 
@@ -21,24 +21,25 @@ export async function POST(event) {
           friendId = friend[0][0].id;
 
       let sentRequest = await db.query(requestQuery, [event.locals.user.id, friendId]);
-      if (sentRequest[0][0]) return json({error: "You already sent a request!"});
+      if (sentRequest[0][0]) return json({error: "sent"});
 
       let gotRequest = await db.query(requestQuery, [friendId, event.locals.user.id]);
-      if (gotRequest[0][0]) return json({error: "You already got a request!"});
+      if (gotRequest[0][0]) return json({error: "got"});
 
       let friends = await db.query(`SELECT id 
                                     FROM friends 
                                     WHERE (friend1 = ? OR friend1 = ?) 
-                                    AND (friend2 = ? OR friend2 = ?);`,
+                                    AND (friend2 = ? OR friend2 = ?) 
+                                    AND status = 1;`,
                                    [friendId, event.locals.user.id, friendId, event.locals.user.id]);
-      if (friends[0][0]) return json({error: "You are already friends!"});
+      if (friends[0][0]) return json({error: "friends"});
     }
 
     await db.query(`INSERT INTO friend_requests (senderId, sentToId, status) 
                     VALUES (?,?, 'active')`, 
                     [event.locals.user.id, friend[0][0].id]);
     
-    return json({success: "Friend request sent!"});
+    return json({success: "success"});
   }
   catch (e:any) {
     return json({error: e.message});

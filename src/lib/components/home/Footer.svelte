@@ -1,22 +1,25 @@
-<script>
-  import logo from "$lib/media/images/logo.png";
+<script lang="ts">
   import { _ } from "svelte-i18n";
   import { page } from "$app/state";
-  let { logged, home } = $props();
-  let links = [ "terms&conditions", "privacy-policy" ];
+  import type { Navbar } from "$lib/interfaces";
+  
+  let { logged, home }: Navbar = $props(), 
+      links: string[] = [ "terms&conditions", "privacy-policy" ];
 </script>
 
 <footer>
   <div class="sm:flex sm:items-center sm:justify-between md:ps-9">
     <div class="flex items-center max-lg:flex-col mb-0 space-x-3 rtl:space-x-reverse">
-      <img src={logo} class="h-24" alt="Casino logo"/>
+      <img src="/src/lib/media/images/logo.png" 
+           class="h-24" 
+           alt="Casino logo"/>
     </div>
-    <ul class="">
+    <ul>
       <li>
         <a href="/sign-in">
-            {$_(`page.${logged ? "hub" : "sign-in"}.title`)}
-          </a>
-        </li>
+          {$_(`page.${logged ? "hub" : "sign-in"}.title`)}
+        </a>
+      </li>
       {#if !home}
         <li>
           <a href="/">
@@ -36,7 +39,9 @@
     </ul>
   </div>
   <hr class="sm:mx-auto border-yellow-600 my-2"/>
-  <span class="block text-md text-center">{$_("copyright")}</span>
+  <span class="block text-md text-center">
+    {$_("copyright")}
+  </span>
 </footer>
 
 <style>

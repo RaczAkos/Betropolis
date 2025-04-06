@@ -1,4 +1,3 @@
-<!-- Meta information -->
 <svelte:head>
     <title>{$_("page.sign-up.title")} - Betropolis</title>
     <meta name="description" content={$_("page.home.description")} />
@@ -12,21 +11,11 @@
   import LanguageModal from "$lib/components/LanguageModal.svelte";
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
-
-  let { form } = $props();
-
-  interface Registration {
-    name:string,
-    username:string,
-    birthdate:string,
-    gender:number|null,
-    email:string,
-    password:string,
-    picture:string,
-    lang:string
-  }
-
-  let user: Registration = $state({
+  import type { PageProps } from "../sign-in/$types";
+  import type { Registration } from "$lib/interfaces";
+  
+  let { form }:PageProps = $props(),
+      user:Registration  = $state({
         name: "",
         username: "",
         birthdate: "",
@@ -36,25 +25,25 @@
         picture:"",
         lang: ""
       }),
-      genders:string[]        = ["male", "female"],
-      windowWidth:number      = $state(0),
-      type:string             = $state("password"),
-      password2:string        = $state(""),
-      passwordConfirm:boolean = $state(false),
-      passwordFormat:boolean  = $state(false),
-      userNameFormat:boolean  = $state(false),
-      date:Date               = new Date(),
-      month:string|number     = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
-      day:string|number       = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
-      currentDate:string      = `${date.getFullYear()-18}-${month}-${day}`,
-      conditions:boolean      = $state(false),
-      defaultLang:boolean     = $state(false),
-      over18:boolean          = $state(false),
-      valid:boolean           = $state(false),
-      langClicked:boolean     = $state(false);
-    
-  let selectedAvatarIndex = $state(-1);
+      genders: string[]           = ["male", "female"],
+      windowWidth: number         = $state(0),
+      type: string                = $state("password"),
+      password2: string           = $state(""),
+      passwordConfirm: boolean    = $state(false),
+      passwordFormat: boolean     = $state(false),
+      userNameFormat: boolean     = $state(false),
+      date: Date                  = new Date(),
+      month: string|number        = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
+      day: string|number          = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
+      currentDate: string         = `${date.getFullYear()-18}-${month}-${day}`,
+      conditions: boolean         = $state(false),
+      defaultLang: boolean        = $state(false),
+      over18: boolean             = $state(false),
+      valid: boolean              = $state(false),
+      langClicked: boolean        = $state(false),
+      selectedAvatarIndex: number = $state(-1);
 
+  // Setting language
   onMount(() => {
     if (browser) user.lang = localeCheck(window.navigator.language);
     else user.lang = 'en';
@@ -67,30 +56,26 @@
     passwordFormat = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!#$%&?<>_ "]).*$/.test(user.password);
     if (passwordFormat) passwordConfirm = (user.password == password2)? true : false;
   });
-
+  
+  // Testing username format
   $effect(() => {
     userNameFormat = /^[a-zA-Z0-9]{5,20}$/.test(user.username);
   });
 
   // Checking fields
   $effect(() => {
-    if (user.name.length > 3 && user.name.indexOf(' ') && 
-      userNameFormat &&
-      user.gender && 
-      user.birthdate != "" &&
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(user.email) &&
-      passwordConfirm &&
-      conditions &&
-      over18 &&
-      selectedAvatarIndex != -1 &&
-      user.lang != ""
+    if (user.name.length > 2 && user.name.indexOf(' ') &&                     // name
+      userNameFormat &&                                                       // username
+      user.gender !== null &&                                                 // gender
+      user.birthdate != "" &&                                                 // date of birth
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(user.email) &&  // email
+      passwordConfirm &&                                                      // confirmed password
+      conditions &&                                                           // policies
+      over18 &&                                                               // age
+      selectedAvatarIndex != -1                                               // avatar
     ) valid = true;
     else valid = false;
   });
-
-  function selectAvatar(index:any) {
-    selectedAvatarIndex = index;
-  }
 
   function localeCheck(locale:string){
     if (locale == "en-GB" || locale == "en-US" || locale == "en-CA") return "en";
@@ -246,7 +231,7 @@
       <div class="overflow-x-scroll sm:w-[500px] scrollDesign">
         <div class="flex gap-4 w-max px-4 py-2">
           {#each avatarsAll[user.gender] as avatar, index}
-            <button onclick={() => selectAvatar(index)} type="button">
+            <button onclick={() => selectedAvatarIndex = index} type="button">
               <img  
                 src={avatar}
                 alt="Avatar {index}"
@@ -298,8 +283,8 @@
 {/if}
 
 <LanguageModal bind:selectedLang={user.lang} 
-               bind:clicked={langClicked}
-               defaultLang={defaultLang}/>
+               bind:show={langClicked}
+               {defaultLang}/>
 
 <style>
     input[type="date"] {

@@ -4,11 +4,15 @@
   import FriendRequestsModal from "../friends/FriendRequestsModal.svelte";
   import FriendsModal from "../friends/FriendsModal.svelte";
   import HubNavLi from "./HubNavLi.svelte";
+  import type { Modal } from "$lib/interfaces";
 
-  let { show = $bindable(), requests } = $props(),
-      addFriendClicked:boolean= $state(false),
-      friendRequestClicked:boolean = $state(false),
-      friendsButtonClicked:boolean = $state(false);
+  let { 
+        show = $bindable(), 
+        notification = $bindable()
+      }: Modal = $props(),
+      addFriendClicked: boolean     = $state(false),
+      friendRequestClicked: boolean = $state(false),
+      friendsButtonClicked: boolean = $state(false);
 </script>
 
 <!-- Menu -->
@@ -16,16 +20,16 @@
      class="w-1/2 sm:w-1/3 border-4 bg-black border-yellow-600 rounded-tr-xl h-fit float-start">
   <ul>
     <HubNavLi text={$_("friends.title")} 
-              bind:click={friendsButtonClicked} />
+              bind:show={friendsButtonClicked} />
     <HubNavLi text={$_("friends.requests")}
-              bind:click={friendRequestClicked} 
-              notification={requests[0].notification}/>
+              bind:show={friendRequestClicked} 
+              {notification}/>
     <HubNavLi text={$_("friends.add")} 
-              bind:click={addFriendClicked}/>
+              bind:show={addFriendClicked}/>
   </ul>
 </div>
 
 <!-- Modals -->
 <FriendsModal bind:show={friendsButtonClicked}/>
-<FriendRequestsModal bind:show={friendRequestClicked}/>
+<FriendRequestsModal bind:show={friendRequestClicked} bind:notification={notification}/>
 <AddFriendModal bind:show={addFriendClicked}/>

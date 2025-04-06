@@ -1,6 +1,8 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
-  let { param, index } = $props();
+  import type { Paragraph } from "$lib/interfaces";
+  
+  let { param, index }: Paragraph = $props();
 </script>
 
 <div>

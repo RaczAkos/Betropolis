@@ -4,10 +4,17 @@
   import chip from "$lib/media/images/chip.png";
   import SignOutModal from "../SignOutModal.svelte";
   import HubNavLi from "./HubNavLi.svelte";
+  import type { Modal } from "$lib/interfaces";
 
-  let { show = $bindable(), user = {} } = $props(),
-      signOutClicked:boolean  = $state(false),
-      links:string[] = [ "profile", "terms&conditions", "privacy-policy" ];
+  let { 
+        show = $bindable(), 
+        user = {
+          balance: 0, 
+          username: "error"
+        } 
+      }: Modal = $props(),
+      signOutClicked: boolean  = $state(false),
+      links: string[] = [ "profile", "terms&conditions", "privacy-policy" ];
 </script>
 
 <div class:hidden={!show}
@@ -39,8 +46,8 @@
                 href={"/"+link}/>
     {/each}
     <HubNavLi text={$_("sign-out")} 
-              bind:click={signOutClicked}/>
+              bind:show={signOutClicked}/>
   </ul>
 </div>
 
-<SignOutModal bind:clicked={signOutClicked}/>
+<SignOutModal bind:show={signOutClicked}/>

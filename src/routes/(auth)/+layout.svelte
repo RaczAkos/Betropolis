@@ -1,7 +1,5 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
-	import '$lib/app.css';
-  import logo from "$lib/media/images/logo.png";
 	let { children } = $props();
 </script>
 
@@ -13,9 +11,9 @@
       {$_("backToHome")}
     </a>
 
-    <div class="flex justify-center items-center px-3">
+    <div class="flex justify-center items-center px-3 mt-1">
       <div>
-        <img src={logo} 
+        <img src="/src/lib/media/images/logo.png" 
              alt="Casino Logo"  
              class="self-center w-52">
       </div>

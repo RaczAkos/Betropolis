@@ -1,6 +1,6 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
-  let { text } = $props();
+  let { text }: { text: string } = $props();
 </script>
 
 <p class="text-justify text-xl sm:text-2xl leading-6 my-2">

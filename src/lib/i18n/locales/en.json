@@ -120,7 +120,7 @@
     "crash": {
 
     },
-    "findcard": {
+    "find-card": {
       "start": "Start",
       "cards": "Cards left"
     },
@@ -169,10 +169,32 @@
   },
   "friends": {
     "title": "Friends",
-    "add": "Add Friend",
+    "statistics": "Statistics",
+    "friends.empty": "No friends right now!",
     "requests": "Friend requests",
+    "requests.incoming": "Incoming",
+    "requests.outgoing": "Outgoing",
+    "requests.empty": "No requests right now!",
+    "add": "Add Friend",
     "add.description": "Enter your friend's username:",
-    "add.send": "Add"
+    "add.send": "Add",
+    "success":{
+      "add": "Friend request sent!",
+      "requests": {
+        "accepted": "Friend request accepted!",
+        "deleted": "Friend request deleted!"
+      },
+      "friends.deleted": "Friendship deleted!"
+    },
+    "errors": {
+      "add": {
+        "noUser": "User doesn't exists!",
+        "self": "You can't add yourself as friend!",
+        "sent": "You already sent a request!",
+        "got": "You already got a request!",
+        "friends": "You are already friends!"
+      }
+    }
   },
   "funds": {
     "title": "Manage funds"
@@ -182,9 +204,10 @@
     "name": {
       "en":"English",
       "hu":"Hungarian"
-    },
-    "accept": "Accept"
+    }
   },
+  "accept": "Accept",
+  "delete": "Delete",
   "and": "and the",
   "sign-out": "Sign out",
   "sign-out-all": "Sign out everywhere",

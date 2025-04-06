@@ -1,11 +1,12 @@
-
 <script lang="ts">
   import { _ } from "svelte-i18n";
   import Input from "$lib/components/Input.svelte";
-  import searchImg from "$lib/media/images/hub/search.png";
-  import closeImg from "$lib/media/images/hub/close.png";
+  import type { Search } from "$lib/interfaces";
 
-  let { search = $bindable(), searchBar = $bindable() } = $props();
+  let { 
+        search = $bindable(), 
+        searchBar = $bindable() 
+      }: Search = $props();
 </script>
 
 <div class="fixed top-0 bg-black border-b border-yellow-600 w-full p-2 borgens flex justify-between text-center select-none h-[65px]">
@@ -20,8 +21,11 @@
            name="search"/>
     <button type="button"
             class="bg-red-600 rounded p-2 !min-w-12 ms-2"
-            onclick={() => {searchBar = false; search = ""}}>
-      <img src={closeImg} 
+            onclick={() => {
+                      searchBar = false; 
+                      search = "";
+                    }}>
+      <img src="/src/lib/media/images/hub/close.png" 
            alt={$_("close")}>
     </button>
   </div>
@@ -55,14 +59,16 @@
              id="search"
              name="search"/>
       <button type="button" 
-              onclick={() => {search = ""}}
+              onclick={() => search = ""}
               disabled={search.length < 1}
               class:!bg-red-600={search}
               class="bg-yellow-600 rounded ms-1 p-2 min-w-12 enabled:hover:scale-110 duration-200">
         {#if search}
-          <img src={closeImg} alt={$_("close")}>
+          <img src="/src/lib/media/images/hub/close.png" 
+               alt={$_("close")}>
         {:else}
-          <img src={searchImg} alt={$_("page.hub.search")}>
+          <img src="/src/lib/media/images/hub/search.png" 
+               alt={$_("page.hub.search")}>
         {/if}
       </button>
     </div>
@@ -70,7 +76,7 @@
     <button type="button" 
             onclick={() => searchBar = true}
             class="ms-1 bg-yellow-600 rounded p-2 sm:hidden border-2 border-yellow-600">
-      <img src={searchImg} 
+      <img src="/src/lib/media/images/hub/search.png" 
            alt={$_("page.hub.search")}>
     </button>
   </div>

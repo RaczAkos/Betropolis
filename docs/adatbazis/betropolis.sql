@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 03. 12:53
--- Kiszolgáló verziója: 10.4.28-MariaDB
--- PHP verzió: 8.1.17
+-- Létrehozás ideje: 2025. Ápr 07. 01:56
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,7 +39,8 @@ CREATE TABLE `bonus` (
 --
 
 INSERT INTO `bonus` (`id`, `email`, `starting_bonus`, `status`) VALUES
-(1, 'example@example.com', 2700, 0);
+(1, 'example@example.com', 2700, 0),
+(2, 'pityi.panna@mail.com', 4500, 1);
 
 -- --------------------------------------------------------
 
@@ -50,15 +51,20 @@ INSERT INTO `bonus` (`id`, `email`, `starting_bonus`, `status`) VALUES
 CREATE TABLE `friends` (
   `id` int(11) NOT NULL,
   `friend1` int(11) NOT NULL,
-  `friend2` int(11) NOT NULL
+  `friend2` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `friends`
 --
 
-INSERT INTO `friends` (`id`, `friend1`, `friend2`) VALUES
-(5, 3, 1);
+INSERT INTO `friends` (`id`, `friend1`, `friend2`, `status`) VALUES
+(5, 3, 1, 0),
+(6, 2, 3, 0),
+(7, 2, 1, 0),
+(8, 59, 2, 1),
+(9, 1, 59, 1);
 
 -- --------------------------------------------------------
 
@@ -79,9 +85,17 @@ CREATE TABLE `friend_requests` (
 
 INSERT INTO `friend_requests` (`id`, `senderId`, `sentToId`, `status`) VALUES
 (2, 1, 3, 'accepted'),
-(3, 3, 2, 'active'),
-(4, 1, 2, 'active'),
-(5, 3, 4, 'active');
+(3, 3, 2, 'accepted'),
+(4, 1, 2, 'accepted'),
+(5, 3, 4, 'deleted'),
+(6, 59, 1, 'deleted'),
+(7, 59, 2, 'deleted'),
+(8, 59, 4, 'deleted'),
+(9, 4, 58, 'active'),
+(10, 2, 59, 'accepted'),
+(11, 59, 4, 'deleted'),
+(12, 59, 1, 'accepted'),
+(13, 59, 4, 'active');
 
 -- --------------------------------------------------------
 
@@ -396,7 +410,9 @@ INSERT INTO `users` (`id`, `email`, `username`, `password`, `name`, `gender`, `b
 (50, 'amy.cooper@example.com', 'amycooper', 'Password123.', 'Amy Cooper', 0, '1991-02-19', 500, 'en', ''),
 (51, '', '', '', '', 0, '0000-00-00', 500, 'en', ''),
 (58, 'iskolai@gmail.com', 'iskolai', 'Password1234!', 'iskolai', 0, '2007-03-03', 14000, 'en', '/src/lib/media/images/avatars/male_avatars/avatar_8'),
-(59, 'pityi.panna@mail.com', 'pityipanna', 'Password123.', 'Pityi Panna', 1, '2007-03-27', 0, 'hu-HU', '/src/lib/media/images/avatars/female_avatars/avatar_2');
+(59, 'pityi.panna@mail.com', 'pityipanna', 'Password123.', 'Pityi Panna', 1, '2007-03-27', 4500, 'hu-HU', '/src/lib/media/images/avatars/female_avatars/avatar_2'),
+(60, 'eeee@ee.ee', 'eeeeee', 'Password123.', 'A Aeeeeee', 1, '2007-04-02', 0, 'hu-HU', '/src/lib/media/images/avatars/female_avatars/avatar_1.png'),
+(61, 'eeeee@ee.ee', 'eeeee', 'Password123.', 'eeee eeee', 1, '2007-04-04', 0, 'en', '/src/lib/media/images/avatars/female_avatars/avatar_2.png');
 
 -- --------------------------------------------------------
 
@@ -417,6 +433,7 @@ CREATE TABLE `user_session` (
 INSERT INTO `user_session` (`id`, `user_id`, `expires_at`) VALUES
 ('5a541c4b61e7e918d9478cbf1617378238922c3383b2c7e8e99e82a4c741168a', 58, '2025-04-29 17:51:21'),
 ('5a7bc5390037b0e4761965cba7ca9060e1b814fa2c8e7e5c78dd6377954d4ef5', 58, '2025-04-27 09:32:20'),
+('747f9de0481cfea8c01ac56adcc14177b4073abf9177c571fb33298f9aa61e08', 59, '2025-05-06 21:49:49'),
 ('bb53b71ea27eae42b45da1e90d1fc61486c6d3fc14521f6f0829135dbaa633c3', 1, '2025-05-03 12:24:51');
 
 --
@@ -474,19 +491,19 @@ ALTER TABLE `user_session`
 -- AUTO_INCREMENT a táblához `bonus`
 --
 ALTER TABLE `bonus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT a táblához `friend_requests`
 --
 ALTER TABLE `friend_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT a táblához `game`
@@ -504,7 +521,7 @@ ALTER TABLE `statistics`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

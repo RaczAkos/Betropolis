@@ -1,5 +1,7 @@
-<script>
-  let { game = {} } = $props();
+<script lang="ts">
+  import type { Game } from "$lib/interfaces";
+
+  let { game }: { game: Game } = $props();
 </script>
 
 <a href={game.route}>

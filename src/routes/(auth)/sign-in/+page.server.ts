@@ -15,10 +15,12 @@ export const actions = {
     let user = await db.query(`SELECT id, password 
                                FROM users 
                                WHERE email = ? OR username = ?;`, [id,id]);
-    
+    // Checking if user exists
     if (user[0][0]) {
+      // Checking if password is correct
       if(user[0][0].password === password) {
 
+        // Creating session
         const token = generateSessionToken();
         const session = await createSession(token, user[0][0].id);
         setSessionTokenCookie(event, token, session.expiresAt);

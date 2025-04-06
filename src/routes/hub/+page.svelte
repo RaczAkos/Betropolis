@@ -5,18 +5,19 @@
 
 <script lang="ts">
   import { _ } from "svelte-i18n";
-
   import GameCard from "$lib/components/hub/GameCard.svelte";
   import HubNavbar from "$lib/components/hub/HubNavbar.svelte";
   import HubTopbar from "$lib/components/hub/HubTopbar.svelte";
+  import type { Game } from "$lib/interfaces/index.js";
 
   let { data } = $props(),
-      windowWidth:number = $state(0),
-      gameList = $state(data.games),
-      search:string = $state(""),
-      searchBar:boolean = $state(false);
+      windowWidth:number    = $state(0),
+      search: string        = $state(""),
+      searchBar: boolean    = $state(false),
+      gameList: Array<Game> = $state(data.games);
 
   $effect(() => {
+    // Search
     if (search) gameList = data.games.filter((game:any) => game.name.toLowerCase().search(search.toLowerCase()) != -1);
     else gameList = data.games;
 
@@ -47,4 +48,4 @@
 
 <div class="h-14"></div>
 
-<HubNavbar {data} />
+<HubNavbar data={data.user} />

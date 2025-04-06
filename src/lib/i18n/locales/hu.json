@@ -169,10 +169,32 @@
   },
   "friends": {
     "title": "Barátok",
-    "add": "Kérés küldése",
+    "statistics": "Statisztika",
+    "friends.empty": "Nincs barátod jelenleg!",
     "requests": "Barátkérések",
+    "requests.incoming": "Kapott",
+    "requests.outgoing": "Küldött",
+    "requests.empty": "Nincs kérés jelenleg!",
+    "add": "Kérés küldése",
     "add.description": "Írd be a barátod felhasználónevét:",
-    "add.send": "Küldés"
+    "add.send": "Küldés",
+    "success":{
+      "add": "Kérés elküldve!",
+      "requests": {
+        "accepted": "Kérés elfogadva!",
+        "deleted": "Kérés törölve!"
+      },
+      "friends.deleted": "Barátság törölve!"
+    },
+    "errors": {
+      "add": {
+        "noUser":"Felhasználó nem létezik!",
+        "self": "Nem küldhetsz magadnak kérést!",
+        "sent": "Már küldtél a felhasználónak kérést!",
+        "got": "Már kaptál a felhasználótól kérést!",
+        "friends": "Már barátok vagytok!"
+      }
+    }
   },
   "funds": {
     "title": "Pénzügyek"
@@ -182,9 +204,10 @@
     "name": {
       "en":"Angol",
       "hu":"Magyar"
-    },
-    "accept": "Elfogadás"
+    }
   },
+  "accept": "Elfogadás",
+  "delete": "Törlés",
   "and": "és az",
   "sign-out": "Kijelentkezés",
   "sign-out-all": "Kijelentkezés mindenhol",

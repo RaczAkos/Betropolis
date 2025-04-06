@@ -1,15 +1,14 @@
-<script>
-    import "$lib/app.css";
-    let { children } = $props();
+<script lang="ts">
+  let { children } = $props();
 </script>
-<div>
-    {@render children()}
+
+<div class="opacity-0">
+  {@render children()}
 </div>
 
 
 <style>
-    div{
-		opacity: 0;
+  div{
 		animation: fadeIn 1s forwards;
 	}
 

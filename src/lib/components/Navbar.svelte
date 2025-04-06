@@ -1,10 +1,11 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
-  import SignOutModal from '../SignOutModal.svelte';
+  import SignOutModal from './SignOutModal.svelte';
+  import type { Navbar } from "$lib/interfaces";
   
-  let { logged, home } = $props(), 
-      signOutClicked:boolean = $state(false),
-      mobileViewOpen:boolean = $state(false);
+  let { logged, home }: Navbar = $props(), 
+      signOutClicked: boolean = $state(false),
+      mobileViewOpen: boolean = $state(false);
 </script>
 
 <nav class="font-bold">
@@ -100,7 +101,7 @@
   </div>
 </nav>
 
-<SignOutModal bind:clicked={signOutClicked} />
+<SignOutModal bind:show={signOutClicked} />
 
 <style>
   @reference "$lib/app.css";
@@ -122,5 +123,4 @@
   .button1, .button2 {
     @apply p-2 rounded md:duration-300 md:hover:scale-110 border-yellow-600 border-2;
   }
-
 </style>
