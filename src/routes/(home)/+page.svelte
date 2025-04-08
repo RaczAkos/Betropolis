@@ -133,6 +133,6 @@
   .card { @apply border flex items-center justify-center rounded-3xl bg-gray-300 duration-150 ease-in-out hover:scale-[1.07] hover:shadow-xl hover:shadow-black; }
 
   .goldenbg{
-    background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
+    background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #ff9011, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
   }
 </style>
