@@ -123,7 +123,43 @@
   },
   "games": {
     "crash": {
-
+      "tutorial":{
+        "begginers": "For beginners",
+        "1":{
+          "1": "Here you can enter the amount of ",
+          "2": "chips",
+          "3": " you would like to increase or decrease your current bet with. After setting the correct amount, add or subtract it from the current bet with the ",
+          "4": " or ",
+          "5": " buttons.",
+          "6": "Add your ",
+          "7": "target multiplier",
+          "8": " where you want to withdraw your winnings."
+        },
+        "2":{
+          "1": "Here you can see your ",
+          "2": "current multiplier",
+          "3": "With the ",
+          "4": " button, if the current bet is added, and you have enough balance, it will start the game.",
+          "5": "You can press the ",
+          "6": "Cash out",
+          "7": " button, if during the game, you decided that your ",
+          "8": "target multiplier",
+          "9": " is way too risky, so you want to instantly take your chips out. Be careful though, if you withdraw before the ",
+          "10": "multiplier",
+          "11": " reaches your ",
+          "12": "target",
+          "13": ", you will only receive half of your current bet."
+        },
+        "3":{
+          "1": "This is your game field. Here you can see the scale go up as the ",
+          "2": " grows."
+        }
+      },
+      "input1": "Bet +/-",
+      "input2": "Target Multiplier (min 3)",
+      "currentBet": "Current bet",
+      "balance": "Balance",
+      "crashedAt": "Crashed at: "
     },
     "find-card": {
       "start": "Start",

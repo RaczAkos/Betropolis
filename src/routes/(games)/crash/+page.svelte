@@ -6,6 +6,7 @@
   import crashpics from "$lib/exports/crashpics";
   import { onMount } from "svelte";
   import { updateBalance, getBalance } from '$lib/exports/balance';
+  import { _ } from 'svelte-i18n';
 
   // Declare variables and states
   let canvas: any,
@@ -13,18 +14,20 @@
       cashoutBtn: any,
       betBtn: any,
       running = $state(false),
-      amount = $state(0),
+      amount: any = $state(),
       resetone: any,
       resettwo: any,
       currentAmount = $state(0),
       balance = $state(1000),
       multiplier = $state(0.0),
-      targetMultiplier = $state(3.0),
+      targetMultiplier: any = $state(),
       carousel = $state(),
       showModal = $state(true),
       currentSlide = $state(0),
       totalSlides = $state(3),
       k = 0.0025; // Constant for crash probability calculation
+
+  const translation = "games.crash.tutorial"
 
   // Function to calculate the new amount based on button clicked
   function calcOne(e: any) {
@@ -246,11 +249,11 @@
               </div>
               {#if currentSlide === 0}
               <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 p-4 text-center">
-                <p class="text-yellow-600 lg:text-4xl md:text-2xl max-sm:text-sm sm:text-sm">For beginners</p>
+                <p class="text-yellow-600 lg:text-4xl md:text-2xl max-sm:text-sm sm:text-sm">{$_("games.crash.tutorial.begginers")}</p>
               </div>
                 <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
-                  <p>Here you can enter the amount of <span class="text-yellow-600">chips</span> you would like to increase or decrease your current bet with. After setting the correct amount, add or subtract it from the current bet with the &uarr; or &darr; buttons.</p>
-                  <p>Add your <span class="text-red-600">target multiplier</span> where you want to withdraw your bet.</p>
+                  <p>{$_(`${translation}.1.1`)}<span class="text-yellow-600">{$_(`${translation}.1.2`)}</span>{$_(`${translation}.1.3`)}&uarr;{$_(`${translation}.1.4`)}&darr;{$_(`${translation}.1.5`)}</p>
+                  <p>{$_(`${translation}.1.6`)}<span class="text-red-600">{$_(`${translation}.1.7`)}</span>{$_(`${translation}.1.8`)}</p>
                 </div>
               {/if}
             </div>
@@ -262,9 +265,9 @@
               </div>
               {#if currentSlide === 1}
                 <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
-                  <p>Here you can see your <span class="text-yellow-600">current multiplier</span>.</p>
-                  <p>With the <span class="text-green-600">Bet now</span> button, if the current bet is added, and you have enough balance, it will start the game.</p>
-                  <p>You can press the <span class="text-red-600">Cash out</span> button, if during the game, you decided that your <span class="text-red-600">target multiplier</span> is way too risky, so you want to instantly take your chips out. Be careful though, if you withdraw before the <span class="text-yellow-600">multiplier</span> reaches your <span class="text-red-600">target</span>, you will only receive half of your current bet.</p>
+                  <p>{$_(`${translation}.2.1`)}<span class="text-yellow-600">{$_(`${translation}.2.2`)}</span>.</p>
+                  <p>{$_(`${translation}.2.3`)}<span class="text-green-600">{$_(`games.find-card.start`)}</span>{$_(`${translation}.2.4`)}</p>
+                  <p>{$_(`${translation}.2.5`)}<span class="text-red-600">{$_(`${translation}.2.6`)}</span>{$_(`${translation}.2.7`)}<span class="text-red-600">{$_(`${translation}.2.8`)}</span>{$_(`${translation}.2.9`)}<span class="text-yellow-600">{$_(`${translation}.2.10`)}</span>{$_(`${translation}.2.11`)}<span class="text-red-600">{$_(`${translation}.2.12`)}</span>{$_(`${translation}.2.13`)}</p>
                 </div>
               {/if}
             </div>
@@ -276,7 +279,7 @@
               </div>
               {#if currentSlide === 2}
                 <div class="absolute top-0 left-0 h-1/2 w-[40%] bg-black bg-opacity-50 text-white p-4 flex items-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
-                  <p>This is your game field. Here you can see the scale go up as the multiplier grows.</p>
+                  <p>{$_(`${translation}.3.1`)}<span class="text-yellow-600">{$_(`${translation}.2.10`)}</span>{$_(`${translation}.3.2`)}</p>
                 </div>
                 <div class="absolute bottom-0 left-0 h-1/2 w-[40%] text-[60px] text-end bg-opacity-50 p-4 flex items-center">
                   <p class="w-full text-yellow-600">&#8599;</p>
@@ -343,20 +346,20 @@
   </div>
 {/if}
 
-<div class="flex justify-center items-center h-screen select-none bgImg">
+<div class="flex justify-center items-center min-h-screen select-none bgImg">
   <div class="text-center md:w-[70%]">
-    <div class="game-area shadow-yellow-600 shadow-lg">
-      <div class="flex h-[85%] overflow-y-scroll overflow-x-hidden">
+    <div class="game-area shadow-yellow-600 shadow-lg max-sm:!px-0">
+      <div class="flex h-[85%] overflow-y-auto">
         <div class="px-5 my-auto">
-          <div class="overflow-clip w-[25vw] min-w-[100px] mx-auto kep">
+          <div class="overflow-clip mx-auto kep">
             <a href="/hub" class="relative inline-block">
                 <span title="Back to hub">
-                    <img src="{crashpics[0]}" class="scale-150 hover:opacity-40">
+                    <img src="{crashpics[0]}" class="h-[200px] w-[200px] max-sm:h-[100px] max-sm:w-[100px] hover:opacity-40 transition-all duration-300">
                 </span>
             </a>
           </div>
           <!-- Define amount -->
-          <form class="w-full max-w-sm mb-4">
+          <form class="mb-4">
             <div class="flex border-b border-yellow-600 py-2">
               <input
                 bind:value={amount}
@@ -366,8 +369,8 @@
                 min="1"
                 class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
                 type="number"
-                aria-label="Chips to add" 
-                placeholder="Chips to add"
+                aria-label="{$_(`games.crash.input1`)}" 
+                placeholder="{$_(`games.crash.input1`)}"
               >
               <span>
                 <button
@@ -399,8 +402,8 @@
                     onfocus={() => (resettwo.value = "")} 
                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
                     type="number"
-                    aria-label="Target Multiplier (3 or higher)"
-                    placeholder="Target Multiplier (3 or higher)"
+                    aria-label="{$_(`games.crash.input2`)}"
+                    placeholder="{$_(`games.crash.input2`)}"
                     step="0.1"
                     min="2"
                   >
@@ -411,9 +414,14 @@
           </form>
 
           <!-- Multiplier buttons -->
-          <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+          <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2">
             {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
-              <button class="text-yellow-600 ctrlbutton firetext fireborder" onclick={calcOne}>
+              <button
+                class="text-yellow-600 ctrlbutton firetext fireborder 
+                      text-sm px-2 py-1 
+                      sm:text-base sm:px-3 sm:py-2"
+                onclick={calcOne}
+              >
                 {multiplier}
               </button>
             {/each}
@@ -423,7 +431,7 @@
           <div class="info-container mt-5 w-[80%]">
             <!-- Current Chips -->
             <div class="w-full">
-              <span class="block text-xl font-medium text-yellow-600 text-start">Current bet</span>
+              <span class="block text-xl font-medium text-yellow-600 text-start">{$_(`games.crash.currentBet`)}</span>
               <div class="flex items-center space-x-2">
                 <input
                   bind:value={currentAmount}
@@ -438,7 +446,7 @@
 
             <!-- Balance -->
             <div class="w-full">
-              <span class="block text-xl font-medium text-yellow-600 text-start">Balance</span>
+              <span class="block text-xl font-medium text-yellow-600 text-start">{$_(`games.crash.balance`)}</span>
               <div class="flex items-center space-x-2">
                 <input
                   bind:value={balance}
@@ -454,7 +462,7 @@
 
         <!-- Moving Scale -->
         <div class="grow items-center max-md:ps-1">
-          <p class='dracutaz text-center text-red-600 text-[120px] max-md:text-[70px] max-sm:text-[40px] max-xs:text-[15px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>Crashed at {multiplier.toFixed(2)}x!</p>
+          <p class='dracutaz text-center text-red-600 text-[120px] max-md:text-[70px] max-sm:text-[40px] max-xs:text-[15px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>{$_(`games.crash.crashedAt`)}{multiplier.toFixed(2)}x!</p>
           <canvas
             bind:this={canvas}
             class="h-full fireborder"
@@ -464,17 +472,36 @@
         </div>
       </div>
 
-      <div class="info">
+      <div class="info flex flex-col items-center space-y-2 sm:space-y-3">
         <!-- Multiplier -->
-        <p id="multiplier" class="text-yellow-600 text-[24px] font-bold mb-[10px]" bind:this={multiplierDom}>{multiplier}x</p>
-        <!-- Bet/CashOut buttons -->
-        <button bind:this={betBtn} id="bet-btn">Bet Now</button>
-        <button bind:this={cashoutBtn} id="cashout-btn" disabled>Cash Out</button>
-      </div>
+        <p
+          id="multiplier"
+          class="text-yellow-600 text-[18px] sm:text-[24px] font-bold"
+          bind:this={multiplierDom}
+        >
+          {multiplier}x
+        </p>
+      
+        <!-- Buttons side-by-side -->
+        <div class="flex gap-2 w-full justify-center">
+          <button
+            bind:this={betBtn}
+            id="bet-btn"
+            class="bg-yellow-600 text-white font-bold py-1 px-3 text-sm sm:text-base rounded w-[48%]"
+          >
+            {$_(`games.find-card.start`)}
+          </button>
+          <button
+            bind:this={cashoutBtn}
+            id="cashout-btn"
+            class="bg-gray-600 text-white font-bold py-1 px-3 text-sm sm:text-base rounded w-[48%]"
+            disabled
+          >
+            {$_(`${translation}.2.6`)}
+          </button>
+        </div>
+      </div> 
     </div>
-    <footer>
-      <p>© 2024 Betropolis. Gamble responsibly.</p>
-    </footer>
   </div>
 </div>
 
@@ -497,7 +524,6 @@
     align-items: center;
     border-radius: 10px;
     padding: 20px;
-    height: 90vh;
     overflow: hidden;
   }
   
