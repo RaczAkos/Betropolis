@@ -55,7 +55,7 @@
     <div class="flex-1">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {#each fields as field}
-          <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg">
+          <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg ">
               {#if !field.avatar}
                 <img src={field.img}
                      alt={field.text}
@@ -132,7 +132,7 @@
     </div>
   </div>
   {:else}
-    <div class="m-auto text-red-600 font-bold">
+    <div class="m-auto text-red-600 font-bold text-xl md:text-5xl">
       {$_("friends.errors.add." + data.error)}
     </div>
   {/if}

@@ -145,6 +145,8 @@
             onclick={deleteUser}>
         {$_(`page.profile.delete`)}
     </button>  
+
+    <div class="shadow-[0_450px_2000px_30px] {!field.chips ? "!shadow-pink-600": "shadow-[#ff9011]"} {field.avatar ? "!shadow-white": "shadow-[#ff9011]"} -z-2">
 -->
 
 
@@ -156,6 +158,9 @@
     <div class="flex-1">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {#each fields as field}
+          
+
+          <div class="rounded-lg  !shadow-3xl -z-1 {!field.chips ? "!shadow-pink-600": ""} {field.avatar ? "!shadow-white": ""} {field.chips && !field.avatar ? "!shadow-[#ff9011] ": ""}">
           <div class="bg-[#040d17] drop-shadow-lg p-4 text-center rounded-lg border-2 border-gray-600/30">
               {#if !field.avatar}
                 <img src={field.img}
@@ -164,7 +169,7 @@
               {:else}
                 <img src={data.user[0].avatar + ".png"} 
                      alt="avatar" 
-                     class="w-28 mx-auto md:w-32 lg:w-40 rounded-full border-4 border-white shadow-xl shadow-gray-500/50">
+                     class="w-28 mx-auto md:w-32 lg:w-40 rounded-full border-4 border-white shadow-xl shadow-gray-300">
               {/if}
               <p class="text-gray-500 py-3 text-lg text-nowrap">
                 {$_(field.text)}
@@ -183,29 +188,30 @@
                   {/if}
                 {/if}
               </p>
-          </div>
+          </div></div>
         {/each}
       </div>
     </div>
   </div>
-  <div class="w-full h-full text-gray-500">
-    <div class="flex">
+  <div class="w-full h-full text-[#040d17]">
+    <div class="flex ps-4">
       {#each data.games as game}
-        <button class="p-3 border border-gray-500 border-b-0 rounded-t-lg hover:bg-[#040d17]"
+        <button class="p-3 border-2 sm:min-w-24 border-[#040d17] font-bold hover:border-white hover:text-white border-b-0 rounded-t-lg hover:bg-[#040d17] mx-1 hover:-translate-y-1 hover:scale-[120%] duration-200 {selectedGame == game.gameid ? "!text-white scale-[120%] bg-[#040d17] !border-white -translate-y-1 !mx-4" : ""}"
+                class:!text-white={selectedGame == game.gameid}
                 onclick={() => selectedGame = game.gameid}>
           {game.name}
         </button>
       {/each}
     </div>
-    <div class="w-full overflow-auto scrollDesign max-h-[30vh] sm:max-h-[40vh] md:max-h-[40vh]">
+    <div class="w-full overflow-auto scrollDesign max-h-[30vh] sm:max-h-[40vh] md:max-h-[40vh] bg-[#040d17]">
       {#if selectedGame}
         <div class="w-full">
-          <table class="w-full border border-gray-700">
+          <table class="w-full border-2 border-gray-700">
             <thead>
-              <tr class="bg-[#040d17] text-white">
+              <tr class=" text-white">
                 {#each Object.keys(data.transaction[0]) as key}
                   {#if key != "gameid"}
-                    <th class="p-2 border border-gray-600">
+                    <th class="p-2 border-2 border-white">
                       {$_(`page.profile.table.${key}`)}
                     </th>
                   {/if}
@@ -218,7 +224,7 @@
                   <tr class="text-center {row.gain > 0 ? "text-green-600": "text-red-600"}">
                     {#each Object.entries(row) as [key, value]}
                       {#if key != "gameid"}
-                          <td class="p-2 border border-gray-600">
+                          <td class="p-2 border-2 border-white">
                             {value}
                           </td>
                       {/if}

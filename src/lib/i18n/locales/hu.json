@@ -126,8 +126,9 @@
 
     },
     "find-card": {
-      "start": "Indítás",
-      "cards": "Maradt kártyák"
+      "start": "Kezdés",
+      "cards": "Hátralévő Kártyák",
+      "started": "A játék elindult!"
     },
     "fruit-frenzy-classic": {
       "auto": "Automata",

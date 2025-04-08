@@ -127,7 +127,8 @@
     },
     "find-card": {
       "start": "Start",
-      "cards": "Cards left"
+      "cards": "Remaining Cards",
+      "started": "Game started!"
     },
     "fruit-frenzy-classic": {
       "auto": "Auto-Run",
