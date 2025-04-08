@@ -140,3 +140,17 @@ body{
 .hover-1:hover::before {
   width: 100%;
 }
+
+.scrollDesign::-webkit-scrollbar{
+  width: 0.5rem;
+}
+.scrollDesign::-webkit-scrollbar-track{
+  background: #040d17;
+  border-radius: 5px;
+}
+.scrollDesign::-webkit-scrollbar-thumb{
+  border-radius: 5px;
+}
+.scrollDesign::-webkit-scrollbar-thumb{
+  background-color: #6b7280;
+}

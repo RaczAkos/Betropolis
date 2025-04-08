@@ -90,13 +90,15 @@
     },
     "profile": {
       "title": "Profile",
+      "my": "My Profile",
       "delete": "Delete profile",
       "greeting": "Welcome, ",
       "spent": "Chips Spent",
       "gained": "Chips Gained",
       "played": "Last Game Played",
+      "noGame": "Nothing",
       "table":{
-        "gain": "Won",
+        "gain": "Balance",
         "oldbalance": "Before",
         "newbalance": "After",
         "date": "Date"
@@ -108,6 +110,9 @@
         "email": "E-mail (new)",
         "password": "Password (new)"
       }
+    },
+    "settings": {
+      "title": "Settings"
     },
     "hub": {
       "title": "Hub",
@@ -192,7 +197,8 @@
         "self": "You can't add yourself as friend!",
         "sent": "You already sent a request!",
         "got": "You already got a request!",
-        "friends": "You are already friends!"
+        "friends": "You are already friends!",
+        "notFriend": "You aren't friend with user!"
       }
     }
   },

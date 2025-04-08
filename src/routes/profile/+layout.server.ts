@@ -7,5 +7,5 @@ export const load: LayoutServerLoad = async ({locals}) => {
 		return redirect(307, "/sign-in");
 	}
   
-  return { lang: locals.user.lang }
+  return { lang: locals.user.lang, user: locals.user.username }
 };

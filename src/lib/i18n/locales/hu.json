@@ -90,13 +90,15 @@
     },
     "profile": {
       "title": "Profil",
+      "my": "Profilom",
       "delete": "Profil törlése",
       "greeting": "Üdvözlünk, ",
       "spent": "Token Elköltve",
       "gained": "Token Szerezve",
-      "played": "Utolsó játszott játék",
+      "played": "Utoljára játszott",
+      "noGame": "Semmi",
       "table":{
-        "gain": "Nyeremény",
+        "gain": "Egyenleg",
         "oldbalance": "Előtte",
         "newbalance": "Utána",
         "date": "Dátum"
@@ -108,6 +110,9 @@
         "email": "E-mail (új)",
         "password": "Jelszó (új)"
       }
+    },
+    "settings": {
+      "title": "Beállítások"
     },
     "hub": {
       "title": "Központ",
@@ -192,7 +197,8 @@
         "self": "Nem küldhetsz magadnak kérést!",
         "sent": "Már küldtél a felhasználónak kérést!",
         "got": "Már kaptál a felhasználótól kérést!",
-        "friends": "Már barátok vagytok!"
+        "friends": "Már barátok vagytok!",
+        "notFriend": "Nem vagy barát a felhasználóval!"
       }
     }
   },

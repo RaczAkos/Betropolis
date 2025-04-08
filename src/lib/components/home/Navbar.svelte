@@ -1,6 +1,6 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
-  import SignOutModal from './SignOutModal.svelte';
+  import SignOutModal from '../SignOutModal.svelte';
   import type { Navbar } from "$lib/interfaces";
   
   let { logged, home }: Navbar = $props(), 

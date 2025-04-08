@@ -81,13 +81,13 @@ export interface Paragraph {
 }
 
 export interface Input {
-  value: string, 
-  disabled: boolean, 
-  type: string, 
-  id: string, 
-  placeholder: string, 
-  label: string|null, 
-  name: string, 
-  required: boolean,
-  onpaste: any
+  value?: string, 
+  disabled?: boolean, 
+  type?: string, 
+  id?: string, 
+  placeholder?: string, 
+  label?: string|null, 
+  name?: string, 
+  required?: boolean,
+  onpaste?: any
 }
