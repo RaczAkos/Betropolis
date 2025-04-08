@@ -123,10 +123,46 @@
   },
   "games": {
     "crash": {
-
+      "tutorial":{
+        "begginers": "Kezdőknek",
+        "1":{
+          "1": "Itt tudod megadni a ",
+          "2": "tokenek ",
+          "3": "számát, amennyivel növelni, vagy csökkenteni szeretnéd a téted. A megfelelő mennyiség beállítása után add hozzá, vagy vond ki a jelenlegi tétből a ",
+          "4": " vagy ",
+          "5": " gombokkal.",
+          "6": "Add meg az ",
+          "7": "elérni kívánt szorzót",
+          "8": ", ahol ki szeretnéd venni a nyereményed."
+        },
+        "2":{
+          "1": "Itt látod a ",
+          "2": "jelenlegi szorzódat",
+          "3": "A ",
+          "4": " gombbal, ha adtál meg tétet, valamint van elég egyenleged, elindíthatod a játékot.",
+          "5": "A játék közben megnyomhatod a ",
+          "6": "Kivétel",
+          "7": " gombot, ha menet közben úgy döntöttél, hogy a megadott ",
+          "8": "elérni kívánt szorzó",
+          "9": " túl kockázatos, és ki szeretnéd venni a tokenjeid. Viszont vigyázz, mert ha azelőtt veszed ki, hogy a ",
+          "10": "szorzó",
+          "11": " elérné a ",
+          "12": "célt",
+          "13": ", csak a téted felét kapod vissza."
+        },
+        "3":{
+          "1": "Ez a játékmeződ. Itt látod grafikon növekvését, ahogy a ",
+          "2": " nő."
+        }
+      },
+      "input1": "Tét +/-",
+      "input2": "Célszorzó (min 3)",
+      "currentBet": "Jelenlegi tét",
+      "balance": "Egyenleg",
+      "crashedAt": "Kiakadt: "
     },
     "find-card": {
-      "start": "Indítás",
+      "start": "Kezdés",
       "cards": "Maradt kártyák"
     },
     "fruit-frenzy-classic": {
