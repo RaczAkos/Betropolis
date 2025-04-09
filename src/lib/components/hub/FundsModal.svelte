@@ -47,7 +47,8 @@
   
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-      <div class="relative transform overflow-hidden border-yellow-600 bg-black text-left border-2 transition-all sm:my-8 max-w-3xl mx-2 p-4 rounded-3xl text-yellow-600">
+      <div class="relative transform overflow-hidden border-yellow-600 bg-black text-left 
+                  border-2 transition-all sm:my-8 max-w-3xl mx-2 p-4 rounded-3xl text-yellow-600">
         <h1 class="text-center text-5xl borgens">
           {$_("funds.title")}
         </h1>
@@ -100,7 +101,8 @@
                   onclick={() => { show = false; feedback = {}}}>
             {$_("close")}
           </button>
-          <button class="enabled:hover:scale-110 border-2 p-1 rounded bg-yellow-600 text-black border-yellow-600 enabled:hover:bg-black enabled:hover:text-yellow-600 disabled:opacity-50 duration-300" 
+          <button class="enabled:hover:scale-110 border-2 p-1 rounded bg-yellow-600 text-black border-yellow-600 
+                       enabled:hover:bg-black enabled:hover:text-yellow-600 disabled:opacity-50 duration-300" 
                   disabled={!type || (type == "withdraw" && balance < change) || change <= 0}
                   onclick={manageFunds}>
             {#if type == "deposit"}

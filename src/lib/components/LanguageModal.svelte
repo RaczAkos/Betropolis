@@ -31,7 +31,8 @@
   <div class="fixed inset-0 bg-black/90 modalbg"></div>
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-      <div class="relative transform overflow-hidden bg-black text-left border-2 border-yellow-600 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
+      <div class="relative transform overflow-hidden bg-black text-left border-2 border-yellow-600 
+                  transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
         <div class="p-4">
           <h1 class="text-center text-5xl borgens">
             {$_("lang.title")}
@@ -52,7 +53,8 @@
             {/each}
           </div>
           <div class="mt-2 border-t-2 pt-2 border-yellow-600 px-2 max-sm:flex-col-reverse gap-2 flex justify-center font-bold">
-            <button class="hover:scale-110 hover:bg-yellow-600 hover:text-black border-2 p-1 rounded bg-black text-yellow-600 border-yellow-600 duration-300" 
+            <button class="hover:scale-110 hover:bg-yellow-600 hover:text-black border-2 p-1 rounded 
+                           bg-black text-yellow-600 border-yellow-600 duration-300" 
                     onclick={() =>  show = false }>
               {$_("accept")}
             </button>

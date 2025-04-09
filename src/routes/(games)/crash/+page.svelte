@@ -8,7 +8,6 @@
   import { updateBalance, getBalance } from '$lib/exports/balance';
   import { _ } from 'svelte-i18n';
 
-  // Declare variables and states
   let canvas: any,
       multiplierDom: any,
       cashoutBtn: any,
@@ -29,25 +28,30 @@
 
   const translation = "games.crash.tutorial"
 
-  // Function to calculate the new amount based on button clicked
+  //Calculate the new amount based on button clicked
   function calcOne(e: any) {
     if (e.target.innerText.length > 3) {
-      if (amount >= 2) amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
-    } else amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
+      if (amount >= 2){
+         amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
+      }
+    }
+    else {
+      amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
+    }
     valuechange(); // Update the amount value
   }
 
-  // Function to round the amount value
+  //Round the amount value
   function valuechange() {
     amount = Math.round(amount);
   }
 
-  // Function to add amount to current amount if balance allows
+  //Add amount to current amount if balance allows
   function addAmount() {
     if (balance >= amount) currentAmount = Math.round(currentAmount + amount);
   }
 
-  // Function to subtract amount from current amount if possible
+  //Subtract amount from current amount if possible
   function subtractAmount() {
     if (currentAmount - amount >= 0) currentAmount = Math.round(currentAmount - amount);
   }
@@ -60,7 +64,7 @@
     return 1 - Math.exp(-adjustedK * (multiplier - 1));
   }
 
-  // Function to handle modal slide navigation
+  //Handle modal slide navigation
   function nextSlide() {
     currentSlide++;
     // Hide modal after last slide
@@ -70,7 +74,7 @@
   // Get user balance
   onMount(async () => balance = await getBalance())
 
-  // Effect to handle the game logic and animation
+  //Handle the game logic and animation
   $effect(() => {
     const ctx = canvas.getContext("2d");
     let ctrlbuttons = document.querySelectorAll(".ctrlbutton"),
@@ -213,8 +217,6 @@
         if (multiplier < targetMultiplier) balance = await updateBalance(Math.round(currentAmount / 2), 2); 
 
         ctrlbuttons.forEach((temp) => temp.removeAttribute("disabled"));
-
-        // Mark as crashed
         crashed = true; 
       }
     });
@@ -245,7 +247,8 @@
                     {$_("games.crash.tutorial.begginers")}
                   </p>
                 </div>
-                <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
+                <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50
+                          text-white p-4 text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
                   <p>
                     {$_(`${translation}.1.1`)}
                     <span class="text-yellow-600">
@@ -272,7 +275,8 @@
                      alt="tutorial2"/>
               </div>
               {#if currentSlide === 1}
-                <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
+                <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4
+                            text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
                   <p>
                     {$_(`${translation}.2.1`)}
                     <span class="text-yellow-600">
@@ -317,7 +321,8 @@
                      alt="tutorial3"/>
               </div>
               {#if currentSlide === 2}
-                <div class="absolute top-0 left-0 h-1/2 w-[40%] bg-black bg-opacity-50 text-white p-4 flex items-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
+                <div class="absolute top-0 left-0 h-1/2 w-[40%] bg-black bg-opacity-50
+                          text-white p-4 flex items-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
                   <p>
                     {$_(`${translation}.3.1`)}
                     <span class="text-yellow-600">
@@ -387,9 +392,10 @@
   </div>
 {/if}
 
-<div class="flex justify-center items-center min-h-screen select-none bg-cover !bg-[url(src/lib/media/images/backgrounds/dragon.jfif)]">
+<div class="flex justify-center items-center min-h-screen select-none 
+            bg-cover !bg-[url($lib/media/images/backgrounds/dragon.jfif)]">
   <div class="text-center md:w-[70%]">
-    <div class="game-area shadow-yellow-600 shadow-lg max-sm:!px-0">
+    <div class="shadow-yellow-600 shadow-lg max-sm:!px-0 items-center overflow-hidden p-5 rounded-[10px]">
       <div class="flex h-[85%] overflow-y-auto">
         <div class="px-5 my-auto">
           <div class="overflow-clip mx-auto kep">
@@ -400,7 +406,8 @@
               </div>
               <span title="Back to hub">
                 <img src="{crashpics[0]}" 
-                     class="h-[200px] w-[200px] max-sm:h-[100px] max-sm:w-[100px] hover:opacity-40 transition-all duration-300"
+                     class="h-[200px] w-[200px] max-sm:h-[100px] max-sm:w-[100px] 
+                            hover:opacity-40 transition-all duration-300"
                      alt={$_("games.back")}>
               </span>
             </a>
@@ -414,13 +421,15 @@
                      oninput={valuechange}
                      onfocus={() => (resetone.value = "")}
                      min="1"
-                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+                     class="appearance-none bg-transparent border-none w-full text-gray-400 
+                            mr-3 py-1 px-2 focus:outline-none"
                      type="number"
                      aria-label="{$_(`games.crash.input1`)}" 
                      placeholder="{$_(`games.crash.input1`)}">
               <span>
                 <button onclick={addAmount}
-                        class="flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton"
+                        class="flex-shrink-0 bg-yellow-600 hover:bg-yellow-600
+                             border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton"
                         type="button">
                   <span class="text-xl">
                     &uarr;
@@ -429,7 +438,8 @@
               </span>
               <span>
                 <button onclick={subtractAmount}
-                        class="flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton"
+                        class="flex-shrink-0 border-transparent border-4
+                             text-yellow-600 py-1 px-2 rounded ctrlbutton"
                         type="button">
                   <span class="text-xl">
                     &darr;
@@ -446,7 +456,8 @@
                          bind:this={resettwo}
                          oninput={valuechange} 
                          onfocus={() => (resettwo.value = "")} 
-                         class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+                         class="appearance-none bg-transparent border-none w-full
+                              text-gray-400 mr-3 py-1 px-2 focus:outline-none"
                          type="number"
                          aria-label="{$_(`games.crash.input2`)}"
                          placeholder="{$_(`games.crash.input2`)}"
@@ -472,7 +483,7 @@
           </div>
 
           <!-- Current Chips and Balance-->
-          <div class="info-container mt-5 w-[80%]">
+          <div class="flex flex-col gap-4 max-w-full mt-5 w-[80%]">
             <!-- Current Chips -->
             <div class="w-full">
               <span class="block text-xl font-medium text-yellow-600 text-start">{$_(`games.crash.currentBet`)}</span>
@@ -484,7 +495,7 @@
                        disabled>
                 <img src={crashpics[1]} 
                      alt="chip" 
-                     class="w-[30px] max-sm:hidden">
+                     class="w-[30px] max-[1420px]:hidden">
               </div>
             </div>
 
@@ -495,12 +506,12 @@
               </span>
               <div class="flex items-center space-x-2">
                 <input bind:value={balance}
-                       class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                       class="text-green-700 text-lg text-center bg-black flex-grow border-b border-yellow-600"
                        type="text"
                        disabled>
                 <img src={crashpics[1]} 
                      alt="chip" 
-                     class="w-[30px] max-sm:hidden">
+                     class="w-[30px] max-[1420px]:hidden">
               </div>
             </div>
           </div>
@@ -508,19 +519,22 @@
 
         <!-- Moving Scale -->
         <div class="grow items-center max-md:ps-1">
-          <p class='dracutaz text-center text-red-600 text-[120px] max-md:text-[70px] max-sm:text-[40px] max-xs:text-[15px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' 
+          <p class='dracutaz text-center text-red-600 text-[120px] max-md:text-[70px]
+                    max-sm:text-[40px] max-xs:text-[15px] hidden absolute top-1/4 left-1/4
+                    lg:top-1/3 lg:left-1/3 firetext' 
              id='crashText'>
             {$_(`games.crash.crashedAt`)}{multiplier.toFixed(2)}x!
           </p>
           <canvas bind:this={canvas}
-                  class="h-full w-full fireborder rounded-lg bg-repeat bg-[url($lib/media/images/crashgame/net.png)] bg-auto bg-[0_0]"
+                  class="h-full w-full fireborder bg-repeat
+                         bg-[url($lib/media/images/crashgame/net.png)] bg-auto bg-[0_0]"
                   class:shadow-lg={running}
                   class:shadow-yellow-600={running}>
           </canvas>
         </div>
       </div>
 
-      <div class="info flex flex-col items-center space-y-2 sm:space-y-3">
+      <div class="mt-[20px] flex flex-col items-center space-y-2 sm:space-y-3">
         <!-- Multiplier -->
         <p id="multiplier"
            class="text-yellow-600 text-[18px] sm:text-[24px] font-bold"
@@ -531,13 +545,14 @@
         <!-- Buttons side-by-side -->
         <div class="flex gap-2 w-full justify-center">
           <button bind:this={betBtn}
-                  id="bet-btn"
-                  class="bg-yellow-600 text-white font-bold py-1 px-3 text-sm sm:text-base rounded w-[48%]">
+                  class="text-white font-bold py-1 px-3
+                           text-sm sm:text-base rounded w-[48%] hover:bg-[#218838]
+                         bg-[#28a745] text-[20px]">
             {$_(`games.find-card.start`)}
           </button>
           <button bind:this={cashoutBtn}
-                  id="cashout-btn"
-                  class="bg-gray-600 text-white font-bold py-1 px-3 text-sm sm:text-base rounded w-[48%]"
+                  class="text-white font-bold py-1 px-3 text-sm sm:text-base rounded w-[48%]
+                         hover:bg-[#c82333] bg-[#dc3545] text-[20px]"
                   disabled>
             {$_(`${translation}.2.6`)}
           </button>
@@ -556,18 +571,6 @@
       transform: translateX(-187%);
     }
   }
-
-  .game-area {
-    align-items: center;
-    border-radius: 10px;
-    padding: 20px;
-    overflow: hidden;
-  }
-  
-  .info {
-    align-items: center;
-    margin-top: 20px;
-  }
   
   button {
     padding: 10px 20px;
@@ -576,43 +579,20 @@
     border: none;
     border-radius: 5px;
   }
-  
-  #bet-btn {
-    background-color: #28a745;
-    color: #fff;
-    font-size: 20px;
-  }
-  
-  #bet-btn:hover {
-    background-color: #218838;
-  }
-  
-  #cashout-btn {
-    background-color: #dc3545;
-    color: #fff;
-    font-size: 20px;
-  }
-  
-  #cashout-btn:hover {
-    background-color: #c82333;
-  }
-
-  .info-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 100%;
-  }
 
   .firetext {
     animation: burn 1.5s linear infinite alternate;
   }
 
   @keyframes burn {
-    from { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .4em #ffae34, .2em -.3em .3em #ec760c, -.2em -.4em .4em #cd4606, .1em -.5em .7em #973716, .1em -.7em .7em #451b0e; }
-    45%  { text-shadow: .1em -.2em .5em #fefcc9, .15em 0 .4em #feec85, -.1em -.25em .5em #ffae34, .15em -.45em .5em #ec760c, -.1em -.5em .6em #cd4606, 0 -.8em .6em #973716, .2em -1em .8em #451b0e; }
-    70%  { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .6em #ffae34, .2em -.3em .4em #ec760c, -.2em -.4em .7em #cd4606, .1em -.5em .7em #973716, .1em -.7em .9em #451b0e; }
-    to   { text-shadow: -.1em -.2em .6em #fefcc9, -.15em 0 .6em #feec85, .1em -.25em .6em #ffae34, -.15em -.45em .5em #ec760c, .1em -.5em .6em #cd4606, 0 -.8em .6em #973716, -.2em -1em .8em #451b0e; }
+    from { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .4em #ffae34, 
+                        .2em -.3em .3em #ec760c, -.2em -.4em .4em #cd4606, .1em -.5em .7em #973716, .1em -.7em .7em #451b0e; }
+    45%  { text-shadow: .1em -.2em .5em #fefcc9, .15em 0 .4em #feec85, -.1em -.25em .5em #ffae34, 
+                        .15em -.45em .5em #ec760c, -.1em -.5em .6em #cd4606, 0 -.8em .6em #973716, .2em -1em .8em #451b0e; }
+    70%  { text-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .6em #ffae34, 
+                        .2em -.3em .4em #ec760c, -.2em -.4em .7em #cd4606, .1em -.5em .7em #973716, .1em -.7em .9em #451b0e; }
+    to   { text-shadow: -.1em -.2em .6em #fefcc9, -.15em 0 .6em #feec85, .1em -.25em .6em #ffae34, 
+                        -.15em -.45em .5em #ec760c, .1em -.5em .6em #cd4606, 0 -.8em .6em #973716, -.2em -1em .8em #451b0e; }
   }
 
   .fireborder {
