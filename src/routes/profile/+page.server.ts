@@ -11,8 +11,7 @@ export const load = async (event: RequestEvent) => {
                                  
   let transactionData = await db.query(`SELECT gameid, gain, oldbalance, newbalance, date
                                         FROM statistics 
-                                        WHERE user_id = ${event.locals.user.id}
-                                        LIMIT 100;`);
+                                        WHERE user_id = ${event.locals.user.id};`);
 
   let gamedist = await db.query(`SELECT DISTINCT game.gameid, game.name
                                         FROM statistics

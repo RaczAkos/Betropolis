@@ -240,7 +240,11 @@
     }
   },
   "funds": {
-    "title": "Pénzügyek"
+    "title": "Pénzügyek",
+    "withdraw-success": "Sikeres visszavétel!",
+    "deposit-success": "Sikeres feltöltés!",
+    "deposit": "Feltöltés",
+    "withdraw": "Visszavétel"
   },
   "lang": {
     "title": "Nyelv választása",

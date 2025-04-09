@@ -34,7 +34,7 @@
             text: "page.profile.played", 
             img: "/src/lib/media/images/profile/joystick.png", 
             chips: false 
-          },
+          }
         ],
         selectedGame: number | null = $state((data.lastPlayed.length != 0) ? data.lastPlayed[0].gameid : null);
 
@@ -162,9 +162,6 @@
 -->
 
 
-      
-
-
 <div class="mt-2 w-full h-full bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
   <div class="flex flex-wrap xl:flex-nowrap items-start gap-8">
     <div class="flex-1">
@@ -180,7 +177,7 @@
               <p class="text-gray-500 py-3 text-lg text-nowrap">{$_(field.text)}</p>
               <p class="inline { field.chips ? "text-yellow-600": "text-pink-600"} text-lg text-nowrap">
                 {#if field.chips}
-                  <img src="/src/lib/media/images/chip.png" alt="chip" class="w-[20px] inline pb-1">{field.content}
+                  <img src="/src/lib/media/images/chip.png" alt="chip" class="w-4 inline pb-1">{field.content}
                 {:else}
                   {#if data.lastPlayed.length == 0}
                     {$_("page.profile.noGame")}
@@ -222,8 +219,8 @@
             </thead>
             <tbody>
               {#each data.transaction as row}
-                {#if row.gameid == selectedGame}                                             
-                  <tr class="text-center {row.gain > 0 ? "text-green-600 win" : "text-red-600 lose"}">
+                {#if row.gameid == selectedGame}
+                  <tr class="text-center font-bold {row.gain > 0 ? "text-green-600 win" : "text-red-600 lose"}">
                     {#each Object.entries(row) as [key, value]}
                       {#if key != "gameid"}
                         <td class="p-2 border-2 border-white">

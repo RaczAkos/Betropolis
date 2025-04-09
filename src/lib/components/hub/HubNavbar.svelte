@@ -4,6 +4,7 @@
   import HubFriendsMenu from "./HubFriendsMenu.svelte";
   import HubProfileMenu from "./HubProfileMenu.svelte";
   import type { userData } from "$lib/interfaces";
+  import FundsModal from "./FundsModal.svelte";
 
   let { data }: { data: userData } = $props(),
       profile: boolean = $state(false),
@@ -52,3 +53,5 @@
                   bind:click={profileClicked}/>
   </div>
 </nav>
+
+<FundsModal show={addFundsClicked} />
