@@ -15,7 +15,6 @@
   let index:number = 0,
       slides:HTMLDivElement,
       modal = $state(false);
-  console.log(data)
 
   onMount(() => {
     setInterval(() => {
