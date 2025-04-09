@@ -15,6 +15,7 @@
   let index:number = 0,
       slides:HTMLDivElement,
       modal = $state(false);
+  console.log(data)
 
   onMount(() => {
     setInterval(() => {
@@ -66,13 +67,24 @@
       <div class="md:w-[1000px] overflow-hidden m-1">
         <div bind:this={slides} 
              class="flex transition-transform duration-500">
-          {#each images as img}
-            <div class="w-full flex-shrink-0">
-              <img src={img} 
-                   class="w-full rounded-lg" 
-                   alt="Slide"/>
-            </div>
-          {/each}
+          {#if data.lang == "hu-HU"}
+            {#each images[1] as img}
+              <div class="w-full flex-shrink-0">
+                <img src={img} 
+                    class="w-full rounded-lg" 
+                    alt="Slide"/>
+              </div>
+            {/each}
+          {:else}
+            {#each images[0] as img}
+              <div class="w-full flex-shrink-0">
+                <img src={img} 
+                    class="w-full rounded-lg" 
+                    alt="Slide"/>
+              </div>
+            {/each}
+          {/if}
+          
         </div>
       </div>
     </div>
