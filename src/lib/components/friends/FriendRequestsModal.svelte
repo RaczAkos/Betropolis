@@ -58,7 +58,8 @@
   
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full justify-center text-center items-center sm:p-0">
-      <div class="relative transform overflow-hidden border-yellow-600 bg-black text-left border-2 transition-all max-w-3xl m-1 p-3 sm:p-4 rounded-3xl text-yellow-600">
+      <div class="relative transform overflow-hidden border-yellow-600 bg-black 
+                  text-left border-2 transition-all max-w-3xl m-1 p-3 sm:p-4 rounded-3xl text-yellow-600">
         <h1 class="text-center text-5xl borgens">
           {$_("friends.requests")}
         </h1>
@@ -81,14 +82,16 @@
                 </div>
                 <div class="sm:py-2 p-1 basis-1/5">
                   <button type="button"
-                          class="bg-green-600 text-black rounded p-1 w-full hover:scale-110 hover:bg-black hover:text-green-600 duration-300 border-2 border-green-600"
+                          class="bg-green-600 text-black rounded p-1 w-full hover:scale-110 hover:bg-black 
+                                 hover:text-green-600 duration-300 border-2 border-green-600"
                           onclick={() => deleteOrAcceptFriendRequest("accept", {"id": request.id, "senderId": request.senderId}, 0)}>
                     {$_("accept")}
                   </button>
                 </div>
                 <div class="sm:py-2 p-1 basis-1/5">
                   <button type="button"
-                          class="bg-red-600 rounded p-1 w-full text-black hover:text-red-600 hover:bg-black hover:scale-110 duration-300 border-2 border-red-600"
+                          class="bg-red-600 rounded p-1 w-full text-black hover:text-red-600 hover:bg-black 
+                                   hover:scale-110 duration-300 border-2 border-red-600"
                           onclick={() => deleteOrAcceptFriendRequest("delete", {"id": request.id}, 0)}>
                     {$_("delete")}
                   </button>
@@ -113,7 +116,8 @@
                 </div>
                 <div class="sm:px-2 p-1 basis-1/5">
                   <button type="button"
-                          class="bg-red-600 rounded p-1 w-full text-black hover:text-red-600 hover:bg-black hover:scale-110 duration-300 border-2 border-red-600"
+                          class="bg-red-600 rounded p-1 w-full text-black hover:text-red-600 hover:bg-black 
+                                   hover:scale-110 duration-300 border-2 border-red-600"
                           onclick={() => deleteOrAcceptFriendRequest("delete", {"id": request.id}, 1)}>
                     {$_("delete")}
                   </button>

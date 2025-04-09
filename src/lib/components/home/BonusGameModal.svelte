@@ -49,7 +49,8 @@
   <div class="fixed inset-0 bg-black/90 modalbg" aria-hidden="true"></div>
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-      <div class="relative transform overflow-hidden bg-black text-left border-2 border-yellow-600 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
+      <div class="relative transform overflow-hidden bg-black text-left border-2 
+                border-yellow-600 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
         <div class="px-4 pt-4">
           
           <h3 class="text-center text-4xl borgens">
@@ -84,7 +85,9 @@
           <button onclick={bonusGame} 
                   disabled={!goodEmail}
                   type="button" 
-                  class="max-sm:mb-2 sm:ms-2 inline-flex w-full justify-center rounded bg-black p-1 text-md font-semibold border-2 border-yellow-600 enabled:hover:bg-yellow-600 enabled:hover:text-black disabled:text-yellow-600/50 disabled:border-yellow-600/50 duration-300 sm:w-auto">
+                  class="max-sm:mb-2 sm:ms-2 inline-flex w-full justify-center rounded bg-black p-1 
+                         text-md font-semibold border-2 border-yellow-600 enabled:hover:bg-yellow-600 
+                       enabled:hover:text-black disabled:text-yellow-600/50 disabled:border-yellow-600/50 duration-300 sm:w-auto">
             {$_("bonus.claim")}
           </button>
           {/if}
@@ -96,7 +99,8 @@
                     if (logged) window.location.reload();
                   }} 
                   type="button" 
-                  class="w-full justify-center rounded bg-black p-1 text-md font-semibold border-2 border-yellow-600 hover:bg-yellow-600 hover:text-black duration-300 sm:w-auto">
+                  class="w-full justify-center rounded bg-black p-1 text-md font-semibold border-2 border-yellow-600 
+                       hover:bg-yellow-600 hover:text-black duration-300 sm:w-auto">
             {$_("close")}
           </button>
         </div>

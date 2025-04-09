@@ -107,10 +107,12 @@
   @reference "$lib/app.css";
 
   .nav{
-    background-image: linear-gradient(to left, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
+    background-image: linear-gradient(to left, #000000, #30181b, #5b2926, #843e29, 
+                                         #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
   }
   .goldenbg{
-    background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
+    background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, 
+                                         #a85a24, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
   }
 
   .button1 {

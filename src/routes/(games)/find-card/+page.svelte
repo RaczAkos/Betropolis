@@ -204,7 +204,8 @@
 <div class="select-none {correctGuess ? 'opacity-30': 'opacity-100'}">
   
   <!-- Bottombar -->
-  <div class="fixed z-10 bottom-0 w-full flex flex-row justify-center gap-1 sm:gap-2 lg:gap-10 items-center bg-black shadow-[20px_6px_20px_14px_#000000] p-1 max-h-[200px]">
+  <div class="fixed z-10 bottom-0 w-full flex flex-row justify-center gap-1 sm:gap-2 
+              lg:gap-10 items-center bg-black shadow-[20px_6px_20px_14px_#000000] p-1 max-h-[200px]">
     
     <!-- Start Button -->
     <div class="flex items-center flex-col p-1 max-sm:w-36"> 
@@ -216,7 +217,10 @@
                   isZoomed = !isZoomed;
                 }, 1000); 
               }} 
-              class="disabled:opacity-50 resetter w-full bg-transparent enabled:hover:bg-yellow-600 enabled:hover:text-black text-white font-bold py-2 px-4 rounded border border-yellow-600 duration-300 text-2xl"
+              class="disabled:opacity-50 resetter w-full bg-transparent 
+                     enabled:hover:bg-yellow-600 enabled:hover:text-black
+                     text-white font-bold py-2 px-4 rounded border border-yellow-600 
+                       duration-300 text-2xl"
               disabled={currentAmount > 18 || currentAmount < 1 ? true : false || gameIsRunning}>
         {$_("games.find-card.start")}
       </button>
@@ -259,7 +263,8 @@
           <div class="control basis-1/2">
             <button onclick={addAmount} 
                     disabled={gameIsRunning}
-                    class="bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 py-1 px-2 border-2 rounded w-full" 
+                    class="bg-yellow-600 hover:bg-yellow-600 border-yellow-600
+                           hover:border-yellow-600 py-1 px-2 border-2 rounded w-full" 
                     type="button">
               <span class="sm:text-xl">
                 +1

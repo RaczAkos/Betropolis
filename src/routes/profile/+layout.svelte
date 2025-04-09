@@ -9,8 +9,12 @@
       ]);
 
   $effect(() => {
-    if (!page.params.friend && page.route.id !== "/profile/settings") links[2] = { text: "/src/lib/media/images/profile/gear.png", href: "/profile" };
-    else links[2] = { text: "/src/lib/media/images/profile/frienduser.png", href: "/profile" };
+    if (!page.params.friend && page.route.id !== "/profile/settings"){
+      links[2] = { text: "/src/lib/media/images/profile/gear.png", href: "/profile" };
+    }
+    else {
+      links[2] = { text: "/src/lib/media/images/profile/frienduser.png", href: "/profile" };
+    }
   }) 
 
     import LanguageModal from "$lib/components/LanguageModal.svelte";
@@ -135,8 +139,13 @@
       </div>
       {@render children()}
       <!-- Profile Edit Modal -->
-      <div id="profileEditModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-0 opacity-0 hidden transition-opacity duration-700">
-        <div class="w-[80vw] max-w-[500px] bg-[#040d17] rounded-lg shadow-2xl p-6 text-white relative transform scale-0 transition-transform duration-300  border-white shadow-2xl shadow-gray-500">
+      <div id="profileEditModal" 
+           class="fixed inset-0 flex items-center justify-center 
+                bg-black bg-opacity-0 opacity-0 hidden transition-opacity duration-700">
+
+        <div class="w-[80vw] max-w-[500px] bg-[#040d17] rounded-lg shadow-2xl p-6 text-white relative 
+                                             transform scale-0 transition-transform duration-300  border-white 
+                                             shadow-2xl shadow-gray-500">
             
             <!-- Close Button -->
             <button class="absolute top-3 right-3 text-gray-400 hover:text-white" onclick={closeModal}>
@@ -148,10 +157,14 @@
             <!-- Avatar Upload -->
             <div class="flex flex-col items-center mb-4">
                 <div class="relative w-[120px] h-[120px]">
-                    <img id="avatarPreview" src="{temporarySelectedAvatar}" class="w-full h-auto rounded-full border-4 border-white shadow-xl">
-                    <label for="avatarUpload" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer hover:bg-opacity-70">
+                    <img id="avatarPreview" src="{temporarySelectedAvatar}" 
+                         class="w-full h-auto rounded-full border-4 border-white shadow-xl">
+                    <label for="avatarUpload" class="absolute inset-0 flex items-center justify-center 
+                                bg-black bg-opacity-50 rounded-full cursor-pointer hover:bg-opacity-70">
                         <span class="text-sm text-white" 
-                              onclick={() => showModal = true}><i class="fas fa-sync-alt text-white text-xl"></i></span>
+                              onclick={() => showModal = true}>
+                          <i class="fas fa-sync-alt text-white text-xl"></i>
+                        </span>
                     </label>
                 </div>
             </div>
@@ -159,19 +172,37 @@
             <!-- Username Input -->
             <div class="mb-4">
                 <label class="text-gray-400 block mb-1">{$_(`page.profile.modal.name`)}</label>
-                <input bind:value={username} type="text" id="username" placeholder="{currentName}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
+                <input bind:value={username} 
+                       type="text" 
+                       id="username" 
+                       placeholder="{currentName}" 
+                       class="w-full bg-[#141a22] text-white p-2 rounded border 
+                            border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg 
+                            focus:shadow-yellow-600">
             </div>
 
             <!-- Email Input -->
             <div class="mb-4">
                 <label class="text-gray-400 block mb-1">{$_(`page.profile.modal.email`)}</label>
-                <input bind:value={email} type="email" id="email" placeholder="{currentEmail}" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
+                <input bind:value={email} 
+                       type="email" 
+                       id="email" 
+                       placeholder="{currentEmail}" 
+                       class="w-full bg-[#141a22] text-white p-2 rounded border 
+                            border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg 
+                            focus:shadow-yellow-600">
             </div>
 
             <!-- Password Input -->
             <div class="mb-4">
                 <label class="text-gray-400 block mb-1">{$_(`page.profile.modal.password`)}</label>
-                <input bind:value={password} type="password" id="password" placeholder="**********" class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
+                <input bind:value={password} 
+                       type="password" 
+                       id="password" 
+                       placeholder="**********" 
+                       class="w-full bg-[#141a22] text-white p-2 rounded border 
+                            border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg 
+                            focus:shadow-yellow-600">
             </div>
 
             
@@ -189,7 +220,9 @@
 
             <!-- Save Button -->
             <div class="flex justify-center mt-4">
-                <button class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300" onclick={saveChanges}>
+                <button class="bg-yellow-600 hover:bg-yellow-700 text-white 
+                                 font-bold py-2 px-6 rounded-lg transition-all duration-300" 
+                        onclick={saveChanges}>
                     {$_(`page.profile.modal.save`)}
                 </button>
             </div>
@@ -221,10 +254,11 @@
                 <img  
                   src={avatar}
                   alt="Avatar {index}"
-                  class="w-20 h-20 rounded-full border-4 cursor-pointer transition-all hover:border-white shadow-xl hover:shadow-gray-500
-                  {selectedAvatarIndex === index
-                    ? 'border-yellow-600'
-                    : 'border-transparent hover:border-gray-400'}"
+                  class="w-20 h-20 rounded-full border-4 cursor-pointer transition-all 
+                         hover:border-white shadow-xl hover:shadow-gray-500
+                        {selectedAvatarIndex === index
+                          ? 'border-yellow-600'
+                          : 'border-transparent hover:border-gray-400'}"
                 />
               </button>
             {/each}

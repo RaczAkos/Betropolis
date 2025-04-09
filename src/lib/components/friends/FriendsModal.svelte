@@ -39,7 +39,8 @@
   
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
     <div class="flex min-h-full justify-center text-center items-center sm:p-0">
-      <div class="relative transform overflow-hidden border-yellow-600 bg-black text-left border-2 transition-all sm:my-8 max-w-2xl m-1 p-2 sm:p-4 rounded-3xl text-yellow-600">
+      <div class="relative transform overflow-hidden border-yellow-600 bg-black text-left 
+                  border-2 transition-all sm:my-8 max-w-2xl m-1 p-2 sm:p-4 rounded-3xl text-yellow-600">
         <h1 class="text-center text-5xl borgens">
           {$_("friends.title")}
         </h1>
@@ -53,14 +54,16 @@
               </div>
               <div class="sm:px-2 p-1 basis-1/5">
                 <a href="/profile/{friend.username}">
-                  <div class="bg-blue-600 text-black rounded p-1 w-full hover:scale-110 hover:bg-black hover:text-blue-600 duration-300 border-2 border-blue-600">
+                  <div class="bg-blue-600 text-black rounded p-1 w-full hover:scale-110 hover:bg-black 
+                              hover:text-blue-600 duration-300 border-2 border-blue-600">
                     {$_("friends.statistics")}
                   </div>
                 </a>
               </div>
               <div class="sm:px-2 p-1 basis-1/5">
                 <button type="button"
-                        class="bg-red-600 rounded p-1 w-full text-black hover:text-red-600 hover:bg-black hover:scale-110 duration-300 border-2 border-red-600"
+                        class="bg-red-600 rounded p-1 w-full text-black hover:text-red-600 hover:bg-black 
+                                 hover:scale-110 duration-300 border-2 border-red-600"
                         onclick={() => deleteFriend(friend.id)}>
                   {$_("delete")}
                 </button>

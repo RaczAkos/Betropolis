@@ -52,9 +52,12 @@
 
 <main>
   <div class="goldenbg">
-    <div class="relative w-full max-w-[1400px] mx-auto flex flex-wrap md:flex-nowrap items-center py-10 text-yellow-600 md: lg:text-xl xl:text-3xl text-center max-sm:text-lg">
+    <div class="relative w-full max-w-[1400px] mx-auto flex flex-wrap md:flex-nowrap 
+                items-center py-10 text-yellow-600 md: lg:text-xl xl:text-3xl 
+                text-center max-sm:text-lg">
       <div class="md:w-3/4 text-center justify-items-center flex justify-center p-5">
-        <p class="border-yellow-600 border-y py-5 rounded-xl max-md:w-3/4 max-sm:px-3 textShadow text-justify px-3 max-sm:w-full borgens">
+        <p class="border-yellow-600 border-y py-5 rounded-xl max-md:w-3/4 
+                    max-sm:px-3 textShadow text-justify px-3 max-sm:w-full borgens">
           {$_("page.home.description")}  
         </p>
       </div>
@@ -77,7 +80,8 @@
 
 
   <!-- Bonus Game -->
-  <div class="flex justify-center mt-12 mb-3 borgens select-none text-3xl text-yellow-600 text-center max-sm:text-2xl">
+  <div class="flex justify-center mt-12 mb-3 borgens select-none text-3xl 
+              text-yellow-600 text-center max-sm:text-2xl">
     <div class="mx-5 lg:basis-2/3">
       {#if !data.claimedBonus}
         <h2>
@@ -133,6 +137,7 @@
   .card { @apply border flex items-center justify-center rounded-3xl bg-gray-300 duration-150 ease-in-out hover:scale-[1.07] hover:shadow-xl hover:shadow-black; }
 
   .goldenbg{
-    background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #ff9011, #a85a24, #a85a24, #a85a24, #843e29, #5b2926, #30181b, #000000);
+    background-image: linear-gradient(to bottom, #000000, #30181b, #5b2926, #843e29, #ff9011, #a85a24, #a85a24, #a85a24, 
+                                         #843e29, #5b2926, #30181b, #000000);
   }
 </style>

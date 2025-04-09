@@ -257,7 +257,9 @@
   }
 </script>
 
-<div class="h-screen flex justify-center items-center text-white select-none bg-center bg-no-repeat bg-cover bg-fixed bg-[url($lib/media/images/backgrounds/fruitslotbg.jfif)] overflow-hidden">
+<div class="h-screen flex justify-center items-center
+          text-white select-none bg-center bg-no-repeat
+            bg-cover bg-fixed bg-[url($lib/media/images/backgrounds/fruitslotbg.jfif)] overflow-hidden">
 
   <!-- Back to hub - link -->
   <div class="absolute bottom-2 orangek">
@@ -280,7 +282,10 @@
 
           <!-- Reels -->
           <div id={"spin"+(i+1)} 
-               class="border bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% overflow-clip h-[120px] w-[120px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px] lg:h-[250px] relative lg:w-[250px]">
+               class="border bg-gradient-to-b from-slate-300 from-10%
+                    via-white via-50% to-slate-300 to-90% overflow-clip h-[120px]
+                      w-[120px] sm:w-[150px] sm:h-[150px] md:h-[200px] md:w-[200px]
+                      lg:h-[250px] relative lg:w-[250px]">
             <img src={item} 
                  alt={"Reel "+i} 
                  class="absolute">
@@ -289,7 +294,10 @@
           <!-- Goldbar -->
           <div class="flex flex-row lg:h-[83.33px] max-sm:h-[40px] sm:h-[50px] md:h-[66.66px]">
             {#each Array(3) as _, index (index)}
-              <div class="lg:w-[83.33px] max-sm:w-[40px] sm:w-[50px] md:w-[66.66px] border flex w-1/3 text-center bg-gradient-to-b from-slate-300 from-10% via-white via-50% to-slate-300 to-90% text-4xl text-black justify-center items-center">
+              <div class="lg:w-[83.33px] max-sm:w-[40px] sm:w-[50px] md:w-[66.66px] border
+                          flex w-1/3 text-center bg-gradient-to-b from-slate-300 from-10%
+                        via-white via-50% to-slate-300 to-90% text-4xl text-black
+                          justify-center items-center">
                 <img id={i+"-"+index} 
                      src="/src/lib/media/images/line.png" 
                      alt={i+"-"+index} 
@@ -306,7 +314,9 @@
 
       <!-- Feedback - Mobile view -->
       <input type="text" 
-             disabled class="p-1 basis-2/4 text-2xl rounded-2xl md:hidden text-center pointer-events-none border-2 bg-red-900 border-red-900" 
+             disabled class="p-1 basis-2/4 text-2xl rounded-2xl
+                             md:hidden text-center pointer-events-none border-2
+                           bg-red-900 border-red-900" 
              value={$_("games.fruit-frenzy-classic." + feedback, {values: {gain: win}})}>
 
       <div class="flex flex-row gap-2 select-none text-2xl">
@@ -314,7 +324,9 @@
         <!-- Spin -->
         <button class:bg-red-500={!spinning} 
                 type="button" 
-                class="p-1 orangek border-2 border-red-500 basis-1/4 rounded-2xl max-md:basis-1/2 disabled:bg-transparent hover:scale-[1.05] disabled:hover:scale-100 duration-200" 
+                class="p-1 orangek border-2 border-red-500 basis-1/4 rounded-2xl
+                       max-md:basis-1/2 disabled:bg-transparent hover:scale-[1.05]
+                       disabled:hover:scale-100 duration-200" 
                 class:animate-pulse={spinning} 
                 disabled={spinning || !bet || bet < 10 || balance < bet} 
                 onclick={spin}>
@@ -324,13 +336,16 @@
         <!-- Feedback -->
         <input type="text" 
                disabled 
-               class="basis-2/4 rounded-2xl max-md:hidden text-center pointer-events-none border-2 bg-red-900 border-red-900" 
+               class="basis-2/4 rounded-2xl max-md:hidden text-center
+                      pointer-events-none border-2 bg-red-900 border-red-900" 
                value={$_("games.fruit-frenzy-classic." + feedback, {values: {gain: win}})}>
 
         <!-- Auto-Run -->
         <button class:bg-red-500={!autorun} 
                 type="button" 
-                class="orangek p-1 border-red-500 disabled:bg-transparent disabled:hover:scale-100 border-2 basis-1/4 rounded-2xl animation max-md:basis-1/2 hover:scale-[1.05] duration-200" 
+                class="orangek p-1 border-red-500 disabled:bg-transparent
+                       disabled:hover:scale-100 border-2 basis-1/4 rounded-2xl
+                       animation max-md:basis-1/2 hover:scale-[1.05] duration-200" 
                 class:animate-pulse={autorun} 
                 disabled={!bet || bet < 10 || balance < bet} 
                 onclick={() => {autorun = !autorun; if (!spinning) spin();}}>
@@ -341,7 +356,10 @@
       <!-- Bet, Balance -->
       <div class="flex flex-row max-lg:flex-col gap-2">
         <div class="flex basis-1/2">
-          <span class="inline-flex items-center text-2xl bg-red-900 border-red-900 basis-1/4 border-2 rounded-e-0 border-e-0 rounded-s-2xl justify-center orangek uppercase">
+          <span class="inline-flex items-center text-2xl bg-red-900
+                     border-red-900 basis-1/4 border-2 rounded-e-0
+                       border-e-0 rounded-s-2xl justify-center orangek 
+                       uppercase">
             {$_("games.bet")}:
           </span>
               
@@ -350,21 +368,26 @@
                  max={balance} 
                  disabled={spinning} 
                  bind:value={bet} 
-                 class="rounded-none basis-3/4 rounded-e-2xl bg-red-50 border-2 text-gray-900 py-2 pe-1 text-center" 
+                 class="rounded-none basis-3/4 rounded-e-2xl bg-red-50
+                        border-2 text-gray-900 py-2 pe-1 text-center" 
                  placeholder={$_("games.fruit-frenzy-classic.placeBet")}>
         </div>
 
         <div class="basis-1/2">
           <div class="flex">
-            <span class="inline-flex items-center text-2xl px-1 bg-red-900 border-red-900 border-2 rounded-e-0 border-e-0 rounded-s-2xl basis-3/12 justify-center orangek uppercase">
+            <span class="inline-flex items-center text-2xl px-1 bg-red-900
+                       border-red-900 border-2 rounded-e-0 border-e-0 rounded-s-2xl
+                         basis-3/12 justify-center orangek uppercase">
               {$_("games.balance")}:
             </span>
                         
             <input type="text"
                    disabled bind:value={balance} 
-                   class="rounded-none bg-red-50 border border-e-0 text-gray-900 py-2 text-center basis-[63%]">
+                   class="rounded-none bg-red-50 border border-e-0 
+                          text-gray-900 py-2 text-center basis-[63%]">
                         
-            <span class="inline-flex items-center text-2xl px-1 bg-red-50 border border-s-0 rounded-e-2xl basis-[12%] justify-end orangek">
+            <span class="inline-flex items-center text-2xl px-1 bg-red-50 
+                         border border-s-0 rounded-e-2xl basis-[12%] justify-end orangek">
               <img src="/src/lib/media/images/chip.png" 
                    alt="chip" 
                    class="h-8">
@@ -392,7 +415,9 @@
        aria-hidden="true"></div>
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto text-white">
     <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-      <div class="shadow-[0_0px_600px_-15px_rgba(0,0,0,0.3)] shadow-white relative transform overflow-hidden bg-red-700 text-left border-2 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 p-2 rounded-3xl">
+      <div class="shadow-[0_0px_600px_-15px_rgba(0,0,0,0.3)] shadow-white
+                  relative transform overflow-hidden bg-red-700 text-left
+                  border-2 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 p-2 rounded-3xl">
         <h1 class="text-center text-5xl pb-2 border-b-2 orangek">
           {$_("games.rules")}
         </h1>
@@ -404,7 +429,8 @@
         </div>
 
         <div class="border-t-2 pt-2 flex justify-center">
-          <button class="border-2 text-2xl p-1 rounded-xl w-24 hover:scale-110 hover:bg-white hover:text-red-700 duration-300 orangek" 
+          <button class="border-2 text-2xl p-1 rounded-xl w-24 hover:scale-110
+                       hover:bg-white hover:text-red-700 duration-300 orangek" 
                   onclick={() => modal = false}>
             {$_("close")}
           </button>

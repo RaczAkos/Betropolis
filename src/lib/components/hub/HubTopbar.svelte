@@ -9,7 +9,8 @@
       }: Search = $props();
 </script>
 
-<div class="fixed top-0 bg-black border-b border-yellow-600 w-full p-2 borgens flex justify-between text-center select-none h-[65px]">
+<div class="fixed top-0 bg-black border-b border-yellow-600 w-full 
+            p-2 borgens flex justify-between text-center select-none h-[65px]">
   {#if searchBar}
 
   <!-- Mobile searchbar -->
