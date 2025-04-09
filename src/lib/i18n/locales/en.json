@@ -240,7 +240,11 @@
     }
   },
   "funds": {
-    "title": "Manage funds"
+    "title": "Manage funds",
+    "withdraw-success": "Successful withdrawal!",
+    "deposit-success": "Successful deposit!",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw"
   },
   "lang": {
     "title": "Change Language",

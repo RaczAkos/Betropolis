@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>Crash! - Betropolis</title>
+  <title>Crash! - Betropolis</title>
 </svelte:head>
 
 <script lang="ts">
@@ -32,12 +32,8 @@
   // Function to calculate the new amount based on button clicked
   function calcOne(e: any) {
     if (e.target.innerText.length > 3) {
-      if (amount >= 2) {
-        amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
-      }
-    } else {
-      amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
-    }
+      if (amount >= 2) amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
+    } else amount = Math.round(amount * parseFloat(e.target.innerText.substr(0, e.target.innerText.length - 1)));
     valuechange(); // Update the amount value
   }
 
@@ -48,16 +44,12 @@
 
   // Function to add amount to current amount if balance allows
   function addAmount() {
-    if (balance >= amount) {
-      currentAmount = Math.round(currentAmount + amount);
-    }
+    if (balance >= amount) currentAmount = Math.round(currentAmount + amount);
   }
 
   // Function to subtract amount from current amount if possible
   function subtractAmount() {
-    if (currentAmount - amount >= 0) {
-      currentAmount = Math.round(currentAmount - amount);
-    }
+    if (currentAmount - amount >= 0) currentAmount = Math.round(currentAmount - amount);
   }
 
 
@@ -66,19 +58,17 @@
     // Adjust k to make crashes rarer
     const adjustedK = k * 0.4;
     return 1 - Math.exp(-adjustedK * (multiplier - 1));
-}
+  }
 
   // Function to handle modal slide navigation
   function nextSlide() {
     currentSlide++;
-    if (currentSlide >= totalSlides) {
-      showModal = false; // Hide modal after last slide
-    }
+    // Hide modal after last slide
+    if (currentSlide >= totalSlides) showModal = false; 
   }
 
-  onMount(async () => {
-    balance = await getBalance()
-  })
+  // Get user balance
+  onMount(async () => balance = await getBalance())
 
   // Effect to handle the game logic and animation
   $effect(() => {
@@ -90,7 +80,8 @@
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
 
-    multiplier = 0.0; // Initialize multiplier
+    // Initialize multiplier
+    multiplier = 0.0; 
     let crashed = false,
         offsetX = 0,
         offsetY = 0,
@@ -137,7 +128,9 @@
               temp.classList.add("hover:border", "hover:border-yellow-600");
             }
           });
-          running = false; // Stop the game
+
+          // Stop the game
+          running = false; 
         }
 
         // Check if multiplier reached target
@@ -147,7 +140,9 @@
             temp.removeAttribute("disabled");
           });
           if (!stopadding) {
-            stopadding = true; // Stop adding to balance
+
+            // Stop adding to balance
+            stopadding = true; 
             balance = await updateBalance(Math.round(currentAmount * targetMultiplier), 2);
           }
         }
@@ -171,7 +166,8 @@
 
       multiplierDom.textContent = multiplier.toFixed(2) + "x";
 
-      if (running && !crashed) requestAnimationFrame(drawGraph); // Loop animation per browser fps
+      // Loop animation per browser fps
+      if (running && !crashed) requestAnimationFrame(drawGraph); 
     }
 
     // Start the game on Bet button click
@@ -192,68 +188,78 @@
               multiplierDom.classList.add("text-yellow-600");
               betBtn.setAttribute("disabled", "true");
               crashText?.classList.add("hidden");
-              running = true; // Start the game
-              multiplier = 0.0; // Reset multiplier
+              
+              // Start the game and reset multiplier
+              running = true;
+              multiplier = 0.0;
               cashoutBtn.disabled = false;
-              ctrlbuttons.forEach((temp) => {
-                temp.setAttribute("disabled", "true");
-              });
-              drawGraph(); // Start drawing the graph
+              ctrlbuttons.forEach((temp) => temp.setAttribute("disabled", "true") );
+              
+              // Start drawing the graph
+              drawGraph(); 
             }
           }
         }
       }
-      else{
-        alert("Place a bet first!");
-      }
+      else alert("Place a bet first!");
     });
 
     cashoutBtn.addEventListener("click", async () => {
       if (running) {
-          betBtn.removeAttribute("disabled");
-          cashoutBtn.disabled = true;
+        betBtn.removeAttribute("disabled");
+        cashoutBtn.disabled = true;
 
-          if (multiplier < targetMultiplier) {
-              balance = await updateBalance(Math.round(currentAmount / 2), 2); // Half return if cashed out early
-          }
+        // Half return if cashed out early
+        if (multiplier < targetMultiplier) balance = await updateBalance(Math.round(currentAmount / 2), 2); 
 
-          ctrlbuttons.forEach((temp) => {
-              temp.removeAttribute("disabled");
-          });
+        ctrlbuttons.forEach((temp) => temp.removeAttribute("disabled"));
 
-          crashed = true; // Mark as crashed
+        // Mark as crashed
+        crashed = true; 
       }
     });
-});
-
+  });
 </script>
 
 {#if showModal}
   <div class="fixed inset-0 flex items-center justify-center z-50 modalbg">
-    <div class="p-5 rounded-lg shadow-lg w-[80vw] max-w-3xl">
-      <div
-        id="horizontal-thumbnails"
-        bind:this={carousel}
-        data-carousel={JSON.stringify({ loadingClasses: "opacity-0" })}
-        class="relative w-full overflow-hidden"
-      >
+    <div class="p-5 rounded-lg shadow-lg md:w-[80vw] max-w-3xl">
+      <div id="horizontal-thumbnails"
+           bind:this={carousel}
+           data-carousel={JSON.stringify({ loadingClasses: "opacity-0" })}
+           class="relative w-full overflow-hidden">
         <div class="carousel flex w-full h-full">
-          <div
-            class="carousel-body flex w-full h-full transition-transform duration-500"
-            style="transform: translateX(-{currentSlide * 100}%);"
-          >
-            <!-- Slide 1: Text at the bottom-->
+          <div class="carousel-body flex w-full h-full transition-transform duration-500"
+               style="transform: translateX(-{currentSlide * 100}%);">
+            
+               <!-- Slide 1: Text at the bottom-->
             <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
-                <img src={crashpics[3]} class="w-full h-full object-cover"/>
+                <img src={crashpics[3]} 
+                     class="w-full h-full object-cover" 
+                     alt="tutorial2"/>
               </div>
               {#if currentSlide === 0}
-              <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 p-4 text-center">
-                <p class="text-yellow-600 lg:text-4xl md:text-2xl max-sm:text-sm sm:text-sm">{$_("games.crash.tutorial.begginers")}</p>
-              </div>
+                <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 p-4 text-center">
+                  <p class="text-yellow-600 lg:text-4xl md:text-2xl text-sm">
+                    {$_("games.crash.tutorial.begginers")}
+                  </p>
+                </div>
                 <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
-                  <p>{$_(`${translation}.1.1`)}<span class="text-yellow-600">{$_(`${translation}.1.2`)}</span>{$_(`${translation}.1.3`)}&uarr;{$_(`${translation}.1.4`)}&darr;{$_(`${translation}.1.5`)}</p>
-                  <p>{$_(`${translation}.1.6`)}<span class="text-red-600">{$_(`${translation}.1.7`)}</span>{$_(`${translation}.1.8`)}</p>
+                  <p>
+                    {$_(`${translation}.1.1`)}
+                    <span class="text-yellow-600">
+                      {$_(`${translation}.1.2`)}
+                    </span>
+                    {$_(`${translation}.1.3`)}&uarr;{$_(`${translation}.1.4`)}&darr;{$_(`${translation}.1.5`)}
+                  </p>
+                  <p>
+                    {$_(`${translation}.1.6`)}
+                    <span class="text-red-600">
+                      {$_(`${translation}.1.7`)}
+                    </span>
+                    {$_(`${translation}.1.8`)}
+                  </p>
                 </div>
               {/if}
             </div>
@@ -261,13 +267,44 @@
             <!-- Slide 2: Text at the top-->
             <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
-                <img src={crashpics[4]} class="w-full h-full object-cover"/>
+                <img src={crashpics[4]} 
+                     class="w-full h-full object-cover" 
+                     alt="tutorial2"/>
               </div>
               {#if currentSlide === 1}
                 <div class="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 text-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
-                  <p>{$_(`${translation}.2.1`)}<span class="text-yellow-600">{$_(`${translation}.2.2`)}</span>.</p>
-                  <p>{$_(`${translation}.2.3`)}<span class="text-green-600">{$_(`games.find-card.start`)}</span>{$_(`${translation}.2.4`)}</p>
-                  <p>{$_(`${translation}.2.5`)}<span class="text-red-600">{$_(`${translation}.2.6`)}</span>{$_(`${translation}.2.7`)}<span class="text-red-600">{$_(`${translation}.2.8`)}</span>{$_(`${translation}.2.9`)}<span class="text-yellow-600">{$_(`${translation}.2.10`)}</span>{$_(`${translation}.2.11`)}<span class="text-red-600">{$_(`${translation}.2.12`)}</span>{$_(`${translation}.2.13`)}</p>
+                  <p>
+                    {$_(`${translation}.2.1`)}
+                    <span class="text-yellow-600">
+                      {$_(`${translation}.2.2`)}
+                    </span>.
+                  </p>
+                  <p>
+                    {$_(`${translation}.2.3`)}
+                    <span class="text-green-600">
+                      {$_(`games.find-card.start`)}
+                    </span>
+                    {$_(`${translation}.2.4`)}
+                  </p>
+                  <p>
+                    {$_(`${translation}.2.5`)}
+                    <span class="text-red-600">
+                      {$_(`${translation}.2.6`)}
+                    </span>
+                    {$_(`${translation}.2.7`)}
+                    <span class="text-red-600">
+                      {$_(`${translation}.2.8`)}
+                    </span>
+                    {$_(`${translation}.2.9`)}
+                    <span class="text-yellow-600">
+                      {$_(`${translation}.2.10`)}
+                    </span>
+                    {$_(`${translation}.2.11`)}
+                    <span class="text-red-600">
+                      {$_(`${translation}.2.12`)}
+                    </span>
+                    {$_(`${translation}.2.13`)}
+                  </p>
                 </div>
               {/if}
             </div>
@@ -275,14 +312,24 @@
             <!-- Slide 3: Text on the left-->
             <div class="carousel-slide w-full flex-shrink-0 relative">
               <div class="flex w-full h-full justify-center">
-                <img src={crashpics[5]} class="w-full h-full object-cover"/>
+                <img src={crashpics[5]} 
+                     class="w-full h-full object-cover" 
+                     alt="tutorial3"/>
               </div>
               {#if currentSlide === 2}
                 <div class="absolute top-0 left-0 h-1/2 w-[40%] bg-black bg-opacity-50 text-white p-4 flex items-center lg:text-lg md:text-sm max-sm:text-[7px] sm:text-xs">
-                  <p>{$_(`${translation}.3.1`)}<span class="text-yellow-600">{$_(`${translation}.2.10`)}</span>{$_(`${translation}.3.2`)}</p>
+                  <p>
+                    {$_(`${translation}.3.1`)}
+                    <span class="text-yellow-600">
+                      {$_(`${translation}.2.10`)}
+                    </span>
+                    {$_(`${translation}.3.2`)}
+                  </p>
                 </div>
                 <div class="absolute bottom-0 left-0 h-1/2 w-[40%] text-[60px] text-end bg-opacity-50 p-4 flex items-center">
-                  <p class="w-full text-yellow-600">&#8599;</p>
+                  <p class="w-full text-yellow-600">
+                    &#8599;
+                  </p>
                 </div>
               {/if}
             </div>
@@ -291,53 +338,47 @@
 
         <!-- Thumbnails -->
         <div class="carousel-pagination grid grid-cols-3 justify-center gap-2 mt-4">
-          <img
-            src={crashpics[3]}
-            class="object-cover cursor-pointer {currentSlide === 0 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}"
-            alt="mountain"
-            onclick={() => (currentSlide = 0)}
-          />
-          <img
-            src={crashpics[4]}
-            class="object-cover cursor-pointer {currentSlide === 1 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}"
-            alt="sand"
-            onclick={() => (currentSlide = 1)}
-          />
-          <img
-            src={crashpics[5]}
-            class="object-cover cursor-pointer {currentSlide === 2 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}"
-            alt="cloud"
-            onclick={() => (currentSlide = 2)}
-          />
+          <button onclick={() => (currentSlide = 0)} 
+                  class="!p-0">
+            <img src={crashpics[3]}
+                 class="object-cover cursor-pointer {currentSlide === 0 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}"
+                 alt="slide1"/>
+          </button>
+          <button onclick={() => (currentSlide = 1)} 
+                  class="!p-0">
+            <img src={crashpics[4]}
+                 class="object-cover cursor-pointer {currentSlide === 1 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}"
+                 alt="slide2"/>
+          </button>
+          <button onclick={() => (currentSlide =2)} 
+                  class="!p-0">
+            <img src={crashpics[5]}
+                 class="object-cover cursor-pointer {currentSlide === 2 ? 'opacity-100 border-yellow-600 border' : 'opacity-50 border-none'}"
+                 alt="slide3"/>
+          </button>
         </div>
 
         <!-- Navigation -->
         {#if currentSlide !== 0}
-          <button
-            type="button"
-            class="absolute top-[40%] left-4 transform -translate-y-1/2 bg-yellow-600 rounded-full 
+          <button type="button"
+                  class="absolute top-[40%] left-4 transform -translate-y-1/2 bg-yellow-600 rounded-full 
                   p-4 text-xl md:!p-3 md:!text-lg sm:!p-2 sm:!text-base max-sm:!p-1 max-sm:!text-sm"
-            onclick={() => (currentSlide = Math.max(0, currentSlide - 1))}
-          >
+                  onclick={() => currentSlide = Math.max(0, currentSlide - 1)}>
             &#10094;
           </button>
         {/if}
         {#if currentSlide !== 2}
-          <button
-            type="button"
-            class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full 
-                  p-4 text-xl md:!p-3 md:!text-lg sm:!p-2 sm:!text-base max-sm:!p-1 max-sm:!text-sm"
-            onclick={nextSlide}
-          >
+          <button type="button"
+                  class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full 
+                        p-4 text-xl md:!p-3 md:!text-lg sm:!p-2 sm:!text-base max-sm:!p-1 max-sm:!text-sm"
+                  onclick={nextSlide}>
             &#10095;
           </button>
         {:else}
-          <button
-            type="button"
-            class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full 
-                  p-4 text-xl md:!p-3 md:!text-lg sm:!p-2 sm:!text-base max-sm:!p-1 max-sm:!text-sm"
-            onclick={nextSlide}
-          >
+          <button type="button"
+                  class="absolute top-[40%] right-4 transform -translate-y-1/2 bg-yellow-600 rounded-full 
+                        p-4 text-xl md:!p-3 md:!text-lg sm:!p-2 sm:!text-base max-sm:!p-1 max-sm:!text-sm"
+                  onclick={nextSlide}>
             &#10008;
           </button>
         {/if}
@@ -346,68 +387,74 @@
   </div>
 {/if}
 
-<div class="flex justify-center items-center min-h-screen select-none bgImg">
+<div class="flex justify-center items-center min-h-screen select-none bg-cover !bg-[url(src/lib/media/images/backgrounds/dragon.jfif)]">
   <div class="text-center md:w-[70%]">
     <div class="game-area shadow-yellow-600 shadow-lg max-sm:!px-0">
       <div class="flex h-[85%] overflow-y-auto">
         <div class="px-5 my-auto">
           <div class="overflow-clip mx-auto kep">
-            <a href="/hub" class="relative inline-block">
-                <span title="Back to hub">
-                    <img src="{crashpics[0]}" class="h-[200px] w-[200px] max-sm:h-[100px] max-sm:w-[100px] hover:opacity-40 transition-all duration-300">
-                </span>
+            <a href="/hub" 
+               class="relative inline-block text-yellow-600">
+              <div class="hover:underline max-sm:underline italic">
+                {$_("games.back")}
+              </div>
+              <span title="Back to hub">
+                <img src="{crashpics[0]}" 
+                     class="h-[200px] w-[200px] max-sm:h-[100px] max-sm:w-[100px] hover:opacity-40 transition-all duration-300"
+                     alt={$_("games.back")}>
+              </span>
             </a>
           </div>
+          
           <!-- Define amount -->
           <form class="mb-4">
             <div class="flex border-b border-yellow-600 py-2">
-              <input
-                bind:value={amount}
-                bind:this={resetone}
-                oninput={valuechange}
-                onfocus={() => (resetone.value = "")}
-                min="1"
-                class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
-                type="number"
-                aria-label="{$_(`games.crash.input1`)}" 
-                placeholder="{$_(`games.crash.input1`)}"
-              >
+              <input bind:value={amount}
+                     bind:this={resetone}
+                     oninput={valuechange}
+                     onfocus={() => (resetone.value = "")}
+                     min="1"
+                     class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+                     type="number"
+                     aria-label="{$_(`games.crash.input1`)}" 
+                     placeholder="{$_(`games.crash.input1`)}">
               <span>
-                <button
-                  onclick={addAmount}
-                  class="flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton"
-                  type="button"
-                >
-                  <span class="text-xl">&uarr;</span>
+                <button onclick={addAmount}
+                        class="flex-shrink-0 bg-yellow-600 hover:bg-yellow-600 border-yellow-600 hover:border-yellow-600 border-4 rounded ctrlbutton"
+                        type="button">
+                  <span class="text-xl">
+                    &uarr;
+                  </span>
                 </button>
               </span>
               <span>
-                <button
-                  onclick={subtractAmount}
-                  class="flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton"
-                  type="button"
-                >
-                  <span class="text-xl">&darr;</span>
+                <button onclick={subtractAmount}
+                        class="flex-shrink-0 border-transparent border-4 text-yellow-600 py-1 px-2 rounded ctrlbutton"
+                        type="button">
+                  <span class="text-xl">
+                    &darr;
+                  </span>
                 </button>
               </span>
             </div>
             <div class="flex border-b border-yellow-600 py-2">
+              
               <!-- Target Multiplier -->
               <div class="w-full">
                 <div class="flex items-center space-x-2">
-                  <input
-                    bind:value={targetMultiplier} 
-                    bind:this={resettwo}
-                    oninput={valuechange} 
-                    onfocus={() => (resettwo.value = "")} 
-                    class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
-                    type="number"
-                    aria-label="{$_(`games.crash.input2`)}"
-                    placeholder="{$_(`games.crash.input2`)}"
-                    step="0.1"
-                    min="2"
-                  >
-                  <img src="{crashpics[2]}" alt="chip" class="w-[30px] max-sm:hidden">
+                  <input bind:value={targetMultiplier} 
+                         bind:this={resettwo}
+                         oninput={valuechange} 
+                         onfocus={() => (resettwo.value = "")} 
+                         class="appearance-none bg-transparent border-none w-full text-gray-400 mr-3 py-1 px-2 focus:outline-none"
+                         type="number"
+                         aria-label="{$_(`games.crash.input2`)}"
+                         placeholder="{$_(`games.crash.input2`)}"
+                         step="0.1"
+                         min="3">
+                  <img src="{crashpics[2]}" 
+                       alt="chip" 
+                       class="w-[30px] max-sm:hidden">
                 </div>
               </div>
             </div>
@@ -416,12 +463,9 @@
           <!-- Multiplier buttons -->
           <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2">
             {#each ["0.5x", "2x", "5x", "10x"] as multiplier}
-              <button
-                class="text-yellow-600 ctrlbutton firetext fireborder 
-                      text-sm px-2 py-1 
-                      sm:text-base sm:px-3 sm:py-2"
-                onclick={calcOne}
-              >
+              <button class="text-yellow-600 ctrlbutton firetext fireborder 
+                      text-sm px-2 py-1 sm:text-base sm:px-3 sm:py-2"
+                      onclick={calcOne}>
                 {multiplier}
               </button>
             {/each}
@@ -433,28 +477,30 @@
             <div class="w-full">
               <span class="block text-xl font-medium text-yellow-600 text-start">{$_(`games.crash.currentBet`)}</span>
               <div class="flex items-center space-x-2">
-                <input
-                  bind:value={currentAmount}
-                  min="1"
-                  class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
-                  type="text"
-                  disabled
-                >
-                <img src="{crashpics[1]}" alt="chip" class="w-[30px] max-sm:hidden">
+                <input bind:value={currentAmount}
+                       min="1"
+                       class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                       type="text"
+                       disabled>
+                <img src={crashpics[1]} 
+                     alt="chip" 
+                     class="w-[30px] max-sm:hidden">
               </div>
             </div>
 
             <!-- Balance -->
             <div class="w-full">
-              <span class="block text-xl font-medium text-yellow-600 text-start">{$_(`games.crash.balance`)}</span>
+              <span class="block text-xl font-medium text-yellow-600 text-start">
+                {$_(`games.crash.balance`)}
+              </span>
               <div class="flex items-center space-x-2">
-                <input
-                  bind:value={balance}
-                  class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
-                  type="text"
-                  disabled
-                >
-                <img src="{crashpics[1]}" alt="chip" class="w-[30px] max-sm:hidden">
+                <input bind:value={balance}
+                       class="text-green-700 text-lg text-center bg-black border-b border-yellow-600 flex-grow"
+                       type="text"
+                       disabled>
+                <img src={crashpics[1]} 
+                     alt="chip" 
+                     class="w-[30px] max-sm:hidden">
               </div>
             </div>
           </div>
@@ -462,41 +508,37 @@
 
         <!-- Moving Scale -->
         <div class="grow items-center max-md:ps-1">
-          <p class='dracutaz text-center text-red-600 text-[120px] max-md:text-[70px] max-sm:text-[40px] max-xs:text-[15px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' id='crashText'>{$_(`games.crash.crashedAt`)}{multiplier.toFixed(2)}x!</p>
-          <canvas
-            bind:this={canvas}
-            class="h-full fireborder"
-            class:shadow-lg={running}
-            class:shadow-yellow-600={running}
-          ></canvas>
+          <p class='dracutaz text-center text-red-600 text-[120px] max-md:text-[70px] max-sm:text-[40px] max-xs:text-[15px] hidden absolute top-1/4 left-1/4 lg:top-1/3 lg:left-1/3 firetext' 
+             id='crashText'>
+            {$_(`games.crash.crashedAt`)}{multiplier.toFixed(2)}x!
+          </p>
+          <canvas bind:this={canvas}
+                  class="h-full w-full fireborder rounded-lg bg-repeat bg-[url($lib/media/images/crashgame/net.png)] bg-auto bg-[0_0]"
+                  class:shadow-lg={running}
+                  class:shadow-yellow-600={running}>
+          </canvas>
         </div>
       </div>
 
       <div class="info flex flex-col items-center space-y-2 sm:space-y-3">
         <!-- Multiplier -->
-        <p
-          id="multiplier"
-          class="text-yellow-600 text-[18px] sm:text-[24px] font-bold"
-          bind:this={multiplierDom}
-        >
+        <p id="multiplier"
+           class="text-yellow-600 text-[18px] sm:text-[24px] font-bold"
+           bind:this={multiplierDom}>
           {multiplier}x
         </p>
       
         <!-- Buttons side-by-side -->
         <div class="flex gap-2 w-full justify-center">
-          <button
-            bind:this={betBtn}
-            id="bet-btn"
-            class="bg-yellow-600 text-white font-bold py-1 px-3 text-sm sm:text-base rounded w-[48%]"
-          >
+          <button bind:this={betBtn}
+                  id="bet-btn"
+                  class="bg-yellow-600 text-white font-bold py-1 px-3 text-sm sm:text-base rounded w-[48%]">
             {$_(`games.find-card.start`)}
           </button>
-          <button
-            bind:this={cashoutBtn}
-            id="cashout-btn"
-            class="bg-gray-600 text-white font-bold py-1 px-3 text-sm sm:text-base rounded w-[48%]"
-            disabled
-          >
+          <button bind:this={cashoutBtn}
+                  id="cashout-btn"
+                  class="bg-gray-600 text-white font-bold py-1 px-3 text-sm sm:text-base rounded w-[48%]"
+                  disabled>
             {$_(`${translation}.2.6`)}
           </button>
         </div>
@@ -515,25 +557,11 @@
     }
   }
 
-  .bgImg {
-    background-image: url("src/lib/media/images/backgrounds/dragon.jfif") !important;
-    background-size: cover;
-  }
-
   .game-area {
     align-items: center;
     border-radius: 10px;
     padding: 20px;
     overflow: hidden;
-  }
-  
-  canvas {
-    background-image: url('../../../lib/media/images/crashgame/net.png');
-    background-repeat: repeat;
-    background-size: auto;
-    background-position: 0 0;
-    width: 100%;
-    border-radius: 8px;
   }
   
   .info {
@@ -568,12 +596,6 @@
   #cashout-btn:hover {
     background-color: #c82333;
   }
-  
-  footer {
-    margin-top: 20px;
-    font-size: 12px;
-    color: #666;
-  }
 
   .info-container {
     display: flex;
@@ -582,7 +604,6 @@
     max-width: 100%;
   }
 
-  
   .firetext {
     animation: burn 1.5s linear infinite alternate;
   }
@@ -659,14 +680,8 @@
     }
   }
 
-  @media (max-height: 768px) {
-    .specmax {
-      background: rgb(202,138,4);
-      background: linear-gradient(90deg, rgba(202,138,4,1) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(202,138,4,1) 100%); 
-    }
-  }
-
+  /* Hide scrollbar */
   ::-webkit-scrollbar {
-    display: none; /* Hide scrollbar */
+    display: none; 
   }
 </style>

@@ -81,7 +81,7 @@ export interface Paragraph {
 }
 
 export interface Input {
-  value?: string, 
+  value?: string|number, 
   disabled?: boolean, 
   type?: string, 
   id?: string, 

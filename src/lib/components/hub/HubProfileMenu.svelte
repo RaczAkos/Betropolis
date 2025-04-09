@@ -13,8 +13,17 @@
           username: "error"
         } 
       }: Modal = $props(),
+      balance: number = $state(user.balance),
       signOutClicked: boolean  = $state(false),
       links: string[] = [ "profile", "terms&conditions", "privacy-policy" ];
+
+      $effect(() => {
+        if (show) { 
+          fetch("/api/balance-update")
+          .then(res => res.json())
+          .then(res => balance = res.balance)
+        }
+      })
 </script>
 
 <div class:hidden={!show}
@@ -30,7 +39,7 @@
     <div class="flex flex-row justify-center">
       <div class="flex place-items-center">
         <div class="text-lg me-1 font-extrabold">
-          {user.balance}
+          {balance}
         </div>
         <img src={chip} 
              alt="chips" 

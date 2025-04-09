@@ -104,7 +104,7 @@
               <tr class="bg-[#040d17] text-white">
                 {#each Object.keys(data.transaction[0]) as key}
                   {#if key != "gameid"}
-                    <th class="p-2 border border-gray-600">
+                    <th class="p-2 border-2">
                       {$_(`page.profile.table.${key}`)}
                     </th>
                   {/if}
@@ -117,9 +117,9 @@
                   <tr class="text-center {row.gain > 0 ? "text-green-600": "text-red-600"}">
                     {#each Object.entries(row) as [key, value]}
                       {#if key != "gameid"}
-                          <td class="p-2 border border-gray-600">
-                            {value}
-                          </td>
+                        <td class="p-2 border-2 font-bold">
+                          {value}
+                        </td>
                       {/if}
                     {/each}
                   </tr>
