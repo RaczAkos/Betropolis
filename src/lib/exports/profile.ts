@@ -21,3 +21,14 @@ export async function getUser() {
     const data = await response.json();
     return data;
 }
+
+export async function deleteCharacter() {
+    const response = await fetch('/api/profile', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+    });
+    const data = await response.json();
+}

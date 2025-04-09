@@ -172,7 +172,7 @@
               {#if !field.avatar}
                 <img src={field.img} alt={field.text} class="w-28 mx-auto md:w-32 lg:w-40">
               {:else}
-                <img src={data.user[0].avatar + ".png"} alt="avatar" class="w-28 mx-auto md:w-32 lg:w-40 rounded-full border-4 border-white shadow-xl shadow-gray-300">
+                <img src={data.user[0].avatar} alt="avatar" class="w-28 mx-auto md:w-32 lg:w-40 rounded-full border-4 border-white shadow-xl shadow-gray-300">
               {/if}
               <p class="text-gray-500 py-3 text-lg text-nowrap">{$_(field.text)}</p>
               <p class="inline { field.chips ? "text-yellow-600": "text-pink-600"} text-lg text-nowrap">

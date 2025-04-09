@@ -22,7 +22,7 @@ export const POST: RequestHandler = async (event) => {
         return json({succesful: "Succesful!"});
 
     } catch (error) {
-        console.error("Error updating balance:", error);
+        console.error("Error updating profile:", error);
         return json({ error: "Internal Server Error" }, { status: 500 });
     }
 };
@@ -34,9 +34,9 @@ export const DELETE: RequestHandler = async (event) => {
             `DELETE FROM users WHERE id = ?`,
             [event.locals.user.id]
         );;
-    return json({kutyareturn: "kutyareturn"})
+    return json({successful: "Successful!"})
     } catch (error) {
-        console.error("Error updating balance:", error);
+        console.error("Error deleting profile:", error);
         return json({ error: "Internal Server Error" }, { status: 500 });
     }
 };
@@ -49,7 +49,7 @@ export const GET: RequestHandler = async (event) => {
             WHERE id = ${event.locals.user.id};`);
     return json({user: userData[0]})
     } catch (error) {
-        console.error("Error updating balance:", error);
+        console.error("Error getting user data:", error);
         return json({ error: "Internal Server Error" }, { status: 500 });
     }
     };
