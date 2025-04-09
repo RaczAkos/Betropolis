@@ -27,7 +27,7 @@ export const POST: RequestHandler = async (event) => {
     }
 };
 
-export const GET: RequestHandler = async (event) => {
+export const DELETE: RequestHandler = async (event) => {
         let db = await dbConnect();
     try {
         await db.execute(
@@ -40,3 +40,16 @@ export const GET: RequestHandler = async (event) => {
         return json({ error: "Internal Server Error" }, { status: 500 });
     }
 };
+
+export const GET: RequestHandler = async (event) => {
+    let db = await dbConnect();
+    try {
+        let userData = await db.query(`SELECT email, username, gender, birthdate, balance, avatar
+            FROM users 
+            WHERE id = ${event.locals.user.id};`);
+    return json({user: userData[0]})
+    } catch (error) {
+        console.error("Error updating balance:", error);
+        return json({ error: "Internal Server Error" }, { status: 500 });
+    }
+    };

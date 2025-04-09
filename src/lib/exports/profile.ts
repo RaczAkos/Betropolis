@@ -1,3 +1,5 @@
+import { json } from "@sveltejs/kit";
+
 export async function profileChange(img:string, name:string, email:string, password:boolean, language:string) {
     const response = await fetch('/api/profile', {
         method: 'POST',
@@ -14,7 +16,8 @@ export async function profileChange(img:string, name:string, email:string, passw
     });
     const data = await response.json();
 }
-export async function deleteCharacter() {
+export async function getUser() {
     const response = await fetch('/api/profile');
     const data = await response.json();
+    return data;
 }
