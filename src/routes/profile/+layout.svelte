@@ -15,6 +15,8 @@
   import LanguageModal from "$lib/components/LanguageModal.svelte";
   import { fade, scale } from 'svelte/transition';
   import avatarsAll from "$lib/exports/avatars";
+  import { setContext } from 'svelte';
+  import { writable } from 'svelte/store';
   import { deleteCharacter, profileChange } from '$lib/exports/profile';
 
   let username: string                = $state(data.result[0].username),
@@ -27,7 +29,8 @@
       showModal: boolean              = $state(false),
       selectedAvatarIndex: number     = $state(-1),
       temporarySelectedAvatar: string = $state(data.result[0].avatar),
-      password: string                = $state(data.result[0].password)
+      password: string                = $state(data.result[0].password);
+
 
   function openModal() {
     const modal = document.getElementById('profileEditModal');
@@ -63,6 +66,9 @@
     selectedAvatarIndex = index;
   }
 
+  const sharedPic = writable("");
+  setContext('sharedPic', sharedPic);
+
   function saveChanges() {
     if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && 
         /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!#$%&?<>_ "]).*$/.test(password)) {
@@ -70,6 +76,10 @@
       currentEmail = email;
       currentName = username;
       currentAvatar = temporarySelectedAvatar;
+      password = "";
+      if (currentAvatar.length > 0) {
+        sharedPic.set(currentAvatar)
+      }
       closeModal();
     }
   }
@@ -91,7 +101,7 @@
               {#if page.params.friend}
                 {page.params.friend}
               {:else}
-                {data.data}
+                {currentName}
               {/if}
             </span>
           </p>
@@ -120,8 +130,14 @@
   <div class="sm:w-[80vw] max-w-[500px] bg-[#040d17] rounded-lg shadow-2xl p-6 text-white relative transform scale-0 transition-transform duration-300  border-white shadow-gray-500">
       
     <!-- Close Button -->
-    <button class="absolute top-3 right-3 text-gray-400 hover:text-white p-4 border" onclick={closeModal}>
+    <button class="absolute top-3 right-3 text-gray-400 hover:text-white p-4" onclick={closeModal}>
       &times;
+    </button>
+
+    <!-- Delete Profile Button -->
+    <button class="absolute left-3 top-3 py-2 px-2 bg-red-600 hover:bg-red-700 text-white font-bold border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 rounded btnPos transition-all duration-300"
+            onclick={deleteCharacter}>
+        {$_(`page.profile.delete`)}
     </button>
 
     <h2 class="text-xl font-bold text-center mb-4">
@@ -150,7 +166,7 @@
     <div class="mb-4">
       <label for="username" 
              class="text-gray-400 block mb-1">
-        {$_(`page.sign-up.username`)}
+        {$_(`page.profile.modal.name`)}
       </label>
       <input bind:value={username} 
              type="text" 
