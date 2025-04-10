@@ -4,6 +4,8 @@
 
 <script lang="ts">
     import { _ } from "svelte-i18n";
+    import { getContext } from 'svelte';
+    import type { Writable } from 'svelte/store';
 
     let { data } = $props(),
         chipsSpent: number  = $state(calculateChips(0)), 
@@ -58,6 +60,8 @@
       }
       return chips;
     }
+
+    const sharedPic = getContext('sharedPic') as Writable<string>;
 </script>
 
 <div class="mt-2 w-full h-full bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
@@ -74,10 +78,17 @@
                 <img src={field.img} alt={field.text} 
                      class="w-28 mx-auto md:w-32 lg:w-40">
               {:else}
-                <img src={data.user[0].avatar} 
+                {#if $sharedPic.length > 0}
+                <img src={$sharedPic} 
                      alt="avatar" 
                      class="w-28 mx-auto md:w-32 lg:w-40 rounded-full border-4 
+                      border-white shadow-xl shadow-gray-300">
+                  {:else}
+                  <img src={data.user[0].avatar} 
+                       alt="avatar" 
+                       class="w-28 mx-auto md:w-32 lg:w-40 rounded-full border-4 
                           border-white shadow-xl shadow-gray-300">
+                {/if}
               {/if}
               <p class="text-gray-500 py-3 text-lg text-nowrap">{$_(field.text)}</p>
               <p class="inline { field.chips ? "text-yellow-600": "text-pink-600"} text-lg text-nowrap">

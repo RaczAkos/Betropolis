@@ -106,7 +106,7 @@
       "modal":{
         "title": "Szerkesztés",
         "save": "Mentés",
-        "name": "Név (új)",
+        "name": "Felhasználónév (új)",
         "email": "E-mail (új)",
         "password": "Jelszó (új)"
       }
