@@ -127,98 +127,126 @@
 <!-- Profile Edit Modal -->
 <div id="profileEditModal" 
      class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-0 opacity-0 transition-opacity duration-700">
-  <div class="sm:w-[80vw] max-w-[500px] bg-[#040d17] rounded-lg shadow-2xl p-6 text-white relative transform scale-0 transition-transform duration-300  border-white shadow-gray-500">
+  <div class="sm:w-[80vw] max-w-[500px] bg-[#040d17] rounded-lg shadow-2xl p-6 
+            text-white relative transform scale-0 transition-transform duration-300  border-white shadow-gray-500">
       
-    <!-- Close Button -->
-    <button class="absolute top-3 right-3 text-gray-400 hover:text-white p-4" onclick={closeModal}>
-      &times;
-    </button>
+    <div class="border border-yellow-600">
+      <!-- Close Button -->
+      <button class="absolute top-3 right-3 text-gray-400 hover:text-white p-4" onclick={closeModal}>
+        &times;
+      </button>
 
-    <!-- Delete Profile Button -->
-    <button class="absolute left-3 top-3 py-2 px-2 bg-red-600 hover:bg-red-700 text-white font-bold border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 rounded btnPos transition-all duration-300"
-            onclick={deleteCharacter}>
-        {$_(`page.profile.delete`)}
-    </button>
+      <h2 class="text-xl font-bold text-center mb-4">
+        {$_(`page.profile.modal.title`)}
+      </h2>
+        
+      <!-- Avatar Upload -->
+      <div class="flex flex-col items-center mb-4">
+        <div class="relative w-[120px] h-[120px]">
+          <img id="avatarPreview" 
+              src="{temporarySelectedAvatar}" 
+              alt="avatar" 
+              class="w-full h-auto rounded-full border-4 border-white shadow-xl">
+          <button class="text-sm text-white" 
+                  onclick={() => showModal = true}
+                  aria-labelledby="avatar-change">
+            <label for="avatarUpload" 
+                  class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50
+                          rounded-full cursor-pointer hover:bg-opacity-70">
+              <i class="fas fa-sync-alt text-white text-xl"></i>
+            </label>
+          </button>
+        </div>
+      </div>
+      <table>
+        <tbody>
+          <tr>
+            <th class="text-start">Name</th>
+            <td>{data.result[0].name}</td>
+          </tr>
+          <tr>
+            <th class="text-start">Gender</th>
+            <td>{data.result[0].gender}</td>
+          </tr>
+          <tr>
+            <th class="text-start">Birth Date</th>
+            <td> {data.result[0].birthdate.toString().split(' ')[3]}
+                {data.result[0].birthdate.toString().split(' ')[2]} 
+                {("JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(data.result[0].birthdate.toString().split(' ')[1]) / 3 + 1).toString().padStart(2, '0')}
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <h2 class="text-xl font-bold text-center mb-4">
-      {$_(`page.profile.modal.title`)}
-    </h2>
+      <!-- Username Input -->
+      <div class="mb-4">
+        <label for="username" 
+              class="text-gray-400 block mb-1">
+          {$_(`page.profile.modal.name`)}
+        </label>
+        <input bind:value={username} 
+              type="text" 
+              id="username" 
+              placeholder={currentName} 
+              class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 
+                      focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
+      </div>
+
+      <!-- Email Input -->
+      <div class="mb-4">
+        <label for="email" class="text-gray-400 block mb-1">
+          {$_(`page.profile.modal.email`)}
+        </label>
+        <input bind:value={email} 
+              type="email" 
+              id="email" 
+              placeholder="{currentEmail}" 
+              class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 
+                      focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
+      </div>
+
+      <!-- Password Input -->
+      <div class="mb-4">
+        <label for="password" 
+              class="text-gray-400 block mb-1">
+          {$_(`page.profile.modal.password`)}
+        </label>
+        <input bind:value={password} 
+              type="password" id="password" 
+              placeholder="**********" 
+              class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 
+                      focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
+      </div>
+
+        
+      <div class="w-full justify-items-center">
+        <button type="button"
+                onclick={() => langClicked = true}
+                class="border-2 rounded p-1 px-4 border-yellow-600 flex">
+          <div>
+            <img src={`/src/lib/media/images/lang/${localeCheck(currentLang)}.png`} 
+                alt={currentLang}
+                class="h-8">
+          </div>
+        </button>
+      </div> 
       
-    <!-- Avatar Upload -->
-    <div class="flex flex-col items-center mb-4">
-      <div class="relative w-[120px] h-[120px]">
-        <img id="avatarPreview" 
-             src="{temporarySelectedAvatar}" 
-             alt="avatar" 
-             class="w-full h-auto rounded-full border-4 border-white shadow-xl">
-        <button class="text-sm text-white" 
-                onclick={() => showModal = true}
-                aria-labelledby="avatar-change">
-          <label for="avatarUpload" 
-                 class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer hover:bg-opacity-70">
-            <i class="fas fa-sync-alt text-white text-xl"></i>
-          </label>
+      <!-- Save Button -->
+      <div class="flex justify-center mt-4">
+        <button class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold 
+                        py-2 px-6 rounded-lg transition-all duration-300" 
+                onclick={saveChanges}>
+          {$_(`page.profile.modal.save`)}
         </button>
       </div>
     </div>
-
-    <!-- Username Input -->
-    <div class="mb-4">
-      <label for="username" 
-             class="text-gray-400 block mb-1">
-        {$_(`page.profile.modal.name`)}
-      </label>
-      <input bind:value={username} 
-             type="text" 
-             id="username" 
-             placeholder={currentName} 
-             class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
-    </div>
-
-    <!-- Email Input -->
-    <div class="mb-4">
-      <label for="email" class="text-gray-400 block mb-1">
-        {$_(`page.profile.modal.email`)}
-      </label>
-      <input bind:value={email} 
-             type="email" 
-             id="email" 
-             placeholder="{currentEmail}" 
-             class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
-    </div>
-
-    <!-- Password Input -->
-    <div class="mb-4">
-      <label for="password" 
-             class="text-gray-400 block mb-1">
-        {$_(`page.profile.modal.password`)}
-      </label>
-      <input bind:value={password} 
-             type="password" id="password" 
-             placeholder="**********" 
-             class="w-full bg-[#141a22] text-white p-2 rounded border border-gray-600 focus:outline-none focus:border-yellow-500 shadow-lg focus:shadow-yellow-600">
-    </div>
-
-      
-    <div class="w-full justify-items-center">
-      <button type="button"
-              onclick={() => langClicked = true}
-              class="border-2 rounded p-1 px-4 border-yellow-600 flex">
-        <div>
-          <img src={`/src/lib/media/images/lang/${localeCheck(currentLang)}.png`} 
-               alt={currentLang}
-               class="h-8">
-        </div>
-      </button>
-    </div> 
-    
-    <!-- Save Button -->
-    <div class="flex justify-center mt-4">
-      <button class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300" 
-              onclick={saveChanges}>
-        {$_(`page.profile.modal.save`)}
-      </button>
-    </div>
+    <!-- Delete Profile Button -->
+    <button class="py-2 px-2 bg-red-600 hover:bg-red-700 text-white font-bold 
+                   border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 
+                   rounded btnPos transition-all duration-300"
+            onclick={deleteCharacter}>
+      {$_(`page.profile.delete`)}
+    </button>
   </div>
 </div>
 
