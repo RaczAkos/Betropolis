@@ -1,12 +1,12 @@
 import { dbConnect } from '$lib/db/db';
-import type { FriendRequestData } from '$lib/interfaces';
+import type { FriendData } from '$lib/interfaces';
 import { json } from '@sveltejs/kit';
 
 export async function GET({locals}: {locals: App.Locals}) {
   let db: any = await dbConnect();
   
   try {
-    let friendRequestData: Array<Array<Array<FriendRequestData>>> = await db.query(
+    let friendRequestData: Array<Array<Array<FriendData>>> = await db.query(
           `SELECT friend_requests.id, senderId, username 
            FROM friend_requests 
            INNER JOIN users 

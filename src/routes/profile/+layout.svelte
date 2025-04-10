@@ -130,9 +130,9 @@
   <div class="sm:w-[80vw] max-w-[500px] bg-[#040d17] rounded-lg shadow-2xl p-6 
             text-white relative transform scale-0 transition-transform duration-300  border-white shadow-gray-500">
       
-    <div class="border border-yellow-600">
+    <div class="">
       <!-- Close Button -->
-      <button class="absolute top-3 right-3 text-gray-400 hover:text-white p-4" onclick={closeModal}>
+      <button class="absolute top-3 right-3 text-gray-400 hover:text-white py-2 px-4" onclick={closeModal}>
         &times;
       </button>
 
@@ -240,13 +240,15 @@
         </button>
       </div>
     </div>
-    <!-- Delete Profile Button -->
-    <button class="py-2 px-2 bg-red-600 hover:bg-red-700 text-white font-bold 
-                   border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 
-                   rounded btnPos transition-all duration-300"
-            onclick={deleteCharacter}>
-      {$_(`page.profile.delete`)}
-    </button>
+    <div class="border-t-2 flex justify-center pt-2 mt-2 border-gray-600">
+      <!-- Delete Profile Button -->
+      <button class="py-2 px-2 bg-red-600 hover:bg-red-700 text-white font-bold 
+                     border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500 
+                     rounded transition-all duration-300"
+              onclick={deleteCharacter}>
+        {$_(`page.profile.delete`)}
+      </button>
+    </div>
   </div>
 </div>
 
