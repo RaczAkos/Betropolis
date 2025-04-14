@@ -151,32 +151,49 @@
                   onclick={() => showModal = true}
                   aria-labelledby="avatar-change">
             <label for="avatarUpload" 
-                  class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50
+                   class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50
                           rounded-full cursor-pointer hover:bg-opacity-70">
               <i class="fas fa-sync-alt text-white text-xl"></i>
             </label>
           </button>
         </div>
       </div>
-      <table>
-        <tbody>
-          <tr>
-            <th class="text-start">Name</th>
-            <td>{data.result[0].name}</td>
-          </tr>
-          <tr>
-            <th class="text-start">Gender</th>
-            <td>{data.result[0].gender}</td>
-          </tr>
-          <tr>
-            <th class="text-start">Birth Date</th>
-            <td> {data.result[0].birthdate.toString().split(' ')[3]}
-                {data.result[0].birthdate.toString().split(' ')[2]} 
-                {("JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(data.result[0].birthdate.toString().split(' ')[1]) / 3 + 1).toString().padStart(2, '0')}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="flex justify-center">
+        <table class="w-auto">
+          <tbody class="[&_th]:text-start [&_th]:px-2">
+            <tr>
+              <th>
+                {$_("page.sign-up.fullName")}:
+              </th>
+              <td>
+                {data.result[0].name}
+              </td>
+            </tr>
+            <tr>
+              <th>
+                {$_("page.sign-up.gender")}:
+              </th>
+              <td>
+                {#if data.result[0].gender}
+                  {$_("page.sign-up.female")}
+                {:else}
+                  {$_("page.sign-up.male")}
+                {/if}
+              </td>
+            </tr>
+            <tr>
+              <th>
+                {$_("page.sign-up.dateOfBirth")}:
+              </th>
+              <td>
+                {data.result[0].birthdate.toString().split(' ')[3]}.
+                {data.result[0].birthdate.toString().split(' ')[2]}. 
+                {("JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(data.result[0].birthdate.toString().split(' ')[1]) / 3 + 1).toString().padStart(2, '0')}.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Username Input -->
       <div class="mb-4">
@@ -219,7 +236,7 @@
       </div>
 
         
-      <div class="w-full justify-items-center">
+      <div class="w-full flex justify-center">
         <button type="button"
                 onclick={() => langClicked = true}
                 class="border-2 rounded p-1 px-4 border-yellow-600 flex">
