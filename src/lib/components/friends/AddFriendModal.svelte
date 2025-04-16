@@ -11,7 +11,7 @@
   async function addFriend(): Promise<void> {
     feedback = {};
 
-    await fetch("/api/add-friend", {
+    await fetch("/api/friend-requests", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ friendUsername })

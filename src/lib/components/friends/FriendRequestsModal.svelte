@@ -19,7 +19,7 @@
   });
 
   async function getRequests(): Promise<void> {
-    await fetch("/api/get-friend-requests")
+    await fetch("/api/friend-requests")
     .then((res:Response) => res.json())
     .then(res => {
       gotRequests = res.data[0];
@@ -32,8 +32,8 @@
   async function deleteOrAcceptFriendRequest(type: string, data: FriendData, index: number): Promise<void> {
     feedback = {};
     
-    await fetch(`/api/${(type == "accept")? "accept-friend":"delete-friend-request"}`, {
-      method: 'POST',
+    await fetch(`/api/${(type == "accept")? "friends":"friend-requests"}`, {
+      method: (type == "accept")? "POST":"DELETE",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     })

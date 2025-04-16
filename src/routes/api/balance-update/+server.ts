@@ -2,6 +2,8 @@ import type { RequestHandler } from "./$types";
 import { json } from "@sveltejs/kit";
 import { dbConnect } from "$lib/db/db";
 
+export const prerender = false;
+
 export const POST: RequestHandler = async (event) => {
   let req = await event.request.json(),
       db = await dbConnect();

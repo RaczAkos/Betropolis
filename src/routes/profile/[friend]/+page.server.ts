@@ -1,10 +1,21 @@
 import { dbConnect } from "$lib/db/db";
-import type { RequestEvent } from "./$types";
+import type { EntryGenerator, RequestEvent } from "./$types";
+
+async function getUsernames() {
+  let db = await dbConnect(),
+      usernames = await db.query("SELECT username AS 'friend' FROM users;");
+
+  return usernames[0];
+}
+
+export const entries: EntryGenerator = async () => {
+  let friends = await getUsernames();
+  return friends;
+}
 
 // Check if user is logged in
 export const load = async (event: RequestEvent) => {
   let db = await dbConnect();
-
   let friend = await db.query(`SELECT id 
                                FROM users 
                                WHERE username = '${event.params.friend}'`);

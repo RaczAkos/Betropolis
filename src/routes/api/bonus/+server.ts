@@ -1,6 +1,8 @@
 import { dbConnect } from "$lib/db/db";
 import { json } from '@sveltejs/kit';
 
+export const prerender = false;
+
 function generateBonus() {
   return Math.round(Math.floor((Math.random() * 3000) + 2000)/100)*100;
 }

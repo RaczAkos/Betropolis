@@ -3,6 +3,8 @@ import { json } from "@sveltejs/kit";
 import { dbConnect } from "$lib/db/db";
 import { deleteSessionTokenCookie, invalidateAllSessions } from "$lib/db/session";
 
+export const prerender = false;
+
 // Update user profile
 export const POST: RequestHandler = async (event) => {
     let req = await event.request.json(),

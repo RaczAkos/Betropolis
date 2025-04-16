@@ -2,6 +2,8 @@ import { dbConnect } from '$lib/db/db';
 import { json } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 
+export const prerender = false;
+
 export async function PUT(event: RequestEvent) {
   let data = await event.request.json(),
       db: any      = await dbConnect();

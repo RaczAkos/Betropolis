@@ -11,14 +11,14 @@
   })
 
   async function getFriends(): Promise<void> {
-    await fetch("/api/get-friends")
+    await fetch("/api/friends")
     .then((res: Response) => res.json())
     .then(res => friends = res)
   }
 
   async function deleteFriend(id: number): Promise<void> {
-    await fetch("/api/delete-friend", {
-      method: "PUT",
+    await fetch("/api/friends", {
+      method: "DELETE",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(id)
     })

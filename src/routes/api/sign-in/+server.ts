@@ -2,6 +2,8 @@ import { dbConnect } from '$lib/db/db';
 import { json } from '@sveltejs/kit';
 import { generateSessionToken, setSessionTokenCookie, createSession } from '$lib/db/session';
 
+export const prerender = false;
+
 export async function POST(event) {
   let user = await event.request.json(),
       db = await dbConnect();

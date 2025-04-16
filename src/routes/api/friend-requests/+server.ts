@@ -1,5 +1,53 @@
 import { dbConnect } from '$lib/db/db';
 import { json } from '@sveltejs/kit';
+import type { RequestEvent } from './$types';
+import type { FriendData } from '$lib/interfaces';
+
+export const prerender = false;
+
+// Get request data
+export async function GET({locals}: {locals: App.Locals}) {
+  let db: any = await dbConnect();
+  
+  try {
+    let friendRequestData: Array<Array<Array<FriendData>>> = await db.query(
+          `SELECT friend_requests.id, senderId, username 
+           FROM friend_requests 
+           INNER JOIN users 
+           ON friend_requests.senderId = users.id 
+           WHERE sentToId = ${locals.user.id} 
+           AND status = 'active'; 
+
+           SELECT friend_requests.id, username 
+           FROM friend_requests 
+           INNER JOIN users 
+           ON friend_requests.sentToId = users.id 
+           WHERE senderId = ${locals.user.id} 
+           AND status = 'active';`
+        );
+    return json({data: friendRequestData[0]});
+  }
+  catch (e:any) {
+    return json({error: e.message});
+  }
+}
+
+// Set request status to deleted
+export async function DELETE(event: RequestEvent) {
+  let data: FriendData = await event.request.json(),
+      db: any          = await dbConnect();
+  
+  try {
+    await db.query(`UPDATE friend_requests 
+                    SET status = "deleted" 
+                    WHERE id = ${data.id};`);
+
+    return json({success: "deleted"});
+  }
+  catch (e:any) {
+    return json({error: e.message});
+  }
+}
 
 export async function POST(event) {
   let data = await event.request.json(),

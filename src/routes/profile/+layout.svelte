@@ -3,12 +3,12 @@
   import { page } from "$app/state";
 	let { children, data } = $props(),
       links: Array<{text: string, href: string}> = $state([
-        { text: "/src/lib/media/images/profile/home.png", href: "/" },
-        { text: "/src/lib/media/images/profile/gamble-jackpot.png", href: "/hub" },
+        { text: "home.png", href: "/" },
+        { text: "gamble-jackpot.png", href: "/hub" },
       ]);
 
   $effect(() => {
-    links[2] = { text: `/src/lib/media/images/profile/${!page.params.friend? "gear" : "frienduser"}.png`, href: "/profile" };
+    links[2] = { text: `${!page.params.friend? "gear" : "frienduser"}.png`, href: "/profile" };
   }) 
 
   import LanguageModal from "$lib/components/LanguageModal.svelte";
@@ -112,7 +112,7 @@
             <a href={link.href} 
               class="p-1 hover:scale-110 duration-300"
               onclick={openModal}>
-              <img src="{$_(link.text)}" 
+              <img src={`/src/lib/media/images/profile/${link.text}`} 
                    alt="link" 
                    class="h-8">
             </a>
@@ -127,7 +127,7 @@
 
 <!-- Profile Edit Modal -->
 <div id="profileEditModal" 
-     class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-0 opacity-0 transition-opacity duration-700">
+     class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-0 opacity-0 transition-opacity duration-700 overflow-auto p-1">
   <div class="sm:w-[80vw] max-w-[500px] bg-[#040d17] rounded-lg shadow-2xl p-6 
             text-white relative transform scale-0 transition-transform duration-300  border-white shadow-gray-500">
       
@@ -148,13 +148,12 @@
               src={`/src/lib/media/images/avatars/${data.result[0].gender ? "female" : "male"}_avatars/avatar_${selectedAvatarIndex}.png`} 
               alt="avatar" 
               class="w-full h-auto rounded-full border-4 border-white shadow-xl">
-          <button class="text-sm text-white" 
+          <button class="text-sm" 
                   onclick={() => showModal = true}
                   aria-labelledby="avatar-change">
             <label for="avatarUpload" 
                    class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50
                           rounded-full cursor-pointer hover:bg-opacity-70">
-              <i class="fas fa-sync-alt text-white text-xl"></i>
             </label>
           </button>
         </div>
