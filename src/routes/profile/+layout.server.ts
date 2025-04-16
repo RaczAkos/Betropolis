@@ -9,9 +9,9 @@ export const load: LayoutServerLoad = async ({locals}) => {
 	}
 	let db = await dbConnect();
 	
-	let userDatas = await db.query(`SELECT *
-		FROM users 
-		WHERE id = ${locals.user.id};`);
+	let userDatas = await db.query(`SELECT name, username, avatar, birthdate, password, email, gender, lang
+		                              FROM users 
+		                              WHERE id = ${locals.user.id};`);
 
-  return { lang: locals.user.lang, user: locals.user.username, userData: userDatas[0] }
+  return { lang: locals.user.lang, userData: userDatas[0] }
 };

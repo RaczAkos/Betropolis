@@ -11,18 +11,17 @@
   import LanguageModal from "$lib/components/LanguageModal.svelte";
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
-  import type { PageProps } from "../sign-in/$types";
   import type { Registration } from "$lib/interfaces";
+    import { goto } from "$app/navigation";
   
-  let { form }:PageProps = $props(),
-      user:Registration  = $state({
+  let user:Registration  = $state({
         name: "",
         username: "",
         birthdate: "",
         gender: null,
         email: "",
         password: "",
-        picture:"",
+        picture: -1,
         lang: ""
       }),
       genders: string[]           = ["male", "female"],
@@ -41,7 +40,7 @@
       over18: boolean             = $state(false),
       valid: boolean              = $state(false),
       langClicked: boolean        = $state(false),
-      selectedAvatarIndex: number = $state(-1);
+      error: string               = $state("");
 
   // Setting language
   onMount(() => {
@@ -72,7 +71,7 @@
       passwordConfirm &&                                                      // confirmed password
       conditions &&                                                           // policies
       over18 &&                                                               // age
-      selectedAvatarIndex != -1                                               // avatar
+      user.picture != -1                                               // avatar
     ) valid = true;
     else valid = false;
   });
@@ -81,12 +80,24 @@
     if (locale == "en-GB" || locale == "en-US" || locale == "en-CA") return "en";
     return locale;
   }
+
+  function signUp() {
+    fetch("/api/sign-up", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(user)
+    })
+    .then((res: Response) => res.json())
+    .then(res => {
+      if (res.success) goto("/hub");
+      else error = res.error;
+    })
+  }
 </script>
 
 <svelte:window bind:innerWidth={windowWidth}/>
 
-<form method="POST" 
-      use:enhance={() => { return async ({ update }) => {update({ reset: false });};}}>
+<form>
   <div class="flex sm:flex-row flex-col sm:w-[500px]">
     <div class="sm:w-1/2">
       <!-- Name -->
@@ -231,16 +242,15 @@
       <div class="overflow-x-scroll sm:w-[500px] scrollDesign">
         <div class="flex gap-4 w-max px-4 py-2">
           {#each avatarsAll[user.gender] as avatar, index}
-            <button onclick={() => selectedAvatarIndex = index} type="button">
+            <button onclick={() => user.picture = index+1} type="button">
               <img  
                 src={avatar}
                 alt="Avatar {index}"
                 class="w-20 h-20 rounded-full border-4 cursor-pointer transition-all
-                      {selectedAvatarIndex === index ? 'border-yellow-600' : 'border-transparent hover:border-gray-400'}"
+                      {user.picture === index+1 ? 'border-yellow-600' : 'border-transparent hover:border-gray-400'}"
               />
             </button>
           {/each}
-          <input name="picture" class="hidden" type="text" bind:value={avatarsAll[user.gender][selectedAvatarIndex]}>
         </div>
       </div>
     </div>
@@ -261,7 +271,9 @@
       </div>
     </button>
     <button class="disabled:opacity-35 disabled:hover:bg-yellow-600 bg-yellow-600 hover:bg-black border-yellow-600 border-2 hover:border-opacity-100 text-black hover:text-yellow-600 disabled:hover:text-black font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline duration-300" 
-            disabled={!valid}>
+            disabled={!valid}
+            type="button"
+            onclick={signUp}>
       {$_("page.sign-up.title")}
     </button>
   </div>
@@ -276,9 +288,9 @@
 </form>
 
 <!-- Display error/feedback -->
-{#if form?.error}
+{#if error}
   <div class="bg-red-600 text-white text-center mt-2 rounded-md p-1">
-    {$_("page.sign-up." + form.error)}
+    {$_("page.sign-up." + error)}
   </div>
 {/if}
 

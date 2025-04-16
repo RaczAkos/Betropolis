@@ -71,7 +71,7 @@ export interface Registration {
   gender:number|null,
   email:string,
   password:string,
-  picture:string,
+  picture:number,
   lang:string
 }
 

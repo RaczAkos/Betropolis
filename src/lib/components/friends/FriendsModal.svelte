@@ -72,7 +72,7 @@
             {/each}
           {:else}
             <div class="p-2 text-center">
-              No friends yet!
+              {$_("friends.friends.empty")}
             </div>
           {/if}
         </div>

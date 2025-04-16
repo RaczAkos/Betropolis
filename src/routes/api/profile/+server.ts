@@ -1,7 +1,7 @@
 import type { RequestHandler } from "../balance-update/$types";
 import { json } from "@sveltejs/kit";
 import { dbConnect } from "$lib/db/db";
-import { invalidateAllSessions } from "$lib/db/session";
+import { deleteSessionTokenCookie, invalidateAllSessions } from "$lib/db/session";
 
 // Update user profile
 export const POST: RequestHandler = async (event) => {
@@ -15,7 +15,7 @@ export const POST: RequestHandler = async (event) => {
               passwordToPost = req.newPassword,
               languageToPost = req.newLanguage
 
-        await db.execute(
+        await db.query(
             `UPDATE users SET avatar = ?, username = ?, email = ?, lang = ?, password = ? WHERE id = ?`,
             [avatarToPost, nameToPost, emailToPost, languageToPost, passwordToPost, event.locals.user.id]
         );
@@ -28,22 +28,21 @@ export const POST: RequestHandler = async (event) => {
     }
 };
 
-// Delete user
-export const DELETE: RequestHandler = async ({locals}) => {
+// Delete Account
+export const DELETE: RequestHandler = async (event) => {
   let db = await dbConnect();
     
   try {
-    invalidateAllSessions(locals.user)
-    await db.execute(`DELETE FROM users WHERE id = ?;
-                      DELETE FROM friends WHERE friend1 = ? OR friend2 = ?;
-                      DELETE FROM friend_requests WHERE senderId = ? OR sentToId = ?;
-                      DELETE FROM statistics WHERE user_id = ?;`,
-                     [locals.user.id, locals.user.id, locals.user.id, locals.user.id, locals.user.id, locals.user.id]);
-
+    await db.query(`DELETE FROM users WHERE id = ${event.locals.user.id};
+                      DELETE FROM friends WHERE friend1 = ${event.locals.user.id} OR friend2 = ${event.locals.user.id};
+                      DELETE FROM friend_requests WHERE senderId = ${event.locals.user.id} OR sentToId = ${event.locals.user.id};
+                      DELETE FROM statistics WHERE user_id = ${event.locals.user.id};`);
+    
+    await invalidateAllSessions(event.locals.user);
+    deleteSessionTokenCookie(event);
     return json({successful: "Successful!"})
   } catch (error) {
-    console.error("Error deleting profile:", error);
-    return json({ error: "Internal Server Error" }, { status: 500 });
+    return json(error);
   }
 };
 
@@ -56,7 +55,6 @@ export const GET: RequestHandler = async (event) => {
                                    WHERE id = ${event.locals.user.id};`);
     return json({user: userData[0]})
   } catch (error) {
-    console.error("Error getting user data:", error);
-    return json({ error: "Internal Server Error" }, { status: 500 });
+    return json("");
   }
 };

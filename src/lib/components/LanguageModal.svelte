@@ -6,10 +6,10 @@
         show = $bindable(), 
         selectedLang = $bindable(), 
         defaultLang
-      }: Modal = $props(),
-      
+      }: Modal = $props();
+
       // Languages
-      langs: Array<Language> = [
+      let langs: Array<Language> = [
         {
           id: "en", 
           name: $_("lang.name.en"), 
@@ -30,7 +30,7 @@
      class="relative z-10 transition-opacity duration-500 text-yellow-600 text-lg">
   <div class="fixed inset-0 bg-black/90 modalbg"></div>
   <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-    <div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
+    <div class="flex min-h-full justify-center text-center items-center">
       <div class="relative transform overflow-hidden bg-black text-left border-2 border-yellow-600 
                   transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
         <div class="p-4">
@@ -38,13 +38,13 @@
             {$_("lang.title")}
           </h1>
 
-          <div class="flex flex-row justify-center gap-4 my-5 text-white borgens text-3xl">
+          <div class="flex flex-row justify-center gap-4 my-5 text-white borgens text-xl md:text-3xl">
             {#each langs as lang}
               <!-- Language -->
               <button class="rounded-2xl hover:bg-yellow-600/50 p-4 outline-none hover:scale-110 duration-500" 
                       class:outline-yellow-600={selectedLang === lang.id}
                       onclick={() => selectedLang = lang.id}>
-                <img src={lang.img} alt={lang.id} class="w-40">
+                <img src={lang.img} alt={lang.id} class="w-24 sm:w-32 md:w-40 mx-auto">
                 <h2>{lang.name}</h2>
                 {#if !defaultLang}
                   <p>({lang.defaultName})</p>

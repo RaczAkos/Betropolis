@@ -91,7 +91,8 @@
     "profile": {
       "title": "Profile",
       "my": "My Profile",
-      "delete": "Delete profile",
+      "delete": "Delete Account",
+      "deleteConfirm": "Are you sure you want to delete you account?",
       "greeting": "Welcome, ",
       "spent": "Chips Spent",
       "gained": "Chips Gained",

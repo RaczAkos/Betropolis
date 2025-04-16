@@ -61,7 +61,7 @@
       return chips;
     }
 
-    const sharedPic = getContext('sharedPic') as Writable<string>;
+    const sharedPic = getContext('sharedPic') as Writable<number>;
 </script>
 
 <div class="mt-2 w-full h-full bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
@@ -78,13 +78,13 @@
                 <img src={field.img} alt={field.text} 
                      class="w-28 mx-auto md:w-32 lg:w-40">
               {:else}
-                {#if $sharedPic.length > 0}
-                <img src={$sharedPic} 
+                {#if $sharedPic > 0}
+                <img src={`/src/lib/media/images/avatars/${data.result[0].gender ? "female" : "male"}_avatars/avatar_${$sharedPic}.png`} 
                      alt="avatar" 
                      class="w-28 mx-auto md:w-32 lg:w-40 rounded-full border-4 
                       border-white shadow-xl shadow-gray-300">
                   {:else}
-                  <img src={data.user[0].avatar} 
+                  <img src={`/src/lib/media/images/avatars/${data.user[0].gender ? "female" : "male"}_avatars/avatar_${data.user[0].avatar}.png`}
                        alt="avatar" 
                        class="w-28 mx-auto md:w-32 lg:w-40 rounded-full border-4 
                           border-white shadow-xl shadow-gray-300">

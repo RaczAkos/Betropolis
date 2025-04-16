@@ -1,32 +1,20 @@
-import { redirect } from "@sveltejs/kit";
-import type { Actions } from "@sveltejs/kit";
-import { dbConnect } from "$lib/db/db";
-import { createSession, generateSessionToken, setSessionTokenCookie } from "$lib/db/session";
+import { dbConnect } from '$lib/db/db';
+import { json } from '@sveltejs/kit';
+import { generateSessionToken, setSessionTokenCookie, createSession } from '$lib/db/session';
 
-// Sign up
-export const actions = {
-  default: async (event) => {
-    let data = await event.request.formData(),
-        user = {
-          name: data.get('name'),
-          username: data.get('username'),
-          birthdate: data.get('birthdate'),
-          gender: data.get('gender'),
-          email: data.get('email'),
-          password: data.get('password'),
-          picture: data.get('picture'),
-          lang: data.get('lang')
-        },
-        db = await dbConnect();
-    
+export async function POST(event) {
+  let user = await event.request.json(),
+      db = await dbConnect();
+
+  try {
     // Check username in database
     let nameCheck = await db.query("SELECT balance FROM users WHERE username = ?;", user.username);
-    if (nameCheck[0][0]) return {error: "error.username"};
+    if (nameCheck[0][0]) return json({error: "error.username"});
 
     // Check email in database
     let emailCheck = await db.query("SELECT balance FROM users WHERE email = ?;", user.email);
-    if (emailCheck[0][0]) return {error: "error.email"};
-
+    if (emailCheck[0][0]) return json({error: "error.email"});
+    
     // Upload user to db and get back the id
     let uploadUser = await db.query("INSERT INTO users (email, username, password, name, gender, birthdate, avatar, balance, lang) VALUES (?,?,?,?,?,?,?,0,?)", 
                                     [user.email, user.username, user.password, user.name, user.gender, user.birthdate, user.picture, user.lang]);
@@ -40,7 +28,10 @@ export const actions = {
     const token = generateSessionToken();
     const session = await createSession(token, uploadUser[0].insertId);
     setSessionTokenCookie(event, token, session.expiresAt);
-    
-    return redirect(308, "/hub");
+
+    return json({success: "success"})
   }
-} satisfies Actions;
+  catch (e:any) {
+    return json({error: e.message});
+  }
+}

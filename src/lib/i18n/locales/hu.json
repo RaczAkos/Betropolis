@@ -91,7 +91,8 @@
     "profile": {
       "title": "Profil",
       "my": "Profilom",
-      "delete": "Profil törlése",
+      "delete": "Fiók Törlése",
+      "deleteConfirm": "Biztos törlöd a fiókod?",
       "greeting": "Üdvözlünk, ",
       "spent": "Token Elköltve",
       "gained": "Token Szerezve",
