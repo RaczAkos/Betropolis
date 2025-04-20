@@ -6,9 +6,7 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
   import Input from "$lib/components/Input.svelte";
-  import type { PageProps } from "./$types";
-  import { enhance } from '$app/forms';
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   interface SignIn {
     id:string,
@@ -22,6 +20,7 @@
       }),
       error: string = $state("");
 
+  // Sign in
   function signIn() {
     fetch("/api/sign-in", {
       method: "POST",

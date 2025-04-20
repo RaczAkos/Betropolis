@@ -11,7 +11,9 @@ const config = {
 		// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
 		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
-		adapter: adapter(),
+		adapter: adapter({
+      fallback: "app.html"
+    }),
     prerender: {
       
       handleHttpError: 'warn',
@@ -19,17 +21,7 @@ const config = {
       entries: [
         "*",
         "/privacy-policy",
-        "/terms&conditions",
-        "/api/balance-update",
-        "/api/bonus",
-        "/api/friends",
-        "/api/friend-requests",
-        "/api/funds",
-        "/api/profile",
-        "/api/sign-in",
-        "/api/sign-up",
-        "/api/sign-out-all",
-        "/api/sign-out"
+        "/terms&conditions"
       ]
     }
 	}

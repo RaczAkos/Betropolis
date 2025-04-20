@@ -6,13 +6,12 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
   import Input from "$lib/components/Input.svelte";
-  import { enhance } from "$app/forms";
   import avatarsAll from "$lib/exports/avatars";
   import LanguageModal from "$lib/components/LanguageModal.svelte";
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
   import type { Registration } from "$lib/interfaces";
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
   
   let user:Registration  = $state({
         name: "",
@@ -24,23 +23,23 @@
         picture: -1,
         lang: ""
       }),
-      genders: string[]           = ["male", "female"],
-      windowWidth: number         = $state(0),
-      type: string                = $state("password"),
-      password2: string           = $state(""),
-      passwordConfirm: boolean    = $state(false),
-      passwordFormat: boolean     = $state(false),
-      userNameFormat: boolean     = $state(false),
-      date: Date                  = new Date(),
-      month: string|number        = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
-      day: string|number          = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
-      currentDate: string         = `${date.getFullYear()-18}-${month}-${day}`,
-      conditions: boolean         = $state(false),
-      defaultLang: boolean        = $state(false),
-      over18: boolean             = $state(false),
-      valid: boolean              = $state(false),
-      langClicked: boolean        = $state(false),
-      error: string               = $state("");
+      genders: string[]        = ["male", "female"],
+      windowWidth: number      = $state(0),
+      type: string             = $state("password"),
+      password2: string        = $state(""),
+      passwordConfirm: boolean = $state(false),
+      passwordFormat: boolean  = $state(false),
+      userNameFormat: boolean  = $state(false),
+      date: Date               = new Date(),
+      month: string|number     = (Number(date.getMonth()) < 9)? "0"+(Number(date.getMonth())+1):date.getMonth()+1,
+      day: string|number       = (date.getDate() < 10)? "0"+date.getDate():date.getDate(),
+      currentDate: string      = `${date.getFullYear()-18}-${month}-${day}`,
+      conditions: boolean      = $state(false),
+      defaultLang: boolean     = $state(false),
+      over18: boolean          = $state(false),
+      valid: boolean           = $state(false),
+      langClicked: boolean     = $state(false),
+      error: string            = $state("");
 
   // Setting language
   onMount(() => {
@@ -71,16 +70,18 @@
       passwordConfirm &&                                                      // confirmed password
       conditions &&                                                           // policies
       over18 &&                                                               // age
-      user.picture != -1                                               // avatar
+      user.picture != -1                                                      // avatar
     ) valid = true;
     else valid = false;
   });
 
+  // Simplifying locale
   function localeCheck(locale:string){
     if (locale == "en-GB" || locale == "en-US" || locale == "en-CA") return "en";
     return locale;
   }
 
+  // Sign up
   function signUp() {
     fetch("/api/sign-up", {
       method: "POST",
@@ -95,6 +96,7 @@
   }
 </script>
 
+<!-- Getting window width for responsivity -->
 <svelte:window bind:innerWidth={windowWidth}/>
 
 <form>
@@ -164,7 +166,7 @@
                label="E-mail ({$_("page.sign-up.required")})"/>
       </div>
     
-      <!-- Password -->
+      <!-- Password and description -->
       <div class="mb-2">
         <Input bind:value={user.password} 
                id="password" 
@@ -234,11 +236,11 @@
     </label>
   </div>
 
+  <!-- Avatar select -->
   {#if user.gender !== null}
   <div>
     <div class="text-center sm:w-[500px] mb-5" style="max-width: {windowWidth-89}px;">
       <h2 class="text-xl font-semibold mb-4">{$_("page.sign-up.avatar")}</h2>
-      <!-- Scrollable container -->
       <div class="overflow-x-scroll sm:w-[500px] scrollDesign">
         <div class="flex gap-4 w-max px-4 py-2">
           {#each avatarsAll[user.gender] as avatar, index}
@@ -257,9 +259,7 @@
   </div>
   {/if}
 
-  <input name="lang" class="hidden" type="text" bind:value={user.lang}>
-
-  <!-- Sign in -->
+  <!-- Language select and Sign up buttons -->
   <div class="flex justify-center items-center gap-2 my-1">
     <button type="button"
             onclick={() => langClicked = true}
