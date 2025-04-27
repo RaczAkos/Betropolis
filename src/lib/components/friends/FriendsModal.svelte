@@ -1,8 +1,8 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
   import type { Feedback, FriendData, Modal } from "$lib/interfaces";
-  let { show = $bindable() }: Modal = $props(),
-      friends: Array<FriendData> = $state([]),
+  let { show = $bindable() }: Modal = $props();
+  let friends: Array<FriendData> = $state([]),
       feedback : Feedback = $state({});
 
   // Get friends data

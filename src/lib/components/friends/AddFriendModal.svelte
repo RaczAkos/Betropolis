@@ -3,8 +3,8 @@
   import Input from "../Input.svelte";
   import type { Feedback, Modal } from "$lib/interfaces";
 
-  let { show = $bindable() }: Modal = $props(),
-      friendUsername: string = $state(""),
+  let { show = $bindable() }: Modal = $props();
+  let friendUsername: string = $state(""),
       feedback: Feedback     = $state({});
 
   // Adding friend
@@ -18,6 +18,8 @@
     })
     .then((res: Response) => res.json())
     .then(res => {
+      
+      // Set feedback
       if (res.success) feedback["success"] = res.success;
       else feedback['error'] = res.error;
     })
@@ -43,6 +45,7 @@
           {$_("friends.add.description")}
         </div>
 
+        <!-- Friend username -->
         <div class="px-5">
           <Input bind:value={friendUsername}/>
         </div>

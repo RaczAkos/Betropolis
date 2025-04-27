@@ -6,4 +6,6 @@ import rawexpltwo from "$lib/media/images/crashgame/rawexpltwo.jpg";
 import rawexplthree from "$lib/media/images/crashgame/rawexplthree.jpg";
 
 let crashpics: string[] = [logo, chip, target, rawexplone, rawexpltwo, rawexplthree];
+
+// Getting and exporting images for crash game
 export default crashpics;

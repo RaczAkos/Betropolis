@@ -8,9 +8,11 @@
       mobileViewOpen: boolean = $state(false);
 </script>
 
+<!-- Homepage Navbar -->
 <nav class="font-bold">
   <div class="w-screen flex justify-between max-md:hidden text-lg lg:text-2xl">
 
+    <!-- Homepage link -->
     <div class="w-1/3 place-content-center pl-3">
       {#if !home}
       <a href="/">
@@ -25,24 +27,26 @@
       {/if}
     </div>
 
+    <!-- Casino Logo -->
     <div class="w-1/3 place-items-center place-content-center grid p-1 nav">
       <img src={"/src/lib/media/images/logo.png"} alt="Casino Logo" class="h-[80px]">
     </div>
 
     <div class="place-content-center w-1/3">
+      <!-- Hub or Sign up link -->
       <a href={logged ? "/hub" : "/sign-up"}>
         <div class="button2 mr-5 ml-2 hover-1 float-right">
           {$_(logged ? "page.hub.title": "page.sign-up.title")}
         </div>
       </a>
 
+      <!-- Sign out button or Sign in link-->
       {#if logged}
       <button class="button1 textShadow hover-1 float-right"
               onclick={() => {signOutClicked = true}}>
         {$_("sign-out")}
       </button>
       {:else}
-      
       <a href="/sign-in">
         <div class="button1 textShadow hover-1 float-right">
           {$_("page.sign-in.title")}
@@ -54,6 +58,7 @@
 
   <!-- Mobile view -->
   <div class="md:hidden">
+    <!-- Logo and arrow -->
     <button class="w-full p-2 goldenbg flex flex-row place-items-center" onclick={() => mobileViewOpen = !mobileViewOpen}>
       <div class="basis-1/2">
         <img src={"/src/lib/media/images/logo.png"} alt="Casino Logo" class="h-20 ms-3">
@@ -63,8 +68,10 @@
       </div>
     </button>
 
+    <!-- Dropdown menu -->
     {#if mobileViewOpen}
     <div>
+      <!-- Homepage link -->
       {#if !home}
       <button onclick={() => mobileViewOpen = false} class="w-full">
         <a href="/">
@@ -76,11 +83,15 @@
       {/if}
     
       <div class="flex flex-row-reverse w-full mb-2">
+        
+        <!-- Hub or Sign up link -->
         <a href={logged ? "/hub" : "/sign-up"} class="basis-1/2 p-1">
           <div class=" w-full text-center float-end button2">
             {$_(logged ? "page.hub.title": "page.sign-up.title")}
           </div>
         </a>
+        
+        <!-- Sign out button or Sign in link-->
         {#if logged}
         <div class="basis-1/2 p-1">
           <button class="w-full button1"

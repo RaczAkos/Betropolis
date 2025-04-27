@@ -1,8 +1,7 @@
 import { dbConnect } from "$lib/db/db";
 import { json } from '@sveltejs/kit';
 
-export const prerender = false;
-
+// Generating bonus
 function generateBonus() {
   return Math.round(Math.floor((Math.random() * 3000) + 2000)/100)*100;
 }
@@ -12,8 +11,10 @@ export async function GET ({locals}): Promise<any> {
   let db = await dbConnect(),
       bonus = generateBonus();
 
+  // Get user image
   let email = await db.query("SELECT email FROM users WHERE id = ?", locals.user.id);
 
+  // Update balance and bonus
   await db.query(`INSERT INTO bonus (email, starting_bonus, status) 
                   VALUES (?,?,?);`, 
                   [email[0][0].email, bonus, 1]);

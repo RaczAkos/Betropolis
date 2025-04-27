@@ -18,6 +18,7 @@
 	font-family: "Dracutaz";
 	src: url("$lib/font/Dracutaz.otf"), url("$lib/font/Dracutaz.ttf") format("TrueType");
 }
+
 /* Classes for fonts */
 .dracutaz {
   font-family: 'Dracutaz';

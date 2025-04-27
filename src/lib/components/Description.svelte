@@ -3,6 +3,7 @@
   let { text }: { text: string } = $props();
 </script>
 
+<!-- Description (for fruit frenzy) -->
 <p class="text-justify text-xl sm:text-2xl leading-6 my-2">
   {$_(text)}
 </p>

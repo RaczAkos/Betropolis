@@ -1,3 +1,4 @@
+// Updating balance
 export async function updateBalance(addToBalance: number, game:any) {
     const response = await fetch('/api/balance-update', {
         method: 'POST',
@@ -14,6 +15,7 @@ export async function updateBalance(addToBalance: number, game:any) {
     return data.newBalance;
 }
 
+// Getting balance
 export async function getBalance() {
     const response = await fetch('/api/balance-update');
     const data = await response.json();

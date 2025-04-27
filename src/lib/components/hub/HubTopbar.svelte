@@ -20,6 +20,8 @@
            placeholder={$_("page.hub.search")}
            id="search"
            name="search"/>
+
+    <!-- Clear and hide bar -->
     <button type="button"
             class="bg-red-600 rounded p-2 !min-w-12 ms-2"
             onclick={() => {
@@ -44,6 +46,7 @@
     </a>
   </div>
 
+  <!-- Title -->
   <div class="basis-1/3 flex items-center justify-center">
     <h1 class="text-5xl text-yellow-600">
       {$_("page.hub.games")}
@@ -59,6 +62,8 @@
              placeholder={$_("page.hub.search")}
              id="search"
              name="search"/>
+      
+      <!-- Clear button if the seachbar has content -->
       <button type="button" 
               onclick={() => search = ""}
               disabled={search.length < 1}
@@ -73,7 +78,8 @@
         {/if}
       </button>
     </div>
-  
+    
+    <!-- Activate mobile searchbar -->
     <button type="button" 
             onclick={() => searchBar = true}
             class="ms-1 bg-yellow-600 rounded p-2 sm:hidden border-2 border-yellow-600">

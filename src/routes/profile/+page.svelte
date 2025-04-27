@@ -64,6 +64,7 @@
     const sharedPic = getContext('sharedPic') as Writable<number>;
 </script>
 
+<!-- User, Spent, Earned, Last played -->
 <div class="mt-2 w-full h-full bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
   <div class="flex flex-wrap xl:flex-nowrap items-start gap-8">
     <div class="flex-1">
@@ -108,6 +109,8 @@
       </div>
     </div>
   </div>
+
+  <!-- Played games -->
   <div class="w-full h-full text-[#040d17]">
     <div class="flex ps-4">
       {#each data.games as game}
@@ -121,6 +124,8 @@
         </button>
       {/each}
     </div>
+
+    <!-- Statistics table -->
     <div class="w-full overflow-auto scrollDesign max-h-[30vh] sm:max-h-[40vh] md:max-h-[40vh] bg-[#040d17] shadow-2xl shadow-white">
       {#if selectedGame}
         <div class="w-full">
@@ -159,6 +164,7 @@
 </div>
 
 <style>
+  /* Animations */
   @keyframes fadeIn {
     from {
       opacity: 0;

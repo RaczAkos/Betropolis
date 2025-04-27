@@ -10,4 +10,5 @@ import hunFindcard from '$lib/media/images/hub/hungarian-findcard.png'
 
 let hungarianImages:string[] = [hunCrash, hunSlot, hunFindcard];
 
+// Gettign and exporting images for homepage carousel
 export default [englishImages, hungarianImages];

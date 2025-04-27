@@ -3,8 +3,6 @@ import { json } from '@sveltejs/kit';
 import type { RequestEvent } from './$types';
 import type { FriendData } from '$lib/interfaces';
 
-export const prerender = false;
-
 // Get request data
 export async function GET({locals}: {locals: App.Locals}) {
   let db: any = await dbConnect();
@@ -49,6 +47,7 @@ export async function DELETE(event: RequestEvent) {
   }
 }
 
+// Send friend requests
 export async function POST(event) {
   let data = await event.request.json(),
       db = await dbConnect();
@@ -59,6 +58,7 @@ export async function POST(event) {
                                  FROM users 
                                  WHERE username = '${data.friendUsername}';`);
 
+    // Check if user exists or self
     if (friend[0][0] == undefined) return json({error: "noUser"});
     else if (friend[0][0].id == event.locals.user.id) return json({error: "self"});
     else {
@@ -68,12 +68,14 @@ export async function POST(event) {
                           AND status = 'active';`,
           friendId = friend[0][0].id;
 
+      // Check if is there is a request already sent
       let sentRequest = await db.query(requestQuery, [event.locals.user.id, friendId]);
       if (sentRequest[0][0]) return json({error: "sent"});
 
       let gotRequest = await db.query(requestQuery, [friendId, event.locals.user.id]);
       if (gotRequest[0][0]) return json({error: "got"});
 
+      // Check if friendship exists
       let friends = await db.query(`SELECT id 
                                     FROM friends 
                                     WHERE (friend1 = ? OR friend1 = ?) 

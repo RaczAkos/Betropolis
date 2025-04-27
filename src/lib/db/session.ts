@@ -49,7 +49,7 @@ export async function validateSessionToken(token: string): Promise<SessionValida
   let userData = await db.query(`SELECT id, username, lang, balance 
                                  FROM users 
                                  WHERE id = ${sessionData[0][0].user_id}`);
-  
+  // Setting session and user
 	let session: Session = {
 		    id: sessionData[0][0].id,
 		    userId: sessionData[0][0].user_id,

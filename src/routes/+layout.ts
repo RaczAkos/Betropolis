@@ -1,4 +1,2 @@
-export const prerender = true;
-export const ssr = false;
-
+// Importing our css + Tailwind
 import "$lib/app.css";

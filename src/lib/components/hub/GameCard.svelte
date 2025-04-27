@@ -4,6 +4,7 @@
   let { game }: { game: Game } = $props();
 </script>
 
+<!-- Game card in Hub -->
 <a href={game.route}>
   <div class="border-2 sm:[&_*]:hover:scale-125 border-yellow-600 hover:border-white 
               rounded-2xl flex justify-center items-center h-64 bg-cover bg-center duration-500" 

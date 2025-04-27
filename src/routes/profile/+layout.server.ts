@@ -9,6 +9,7 @@ export const load: LayoutServerLoad = async ({locals}) => {
 	}
 	let db = await dbConnect();
 	
+  // User data fro profile change modal
 	let userDatas = await db.query(`SELECT name, username, avatar, birthdate, password, email, gender, lang
 		                              FROM users 
 		                              WHERE id = ${locals.user.id};`);

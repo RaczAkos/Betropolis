@@ -20,4 +20,5 @@ import femaleeight from "$lib/media/images/avatars/female_avatars/avatar_8.png";
 
 let femaleavatars:string[] = [femaleone, femaletwo, femalethree, femalefour, femalefive, femalesix, femaleseven, femaleeight];
 
+// Getting and exporting male and female avatars
 export default [maleavatars, femaleavatars];

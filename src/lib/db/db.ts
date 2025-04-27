@@ -2,6 +2,7 @@ import mysql from "mysql2/promise"
 
 let mysqlconn:any = null;
 
+// Connect to database
 export function dbConnect(){
     if (!mysqlconn){
         mysqlconn = mysql.createConnection({

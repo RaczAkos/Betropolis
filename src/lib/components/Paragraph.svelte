@@ -5,6 +5,7 @@
   let { param, index }: Paragraph = $props();
 </script>
 
+<!-- Paragraph for Docs pages (Privacy Policy, Terms & Conditions) -->
 <div>
   <h2>{index}. {$_(`page.${param}.titles.${index}`)}</h2>
   <p>{$_(`page.${param}.paragraphs.${index}`)}</p>

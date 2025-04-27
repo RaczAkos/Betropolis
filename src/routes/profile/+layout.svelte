@@ -31,6 +31,7 @@
       passwordType: string            = $state("password"),
       deleteClicked: boolean          = $state(false);
 
+  // Opening and closing profile setting modal
   function openModal() {
     const modal = document.getElementById('profileEditModal');
     modal?.classList.remove('hidden');
@@ -64,6 +65,7 @@
   const sharedPic = writable(0);
   setContext('sharedPic', sharedPic);
 
+  // Update user
   function saveChanges() {
     if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && 
         /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!#$%&?<>_ "]).*$/.test(password) &&
@@ -78,6 +80,7 @@
     }
   }
 
+  // Delete user
   function deleteUser() {
     fetch('/api/profile', {
       method: 'DELETE',
@@ -92,6 +95,8 @@
   <div class="border-2 h-full border-yellow-600/30 bg-[#040d17] rounded-lg shadow-2xl shadow-[#040d17]">
     <div class="p-4 flex flex-col items-start h-full xl:overflow-visible overflow-y-auto">
       <div class="text-yellow-600 flex flex-col sm:flex-row justify-between w-full">
+
+        <!-- Username -->
         <div class="flex items-center max-sm:justify-center">
           <img src="/src/lib/media/images/hub/user.png" 
                class="w-5 h-auto" 
@@ -107,11 +112,13 @@
             </span>
           </p>
         </div>
+
+        <!-- Navigation -->
         <div class="flex max-sm:justify-between max-sm:mt-2 sm:gap-5">
           {#each links as link}
             <a href={link.href} 
               class="p-1 hover:scale-110 duration-300"
-              onclick={openModal}>
+              onclick={() => { if (link.text == "gear.png") openModal(); }}>
               <img src={`/src/lib/media/images/profile/${link.text}`} 
                    alt="link" 
                    class="h-8">
@@ -158,6 +165,8 @@
           </button>
         </div>
       </div>
+
+      <!-- Name, gender, date of birth -->
       <div class="flex justify-center">
         <table class="w-auto">
           <tbody class="[&_th]:text-start [&_th]:px-2">
@@ -248,6 +257,7 @@
         </div>
       </div>
         
+      <!-- Change language -->
       <div class="w-full flex justify-center">
         <button type="button"
                 onclick={() => langClicked = true}
@@ -284,7 +294,7 @@
 <LanguageModal bind:selectedLang={currentLang} 
                bind:show={langClicked}/> 
 
-<!-- Modal -->
+<!-- Avatar change Modal -->
 {#if showModal}
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
      transition:fade>
@@ -316,7 +326,7 @@
 </div>
 {/if}
 
-<!-- Modal -->
+<!-- Confirm user deletion Modal -->
 {#if deleteClicked}
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 text-white"
      transition:fade>

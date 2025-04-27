@@ -15,4 +15,5 @@ import goldencherry from "$lib/media/images/sloticons/goldencherry.png";
 
 let icons:string[] = [apple, cherry, plum, orange, strawberry, watermelon, lemon, goldenapple, goldencherry, goldenplum, goldenorange, goldenstrawberry, goldenwatermelon, goldenlemon];
 
+// Getting and exporting icons for fruit frenzy game
 export default icons;

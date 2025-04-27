@@ -1,3 +1,4 @@
+// Updating profile
 export async function profileChange(img: number, name: string, email: string, password: string, language: string) {
   const response = await fetch('/api/profile', {
     method: 'POST',
@@ -14,6 +15,8 @@ export async function profileChange(img: number, name: string, email: string, pa
   });
   const data = await response.json();
 }
+
+// Getting user data
 export async function getUser() {
   const response = await fetch('/api/profile');
   const data = await response.json();

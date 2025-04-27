@@ -29,7 +29,10 @@
   })
 </script>
 
+<!-- navbar -->
 <nav class="bg-black bottom-0 w-full text-white fixed text-center border-t border-yellow-600">
+
+  <!-- Menus -->
   <div class="bottom-14 absolute w-full [&_li]:text-center [&_li]:m-2 sm:text-xl">
     <HubFriendsMenu show={friends} 
                     bind:notification={notification}/>
@@ -37,16 +40,22 @@
                     user={data}/>
   </div>
 
+  <!-- Buttons -->
   <div class="flex [&>*:nth-child(even)]:border-x [&>*:nth-child(even)]:border-yellow-600">
+    <!-- Friends -->
     <HubNavButton text={$_("friends.title")} 
                   img="/src/lib/media/images/hub/group.png" 
                   alt="Friends icon" 
                   {notification} 
                   bind:click={friendsClicked}/>
+    
+    <!-- Funds -->
     <HubNavButton text={$_("funds.title")} 
                   img="/src/lib/media/images/hub/add.png" 
                   alt="Add icon" 
                   bind:click={addFundsClicked}/>
+
+    <!-- Profile -->
     <HubNavButton text={$_("page.profile.title")} 
                   img="/src/lib/media/images/hub/user.png" 
                   alt="User icon" 
@@ -54,4 +63,5 @@
   </div>
 </nav>
 
+<!-- Modal -->
 <FundsModal show={addFundsClicked} />

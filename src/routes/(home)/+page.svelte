@@ -11,11 +11,13 @@
   import frenchcards from "$lib/exports/frenchcards";
   import images from "$lib/exports/hubgames";
   import { onMount } from "svelte";
+
   let { data } = $props();
   let index:number = 0,
       slides:HTMLDivElement,
       modal = $state(false);
 
+  // Carousel
   onMount(() => {
     setInterval(() => {
       if (slides) {
@@ -24,9 +26,9 @@
       }
     }, 3000);
   });
-
 </script>
 
+<!-- Header with banner video and title -->
 <header>
   <div class="relative">
     <video poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" 
@@ -55,6 +57,8 @@
     <div class="relative w-full max-w-[1400px] mx-auto flex flex-wrap md:flex-nowrap 
                 items-center py-10 text-yellow-600 md: lg:text-xl xl:text-3xl 
                 text-center max-sm:text-lg">
+      
+      <!-- Description -->
       <div class="md:w-3/4 text-center justify-items-center flex justify-center p-5">
         <p class="border-yellow-600 border-y py-5 rounded-xl max-md:w-3/4 
                     max-sm:px-3 textShadow text-justify px-3 max-sm:w-full borgens">
@@ -102,13 +106,14 @@
 
       {#if !data.claimedBonus}
         <div class="ledBorder bonus">
+          <!-- Cards -->
           {#each frenchcards as img}
-            <button onclick={() => modal = !modal} 
-                    class="card">
-              <img src={img} 
-                   alt="Card" 
-                   class="h-1/2">
-            </button>
+          <button onclick={() => modal = !modal} 
+                  class="card">
+            <img src={img} 
+                 alt="Card" 
+                 class="h-1/2">
+          </button>
           {/each}
         </div>
       {:else}
@@ -128,6 +133,7 @@
   </div>
 </main>
 
+<!-- Modal -->
 <BonusGameModal bind:show={modal} logged={data.logged}/>
 
 <style>

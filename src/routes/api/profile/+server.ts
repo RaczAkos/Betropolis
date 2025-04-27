@@ -3,8 +3,6 @@ import { json } from "@sveltejs/kit";
 import { dbConnect } from "$lib/db/db";
 import { deleteSessionTokenCookie, invalidateAllSessions } from "$lib/db/session";
 
-export const prerender = false;
-
 // Update user profile
 export const POST: RequestHandler = async (event) => {
     let req = await event.request.json(),
@@ -36,9 +34,9 @@ export const DELETE: RequestHandler = async (event) => {
     
   try {
     await db.query(`DELETE FROM users WHERE id = ${event.locals.user.id};
-                      DELETE FROM friends WHERE friend1 = ${event.locals.user.id} OR friend2 = ${event.locals.user.id};
-                      DELETE FROM friend_requests WHERE senderId = ${event.locals.user.id} OR sentToId = ${event.locals.user.id};
-                      DELETE FROM statistics WHERE user_id = ${event.locals.user.id};`);
+                    DELETE FROM friends WHERE friend1 = ${event.locals.user.id} OR friend2 = ${event.locals.user.id};
+                    DELETE FROM friend_requests WHERE senderId = ${event.locals.user.id} OR sentToId = ${event.locals.user.id};
+                    DELETE FROM statistics WHERE user_id = ${event.locals.user.id};`);
     
     await invalidateAllSessions(event.locals.user);
     deleteSessionTokenCookie(event);
@@ -48,6 +46,7 @@ export const DELETE: RequestHandler = async (event) => {
   }
 };
 
+// Get user data
 export const GET: RequestHandler = async (event) => {
   let db = await dbConnect();
     

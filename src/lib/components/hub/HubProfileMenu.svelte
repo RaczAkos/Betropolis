@@ -12,11 +12,12 @@
           balance: 0, 
           username: "error"
         } 
-      }: Modal = $props(),
-      balance: number = $state(user.balance),
+      }: Modal = $props();
+  let balance: number = $state(user.balance),
       signOutClicked: boolean  = $state(false),
       links: string[] = [ "profile", "terms&conditions", "privacy-policy" ];
 
+      // Updating balance when menu is opened
       $effect(() => {
         if (show) { 
           fetch("/api/balance-update")
@@ -26,9 +27,11 @@
       })
 </script>
 
+<!-- Profile menu -->
 <div class:hidden={!show}
      class="w-1/2 sm:w-1/3 border-4 bg-black border-yellow-600 rounded-tl-xl float-right">
 
+  <!-- Username and balance -->
   <div class="p-2 flex max-lg:flex-col max-lg:text-center border-yellow-600 place-content-between border-b-4">
     <div class="borgens">
       {$_("page.profile.title")}: 
@@ -48,12 +51,14 @@
     </div>
   </div>
 
+  <!-- Navigation -->
   <ul>
     {#each links as link}
       <HubNavLi text={$_(`page.${link}.title`)} 
                 type="link" 
                 href={"/"+link}/>
     {/each}
+    <!-- Sign out -->
     <HubNavLi text={$_("sign-out")} 
               bind:show={signOutClicked}/>
   </ul>

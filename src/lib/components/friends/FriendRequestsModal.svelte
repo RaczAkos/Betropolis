@@ -6,8 +6,8 @@
   let { 
         show = $bindable(), 
         notification = $bindable() 
-      }: Modal = $props(),
-      gotRequests: Array<FriendData>  = $state([]),
+      }: Modal = $props();
+  let gotRequests: Array<FriendData>  = $state([]),
       sentRequests: Array<FriendData> = $state([]),
       feedback: Feedback = $state({});
 
@@ -39,6 +39,8 @@
     })
     .then((res:Response)=> res.json())
     .then(res => {
+
+      // Set feedback
       if (res.success) {
         if (index) sentRequests = sentRequests.filter((item: FriendData) => item.id != data.id);
         else gotRequests = gotRequests.filter((item: FriendData) => item.id != data.id);

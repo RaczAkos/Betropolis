@@ -63,7 +63,7 @@
 
 <div class="mt-2 w-full h-full bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
   {#if !data.error}
-  <div class="mt-2 w-full h-full bg-[#141a22] rounded-lg p-8 flex flex-col gap-8 overflow-y-auto scrollDesign">
+    <!-- User, Spent, Earned, Last played -->
     <div class="flex flex-wrap xl:flex-nowrap items-start gap-8">
       <div class="flex-1">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -100,6 +100,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Played games -->
     <div class="w-full h-full text-[#040d17]">
       <div class="flex ps-4">
         {#each data.games as game}
@@ -113,6 +115,8 @@
           </button>
         {/each}
       </div>
+
+      <!-- Statistics table -->
       <div class="w-full overflow-auto scrollDesign max-h-[30vh] sm:max-h-[40vh] md:max-h-[40vh] bg-[#040d17] shadow-2xl shadow-white">
         {#if selectedGame}
           <div class="w-full">
@@ -148,7 +152,6 @@
         {/if}
       </div>
     </div>
-  </div>
   {:else}
     <div class="m-auto text-red-600 font-bold text-xl md:text-5xl">
       {$_("friends.errors.add." + data.error)}

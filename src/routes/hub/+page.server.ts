@@ -5,6 +5,7 @@ import type { Game } from "$lib/interfaces";
 export const load: PageServerLoad = async ({locals}: {locals: App.Locals}) => {
   let db = await dbConnect();
 
+  // Get game data
   let gamesData: Array<Array<Game>> = await db.query(
         `SELECT name, route, image, font 
          FROM game;`

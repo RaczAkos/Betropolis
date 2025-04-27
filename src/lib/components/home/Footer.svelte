@@ -7,13 +7,18 @@
       links: string[] = [ "terms&conditions", "privacy-policy" ];
 </script>
 
+<!-- Homepage footer -->
 <footer>
   <div class="sm:flex sm:items-center sm:justify-between md:ps-9">
+
+    <!-- Casino logo -->
     <div class="flex items-center max-lg:flex-col mb-0 space-x-3 rtl:space-x-reverse">
       <img src="/src/lib/media/images/logo.png" 
            class="h-24" 
            alt="Casino logo"/>
     </div>
+
+    <!-- Navigation -->
     <ul>
       <li>
         <a href="/sign-in">
@@ -38,6 +43,8 @@
       {/each}
     </ul>
   </div>
+
+  <!-- Copyright notice -->
   <hr class="sm:mx-auto border-yellow-600 my-2"/>
   <span class="block text-md text-center">
     {$_("copyright")}

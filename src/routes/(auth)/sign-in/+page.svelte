@@ -7,11 +7,7 @@
   import { _ } from "svelte-i18n";
   import Input from "$lib/components/Input.svelte";
   import { goto } from "$app/navigation";
-
-  interface SignIn {
-    id:string,
-    password:string
-  }
+  import type { SignIn } from "$lib/interfaces";
   
   let type: string  = $state("password"),
       user: SignIn  = $state({

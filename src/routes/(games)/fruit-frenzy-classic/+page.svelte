@@ -37,6 +37,7 @@
         fruits2 = icons.slice(0,7), 
         fruits3 = icons.slice(0,7);
 
+    // Preparing goldbar
     for (let i = 0; i < 3; i++) {
       let temp = 0, element = Math.random();
         
@@ -55,7 +56,7 @@
     fruits1 = fruits1.concat(gold1);
     fruits2 = fruits2.concat(gold2);
     fruits3 = fruits3.concat(gold3);
-        
+    
     balance  = await updateBalance(-bet, 1);
     feedback = "spinning";
     spinning = true;
@@ -141,6 +142,7 @@
     },800)
   }
 
+  // Calculating reward
   async function calculate(fruits:string[]) {
     let fruit1:string = fruits[0].split('/')[fruits[0].split('/').length-1],
         fruit2:string = fruits[1].split('/')[fruits[1].split('/').length-1],
@@ -174,9 +176,7 @@
     win = gain;
 
     // Balance change
-    if (gain > 0) {
-      balance = await updateBalance(gain, 1);
-    }
+    if (gain > 0) balance = await updateBalance(gain, 1);
 
     setTimeout(() => {
       if (autorun && balance !> 1) {

@@ -15,7 +15,7 @@
       }: Input = $props();
 </script>
 
-<!-- Custom input -->
+<!-- Custom input (with optional label) -->
 {#if label}
   <label class="block text-yellow-600 text-md font-bold mb-1" for={id}>
     {label}

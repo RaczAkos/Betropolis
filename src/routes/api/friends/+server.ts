@@ -3,8 +3,6 @@ import { json } from '@sveltejs/kit';
 import type { RequestEvent } from '@sveltejs/kit';
 import type { FriendData } from '$lib/interfaces';
 
-export const prerender = false;
-
 // Accept friend request
 export async function POST(event: RequestEvent) {
   let data: FriendData = await event.request.json(),

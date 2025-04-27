@@ -1,3 +1,4 @@
+// Types used around the project
 export interface userData {
   balance: number,
   username: string
@@ -73,6 +74,11 @@ export interface Registration {
   password:string,
   picture:number,
   lang:string
+}
+
+export interface SignIn {
+  id:string,
+  password:string
 }
 
 export interface Paragraph {

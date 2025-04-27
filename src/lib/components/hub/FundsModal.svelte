@@ -3,8 +3,8 @@
   import Input from "../Input.svelte";
   import type { Feedback, Modal } from "$lib/interfaces";
 
-  let { show = $bindable() }: Modal = $props(),
-      funds: string[]   = $state(["deposit", "withdraw"]),
+  let { show = $bindable() }: Modal = $props();
+  let funds: string[]   = $state(["deposit", "withdraw"]),
       type: string   = $state(""),
       balance:number = $state(0),
       change:number  = $state(0),
@@ -14,7 +14,7 @@
     if (show) fetch("/api/balance-update").then(res => res.json()).then(res => balance = res.balance);
   })
 
-  // Adding friend
+  // Depositing or withdrawing
   async function manageFunds(): Promise<void> {
     feedback = {};
 
@@ -40,6 +40,7 @@
   }
 </script>
 
+<!-- Funds Modal -->
 <div class:hidden={!show} 
      class="relative z-10">
 
@@ -53,6 +54,7 @@
           {$_("funds.title")}
         </h1>
         
+        <!-- Select withdraw or deposit -->
         <div class="text-center mb-1 p-2 flex flex-row text-lg">
           {#each funds as fundType}
             <div class="basis-1/2">
@@ -70,6 +72,7 @@
             {/each}
         </div>
 
+        <!-- Balance -->
         <div class="text-center my-1 text-2xl flex items-center justify-center gap-1">
           {$_("games.balance")}: {balance} 
           <img src="/src/lib/media/images/chip.png" 
@@ -77,6 +80,7 @@
                class="w-6 h-6">
         </div>
 
+        <!-- Amount -->
         <div class="px-5 text-center">
           <Input bind:value={change} 
                  type="number"/>

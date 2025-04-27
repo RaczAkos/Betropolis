@@ -3,11 +3,12 @@
   import { _ } from "svelte-i18n";
   import chip from "$lib/media/images/chip.png";
 
-  let { show = $bindable(), logged } = $props(),
-      email:string = $state(""),
+  let { show = $bindable(), logged } = $props();
+  let email:string = $state(""),
       goodEmail = $state(false),
       bonus:any = $state({});
 
+  // Bonus game
   async function bonusGame() {
     let res:any = {}
     if (!logged) {
@@ -31,6 +32,7 @@
     }
   }
 
+  // Automaticly claim when logged in
   $effect(() => {
     if (logged && show) bonusGame();
   });
@@ -53,9 +55,12 @@
                 border-yellow-600 transition-all sm:my-8 sm:w-full sm:max-w-2xl mx-2 rounded-3xl">
         <div class="px-4 pt-4">
           
+          <!-- Title -->
           <h3 class="text-center text-4xl borgens">
             {$_(!bonus.title ? "bonus.title": bonus.title)}
           </h3>
+
+          <!-- Description -->
           <div class="mt-3 [&_p]:text-center sm:mt-0 sm:text-left">
             <div class="my-2">
               <p>
@@ -71,6 +76,8 @@
                 <p>({$_("bonus.returned.extra")} {bonus.extra[0]}, {bonus.extra[1]}, {bonus.extra[2]})</p>
               {/if}
             </div>
+            
+            <!-- Email input -->
             {#if !bonus.title}
             <Input id="bonusemail" 
                    bind:value={email} 
@@ -80,7 +87,10 @@
           </div>
         </div>
         
+        <!-- Buttons -->
         <div class="border-t-yellow-600 border-t-2 my-1 mt-2 px-4 py-2 sm:flex sm:flex-row-reverse sm:px-6 justify-center">
+
+          <!-- Claim -->
           {#if !bonus.title}
           <button onclick={bonusGame} 
                   disabled={!goodEmail}
@@ -91,6 +101,8 @@
             {$_("bonus.claim")}
           </button>
           {/if}
+
+          <!-- Close -->
           <button onclick={() =>{ 
                     show = !show; 
                     email = ""; 

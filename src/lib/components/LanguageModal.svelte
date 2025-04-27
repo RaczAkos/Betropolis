@@ -52,6 +52,8 @@
               </button>
             {/each}
           </div>
+
+          <!-- Accept button -->
           <div class="mt-2 border-t-2 pt-2 border-yellow-600 px-2 max-sm:flex-col-reverse gap-2 flex justify-center font-bold">
             <button class="hover:scale-110 hover:bg-yellow-600 hover:text-black border-2 p-1 rounded 
                            bg-black text-yellow-600 border-yellow-600 duration-300" 
