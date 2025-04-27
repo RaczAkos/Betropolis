@@ -256,7 +256,7 @@
                class="text-green-700 text-lg text-center bg-black border-yellow-600 border-b focus:outline-none" 
                type="number"
                aria-label="Chips to add" 
-               placeholder="Chips to add">
+               placeholder="0">
     
         <!-- Buttons Wrapper -->
         <div class="flex flex-row gap-1 mt-1">
