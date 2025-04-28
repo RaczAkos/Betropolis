@@ -273,15 +273,15 @@
       <!-- Buttons -->
       <div class="flex justify-center font-bold text-white gap-2 mt-2">
         <div class="flex justify-center">
-          <button class="bg-yellow-600 hover:bg-yellow-700 hover:scale-105
-                          py-2 px-3 rounded-lg transition-all duration-300" 
+          <button class="bg-yellow-600 py-2 px-3 rounded-lg transition-all duration-300
+                          border-b-4 border-yellow-700 hover:border-yellow-500 shadow-lg hover:shadow-yellow-500" 
                   onclick={saveChanges}>
             {$_(`page.profile.modal.save`)}
           </button>
         </div>
         <div class="flex justify-center">
-          <button class="bg-red-600 hover:bg-red-800 hover:scale-105
-                          py-2 px-3 rounded-lg transition-all duration-300" 
+          <button class="bg-red-600 py-2 px-3 rounded-lg transition-all duration-300
+                          border-b-4 border-red-700 hover:border-red-500 shadow-lg hover:shadow-red-500" 
                   onclick={() => deleteClicked = true}>
             {$_(`page.profile.delete`)}
           </button>
@@ -346,7 +346,8 @@
               onclick={() => deleteClicked = false}>
         {$_("close")}
       </button>
-      <button class="bg-red-600 px-4 py-2 rounded hover:bg-red-800 duration-300 hover:scale-105"
+      <button class="bg-red-600 px-4 py-2 rounded duration-300 border-b-4 border-red-700 hover:border-red-500 shadow-lg 
+                     hover:shadow-red-500 transition-all"
               onclick={deleteUser}>
         {$_("page.profile.delete")}
       </button>
