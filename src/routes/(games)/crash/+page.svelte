@@ -205,7 +205,7 @@
           }
         }
       }
-      else alert("Place a bet first!");
+      else alert("Place a bet first! / Tegyél előbb tétet!");
     });
 
     cashoutBtn.addEventListener("click", async () => {

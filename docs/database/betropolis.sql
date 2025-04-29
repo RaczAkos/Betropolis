@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 16. 04:10
+-- Létrehozás ideje: 2025. Ápr 30. 01:08
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.0.30
 
@@ -40,7 +40,58 @@ CREATE TABLE `bonus` (
 
 INSERT INTO `bonus` (`id`, `email`, `starting_bonus`, `status`) VALUES
 (1, 'example@example.com', 2700, 0),
-(2, 'pityi.panna@mail.com', 4500, 1);
+(2, 'pityi.panna@mail.com', 4500, 1),
+(3, 'john.doe@example.com', 2900, 1),
+(4, 'john.doe@gmail.com', 2450, 0),
+(5, 'emma_writes@outlook.com', 3200, 0),
+(6, 'business_sara@hotmail.com', 4100, 0),
+(7, 'tech.guru23@yahoo.com', 2850, 0),
+(8, 'cookinglover99@live.com', 4700, 0),
+(9, 'alex.martin@mail.com', 2150, 0),
+(10, 'jackson_family@aol.com', 3500, 0),
+(11, 'wanderer.tim@protonmail.com', 2990, 0),
+(12, 'julie.schmidt@zoho.com', 4800, 0),
+(13, 'musicislife2025@icloud.com', 2300, 0),
+(14, 'lucas.fisher@fastmail.com', 2900, 0),
+(15, 'codingwhiz88@tutanota.com', 4200, 0),
+(16, 'nina_dreamer@yahoo.com', 3150, 0),
+(17, 'healthyliving20@gmail.com', 2600, 0),
+(18, 'traveljunkie.kim@live.com', 3600, 0),
+(19, 'peter_olson@outlook.com', 2500, 0),
+(20, 'daniel.smith@hotmail.com', 4100, 0),
+(21, 'fiona.walks@protonmail.com', 3800, 0),
+(22, 'mysterywriter.tom@zoho.com', 2700, 0),
+(23, 'lauren_berry@icloud.com', 4900, 0),
+(24, 'thegamer.rob@fastmail.com', 3450, 0),
+(25, 'david_fischer@tutanota.com', 2550, 0),
+(26, 'samantha.lewis@live.com', 3750, 0),
+(27, 'artsy.amy@yahoo.com', 3000, 0),
+(28, 'sunshine_hannah@gmail.com', 4700, 0),
+(29, 'robert.dixon@outlook.com', 2950, 0),
+(30, 'helen_travel@protonmail.com', 4300, 0),
+(31, 'adventurous.kevin@zoho.com', 2150, 0),
+(32, 'keira_journalist@icloud.com', 4000, 0),
+(33, 'photographer.ella@fastmail.com', 2800, 0),
+(34, 'nathan.marks@tutanota.com', 3150, 0),
+(35, 'globetrotter.sam@hotmail.com', 4450, 0),
+(36, 'edward_mason@outlook.com', 2600, 0),
+(37, 'creative_gina@yahoo.com', 3700, 0),
+(38, 'baker.jonathan@live.com', 2400, 0),
+(39, 'fitness_fanatic.drew@gmail.com', 4950, 0),
+(40, 'nature_lover.rachel@icloud.com', 3550, 0),
+(41, 'zachary.jones@fastmail.com', 2150, 0),
+(42, 'writer.sophia@protonmail.com', 3100, 0),
+(43, 'william.turner@tutanota.com', 4500, 0),
+(44, 'melanie_olson@zoho.com', 2750, 0),
+(45, 'techreviewer.max@live.com', 3300, 0),
+(46, 'kayla_richards@icloud.com', 2900, 0),
+(47, 'hikingsteve2025@gmail.com', 4100, 0),
+(48, 'adventure.mia@hotmail.com', 3500, 0),
+(49, 'music_enthusiast.tom@protonmail.com', 2650, 0),
+(50, 'isabella.reader@zoho.com', 4800, 0),
+(51, 'gaming.jordan@outlook.com', 2250, 0),
+(52, 'paul.engineer@yahoo.com', 3900, 0),
+(53, 'violet_artist@fastmail.com', 3100, 0);
 
 -- --------------------------------------------------------
 
@@ -62,10 +113,7 @@ CREATE TABLE `friends` (
 INSERT INTO `friends` (`id`, `friend1`, `friend2`, `status`) VALUES
 (5, 3, 1, 0),
 (6, 2, 3, 0),
-(7, 2, 1, 0),
-(8, 59, 2, 1),
-(9, 1, 59, 1),
-(10, 58, 4, 1);
+(7, 2, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -88,15 +136,7 @@ INSERT INTO `friend_requests` (`id`, `senderId`, `sentToId`, `status`) VALUES
 (2, 1, 3, 'accepted'),
 (3, 3, 2, 'accepted'),
 (4, 1, 2, 'accepted'),
-(5, 3, 4, 'deleted'),
-(6, 59, 1, 'deleted'),
-(7, 59, 2, 'deleted'),
-(8, 59, 4, 'deleted'),
-(9, 4, 58, 'accepted'),
-(10, 2, 59, 'accepted'),
-(11, 59, 4, 'deleted'),
-(12, 59, 1, 'accepted'),
-(13, 59, 4, 'active');
+(5, 3, 4, 'deleted');
 
 -- --------------------------------------------------------
 
@@ -333,7 +373,29 @@ INSERT INTO `statistics` (`id`, `user_id`, `gameid`, `gain`, `oldbalance`, `newb
 (189, 1, 1, -10, 13722, 13712, '2025. 04. 03. 11:41:56'),
 (190, 1, 1, -10, 13712, 13702, '2025. 04. 03. 11:42:01'),
 (191, 1, 1, -10, 13702, 13692, '2025. 04. 03. 11:42:06'),
-(192, 1, 1, -10, 13692, 13682, '2025. 04. 03. 11:42:11');
+(192, 1, 1, -10, 13692, 13682, '2025. 04. 03. 11:42:11'),
+(193, 1, 2, -122, 15682, 15560, '2025. 04. 27. 22:22:02'),
+(194, 1, 2, 366, 15560, 15926, '2025. 04. 27. 22:22:18'),
+(195, 1, 2, -122, 15926, 15804, '2025. 04. 27. 22:22:26'),
+(196, 1, 2, 366, 15804, 16170, '2025. 04. 27. 22:22:40'),
+(197, 1, 3, -444, 16170, 15726, '2025. 04. 27. 22:23:47'),
+(198, 1, 3, 333, 15726, 16059, '2025. 04. 27. 22:23:50'),
+(199, 1, 3, 333, 16059, 16392, '2025. 04. 27. 22:23:51'),
+(200, 1, 3, -11111, 16392, 5281, '2025. 04. 27. 22:25:24'),
+(201, 1, 1, -10, 5281, 5271, '2025. 04. 27. 22:25:35'),
+(202, 1, 1, -10, 5271, 5261, '2025. 04. 27. 22:25:40'),
+(203, 1, 1, -10, 5261, 5251, '2025. 04. 27. 22:25:44'),
+(204, 1, 1, -10, 5251, 5241, '2025. 04. 27. 22:25:49'),
+(205, 1, 1, -10, 5241, 5231, '2025. 04. 27. 22:25:54'),
+(206, 1, 1, -10, 5231, 5221, '2025. 04. 27. 22:25:58'),
+(207, 1, 1, -10, 5221, 5211, '2025. 04. 27. 22:26:03'),
+(208, 1, 1, -10, 5211, 5201, '2025. 04. 27. 22:26:07'),
+(209, 1, 1, -10, 5201, 5191, '2025. 04. 27. 22:26:59'),
+(210, 1, 1, -10, 5191, 5181, '2025. 04. 27. 22:27:03'),
+(211, 1, 1, -10, 5181, 5171, '2025. 04. 27. 22:27:08'),
+(212, 1, 1, -10, 5171, 5161, '2025. 04. 27. 22:27:13'),
+(213, 1, 1, -10, 5161, 5151, '2025. 04. 27. 22:27:18'),
+(214, 1, 2, -222, 8051, 7829, '2025. 04. 27. 22:32:16');
 
 -- --------------------------------------------------------
 
@@ -359,59 +421,57 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `name`, `gender`, `birthdate`, `balance`, `lang`, `avatar`) VALUES
-(1, 'john.doe@example.com', 'johndoe', 'Password123.', 'John Doe', 0, '1990-01-01', 15682, 'en', 1),
-(2, 'jane.smith@example.com', 'janesmith', 'Password123.', 'Jane Smith', 0, '1992-02-02', 500, 'en', 1),
-(3, 'bob.jones@example.com', 'bobjones', 'Password123.', 'Bob Jones', 0, '1985-03-03', 500, 'en', 1),
-(4, 'alice.martin@example.com', 'alicemartin', 'Password123.', 'Alice Martin', 0, '1988-04-04', 500, 'en', 1),
-(5, 'michael.brown@example.com', 'michaelbrown', 'Password123.', 'Michael Brown', 0, '1995-05-05', 500, 'en', 1),
-(6, 'susan.davis@example.com', 'susandavis', 'Password123.', 'Susan Davis', 0, '1991-06-06', 500, 'en', 1),
-(7, 'steve.wilson@example.com', 'stevewilson', 'Password123.', 'Steve Wilson', 0, '1987-07-07', 500, 'en', 1),
-(8, 'emily.moore@example.com', 'emilymoore', 'Password123.', 'Emily Moore', 0, '1993-08-08', 500, 'en', 1),
-(9, 'david.taylor@example.com', 'davidtaylor', 'Password123.', 'David Taylor', 0, '1986-09-09', 500, 'en', 1),
-(10, 'laura.anderson@example.com', 'lauraanderson', 'Password123.', 'Laura Anderson', 0, '1994-10-10', 500, 'en', 1),
-(11, 'james.jackson@example.com', 'jamesjackson', 'Password123.', 'James Jackson', 0, '1983-11-11', 500, 'en', 1),
-(12, 'patricia.white@example.com', 'patriciawhite', 'Password123.', 'Patricia White', 0, '1996-12-12', 500, 'en', 1),
-(13, 'robert.harris@example.com', 'robertharris', 'Password123.', 'Robert Harris', 0, '1991-01-13', 500, 'en', 1),
-(14, 'linda.thomas@example.com', 'lindathomas', 'Password123.', 'Linda Thomas', 0, '1984-02-14', 500, 'en', 1),
-(15, 'charles.martinez@example.com', 'charlesmartinez', 'Password123.', 'Charles Martinez', 0, '1992-03-15', 500, 'en', 1),
-(16, 'barbara.robinson@example.com', 'barbararobinson', 'Password123.', 'Barbara Robinson', 0, '1987-04-16', 500, 'en', 1),
-(17, 'joseph.clark@example.com', 'josephclark', 'Password123.', 'Joseph Clark', 0, '1990-05-17', 500, 'en', 1),
-(18, 'margaret.rodriguez@example.com', 'margaretrodriguez', 'Password123.', 'Margaret Rodriguez', 0, '1993-06-18', 500, 'en', 1),
-(19, 'thomas.lewis@example.com', 'thomaslewis', 'Password123.', 'Thomas Lewis', 0, '1988-07-19', 500, 'en', 1),
-(20, 'sandra.lee@example.com', 'sandralee', 'Password123.', 'Sandra Lee', 0, '1985-08-20', 500, 'en', 1),
-(21, 'christopher.walker@example.com', 'christopherwalker', 'Password123.', 'Christopher Walker', 0, '1994-09-21', 500, 'en', 1),
-(22, 'kimberly.hall@example.com', 'kimberlyhall', 'Password123.', 'Kimberly Hall', 0, '1989-10-22', 500, 'en', 1),
-(23, 'daniel.allen@example.com', 'danielallen', 'Password123.', 'Daniel Allen', 0, '1991-11-23', 500, 'en', 1),
-(24, 'nancy.young@example.com', 'nancyyoung', 'Password123.', 'Nancy Young', 0, '1987-12-24', 500, 'en', 1),
-(25, 'paul.king@example.com', 'paulking', 'Password123.', 'Paul King', 0, '1990-01-25', 500, 'en', 1),
-(26, 'lisa.scott@example.com', 'lisascott', 'Password123.', 'Lisa Scott', 0, '1993-02-26', 500, 'en', 1),
-(27, 'mark.adams@example.com', 'markadams', 'Password123.', 'Mark Adams', 0, '1988-03-27', 500, 'en', 1),
-(28, 'betty.baker@example.com', 'bettybaker', 'Password123.', 'Betty Baker', 0, '1985-04-28', 500, 'en', 1),
-(29, 'donald.gonzalez@example.com', 'donaldgonzalez', 'Password123.', 'Donald Gonzalez', 0, '1994-05-29', 500, 'en', 1),
-(30, 'helen.nelson@example.com', 'helennelson', 'Password123.', 'Helen Nelson', 0, '1991-06-30', 500, 'en', 1),
-(31, 'george.carter@example.com', 'georgecarter', 'Password123.', 'George Carter', 0, '1987-07-31', 500, 'en', 1),
-(32, 'dorothy.mitchell@example.com', 'dorothymitchell', 'Password123.', 'Dorothy Mitchell', 0, '1990-08-01', 500, 'en', 1),
-(33, 'kenneth.perez@example.com', 'kennethperez', 'Password123.', 'Kenneth Perez', 0, '1992-09-02', 500, 'en', 1),
-(34, 'carol.roberts@example.com', 'carolroberts', 'Password123.', 'Carol Roberts', 0, '1986-10-03', 500, 'en', 1),
-(35, 'edward.turner@example.com', 'edwardturner', 'Password123.', 'Edward Turner', 0, '1989-11-04', 500, 'en', 1),
-(36, 'michelle.phillips@example.com', 'michellephillips', 'Password123.', 'Michelle Phillips', 0, '1991-12-05', 500, 'en', 1),
-(37, 'brian.campbell@example.com', 'briancampbell', 'Password123.', 'Brian Campbell', 0, '1988-01-06', 500, 'en', 1),
-(38, 'shirley.parker@example.com', 'shirleyparker', 'Password123.', 'Shirley Parker', 0, '1987-02-07', 500, 'en', 1),
-(39, 'ronald.evans@example.com', 'ronaldevans', 'Password123.', 'Ronald Evans', 0, '1990-03-08', 500, 'en', 1),
-(40, 'laura.edwards@example.com', 'lauraedwards', 'Password123.', 'Laura Edwards', 0, '1992-04-09', 500, 'en', 1),
-(41, 'anthony.collins@example.com', 'anthonycollins', 'Password123.', 'Anthony Collins', 0, '1985-05-10', 500, 'en', 1),
-(42, 'cynthia.stewart@example.com', 'cynthiastewart', 'Password123.', 'Cynthia Stewart', 0, '1993-06-11', 500, 'en', 1),
-(43, 'kevin.sanchez@example.com', 'kevinsanchez', 'Password123.', 'Kevin Sanchez', 0, '1986-07-12', 500, 'en', 1),
-(44, 'sharon.morris@example.com', 'sharonmorris', 'Password123.', 'Sharon Morris', 0, '1989-08-13', 500, 'en', 1),
-(45, 'jeffrey.rogers@example.com', 'jeffreyrogers', 'Password123.', 'Jeffrey Rogers', 0, '1991-09-14', 500, 'en', 1),
-(46, 'karen.reed@example.com', 'karenreed', 'Password123.', 'Karen Reed', 0, '1987-10-15', 500, 'en', 1),
-(47, 'eric.cook@example.com', 'ericcook', 'Password123.', 'Eric Cook', 0, '1990-11-16', 500, 'en', 1),
-(48, 'brenda.morgan@example.com', 'brendamorgan', 'Password123.', 'Brenda Morgan', 0, '1992-12-17', 500, 'en', 1),
-(49, 'frank.bell@example.com', 'frankbell', 'Password123.', 'Frank Bell', 0, '1988-01-18', 500, 'en', 1),
-(50, 'amy.cooper@example.com', 'amycooper', 'Password123.', 'Amy Cooper', 0, '1991-02-19', 500, 'en', 1),
-(58, 'iskola@mail.com', 'iskolai', 'Password1234!', 'iskolai', 0, '2007-03-03', 14000, 'hu-HU', 1),
-(59, 'panna@mail.com', 'panna', '1', 'Pityi Panna', 1, '2007-03-27', 4500, 'en', 1),
-(64, 'eeeee@ee.ee', 'avdavd', 'Password123.', 'A A', 1, '2007-04-03', 0, 'hu-HU', 1);
+(1, 'john.doe@example.com', 'johndoe', 'Password1234!', 'John Doe', 0, '1990-01-01', 7829, 'hu-HU', 1),
+(2, 'jane.smith@example.com', 'janesmith', 'Password1234!', 'Jane Smith', 1, '1992-02-02', 500, 'en', 1),
+(3, 'bob.jones@example.com', 'bobjones', 'Password1234!', 'Bob Jones', 0, '1985-03-03', 500, 'en', 1),
+(4, 'alice.martin@example.com', 'alicemartin', 'Password1234!', 'Alice Martin', 1, '1988-04-04', 500, 'en', 1),
+(5, 'michael.brown@example.com', 'michaelbrown', 'Password1234!', 'Michael Brown', 0, '1995-05-05', 500, 'en', 1),
+(6, 'susan.davis@example.com', 'susandavis', 'Password1234!', 'Susan Davis', 1, '1991-06-06', 500, 'en', 1),
+(7, 'steve.wilson@example.com', 'stevewilson', 'Password1234!', 'Steve Wilson', 0, '1987-07-07', 500, 'en', 1),
+(8, 'emily.moore@example.com', 'emilymoore', 'Password1234!', 'Emily Moore', 1, '1993-08-08', 500, 'en', 1),
+(9, 'david.taylor@example.com', 'davidtaylor', 'Password1234!', 'David Taylor', 0, '1986-09-09', 500, 'en', 1),
+(10, 'laura.anderson@example.com', 'lauraanderson', 'Password1234!', 'Laura Anderson', 1, '1994-10-10', 500, 'en', 1),
+(11, 'james.jackson@example.com', 'jamesjackson', 'Password1234!', 'James Jackson', 0, '1983-11-11', 500, 'en', 1),
+(12, 'patricia.white@example.com', 'patriciawhite', 'Password1234!', 'Patricia White', 1, '1996-12-12', 500, 'en', 1),
+(13, 'robert.harris@example.com', 'robertharris', 'Password1234!', 'Robert Harris', 0, '1991-01-13', 500, 'en', 1),
+(14, 'linda.thomas@example.com', 'lindathomas', 'Password1234!', 'Linda Thomas', 1, '1984-02-14', 500, 'en', 1),
+(15, 'charles.martinez@example.com', 'charlesmartinez', 'Password1234!', 'Charles Martinez', 0, '1992-03-15', 500, 'en', 1),
+(16, 'barbara.robinson@example.com', 'barbararobinson', 'Password1234!', 'Barbara Robinson', 1, '1987-04-16', 500, 'en', 1),
+(17, 'joseph.clark@example.com', 'josephclark', 'Password1234!', 'Joseph Clark', 0, '1990-05-17', 500, 'en', 1),
+(18, 'margaret.rodriguez@example.com', 'margaretrodriguez', 'Password1234!', 'Margaret Rodriguez', 1, '1993-06-18', 500, 'en', 1),
+(19, 'thomas.lewis@example.com', 'thomaslewis', 'Password1234!', 'Thomas Lewis', 0, '1988-07-19', 500, 'en', 1),
+(20, 'sandra.lee@example.com', 'sandralee', 'Password1234!', 'Sandra Lee', 1, '1985-08-20', 500, 'en', 1),
+(21, 'christopher.walker@example.com', 'christopherwalker', 'Password1234!', 'Christopher Walker', 0, '1994-09-21', 500, 'en', 1),
+(22, 'kimberly.hall@example.com', 'kimberlyhall', 'Password1234!', 'Kimberly Hall', 1, '1989-10-22', 500, 'en', 1),
+(23, 'daniel.allen@example.com', 'danielallen', 'Password1234!', 'Daniel Allen', 0, '1991-11-23', 500, 'en', 1),
+(24, 'nancy.young@example.com', 'nancyyoung', 'Password1234!', 'Nancy Young', 1, '1987-12-24', 500, 'en', 1),
+(25, 'paul.king@example.com', 'paulking', 'Password1234!', 'Paul King', 0, '1990-01-25', 500, 'en', 1),
+(26, 'lisa.scott@example.com', 'lisascott', 'Password1234!', 'Lisa Scott', 1, '1993-02-26', 500, 'en', 1),
+(27, 'mark.adams@example.com', 'markadams', 'Password1234!', 'Mark Adams', 0, '1988-03-27', 500, 'en', 1),
+(28, 'betty.baker@example.com', 'bettybaker', 'Password1234!', 'Betty Baker', 1, '1985-04-28', 500, 'en', 1),
+(29, 'donald.gonzalez@example.com', 'donaldgonzalez', 'Password1234!', 'Donald Gonzalez', 0, '1994-05-29', 500, 'en', 1),
+(30, 'helen.nelson@example.com', 'helennelson', 'Password1234!', 'Helen Nelson', 1, '1991-06-30', 500, 'en', 1),
+(31, 'george.carter@example.com', 'georgecarter', 'Password1234!', 'George Carter', 0, '1987-07-31', 500, 'en', 1),
+(32, 'dorothy.mitchell@example.com', 'dorothymitchell', 'Password1234!', 'Dorothy Mitchell', 1, '1990-08-01', 500, 'en', 1),
+(33, 'kenneth.perez@example.com', 'kennethperez', 'Password1234!', 'Kenneth Perez', 0, '1992-09-02', 500, 'en', 1),
+(34, 'carol.roberts@example.com', 'carolroberts', 'Password1234!', 'Carol Roberts', 1, '1986-10-03', 500, 'en', 1),
+(35, 'edward.turner@example.com', 'edwardturner', 'Password1234!', 'Edward Turner', 0, '1989-11-04', 500, 'en', 1),
+(36, 'michelle.phillips@example.com', 'michellephillips', 'Password1234!', 'Michelle Phillips', 1, '1991-12-05', 500, 'en', 1),
+(37, 'brian.campbell@example.com', 'briancampbell', 'Password1234!', 'Brian Campbell', 0, '1988-01-06', 500, 'en', 1),
+(38, 'shirley.parker@example.com', 'shirleyparker', 'Password1234!', 'Shirley Parker', 1, '1987-02-07', 500, 'en', 1),
+(39, 'ronald.evans@example.com', 'ronaldevans', 'Password1234!', 'Ronald Evans', 0, '1990-03-08', 500, 'en', 1),
+(40, 'laura.edwards@example.com', 'lauraedwards', 'Password1234!', 'Laura Edwards', 1, '1992-04-09', 500, 'en', 1),
+(41, 'anthony.collins@example.com', 'anthonycollins', 'Password1234!', 'Anthony Collins', 0, '1985-05-10', 500, 'en', 1),
+(42, 'cynthia.stewart@example.com', 'cynthiastewart', 'Password1234!', 'Cynthia Stewart', 1, '1993-06-11', 500, 'en', 1),
+(43, 'kevin.sanchez@example.com', 'kevinsanchez', 'Password1234!', 'Kevin Sanchez', 0, '1986-07-12', 500, 'en', 1),
+(44, 'sharon.morris@example.com', 'sharonmorris', 'Password1234!', 'Sharon Morris', 1, '1989-08-13', 500, 'en', 1),
+(45, 'jeffrey.rogers@example.com', 'jeffreyrogers', 'Password1234!', 'Jeffrey Rogers', 0, '1991-09-14', 500, 'en', 1),
+(46, 'karen.reed@example.com', 'karenreed', 'Password1234!', 'Karen Reed', 1, '1987-10-15', 500, 'en', 1),
+(47, 'eric.cook@example.com', 'ericcook', 'Password1234!', 'Eric Cook', 0, '1990-11-16', 500, 'en', 1),
+(48, 'brenda.morgan@example.com', 'brendamorgan', 'Password1234!', 'Brenda Morgan', 1, '1992-12-17', 500, 'en', 1),
+(49, 'frank.bell@example.com', 'frankbell', 'Password1234!', 'Frank Bell', 0, '1988-01-18', 500, 'en', 1),
+(50, 'amy.cooper@example.com', 'amycooper', 'Password1234!', 'Amy Cooper', 1, '1991-02-19', 500, 'en', 1),
+(58, 'iskola@mail.com', 'iskolai', 'Password1234!', 'iskolai', 0, '2007-03-03', 14000, 'hu-HU', 1);
 
 -- --------------------------------------------------------
 
@@ -426,16 +486,6 @@ CREATE TABLE `user_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `user_session`
---
-
-INSERT INTO `user_session` (`id`, `user_id`, `expires_at`) VALUES
-('162dffa81afe5e522ab1956e45f487cbed486b055108522bc0fd4020a56ecd74', 64, '2025-05-16 04:06:56'),
-('532a35e7294cf130246a309cc8d6078b6716a31ee89d60eb4dddcc0d30d40ac7', 58, '2025-05-09 21:50:03'),
-('5a541c4b61e7e918d9478cbf1617378238922c3383b2c7e8e99e82a4c741168a', 58, '2025-04-29 17:51:21'),
-('5a7bc5390037b0e4761965cba7ca9060e1b814fa2c8e7e5c78dd6377954d4ef5', 58, '2025-04-27 09:32:20');
-
---
 -- Indexek a kiírt táblákhoz
 --
 
@@ -444,6 +494,7 @@ INSERT INTO `user_session` (`id`, `user_id`, `expires_at`) VALUES
 --
 ALTER TABLE `bonus`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email_2` (`email`),
   ADD KEY `email` (`email`);
 
 --
@@ -451,14 +502,16 @@ ALTER TABLE `bonus`
 --
 ALTER TABLE `friends`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `friend1` (`friend1`,`friend2`);
+  ADD KEY `friend1` (`friend1`,`friend2`),
+  ADD KEY `friend2` (`friend2`);
 
 --
 -- A tábla indexei `friend_requests`
 --
 ALTER TABLE `friend_requests`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `senderId` (`senderId`,`sentToId`);
+  ADD KEY `senderId` (`senderId`,`sentToId`),
+  ADD KEY `sentToId` (`sentToId`);
 
 --
 -- A tábla indexei `game`
@@ -471,7 +524,8 @@ ALTER TABLE `game`
 --
 ALTER TABLE `statistics`
   ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD KEY `user_id` (`user_id`,`gameid`);
+  ADD KEY `user_id` (`user_id`,`gameid`),
+  ADD KEY `gameid` (`gameid`);
 
 --
 -- A tábla indexei `users`
@@ -497,7 +551,7 @@ ALTER TABLE `user_session`
 -- AUTO_INCREMENT a táblához `bonus`
 --
 ALTER TABLE `bonus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT a táblához `friends`
@@ -521,7 +575,7 @@ ALTER TABLE `game`
 -- AUTO_INCREMENT a táblához `statistics`
 --
 ALTER TABLE `statistics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
 -- AUTO_INCREMENT a táblához `users`

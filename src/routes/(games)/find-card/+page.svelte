@@ -113,12 +113,12 @@
           target.classList.add("[transform:rotateY(180deg)]");
           }
         else {
-          alert("Start the game first!");
+          alert("Start the game first! / Indítsd el a játékot!");
         }
       }
       else 
       {
-        alert("Buy some cards first!");
+        alert("Buy some cards first! / Vegyél előbb kártyát!");
       }
   }
 

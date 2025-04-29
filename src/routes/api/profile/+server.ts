@@ -33,10 +33,12 @@ export const DELETE: RequestHandler = async (event) => {
   let db = await dbConnect();
     
   try {
-    await db.query(`DELETE FROM users WHERE id = ${event.locals.user.id};
-                    DELETE FROM friends WHERE friend1 = ${event.locals.user.id} OR friend2 = ${event.locals.user.id};
-                    DELETE FROM friend_requests WHERE senderId = ${event.locals.user.id} OR sentToId = ${event.locals.user.id};
-                    DELETE FROM statistics WHERE user_id = ${event.locals.user.id};`);
+    await db.query(`
+      DELETE FROM friends WHERE friend1 = ${event.locals.user.id} OR friend2 = ${event.locals.user.id};
+      DELETE FROM friend_requests WHERE senderId = ${event.locals.user.id} OR sentToId = ${event.locals.user.id};
+      DELETE FROM statistics WHERE user_id = ${event.locals.user.id};
+      DELETE FROM users WHERE id = ${event.locals.user.id};
+    `);
     
     await invalidateAllSessions(event.locals.user);
     deleteSessionTokenCookie(event);
